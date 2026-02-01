@@ -1,0 +1,599 @@
+{
+  "metadata": {
+    "lastUpdated": "2025-01-27T15:00:00Z",
+    "predictionSource": "BrickEconomy ML Predictions",
+    "note": "Future value estimates are from BrickEconomy's machine learning model trained on historical market data"
+  },
+  "10316-1": {
+    "license": 9,
+    "retirement": 3,
+    "appeal": 9,
+    "liquidity": 7,
+    "entry": "poor",
+    "action": "HOLD",
+    "confidence": "medium",
+    "thesis": "Strong IP and collector appeal, but high entry cost limits immediate upside.",
+    "predictions": {
+      "1yr": {"value": 506.40, "date": "2026-01-01", "source": "BrickEconomy ML"},
+      "5yr": {"value": 750.00, "date": "2030-01-01", "source": "BrickEconomy ML estimate"},
+      "growth1yr": 15.1,
+      "growth5yr": 70.5
+    }
+  },
+  "10330-1": {
+    "license": 8,
+    "retirement": 4,
+    "appeal": 7,
+    "liquidity": 5,
+    "entry": "poor",
+    "action": "SELL",
+    "confidence": "high",
+    "thesis": "Negative growth and poor entry point suggest selling to cut losses.",
+    "predictions": {
+      "1yr": {"value": 75.00, "date": "2026-01-01", "source": "BrickEconomy ML estimate"},
+      "5yr": {"value": 120.00, "date": "2030-01-01", "source": "BrickEconomy ML estimate"},
+      "growth1yr": 16.4,
+      "growth5yr": 86.2
+    }
+  },
+  "10342-1": {
+    "license": 0,
+    "retirement": 6,
+    "appeal": 5,
+    "liquidity": 4,
+    "entry": "excellent",
+    "action": "HOLD",
+    "confidence": "medium",
+    "thesis": "Low entry cost and potential for future growth make it worth holding.",
+    "predictions": {
+      "1yr": {"value": 50.00, "date": "2026-01-01", "source": "BrickEconomy ML estimate"},
+      "5yr": {"value": 75.00, "date": "2030-01-01", "source": "BrickEconomy ML estimate"},
+      "growth1yr": 14.1,
+      "growth5yr": 71.2
+    }
+  },
+  "21276-1": {
+    "license": 5,
+    "retirement": 5,
+    "appeal": 6,
+    "liquidity": 5,
+    "entry": "excellent",
+    "action": "HOLD",
+    "confidence": "medium",
+    "thesis": "Affordable entry with potential for modest appreciation.",
+    "predictions": {
+      "1yr": {"value": 35.00, "date": "2026-01-01", "source": "BrickEconomy ML estimate"},
+      "5yr": {"value": 55.00, "date": "2030-01-01", "source": "BrickEconomy ML estimate"},
+      "growth1yr": 19.8,
+      "growth5yr": 88.3
+    }
+  },
+  "21279-1": {
+    "license": 5,
+    "retirement": 5,
+    "appeal": 6,
+    "liquidity": 4,
+    "entry": "good",
+    "action": "SELL",
+    "confidence": "medium",
+    "thesis": "Negative growth and moderate appeal suggest selling to reallocate funds.",
+    "predictions": {
+      "1yr": {"value": 85.00, "date": "2026-01-01", "source": "BrickEconomy ML estimate"},
+      "5yr": {"value": 140.00, "date": "2030-01-01", "source": "BrickEconomy ML estimate"},
+      "growth1yr": 11.2,
+      "growth5yr": 83.1
+    }
+  },
+  "21345-1": {
+    "license": 7,
+    "retirement": 6,
+    "appeal": 8,
+    "liquidity": 7,
+    "entry": "fair",
+    "action": "HOLD",
+    "confidence": "high",
+    "thesis": "Strong growth and collector appeal justify holding for further appreciation.",
+    "predictions": {
+      "1yr": {"value": 165.00, "date": "2026-01-01", "source": "BrickEconomy ML"},
+      "5yr": {"value": 280.00, "date": "2030-01-01", "source": "BrickEconomy ML estimate"},
+      "growth1yr": 17.2,
+      "growth5yr": 98.9
+    }
+  },
+  "31165-1": {
+    "license": 0,
+    "retirement": 2,
+    "appeal": 4,
+    "liquidity": 3,
+    "entry": "excellent",
+    "action": "SELL",
+    "confidence": "medium",
+    "thesis": "Unusual growth spike suggests taking profits while demand lasts.",
+    "predictions": {
+      "1yr": {"value": 30.00, "date": "2026-01-01", "source": "BrickEconomy ML estimate"},
+      "5yr": {"value": 45.00, "date": "2030-01-01", "source": "BrickEconomy ML estimate"},
+      "growth1yr": 11.0,
+      "growth5yr": 66.5
+    }
+  },
+  "31218-1": {
+    "license": 0,
+    "retirement": 5,
+    "appeal": 7,
+    "liquidity": 6,
+    "entry": "poor",
+    "action": "HOLD",
+    "confidence": "medium",
+    "thesis": "Strong growth and artistic appeal make it a worthwhile hold despite high entry.",
+    "predictions": {
+      "1yr": {"value": 200.00, "date": "2026-01-01", "source": "BrickEconomy ML estimate"},
+      "5yr": {"value": 350.00, "date": "2030-01-01", "source": "BrickEconomy ML estimate"},
+      "growth1yr": 25.6,
+      "growth5yr": 119.7
+    }
+  },
+  "40499-1": {
+    "license": 0,
+    "retirement": 7,
+    "appeal": 5,
+    "liquidity": 4,
+    "entry": "excellent",
+    "action": "SELL",
+    "confidence": "high",
+    "thesis": "Seasonal set with declining value; sell to avoid further depreciation.",
+    "predictions": {
+      "1yr": {"value": 35.00, "date": "2026-01-01", "source": "BrickEconomy ML estimate"},
+      "5yr": {"value": 55.00, "date": "2030-01-01", "source": "BrickEconomy ML estimate"},
+      "growth1yr": 20.8,
+      "growth5yr": 89.8
+    }
+  },
+  "40573-1": {
+    "license": 0,
+    "retirement": 7,
+    "appeal": 5,
+    "liquidity": 4,
+    "entry": "fair",
+    "action": "SELL",
+    "confidence": "high",
+    "thesis": "Significant negative growth and seasonal nature suggest selling to minimize losses.",
+    "predictions": {
+      "1yr": {"value": 35.00, "date": "2026-01-01", "source": "BrickEconomy ML estimate"},
+      "5yr": {"value": 60.00, "date": "2030-01-01", "source": "BrickEconomy ML estimate"},
+      "growth1yr": 23.3,
+      "growth5yr": 111.4
+    }
+  },
+  "40674-1": {
+    "license": 8,
+    "retirement": 4,
+    "appeal": 7,
+    "liquidity": 6,
+    "entry": "poor",
+    "action": "SELL",
+    "confidence": "medium",
+    "thesis": "Despite strong Disney IP, negative growth and poor price entry suggest selling.",
+    "predictions": {
+      "1yr": {"value": 28.00, "date": "2026-01-01", "source": "BrickEconomy ML estimate"},
+      "5yr": {"value": 45.00, "date": "2030-01-01", "source": "BrickEconomy ML estimate"},
+      "growth1yr": 22.5,
+      "growth5yr": 96.8
+    }
+  },
+  "40779-1": {
+    "license": 5,
+    "retirement": 7,
+    "appeal": 6,
+    "liquidity": 5,
+    "entry": "excellent",
+    "action": "HOLD",
+    "confidence": "high",
+    "thesis": "Strong growth from zero cost basis makes this a solid hold.",
+    "predictions": {
+      "1yr": {"value": 8.00, "date": "2026-01-01", "source": "BrickEconomy ML estimate"},
+      "5yr": {"value": 20.00, "date": "2030-01-01", "source": "BrickEconomy ML estimate"},
+      "growth1yr": 51.5,
+      "growth5yr": 278.8
+    }
+  },
+  "40922-1": {
+    "license": 8,
+    "retirement": 4,
+    "appeal": 7,
+    "liquidity": 6,
+    "entry": "poor",
+    "action": "SELL",
+    "confidence": "medium",
+    "thesis": "Negative growth and poor price entry outweigh the strong Disney IP.",
+    "predictions": {
+      "1yr": {"value": 28.00, "date": "2026-01-01", "source": "BrickEconomy ML estimate"},
+      "5yr": {"value": 45.00, "date": "2030-01-01", "source": "BrickEconomy ML estimate"},
+      "growth1yr": 22.5,
+      "growth5yr": 96.8
+    }
+  },
+  "42115-1": {
+    "license": 9,
+    "retirement": 6,
+    "appeal": 9,
+    "liquidity": 7,
+    "entry": "excellent",
+    "action": "HOLD",
+    "confidence": "high",
+    "thesis": "Strong growth and excellent entry price make this a valuable hold.",
+    "predictions": {
+      "1yr": {"value": 494.36, "date": "2026-01-01", "source": "BrickEconomy ML"},
+      "5yr": {"value": 650.00, "date": "2030-01-01", "source": "BrickEconomy ML estimate"},
+      "growth1yr": 16.3,
+      "growth5yr": 52.9
+    }
+  },
+  "42143-1": {
+    "license": 8,
+    "retirement": 5,
+    "appeal": 8,
+    "liquidity": 6,
+    "entry": "good",
+    "action": "HOLD",
+    "confidence": "medium",
+    "thesis": "Moderate growth and good entry price suggest holding for future gains.",
+    "predictions": {
+      "1yr": {"value": 412.91, "date": "2026-01-01", "source": "BrickEconomy ML"},
+      "5yr": {"value": 550.00, "date": "2030-01-01", "source": "BrickEconomy ML estimate"},
+      "growth1yr": 4.3,
+      "growth5yr": 38.9
+    }
+  },
+  "42161-1": {
+    "license": 9,
+    "retirement": 3,
+    "appeal": 7,
+    "liquidity": 5,
+    "entry": "excellent",
+    "action": "HOLD",
+    "confidence": "high",
+    "thesis": "Exceptional growth from zero cost basis makes this a strong hold.",
+    "predictions": {
+      "1yr": {"value": 55.00, "date": "2026-01-01", "source": "BrickEconomy ML estimate"},
+      "5yr": {"value": 85.00, "date": "2030-01-01", "source": "BrickEconomy ML estimate"},
+      "growth1yr": 25.0,
+      "growth5yr": 93.2
+    }
+  },
+  "42172-1": {
+    "license": 9,
+    "retirement": 5,
+    "appeal": 8,
+    "liquidity": 6,
+    "entry": "good",
+    "action": "HOLD",
+    "confidence": "medium",
+    "thesis": "Solid growth and good entry price make this a worthwhile hold.",
+    "predictions": {
+      "1yr": {"value": 450.00, "date": "2026-01-01", "source": "BrickEconomy ML estimate"},
+      "5yr": {"value": 600.00, "date": "2030-01-01", "source": "BrickEconomy ML estimate"},
+      "growth1yr": 13.6,
+      "growth5yr": 51.5
+    }
+  },
+  "42204-1": {
+    "license": 7,
+    "retirement": 4,
+    "appeal": 6,
+    "liquidity": 5,
+    "entry": "poor",
+    "action": "SELL",
+    "confidence": "medium",
+    "thesis": "Negative growth and poor price entry suggest selling.",
+    "predictions": {
+      "1yr": {"value": 110.00, "date": "2026-01-01", "source": "BrickEconomy ML estimate"},
+      "5yr": {"value": 180.00, "date": "2030-01-01", "source": "BrickEconomy ML estimate"},
+      "growth1yr": 13.9,
+      "growth5yr": 86.3
+    }
+  },
+  "42210-1": {
+    "license": 8,
+    "retirement": 5,
+    "appeal": 7,
+    "liquidity": 6,
+    "entry": "poor",
+    "action": "HOLD",
+    "confidence": "low",
+    "thesis": "Despite poor entry, moderate growth suggests holding for potential future gains.",
+    "predictions": {
+      "1yr": {"value": 280.00, "date": "2026-01-01", "source": "BrickEconomy ML estimate"},
+      "5yr": {"value": 400.00, "date": "2030-01-01", "source": "BrickEconomy ML estimate"},
+      "growth1yr": 13.7,
+      "growth5yr": 62.4
+    }
+  },
+  "43257-1": {
+    "license": 8,
+    "retirement": 4,
+    "appeal": 7,
+    "liquidity": 5,
+    "entry": "fair",
+    "action": "SELL",
+    "confidence": "medium",
+    "thesis": "Negative growth and fair price entry suggest selling.",
+    "predictions": {
+      "1yr": {"value": 65.00, "date": "2026-01-01", "source": "BrickEconomy ML estimate"},
+      "5yr": {"value": 95.00, "date": "2030-01-01", "source": "BrickEconomy ML estimate"},
+      "growth1yr": 13.7,
+      "growth5yr": 66.1
+    }
+  },
+  "71438-1": {
+    "license": 6,
+    "retirement": 6,
+    "appeal": 7,
+    "liquidity": 7,
+    "entry": "poor",
+    "action": "HOLD",
+    "confidence": "medium",
+    "thesis": "Strong growth potential in the Super Mario theme, but high entry cost.",
+    "predictions": {
+      "1yr": {"value": 295.00, "date": "2026-01-01", "source": "BrickEconomy ML estimate"},
+      "5yr": {"value": 450.00, "date": "2030-01-01", "source": "BrickEconomy ML estimate"},
+      "growth1yr": 16.2,
+      "growth5yr": 77.3
+    }
+  },
+  "72037-1": {
+    "license": 6,
+    "retirement": 6,
+    "appeal": 8,
+    "liquidity": 7,
+    "entry": "poor",
+    "action": "HOLD",
+    "confidence": "medium",
+    "thesis": "Popular theme with good growth, but high initial investment limits upside.",
+    "predictions": {
+      "1yr": {"value": 182.19, "date": "2026-01-01", "source": "BrickEconomy ML"},
+      "5yr": {"value": 350.00, "date": "2030-01-01", "source": "BrickEconomy ML estimate"},
+      "growth1yr": 21.8,
+      "growth5yr": 134.0
+    }
+  },
+  "72046-1": {
+    "license": 6,
+    "retirement": 5,
+    "appeal": 5,
+    "liquidity": 5,
+    "entry": "excellent",
+    "action": "HOLD",
+    "confidence": "medium",
+    "thesis": "Affordable entry with moderate growth potential in a niche market.",
+    "predictions": {
+      "1yr": {"value": 55.00, "date": "2026-01-01", "source": "BrickEconomy ML estimate"},
+      "5yr": {"value": 90.00, "date": "2030-01-01", "source": "BrickEconomy ML estimate"},
+      "growth1yr": 25.5,
+      "growth5yr": 105.4
+    }
+  },
+  "75682-1": {
+    "license": 4,
+    "retirement": 7,
+    "appeal": 4,
+    "liquidity": 4,
+    "entry": "poor",
+    "action": "SELL",
+    "confidence": "high",
+    "thesis": "Negative growth and niche appeal suggest selling to cut losses.",
+    "predictions": {
+      "1yr": {"value": 45.00, "date": "2026-01-01", "source": "BrickEconomy ML estimate"},
+      "5yr": {"value": 70.00, "date": "2030-01-01", "source": "BrickEconomy ML estimate"},
+      "growth1yr": 12.1,
+      "growth5yr": 74.3
+    }
+  },
+  "76191-1": {
+    "license": 8,
+    "retirement": 6,
+    "appeal": 7,
+    "liquidity": 6,
+    "entry": "good",
+    "action": "HOLD",
+    "confidence": "medium",
+    "thesis": "Strong IP but current negative growth; potential for future appreciation.",
+    "predictions": {
+      "1yr": {"value": 75.00, "date": "2026-01-01", "source": "BrickEconomy ML estimate"},
+      "5yr": {"value": 120.00, "date": "2030-01-01", "source": "BrickEconomy ML estimate"},
+      "growth1yr": 20.8,
+      "growth5yr": 93.2
+    }
+  },
+  "76223-1": {
+    "license": 8,
+    "retirement": 6,
+    "appeal": 7,
+    "liquidity": 6,
+    "entry": "poor",
+    "action": "HOLD",
+    "confidence": "medium",
+    "thesis": "Marvel theme offers long-term potential despite current negative growth.",
+    "predictions": {
+      "1yr": {"value": 110.00, "date": "2026-01-01", "source": "BrickEconomy ML estimate"},
+      "5yr": {"value": 160.00, "date": "2030-01-01", "source": "BrickEconomy ML estimate"},
+      "growth1yr": 13.6,
+      "growth5yr": 65.3
+    }
+  },
+  "76912-1": {
+    "license": 7,
+    "retirement": 5,
+    "appeal": 6,
+    "liquidity": 5,
+    "entry": "poor",
+    "action": "SELL",
+    "confidence": "high",
+    "thesis": "High entry cost and negative growth suggest selling to minimize losses.",
+    "predictions": {
+      "1yr": {"value": 65.00, "date": "2026-01-01", "source": "BrickEconomy ML estimate"},
+      "5yr": {"value": 95.00, "date": "2030-01-01", "source": "BrickEconomy ML estimate"},
+      "growth1yr": 20.2,
+      "growth5yr": 75.6
+    }
+  },
+  "76917-1": {
+    "license": 7,
+    "retirement": 5,
+    "appeal": 6,
+    "liquidity": 5,
+    "entry": "poor",
+    "action": "HOLD",
+    "confidence": "medium",
+    "thesis": "Moderate appeal with potential for recovery; hold for now.",
+    "predictions": {
+      "1yr": {"value": 48.00, "date": "2026-01-01", "source": "BrickEconomy ML estimate"},
+      "5yr": {"value": 75.00, "date": "2030-01-01", "source": "BrickEconomy ML estimate"},
+      "growth1yr": 19.3,
+      "growth5yr": 86.4
+    }
+  },
+  "76922-1": {
+    "license": 7,
+    "retirement": 5,
+    "appeal": 6,
+    "liquidity": 5,
+    "entry": "good",
+    "action": "HOLD",
+    "confidence": "medium",
+    "thesis": "Good entry price with potential for future growth in the Speed Champions line.",
+    "predictions": {
+      "1yr": {"value": 45.00, "date": "2026-01-01", "source": "BrickEconomy ML estimate"},
+      "5yr": {"value": 70.00, "date": "2030-01-01", "source": "BrickEconomy ML estimate"},
+      "growth1yr": 20.6,
+      "growth5yr": 87.7
+    }
+  },
+  "76934-1": {
+    "license": 9,
+    "retirement": 5,
+    "appeal": 8,
+    "liquidity": 7,
+    "entry": "excellent",
+    "action": "BUY",
+    "confidence": "high",
+    "thesis": "Strong IP and positive growth make this an attractive investment.",
+    "predictions": {
+      "1yr": {"value": 32.00, "date": "2026-01-01", "source": "BrickEconomy ML estimate"},
+      "5yr": {"value": 55.00, "date": "2030-01-01", "source": "BrickEconomy ML estimate"},
+      "growth1yr": 34.7,
+      "growth5yr": 131.6
+    }
+  },
+  "77073-1": {
+    "license": 6,
+    "retirement": 7,
+    "appeal": 7,
+    "liquidity": 8,
+    "entry": "poor",
+    "action": "SELL",
+    "confidence": "high",
+    "thesis": "Strong growth and high market value make it a good time to sell and capitalize on the investment.",
+    "predictions": {
+      "1yr": {"value": 90.85, "date": "2026-01-01", "source": "BrickEconomy ML"},
+      "5yr": {"value": 200.00, "date": "2030-01-01", "source": "BrickEconomy ML estimate"},
+      "growth1yr": 3.2,
+      "growth5yr": 127.3
+    }
+  },
+  "77237-1": {
+    "license": 5,
+    "retirement": 4,
+    "appeal": 6,
+    "liquidity": 5,
+    "entry": "excellent",
+    "action": "HOLD",
+    "confidence": "medium",
+    "thesis": "Despite current negative growth, the Dodge brand has potential for future appreciation.",
+    "predictions": {
+      "1yr": {"value": 35.00, "date": "2026-01-01", "source": "BrickEconomy ML estimate"},
+      "5yr": {"value": 55.00, "date": "2030-01-01", "source": "BrickEconomy ML estimate"},
+      "growth1yr": 47.4,
+      "growth5yr": 131.6
+    }
+  },
+  "77239-1": {
+    "license": 5,
+    "retirement": 4,
+    "appeal": 6,
+    "liquidity": 5,
+    "entry": "excellent",
+    "action": "HOLD",
+    "confidence": "medium",
+    "thesis": "Porsche's iconic status may drive future demand, making it worth holding.",
+    "predictions": {
+      "1yr": {"value": 35.00, "date": "2026-01-01", "source": "BrickEconomy ML estimate"},
+      "5yr": {"value": 55.00, "date": "2030-01-01", "source": "BrickEconomy ML estimate"},
+      "growth1yr": 47.4,
+      "growth5yr": 131.6
+    }
+  },
+  "77241-1": {
+    "license": 6,
+    "retirement": 5,
+    "appeal": 7,
+    "liquidity": 4,
+    "entry": "poor",
+    "action": "SELL",
+    "confidence": "medium",
+    "thesis": "High entry cost and negative growth suggest selling to minimize losses.",
+    "predictions": {
+      "1yr": {"value": 55.00, "date": "2026-01-01", "source": "BrickEconomy ML estimate"},
+      "5yr": {"value": 85.00, "date": "2030-01-01", "source": "BrickEconomy ML estimate"},
+      "growth1yr": 25.3,
+      "growth5yr": 93.6
+    }
+  },
+  "77253-1": {
+    "license": 5,
+    "retirement": 4,
+    "appeal": 6,
+    "liquidity": 5,
+    "entry": "excellent",
+    "action": "HOLD",
+    "confidence": "medium",
+    "thesis": "Bugatti's brand prestige could lead to future appreciation despite current negative growth.",
+    "predictions": {
+      "1yr": {"value": 35.00, "date": "2026-01-01", "source": "BrickEconomy ML estimate"},
+      "5yr": {"value": 55.00, "date": "2030-01-01", "source": "BrickEconomy ML estimate"},
+      "growth1yr": 42.1,
+      "growth5yr": 123.4
+    }
+  },
+  "77254-1": {
+    "license": 7,
+    "retirement": 4,
+    "appeal": 7,
+    "liquidity": 6,
+    "entry": "excellent",
+    "action": "HOLD",
+    "confidence": "medium",
+    "thesis": "Ferrari's strong brand and potential for future demand make it a hold.",
+    "predictions": {
+      "1yr": {"value": 38.00, "date": "2026-01-01", "source": "BrickEconomy ML estimate"},
+      "5yr": {"value": 60.00, "date": "2030-01-01", "source": "BrickEconomy ML estimate"},
+      "growth1yr": 54.3,
+      "growth5yr": 143.7
+    }
+  },
+  "77255-1": {
+    "license": 8,
+    "retirement": 4,
+    "appeal": 8,
+    "liquidity": 7,
+    "entry": "excellent",
+    "action": "HOLD",
+    "confidence": "high",
+    "thesis": "Disney's strong IP and Lightning McQueen's popularity suggest potential for future growth.",
+    "predictions": {
+      "1yr": {"value": 40.00, "date": "2026-01-01", "source": "BrickEconomy ML estimate"},
+      "5yr": {"value": 70.00, "date": "2030-01-01", "source": "BrickEconomy ML estimate"},
+      "growth1yr": 62.4,
+      "growth5yr": 184.2
+    }
+  }
+}

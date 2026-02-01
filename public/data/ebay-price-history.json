@@ -1,0 +1,11 @@
+{
+  "lastUpdate": null,
+  "snapshots": [],
+  "config": {
+    "updateIntervalHours": 24,
+    "minChangeThreshold": 0.05,
+    "primaryMarket": "ebay.de",
+    "fallbackMarkets": ["ebay.fr", "ebay.nl"],
+    "searchTemplate": "LEGO {setNumber} new sealed"
+  }
+}

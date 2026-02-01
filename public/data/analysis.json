@@ -1,0 +1,166 @@
+{
+  "generated": "2025-01-27T12:30:00Z",
+  "portfolio_metrics": {
+    "total_paid": 5566.60,
+    "total_current": 6194.80,
+    "unrealized_gain": 628.20,
+    "roi_pct": 11.29,
+    "total_sets": 37,
+    "total_units": 56
+  },
+  "top_performers": [
+    {
+      "set": "31218-1",
+      "name": "Japanese Cherry Blossom Landscape",
+      "paid": 297.45,
+      "value": 477.87,
+      "gain_eur": 180.42,
+      "gain_pct": 60.65,
+      "verdict": "HOLD - Exceptional performer, limited edition art"
+    },
+    {
+      "set": "77073-1",
+      "name": "Battle Bus",
+      "paid": 121.94,
+      "value": 175.98,
+      "gain_eur": 54.04,
+      "gain_pct": 44.32,
+      "verdict": "HOLD - Gaming tie-in with strong demand"
+    },
+    {
+      "set": "42115-1",
+      "name": "Lamborghini Sián FKP 37",
+      "paid": 333.30,
+      "value": 425.04,
+      "gain_eur": 91.74,
+      "gain_pct": 27.52,
+      "verdict": "HOLD - Retired flagship Technic, will appreciate"
+    },
+    {
+      "set": "21345-1",
+      "name": "Polaroid Camera",
+      "paid": 114.46,
+      "value": 140.78,
+      "gain_eur": 26.32,
+      "gain_pct": 23.00,
+      "verdict": "HOLD - Ideas sets have good track record"
+    },
+    {
+      "set": "72037-1",
+      "name": "Mario Kart - Mario & Standard Kart",
+      "paid": 609.45,
+      "value": 747.96,
+      "gain_eur": 138.51,
+      "gain_pct": 22.73,
+      "verdict": "HOLD - Strong Nintendo licensing, 5 copies is smart"
+    }
+  ],
+  "worst_performers": [
+    {
+      "set": "40573-1",
+      "name": "Christmas Tree",
+      "paid": 44.99,
+      "value": 28.38,
+      "loss_eur": -16.61,
+      "loss_pct": -36.93,
+      "verdict": "HOLD - Seasonal, value spikes around Christmas"
+    },
+    {
+      "set": "76912-1",
+      "name": "Fast & Furious 1970 Dodge Charger R/T",
+      "paid": 82.44,
+      "value": 54.08,
+      "loss_eur": -28.36,
+      "loss_pct": -34.41,
+      "verdict": "HOLD - Bought above market, retired, should recover"
+    },
+    {
+      "set": "40499-1",
+      "name": "Santa's Sleigh",
+      "paid": 39.97,
+      "value": 28.98,
+      "loss_eur": -10.99,
+      "loss_pct": -27.49,
+      "verdict": "HOLD - Seasonal, value spikes around Christmas"
+    },
+    {
+      "set": "75682-1",
+      "name": "Elphaba & Glinda Figures",
+      "paid": 54.99,
+      "value": 40.16,
+      "loss_eur": -14.83,
+      "loss_pct": -26.96,
+      "verdict": "SELL/HOLD - Movie tie-in with uncertain demand"
+    },
+    {
+      "set": "76191-1",
+      "name": "Infinity Gauntlet",
+      "paid": 82.88,
+      "value": 62.10,
+      "loss_eur": -20.78,
+      "loss_pct": -25.07,
+      "verdict": "HOLD - Marvel demand may return with future movies"
+    }
+  ],
+  "theme_allocation": {
+    "Technic": {
+      "value": 1603.99,
+      "pct": 25.9,
+      "sets": 7
+    },
+    "Speed Champions": {
+      "value": 414.10,
+      "pct": 6.7,
+      "sets": 13
+    },
+    "Super Mario": {
+      "value": 1045.62,
+      "pct": 16.9,
+      "sets": 4
+    },
+    "Icons": {
+      "value": 1888.78,
+      "pct": 30.5,
+      "sets": 2
+    },
+    "LEGO Art": {
+      "value": 477.87,
+      "pct": 7.7,
+      "sets": 1
+    },
+    "Other": {
+      "value": 764.44,
+      "pct": 12.3,
+      "sets": 10
+    }
+  },
+  "investment_advice": {
+    "summary": "Overall +11.29% ROI. Portfolio heavily weighted to Icons (Rivendell) and Nintendo sets. Good diversification across Technic supercars.",
+    "recommendations": [
+      {
+        "action": "HOLD",
+        "reason": "Icons 10316 Rivendell - 4 copies at €1,759.96 value. LOTR license is rare. Hold for long-term appreciation post-retirement."
+      },
+      {
+        "action": "CONSIDER BUYING MORE",
+        "reason": "Japanese Cherry Blossom Art (31218) - Up 60%. If you can find at retail, this is hot right now."
+      },
+      {
+        "action": "MONITOR",
+        "reason": "71438 Super Mario World - Retiring soon. Value should pop after full retirement."
+      },
+      {
+        "action": "PATIENCE",
+        "reason": "New 2025-2026 Speed Champions sets are down 12% - normal for retail availability. Wait 2-3 years post-retirement."
+      },
+      {
+        "action": "SEASONAL",
+        "reason": "Christmas sets (40499, 40573) are down now but spike 30-50% around Nov-Dec. Hold for holiday season."
+      }
+    ],
+    "risk_assessment": {
+      "score": "MEDIUM",
+      "notes": "Heavy concentration in Rivendell (28% of portfolio value). Diversified themes offset single-set risk. Many new releases still at retail = short-term depreciation expected."
+    }
+  }
+}
