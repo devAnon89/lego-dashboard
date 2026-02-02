@@ -18,6 +18,10 @@ const logger = require('./logger');
 const MAX_RETRIES = parseInt(process.env.MAX_RETRIES || '3', 10);
 const RETRY_DELAY = parseInt(process.env.RETRY_DELAY || '2000', 10);
 
+// Data file paths
+const DATA_DIR = path.join(__dirname, '..', 'data');
+const PRICE_HISTORY_FILE = path.join(DATA_DIR, 'price-history.json');
+
 // Map of set IDs to BrickEconomy URLs
 const setUrls = {
   "10316-1": "https://www.brickeconomy.com/set/10316-1/lego-the-lord-of-the-rings-rivendell",
@@ -176,6 +180,32 @@ async function withRetry(fn, options = {}) {
 }
 
 /**
+ * Load price history from centralized file
+ */
+function loadPriceHistory() {
+  try {
+    return JSON.parse(fs.readFileSync(PRICE_HISTORY_FILE, 'utf-8'));
+  } catch {
+    return {
+      metadata: {
+        lastUpdated: null,
+        source: 'BrickEconomy',
+        currency: 'EUR',
+        note: 'Prices scraped from BrickEconomy. Future dates are ML-based predictions.'
+      },
+      sets: {}
+    };
+  }
+}
+
+/**
+ * Save price history to centralized file
+ */
+function savePriceHistory(history) {
+  fs.writeFileSync(PRICE_HISTORY_FILE, JSON.stringify(history, null, 2));
+}
+
+/**
  * Scrape a single BrickEconomy set page using Puppeteer
  */
 async function scrapeSet(setId, options = {}) {
@@ -318,6 +348,18 @@ async function main() {
           const outputPath = path.join(dataDir, `${result.setId}.json`);
           fs.writeFileSync(outputPath, JSON.stringify(result, null, 2));
           console.error(`Data saved to: ${outputPath}`);
+
+          // Update centralized price-history.json
+          const priceHistory = loadPriceHistory();
+          priceHistory.metadata.lastUpdated = new Date().toISOString();
+          priceHistory.sets[result.setId] = {
+            name: result.setInfo.name || 'Unknown',
+            currentValue: result.currentValue,
+            priceHistory: result.priceHistory,
+            predictions: result.predictions
+          };
+          savePriceHistory(priceHistory);
+          console.error(`Updated price-history.json`);
         }
 
         process.exit(0);
@@ -335,6 +377,7 @@ async function main() {
       let successCount = 0;
       let failureCount = 0;
       const failures = [];
+      const priceHistory = loadPriceHistory();
 
       for (const setId of setIds) {
         try {
@@ -347,6 +390,15 @@ async function main() {
 
             const outputPath = path.join(dataDir, `${result.setId}.json`);
             fs.writeFileSync(outputPath, JSON.stringify(result, null, 2));
+
+            // Update centralized price history
+            priceHistory.sets[result.setId] = {
+              name: result.setInfo.name || 'Unknown',
+              currentValue: result.currentValue,
+              priceHistory: result.priceHistory,
+              predictions: result.predictions
+            };
+
             console.error(`✓ ${setId}: Saved to ${outputPath}`);
           } else {
             console.error(`✓ ${setId}: ${result.message}`);
@@ -357,6 +409,13 @@ async function main() {
           failureCount++;
           failures.push({ setId, error: error.message });
         }
+      }
+
+      // Save centralized price history after all scraping
+      if (!options.dryRun && successCount > 0) {
+        priceHistory.metadata.lastUpdated = new Date().toISOString();
+        savePriceHistory(priceHistory);
+        console.error(`Updated price-history.json with ${successCount} sets`);
       }
 
       logger.info('Bulk scrape completed', {
@@ -383,7 +442,17 @@ async function main() {
 }
 
 // Export for use as module
-module.exports = { extractSetDataFromPage, scrapeSet, setUrls, withRetry, sleep };
+module.exports = {
+  extractSetDataFromPage,
+  scrapeSet,
+  setUrls,
+  withRetry,
+  sleep,
+  loadPriceHistory,
+  savePriceHistory,
+  DATA_DIR,
+  PRICE_HISTORY_FILE
+};
 
 // Run if executed directly
 if (require.main === module) {
