@@ -375,6 +375,51 @@ async function main() {
 
     savePriceHistory(priceHistory);
     logger.info(`Saved results to ${PRICE_HISTORY_FILE}`);
+
+    // Update portfolio.json with new market values
+    const successfulResults = results.filter(r => r.marketValue !== null && !r.skipped);
+    if (successfulResults.length > 0) {
+      logger.info(`Updating portfolio.json with ${successfulResults.length} new values...`);
+
+      // Update each set's value in the portfolio
+      successfulResults.forEach(result => {
+        const setIndex = portfolio.sets.findIndex(s => s.setNumber === result.setId);
+        if (setIndex !== -1) {
+          const oldValue = portfolio.sets[setIndex].value;
+          portfolio.sets[setIndex].value = parseFloat(result.marketValue.toFixed(2));
+
+          // Recalculate growth percentage
+          const paid = portfolio.sets[setIndex].paid;
+          if (paid > 0) {
+            portfolio.sets[setIndex].growth = parseFloat((((portfolio.sets[setIndex].value - paid) / paid) * 100).toFixed(2));
+          }
+
+          logger.debug(`Updated ${result.setId}: €${oldValue.toFixed(2)} → €${result.marketValue.toFixed(2)}`);
+        }
+      });
+
+      // Update metadata
+      portfolio.metadata.lastUpdated = snapshot.timestamp;
+      portfolio.metadata.source = 'eBay EU';
+
+      // Recalculate totals
+      let totalCurrentValue = 0;
+      portfolio.sets.forEach(set => {
+        const qty = (set.qtyNew || 0) + (set.qtyUsed || 0);
+        totalCurrentValue += set.value * qty;
+      });
+
+      portfolio.metadata.totalCurrentValue = parseFloat(totalCurrentValue.toFixed(2));
+
+      // Recalculate total gain percentage
+      if (portfolio.metadata.totalPaid > 0) {
+        portfolio.metadata.totalGain = parseFloat((((totalCurrentValue - portfolio.metadata.totalPaid) / portfolio.metadata.totalPaid) * 100).toFixed(2));
+      }
+
+      // Save updated portfolio
+      fs.writeFileSync(PORTFOLIO_FILE, JSON.stringify(portfolio, null, 2));
+      logger.info(`Updated ${PORTFOLIO_FILE}`);
+    }
   }
 
   // Summary

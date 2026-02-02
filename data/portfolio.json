@@ -1,12 +1,12 @@
 {
   "metadata": {
-    "lastUpdated": "2025-01-27T15:10:00Z",
-    "source": "BrickEconomy",
+    "lastUpdated": "2026-02-02T00:47:50.128Z",
+    "source": "eBay EU",
     "currency": "EUR",
-    "totalRetail": 9777.20,
+    "totalRetail": 9777.2,
     "totalPaid": 8265.33,
-    "totalCurrentValue": 8986.14,
-    "totalGain": 8.72,
+    "totalCurrentValue": 20110.45,
+    "totalGain": 143.31,
     "totalSets": 45,
     "totalUnits": 82
   },
@@ -16,11 +16,11 @@
       "name": "The Lord of the Rings Rivendell",
       "theme": "Icons / Licensed",
       "retail": 499.99,
-      "paid": 1656.00,
-      "value": 1759.96,
+      "paid": 1656,
+      "value": 415.15,
       "qtyNew": 4,
       "qtyUsed": 0,
-      "growth": 6.28
+      "growth": -74.93
     },
     {
       "setNumber": "10323-1",
@@ -53,7 +53,7 @@
       "value": 43.82,
       "qtyNew": 0,
       "qtyUsed": 1,
-      "growth": -8.70
+      "growth": -8.7
     },
     {
       "setNumber": "10350-1",
@@ -75,15 +75,15 @@
       "value": 237.59,
       "qtyNew": 1,
       "qtyUsed": 0,
-      "growth": -12.00
+      "growth": -12
     },
     {
       "setNumber": "21265-1",
       "name": "The Crafting Table",
       "theme": "Minecraft / Miscellaneous",
       "retail": 89.99,
-      "paid": 177.20,
-      "value": 184.40,
+      "paid": 177.2,
+      "value": 184.4,
       "qtyNew": 2,
       "qtyUsed": 0,
       "growth": 4.06
@@ -93,7 +93,7 @@
       "name": "The Creeper",
       "theme": "Minecraft / Minifig-scale",
       "retail": 39.99,
-      "paid": 121.90,
+      "paid": 121.9,
       "value": 169.97,
       "qtyNew": 4,
       "qtyUsed": 1,
@@ -119,7 +119,7 @@
       "value": 140.78,
       "qtyNew": 2,
       "qtyUsed": 0,
-      "growth": 23.00
+      "growth": 23
     },
     {
       "setNumber": "21353-1",
@@ -137,7 +137,7 @@
       "name": "Go-Kart Racer",
       "theme": "City / Racing",
       "retail": 3.99,
-      "paid": 0.00,
+      "paid": 0,
       "value": 3.51,
       "qtyNew": 1,
       "qtyUsed": 0,
@@ -148,7 +148,7 @@
       "name": "Wild Animals Panda Family",
       "theme": "Creator / 3 in 1",
       "retail": 39.99,
-      "paid": 0.00,
+      "paid": 0,
       "value": 27.02,
       "qtyNew": 0,
       "qtyUsed": 1,
@@ -196,29 +196,29 @@
       "value": 22.86,
       "qtyNew": 2,
       "qtyUsed": 0,
-      "growth": -12.00
+      "growth": -12
     },
     {
       "setNumber": "40779-1",
       "name": "Year of the Horse",
       "theme": "Seasonal / Chinese New Year",
-      "retail": 0.00,
-      "paid": 0.00,
+      "retail": 0,
+      "paid": 0,
       "value": 5.28,
       "qtyNew": 1,
       "qtyUsed": 0,
-      "growth": 428.00
+      "growth": 428
     },
     {
       "setNumber": "40915-1",
       "name": "Lion Dance",
       "theme": "Seasonal / Chinese Traditional Festivals",
-      "retail": 0.00,
-      "paid": 0.00,
-      "value": 0.00,
+      "retail": 0,
+      "paid": 0,
+      "value": 0,
       "qtyNew": 1,
       "qtyUsed": 0,
-      "growth": -100.00
+      "growth": -100
     },
     {
       "setNumber": "40922-1",
@@ -229,14 +229,14 @@
       "value": 22.86,
       "qtyNew": 2,
       "qtyUsed": 0,
-      "growth": -12.00
+      "growth": -12
     },
     {
       "setNumber": "42115-1",
       "name": "Lamborghini Sián FKP 37",
       "theme": "Technic / Licensed",
       "retail": 449.99,
-      "paid": 333.30,
+      "paid": 333.3,
       "value": 425.04,
       "qtyNew": 1,
       "qtyUsed": 0,
@@ -258,7 +258,7 @@
       "name": "Lamborghini Huracán Tecnica",
       "theme": "Technic / Licensed",
       "retail": 52.99,
-      "paid": 0.00,
+      "paid": 0,
       "value": 43.99,
       "qtyNew": 1,
       "qtyUsed": 0,
@@ -306,7 +306,7 @@
       "value": 57.19,
       "qtyNew": 1,
       "qtyUsed": 0,
-      "growth": -12.00
+      "growth": -12
     },
     {
       "setNumber": "71426-1",
@@ -317,7 +317,7 @@
       "value": 316.75,
       "qtyNew": 6,
       "qtyUsed": 0,
-      "growth": -4.40
+      "growth": -4.4
     },
     {
       "setNumber": "71438-1",
@@ -369,7 +369,7 @@
       "theme": "Marvel Super Heroes / Avengers Infinity War",
       "retail": 89.99,
       "paid": 82.88,
-      "value": 62.10,
+      "value": 62.1,
       "qtyNew": 0,
       "qtyUsed": 1,
       "growth": -25.07
@@ -380,7 +380,7 @@
       "theme": "Marvel Super Heroes / Avengers: Endgame",
       "retail": 69.99,
       "paid": 106.99,
-      "value": 96.80,
+      "value": 96.8,
       "qtyNew": 0,
       "qtyUsed": 1,
       "growth": -9.52
@@ -401,7 +401,7 @@
       "name": "Nissan Skyline GT-R",
       "theme": "Speed Champions / Nissan",
       "retail": 24.99,
-      "paid": 41.30,
+      "paid": 41.3,
       "value": 40.24,
       "qtyNew": 1,
       "qtyUsed": 1,
@@ -413,7 +413,7 @@
       "theme": "Speed Champions / BMW",
       "retail": 49.99,
       "paid": 42.67,
-      "value": 37.30,
+      "value": 37.3,
       "qtyNew": 1,
       "qtyUsed": 0,
       "growth": -12.58
@@ -449,7 +449,7 @@
       "value": 23.75,
       "qtyNew": 1,
       "qtyUsed": 0,
-      "growth": -12.00
+      "growth": -12
     },
     {
       "setNumber": "77239-1",
@@ -460,7 +460,7 @@
       "value": 23.75,
       "qtyNew": 1,
       "qtyUsed": 0,
-      "growth": -12.00
+      "growth": -12
     },
     {
       "setNumber": "77241-1",
@@ -468,7 +468,7 @@
       "theme": "Speed Champions / Honda",
       "retail": 26.99,
       "paid": 53.98,
-      "value": 43.90,
+      "value": 43.9,
       "qtyNew": 1,
       "qtyUsed": 1,
       "growth": -18.67
@@ -482,7 +482,7 @@
       "value": 24.63,
       "qtyNew": 1,
       "qtyUsed": 0,
-      "growth": -12.00
+      "growth": -12
     },
     {
       "setNumber": "77254-1",
@@ -493,7 +493,7 @@
       "value": 24.63,
       "qtyNew": 1,
       "qtyUsed": 0,
-      "growth": -12.00
+      "growth": -12
     },
     {
       "setNumber": "77255-1",
@@ -504,7 +504,7 @@
       "value": 24.63,
       "qtyNew": 1,
       "qtyUsed": 0,
-      "growth": -12.00
+      "growth": -12
     }
   ]
 }
