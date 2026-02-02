@@ -55,9 +55,58 @@
       visibility: visible;
     }
 
+    /* Mobile Summary Cards Optimization */
     @media (max-width: 768px) {
       .mobile-menu-btn { display: flex; }
       .desktop-nav { display: none; }
+
+      /* Summary cards mobile layout */
+      #summaryCards {
+        gap: 0.75rem; /* Reduce gap on mobile */
+      }
+
+      #summaryCards .card {
+        padding: 0.75rem; /* Reduce padding from 1rem to 0.75rem */
+        min-height: 90px; /* Ensure consistent card height */
+      }
+
+      #summaryCards .text-sm {
+        font-size: 0.75rem; /* 12px - slightly smaller labels */
+        line-height: 1.2;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      #summaryCards .text-2xl {
+        font-size: 1.25rem; /* 20px - reduced from 24px for mobile */
+        line-height: 1.3;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      #summaryCards .flex.items-center {
+        flex-wrap: wrap;
+      }
+    }
+
+    /* Extra small screens (375px and below) */
+    @media (max-width: 425px) {
+      #summaryCards {
+        gap: 0.5rem; /* Further reduce gap */
+      }
+
+      #summaryCards .card {
+        padding: 0.625rem; /* 10px padding for very small screens */
+      }
+
+      #summaryCards .text-2xl {
+        font-size: 1.125rem; /* 18px - further reduced but still readable */
+      }
+
+      #summaryCards .text-sm {
+        font-size: 0.75rem; /* 12px - keeping readable on smallest screens */
+      }
     }
   </style>
 </head>
