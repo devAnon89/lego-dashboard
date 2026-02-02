@@ -12,6 +12,7 @@ const PORTFOLIO_FILE = path.join(DATA_DIR, 'portfolio.json');
 const ANALYSIS_FILE = path.join(DATA_DIR, 'deep-analysis.json');
 const PURCHASES_FILE = path.join(DATA_DIR, 'purchases.json');
 const SALES_FILE = path.join(DATA_DIR, 'sales.json');
+const WATCHLIST_FILE = path.join(DATA_DIR, 'watchlist.json');
 
 // Load data
 function loadPortfolio() {
@@ -68,6 +69,14 @@ function loadSales() {
 
 function saveSales(data) {
   fs.writeFileSync(SALES_FILE, JSON.stringify(data, null, 2));
+}
+
+function loadWatchlist() {
+  try {
+    return JSON.parse(fs.readFileSync(WATCHLIST_FILE, 'utf8'));
+  } catch {
+    return { metadata: {}, sets: [] };
+  }
 }
 
 function parseFlags(args) {
@@ -428,11 +437,50 @@ const commands = {
     console.log('✅ Sale recorded successfully');
   },
 
+  deals: async () => {
+    console.log('🔍 Scanning for marketplace deals...');
+    const { execSync } = require('child_process');
+    execSync('node scripts/deal-finder.js', {
+      cwd: __dirname,
+      stdio: 'inherit',
+      env: { ...process.env }
+    });
+  },
+
+  watchlist: () => {
+    const watchlist = loadWatchlist();
+
+    if (!watchlist.sets || watchlist.sets.length === 0) {
+      console.log('\n👀 WATCHLIST');
+      console.log('═'.repeat(50));
+      console.log('No sets on watchlist');
+      console.log('═'.repeat(50));
+      return;
+    }
+
+    console.log('\n👀 WATCHLIST');
+    console.log('═'.repeat(60));
+    console.log(`Watching ${watchlist.sets.length} sets for deals`);
+    console.log('─'.repeat(60));
+
+    watchlist.sets.forEach((set, i) => {
+      if (i > 0) console.log('─'.repeat(60));
+      console.log(`\n🧱 ${set.name} (${set.setNumber})`);
+      console.log(`Theme: ${set.theme}`);
+      console.log(`🎯 Target: €${set.target_price} | Max: €${set.max_price}`);
+      console.log(`Condition: ${set.preferred_condition}`);
+      console.log(`Locations: ${set.location_filters.join(', ')}`);
+      console.log(`Min Rating: ${set.min_seller_rating}%`);
+    });
+
+    console.log('\n' + '═'.repeat(60));
+  },
+
   refresh: async () => {
     console.log('🔄 Running AI analysis...');
     const { execSync } = require('child_process');
-    execSync('node deep-analysis.js', { 
-      cwd: __dirname, 
+    execSync('node deep-analysis.js', {
+      cwd: __dirname,
       stdio: 'inherit',
       env: { ...process.env }
     });
@@ -441,8 +489,43 @@ const commands = {
   serve: () => {
     const http = require('http');
     const PORT = process.env.PORT || 3456;
-    
+    const DEALS_FILE = path.join(DATA_DIR, 'deals-found.json');
+
     const server = http.createServer((req, res) => {
+      // API endpoint for deals
+      if (req.url === '/api/deals') {
+        try {
+          const dealsData = JSON.parse(fs.readFileSync(DEALS_FILE, 'utf8'));
+          const deals = dealsData.deals.map((deal, index) => ({
+            id: `${deal.setId}-${index}`,
+            setNumber: deal.setId,
+            setName: deal.name,
+            marketplace: deal.source.toLowerCase(),
+            condition: deal.condition,
+            price: deal.price,
+            marketPrice: deal.targetPrice,
+            discount: deal.discount,
+            sellerName: deal.seller,
+            sellerRating: deal.sellerRating,
+            sellerLocation: deal.location,
+            shippingCost: 0,
+            url: deal.listingUrl,
+            description: `Found at ${deal.price}€ - ${deal.discount}% below target price`,
+            listedDate: deal.foundAt
+          }));
+
+          res.writeHead(200, {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
+          });
+          res.end(JSON.stringify(deals));
+        } catch (err) {
+          res.writeHead(500, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: 'Failed to load deals' }));
+        }
+        return;
+      }
+
       let filePath;
       if (req.url === '/' || req.url === '/index.html') {
         filePath = path.join(__dirname, 'public', 'index.html');
@@ -491,6 +574,8 @@ Commands:
   add-purchase      Record a new purchase
   purchases         View purchase history for a set
   sell              Record a sale/disposal
+  deals             Scan marketplaces for deals
+  watchlist         View sets on your watchlist
   refresh           Re-run AI analysis on all sets
   serve             Start dashboard web server
   help              Show this help
@@ -502,6 +587,8 @@ Examples:
   node lego-cli.js add-purchase 10316-1 --date 2024-01-15 --price 414 --qty 1 --seller 'BrickLink' --condition 'New'
   node lego-cli.js purchases 10316-1
   node lego-cli.js sell 10316-1 --date 2025-01-15 --price 450 --qty 1 --buyer 'eBay'
+  node lego-cli.js deals
+  node lego-cli.js watchlist
     `);
   }
 };

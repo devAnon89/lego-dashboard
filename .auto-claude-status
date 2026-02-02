@@ -1,15 +1,15 @@
 {
   "active": true,
-  "spec": "008-purchase-history-cost-basis-tracking",
+  "spec": "009-marketplace-deal-finder",
   "state": "building",
   "subtasks": {
-    "completed": 10,
-    "total": 11,
+    "completed": 14,
+    "total": 15,
     "in_progress": 1,
     "failed": 0
   },
   "phase": {
-    "current": "End-to-End Integration",
+    "current": "Integration Testing",
     "id": null,
     "total": 1
   },
@@ -18,8 +18,8 @@
     "max": 1
   },
   "session": {
-    "number": 12,
-    "started_at": "2026-02-01T23:54:19.173172"
+    "number": 16,
+    "started_at": "2026-02-01T23:54:13.190979"
   },
-  "last_update": "2026-02-02T00:33:10.473075"
+  "last_update": "2026-02-02T00:48:29.658081"
 }
