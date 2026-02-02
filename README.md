@@ -43,12 +43,40 @@ Investment-grade LEGO set portfolio tracker with multi-source pricing, historica
 └── vercel.json           # Deployment config
 ```
 
-## Quick Start
+## Prerequisites
+
+- Node.js >= 18.0.0
+- npm
+
+## Setup
 
 ```bash
-# View dashboard locally
-npx serve public
+# Install dependencies
+npm install
+```
 
+## Development
+
+```bash
+# Start development server
+npm run dev
+
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
+
+# Lint code
+npm run lint
+
+# Format code
+npm run format
+```
+
+## Scripts
+
+```bash
 # Run CLI
 node lego-cli.js --help
 
