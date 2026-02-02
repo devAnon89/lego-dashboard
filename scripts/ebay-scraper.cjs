@@ -1,86 +1,25 @@
 #!/usr/bin/env node
 /**
  * eBay EU Price Scraper for LEGO Portfolio
- * Scrapes sold listings from eBay EU markets for real market values
+ * Scrapes sold listings from eBay EU markets for real market values using Puppeteer
  *
- * ============================================================================
- * HOW TO POPULATE ebay-price-history.json
- * ============================================================================
- *
- * This script requires MANUAL browser scraping due to eBay's anti-bot measures.
- * The script generates URLs and provides a structured workflow for data collection.
- *
- * STEP 1: Generate URLs
- * ---------------------
- * Run the script to generate eBay sold listing URLs:
- *
- *   node ebay-scraper.js --all           # All sets in portfolio
- *   node ebay-scraper.js --set 10316-1   # Single set
- *   node ebay-scraper.js --dry-run       # Preview without saving
- *
- * STEP 2: Manual Browser Scraping
- * --------------------------------
- * For each URL output by the script:
- *
- * 1. Open the URL in a web browser
- * 2. Review the "Sold Items" section showing completed sales
- * 3. Note the sold prices (typically displayed as "EUR XX,XX")
- * 4. Record prices from the most recent 10-20 sales
- * 5. Ignore obvious outliers (damaged boxes, incomplete sets, etc.)
- *
- * STEP 3: Update Price History
- * -----------------------------
- * The script will automatically:
- *
- * 1. Calculate median market value from collected prices
- * 2. Remove outliers (top/bottom 10%)
- * 3. Create a snapshot entry in ebay-price-history.json
- * 4. Update the timestamp for tracking data freshness
- *
- * DATA FORMAT (ebay-price-history.json):
- * ---------------------------------------
- * {
- *   "snapshots": [
- *     {
- *       "timestamp": "2024-01-15T10:30:00Z",
- *       "setId": "10316-1",
- *       "name": "The Lord of the Rings: Rivendell",
- *       "prices": [459.99, 475.00, 449.00, 470.00, 465.00],
- *       "marketValue": 465.00,
- *       "sources": ["ebay.de", "ebay.fr"],
- *       "sampleSize": 5
- *     }
- *   ],
- *   "lastUpdate": "2024-01-15T10:30:00Z"
- * }
- *
- * WHY MANUAL SCRAPING?
- * --------------------
- * - eBay blocks automated scrapers with CAPTCHA challenges
- * - Real browser usage ensures accurate, up-to-date pricing data
- * - Allows manual verification of listing quality (new/sealed condition)
- * - Complies with eBay's Terms of Service (personal research use)
- *
- * REFRESH FREQUENCY:
- * ------------------
- * - High-value sets (>€300): Weekly
- * - Medium-value sets (€100-300): Bi-weekly
- * - Low-value sets (<€100): Monthly
- *
- * TROUBLESHOOTING:
- * ----------------
- * - If no sold listings found: Try different eBay domain (ebay.fr, ebay.it)
- * - If prices seem off: Check for regional pricing differences
- * - If snapshot fails: Ensure prices array contains valid numbers
- *
- * ============================================================================
- *
- * Run: node ebay-scraper.js [--set 10316-1] [--all] [--dry-run]
+ * Usage:
+ *   node scripts/ebay-scraper.js --set 10316-1
+ *   node scripts/ebay-scraper.js --dry-run --set 10316-1
+ *   node scripts/ebay-scraper.js --all
+ *   node scripts/ebay-scraper.js --set 10316-1 --all-domains
  */
 
 const fs = require('fs');
 const path = require('path');
+const puppeteer = require('puppeteer');
+const logger = require('./logger');
 
+// Configuration from environment
+const MAX_RETRIES = parseInt(process.env.MAX_RETRIES || '3', 10);
+const RETRY_DELAY = parseInt(process.env.RETRY_DELAY || '2000', 10);
+
+// Data file paths
 const DATA_DIR = path.join(__dirname, '..', 'data');
 const PORTFOLIO_FILE = path.join(DATA_DIR, 'portfolio.json');
 const PRICE_HISTORY_FILE = path.join(DATA_DIR, 'ebay-price-history.json');
@@ -105,35 +44,83 @@ function getEbaySearchUrl(setId, domain = 'ebay.de') {
 }
 
 /**
- * Parse prices from eBay sold listings page
+ * Extract prices from eBay sold listings page - runs in browser context
  * Returns array of sold prices in EUR
  */
-function parseEbayPrices(pageContent) {
+function extractEbayPrices() {
   const prices = [];
-  
-  // Match patterns like "EUR 123,45" or "€123.45" or "123,45 €"
-  const pricePatterns = [
-    /EUR\s*([\d.,]+)/gi,
-    /€\s*([\d.,]+)/gi,
-    /([\d.,]+)\s*€/gi,
+
+  // Find all sold listing price elements
+  // eBay uses various selectors for sold listings
+  const priceSelectors = [
+    '.s-item__price',
+    '.lvprice',
+    '.bold',
   ];
-  
-  for (const pattern of pricePatterns) {
-    let match;
-    while ((match = pattern.exec(pageContent)) !== null) {
-      let priceStr = match[1];
-      // Handle European format (1.234,56 or 123,45)
-      if (priceStr.includes(',')) {
-        priceStr = priceStr.replace(/\./g, '').replace(',', '.');
+
+  for (const selector of priceSelectors) {
+    const elements = document.querySelectorAll(selector);
+    elements.forEach(el => {
+      const text = el.textContent || el.innerText || '';
+
+      // Match patterns like "EUR 123,45" or "€123.45" or "123,45 €"
+      const pricePatterns = [
+        /EUR\s*([\d.,]+)/gi,
+        /€\s*([\d.,]+)/gi,
+        /([\d.,]+)\s*€/gi,
+      ];
+
+      for (const pattern of pricePatterns) {
+        let match;
+        while ((match = pattern.exec(text)) !== null) {
+          let priceStr = match[1];
+          // Handle European format (1.234,56 or 123,45)
+          if (priceStr.includes(',')) {
+            priceStr = priceStr.replace(/\./g, '').replace(',', '.');
+          }
+          const price = parseFloat(priceStr);
+          if (price > 5 && price < 10000) {  // Reasonable LEGO price range
+            prices.push(price);
+          }
+        }
       }
-      const price = parseFloat(priceStr);
-      if (price > 5 && price < 10000) {  // Reasonable LEGO price range
-        prices.push(price);
+    });
+  }
+
+  return [...new Set(prices)];  // Remove duplicates
+}
+
+/**
+ * Sleep utility for retry delays
+ */
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+/**
+ * Execute a function with retry logic and exponential backoff
+ */
+async function withRetry(fn, options = {}) {
+  const { maxRetries = MAX_RETRIES, retryDelay = RETRY_DELAY, context = '' } = options;
+
+  let lastError;
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      return await fn();
+    } catch (error) {
+      lastError = error;
+
+      if (attempt < maxRetries) {
+        const delay = retryDelay * Math.pow(2, attempt - 1); // Exponential backoff
+        logger.warn(`${context} failed (attempt ${attempt}/${maxRetries}), retrying in ${delay}ms`, error);
+        await sleep(delay);
+      } else {
+        logger.error(`${context} failed after ${maxRetries} attempts`, error);
       }
     }
   }
-  
-  return [...new Set(prices)];  // Remove duplicates
+
+  throw lastError;
 }
 
 /**
@@ -178,49 +165,283 @@ function savePriceHistory(history) {
 }
 
 /**
- * Main scraper - outputs commands for Clawdbot browser automation
+ * Scrape a single set from eBay
+ */
+async function scrapeSingleSet(setId, setData, dryRun = false, allDomains = false) {
+  const domainsToTry = allDomains ? EBAY_DOMAINS : [EBAY_DOMAINS[0]];
+
+  logger.info(`Scraping ${setId} - ${setData.name || 'Unknown'}`);
+
+  if (allDomains) {
+    logger.info(`Multi-domain mode: Will try ${domainsToTry.length} domains`);
+  }
+
+  if (dryRun) {
+    const url = getEbaySearchUrl(setId, domainsToTry[0].domain);
+    logger.info(`[DRY RUN] Would scrape: ${url}`);
+    return {
+      setId,
+      name: setData.name,
+      url,
+      prices: [],
+      marketValue: null,
+      skipped: true
+    };
+  }
+
+  let browser;
+  let allPrices = [];
+  let successfulDomains = [];
+  let lastUrl = '';
+
+  try {
+    // Launch browser with retry logic
+    browser = await withRetry(
+      async () => await puppeteer.launch({
+        headless: true,
+        args: ['--no-sandbox', '--disable-setuid-sandbox']
+      }),
+      { context: `Launch browser for ${setId}` }
+    );
+
+    const page = await browser.newPage();
+
+    // Set user agent to avoid bot detection
+    await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36');
+
+    // Try each domain until we get valid prices or run out of domains
+    for (let i = 0; i < domainsToTry.length; i++) {
+      const domainConfig = domainsToTry[i];
+      const url = getEbaySearchUrl(setId, domainConfig.domain);
+      lastUrl = url;
+
+      logger.info(`Trying ${domainConfig.name} (${domainConfig.domain})...`);
+
+      try {
+        // Navigate to eBay with retry logic
+        await withRetry(
+          async () => {
+            await page.goto(url, { waitUntil: 'networkidle2', timeout: 30000 });
+          },
+          { context: `Navigate to ${url}` }
+        );
+
+        // Wait for content to load
+        await sleep(2000);
+
+        // Extract prices from page
+        const prices = await page.evaluate(extractEbayPrices);
+        logger.info(`Found ${prices.length} sold listings on ${domainConfig.domain}`);
+
+        if (prices.length > 0) {
+          allPrices.push(...prices);
+          successfulDomains.push(domainConfig.name);
+
+          // If not using all-domains mode, stop after first successful domain
+          if (!allDomains) {
+            break;
+          }
+        } else {
+          logger.warn(`No prices found on ${domainConfig.domain}`);
+        }
+
+        // Add delay between domains to avoid rate limiting
+        if (allDomains && i < domainsToTry.length - 1) {
+          logger.debug(`Waiting before trying next domain...`);
+          await sleep(3000);
+        }
+
+      } catch (domainError) {
+        logger.warn(`Failed to scrape ${domainConfig.domain}`, domainError);
+
+        // Continue to next domain if available
+        if (i < domainsToTry.length - 1) {
+          logger.info(`Falling back to next domain...`);
+          await sleep(2000);
+        }
+      }
+    }
+
+    await browser.close();
+
+    // Calculate market value from all collected prices
+    const marketValue = calculateMarketValue(allPrices);
+
+    if (marketValue) {
+      logger.info(`Market value for ${setId}: €${marketValue.toFixed(2)} (from ${successfulDomains.join(', ')})`);
+    } else {
+      logger.warn(`No valid prices found for ${setId} across all domains`);
+    }
+
+    return {
+      setId,
+      name: setData.name,
+      url: lastUrl,
+      domains: successfulDomains,
+      prices: allPrices,
+      marketValue,
+      timestamp: new Date().toISOString()
+    };
+
+  } catch (error) {
+    logger.error(`Failed to scrape ${setId}`, error);
+    if (browser) {
+      await browser.close();
+    }
+    return {
+      setId,
+      name: setData.name,
+      url: lastUrl,
+      domains: successfulDomains,
+      prices: allPrices,
+      marketValue: null,
+      error: error.message
+    };
+  }
+}
+
+/**
+ * Main scraper - scrapes eBay sold listings using Puppeteer
  */
 async function main() {
   const args = process.argv.slice(2);
   const dryRun = args.includes('--dry-run');
   const singleSet = args.find((a, i) => args[i-1] === '--set');
-  
+  const scrapeAll = args.includes('--all');
+  const allDomains = args.includes('--all-domains');
+
+  logger.section('eBay EU Price Scraper');
+
+  // Load portfolio
   const portfolio = JSON.parse(fs.readFileSync(PORTFOLIO_FILE, 'utf-8'));
-  const sets = singleSet 
-    ? { [singleSet]: portfolio.sets[singleSet] }
-    : portfolio.sets;
-  
-  console.log('=== eBay EU Price Scraper ===\n');
-  console.log(`Sets to scrape: ${Object.keys(sets).length}`);
-  console.log(`Dry run: ${dryRun}\n`);
-  
-  // Output URLs for browser automation
-  console.log('--- URLs to scrape ---');
-  for (const [setId, setData] of Object.entries(sets)) {
-    const url = getEbaySearchUrl(setId);
-    console.log(JSON.stringify({
-      setId,
-      name: setData.name,
-      currentValue: setData.value,
-      qty: (setData.qty_new || 0) + (setData.qty_used || 0),
-      url,
-    }));
+
+  // Convert array to object for easier lookup
+  const allSets = {};
+  portfolio.sets.forEach(set => {
+    allSets[set.setNumber] = {
+      name: set.name,
+      value: set.value,
+      qty_new: set.qtyNew || 0,
+      qty_used: set.qtyUsed || 0
+    };
+  });
+
+  const sets = singleSet
+    ? (allSets[singleSet] ? { [singleSet]: allSets[singleSet] } : {})
+    : scrapeAll
+    ? allSets
+    : {};
+
+  if (Object.keys(sets).length === 0) {
+    logger.error('No sets to scrape. Use --set <setId> or --all');
+    if (singleSet) {
+      logger.error(`Set ${singleSet} not found in portfolio`);
+    }
+    process.exit(1);
   }
-  
-  console.log('\n--- Scraping instructions ---');
-  console.log('1. Use browser tool to open each URL');
-  console.log('2. Wait for page load, extract sold prices');
-  console.log('3. Calculate median value');
-  console.log('4. Update portfolio.json with new values');
+
+  logger.info(`Sets to scrape: ${Object.keys(sets).length}`);
+  logger.info(`Dry run: ${dryRun}`);
+  if (allDomains) {
+    logger.info(`Multi-domain mode: Will try all eBay EU domains`);
+  }
+
+  // Load price history
+  const priceHistory = loadPriceHistory();
+
+  // Scrape each set
+  const results = [];
+  for (const [setId, setData] of Object.entries(sets)) {
+    const result = await scrapeSingleSet(setId, setData, dryRun, allDomains);
+    results.push(result);
+
+    // Add delay between requests to avoid rate limiting
+    if (!dryRun && Object.keys(sets).length > 1) {
+      await sleep(3000);
+    }
+  }
+
+  // Save results to price history
+  if (!dryRun) {
+    const snapshot = {
+      timestamp: new Date().toISOString(),
+      source: 'eBay EU',
+      data: results
+    };
+
+    priceHistory.snapshots = priceHistory.snapshots || [];
+    priceHistory.snapshots.push(snapshot);
+    priceHistory.lastUpdate = snapshot.timestamp;
+
+    savePriceHistory(priceHistory);
+    logger.info(`Saved results to ${PRICE_HISTORY_FILE}`);
+
+    // Update portfolio.json with new market values
+    const successfulResults = results.filter(r => r.marketValue !== null && !r.skipped);
+    if (successfulResults.length > 0) {
+      logger.info(`Updating portfolio.json with ${successfulResults.length} new values...`);
+
+      // Update each set's value in the portfolio
+      successfulResults.forEach(result => {
+        const setIndex = portfolio.sets.findIndex(s => s.setNumber === result.setId);
+        if (setIndex !== -1) {
+          const oldValue = portfolio.sets[setIndex].value;
+          portfolio.sets[setIndex].value = parseFloat(result.marketValue.toFixed(2));
+
+          // Recalculate growth percentage
+          const paid = portfolio.sets[setIndex].paid;
+          if (paid > 0) {
+            portfolio.sets[setIndex].growth = parseFloat((((portfolio.sets[setIndex].value - paid) / paid) * 100).toFixed(2));
+          }
+
+          logger.debug(`Updated ${result.setId}: €${oldValue.toFixed(2)} → €${result.marketValue.toFixed(2)}`);
+        }
+      });
+
+      // Update metadata
+      portfolio.metadata.lastUpdated = snapshot.timestamp;
+      portfolio.metadata.source = 'eBay EU';
+
+      // Recalculate totals
+      let totalCurrentValue = 0;
+      portfolio.sets.forEach(set => {
+        const qty = (set.qtyNew || 0) + (set.qtyUsed || 0);
+        totalCurrentValue += set.value * qty;
+      });
+
+      portfolio.metadata.totalCurrentValue = parseFloat(totalCurrentValue.toFixed(2));
+
+      // Recalculate total gain percentage
+      if (portfolio.metadata.totalPaid > 0) {
+        portfolio.metadata.totalGain = parseFloat((((totalCurrentValue - portfolio.metadata.totalPaid) / portfolio.metadata.totalPaid) * 100).toFixed(2));
+      }
+
+      // Save updated portfolio
+      fs.writeFileSync(PORTFOLIO_FILE, JSON.stringify(portfolio, null, 2));
+      logger.info(`Updated ${PORTFOLIO_FILE}`);
+    }
+  }
+
+  // Summary
+  logger.section('Scraping Summary');
+  const successful = results.filter(r => r.marketValue !== null).length;
+  const failed = results.filter(r => r.error).length;
+  const skipped = results.filter(r => r.skipped).length;
+
+  logger.info(`Total sets: ${results.length}`);
+  logger.info(`Successful: ${successful}`);
+  logger.info(`Failed: ${failed}`);
+  logger.info(`Skipped (dry run): ${skipped}`);
 }
 
-// Export functions for use by Clawdbot
+// Export functions for testing
 module.exports = {
   getEbaySearchUrl,
-  parseEbayPrices,
+  extractEbayPrices,
   calculateMarketValue,
   loadPriceHistory,
   savePriceHistory,
+  scrapeSingleSet,
   EBAY_DOMAINS,
   PORTFOLIO_FILE,
   DATA_DIR,

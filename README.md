@@ -84,6 +84,168 @@ node lego-cli.cjs --help
 node scripts/full-scrape.cjs
 ```
 
+## Automated Scraping
+
+The dashboard includes a fully automated data scraping pipeline that can run on a schedule or on-demand.
+
+### Initial Setup
+
+1. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+2. **Configure environment**
+   ```bash
+   # Copy example configuration
+   cp .env.example .env
+
+   # Edit .env to customize settings (optional)
+   # Default: Daily scraping at 6:00 AM
+   ```
+
+3. **Test configuration**
+   ```bash
+   npm run scrape:help
+   ```
+
+### Running the Scraper
+
+**Run immediately:**
+```bash
+npm run scrape:now
+```
+
+**Test without scraping (dry-run):**
+```bash
+npm run scrape:dry-run
+```
+
+**Start scheduled automation:**
+```bash
+npm run scrape:schedule
+```
+
+**Scrape specific set:**
+```bash
+node scripts/automated-scraper.js --set 10316-1
+```
+
+**Scrape specific source:**
+```bash
+node scripts/automated-scraper.js --source brickeconomy
+```
+
+### Configuration Options
+
+Edit `.env` to customize automation behavior:
+
+**Scheduling:**
+```bash
+# Cron format: minute hour day month weekday
+SCRAPE_SCHEDULE=0 6 * * *    # Daily at 6:00 AM (default)
+# SCRAPE_SCHEDULE=0 */12 * * *  # Every 12 hours
+# SCRAPE_SCHEDULE=0 6 * * 1     # Every Monday at 6:00 AM
+```
+
+**Browser Settings:**
+```bash
+HEADLESS_MODE=true           # false to see browser (debugging)
+VIEWPORT_WIDTH=1920
+VIEWPORT_HEIGHT=1080
+```
+
+**Scraping Behavior:**
+```bash
+MAX_RETRIES=3                # Retry attempts for failed scrapes
+RETRY_DELAY=2000             # Delay between retries (ms)
+PAGE_DELAY=1000              # Delay between page loads (ms)
+SOURCE_DELAY=3000            # Delay between data sources (ms)
+REQUEST_TIMEOUT=30000        # Request timeout (ms)
+```
+
+**Data Sources:**
+```bash
+ENABLE_BRICKECONOMY=true     # Enable/disable BrickEconomy
+ENABLE_EBAY=true             # Enable/disable eBay
+ENABLE_BRICKLINK=false       # Enable/disable BrickLink
+EBAY_DOMAINS=ebay.de,ebay.fr # eBay domains to try
+```
+
+**Performance:**
+```bash
+MAX_CONCURRENT_PAGES=1       # Browser pages to run in parallel
+STEALTH_MODE=true            # Avoid bot detection
+LOG_LEVEL=info               # debug, info, warn, error
+LOG_TO_FILE=true             # Save logs to data/scraper-logs.json
+```
+
+### How It Works
+
+The automated scraper:
+1. Loads your portfolio from `data/portfolio.json`
+2. Scrapes BrickEconomy for current prices and trends
+3. Scrapes eBay for sold prices and demand data
+4. Generates daily snapshot with ROI calculations
+5. Updates `public/data/` for dashboard display
+6. Logs detailed results to `data/scraper-logs.json`
+
+### Logs & Monitoring
+
+View scraping logs:
+```bash
+cat data/scraper-logs.json | jq '.'
+```
+
+Monitor scheduled runs:
+```bash
+# Scheduler outputs real-time progress
+npm run scrape:schedule
+
+# Graceful shutdown with Ctrl+C
+# Force kill with Ctrl+C twice (may corrupt data)
+```
+
+### Production Deployment
+
+For continuous automation on a server:
+
+**Using PM2 (recommended):**
+```bash
+npm install -g pm2
+pm2 start scripts/scheduler.js --name lego-scraper
+pm2 save
+pm2 startup
+```
+
+**Using systemd:**
+```bash
+# Create /etc/systemd/system/lego-scraper.service
+[Unit]
+Description=LEGO Portfolio Scraper
+After=network.target
+
+[Service]
+Type=simple
+User=your-user
+WorkingDirectory=/path/to/lego-dashboard
+ExecStart=/usr/bin/node scripts/scheduler.js
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+```
+
+**Using Docker:**
+```dockerfile
+FROM node:18
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+CMD ["npm", "run", "scrape:schedule"]
+```
+
 ## Portfolio JSON Format
 
 ```json

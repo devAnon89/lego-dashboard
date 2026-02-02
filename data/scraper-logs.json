@@ -1,0 +1,95 @@
+[
+  {
+    "runId": "dry-run-1769993646695",
+    "mode": "dry-run",
+    "startTime": "2026-02-02T00:54:06.695Z",
+    "endTime": "2026-02-02T00:54:06.695Z",
+    "durationMs": 0,
+    "status": "success",
+    "portfolio": {
+      "loaded": false,
+      "setsCount": 0
+    },
+    "brickeconomy": {
+      "success": false,
+      "skipped": true
+    },
+    "ebay": {
+      "success": false,
+      "skipped": true
+    },
+    "snapshot": {
+      "success": false,
+      "skipped": true
+    }
+  },
+  {
+    "runId": "dry-run-1769993865799",
+    "mode": "dry-run",
+    "startTime": "2026-02-02T00:57:45.799Z",
+    "endTime": "2026-02-02T00:57:45.799Z",
+    "durationMs": 0,
+    "status": "success",
+    "portfolio": {
+      "loaded": false,
+      "setsCount": 0
+    },
+    "brickeconomy": {
+      "success": false,
+      "skipped": true
+    },
+    "ebay": {
+      "success": false,
+      "skipped": true
+    },
+    "snapshot": {
+      "success": false,
+      "skipped": true
+    }
+  },
+  {
+    "runId": "run-1769994287565",
+    "mode": "production",
+    "startTime": "2026-02-02T01:04:47.565Z",
+    "endTime": "2026-02-02T01:05:10.066Z",
+    "durationMs": 22526,
+    "status": "failed",
+    "portfolio": {
+      "setsCount": 45,
+      "loaded": true,
+      "timestamp": "2026-02-02T01:04:47.566Z"
+    },
+    "brickeconomy": {
+      "success": false,
+      "output": "[2026-02-02T01:04:52.929Z] [WARN] Scraping 10316-1 failed (attempt 1/3), retrying in 2000ms\n  Error: Failed to scrape 10316-1: No price data found on page - page may have changed structure\n  Stack: Error: Failed to scrape 10316-1: No price data found on page - page may have changed structure\n    at withRetry.maxRetries (C:\\Work\\lego-dashboard\\.auto-claude\\worktrees\\tasks\\001-automated-data-scraping-pipeline\\scripts\\scrape-brickeconomy.js:266:13)\n    at async withRetry (C:\\Work\\lego-dashboard\\.auto-claude\\worktrees\\tasks\\001-automated-data-scraping-pipeline\\scripts\\scrape-brickeconomy.js:165:14)\n    at async scrapeSet (C:\\Work\\lego-dashboard\\.auto-claude\\worktrees\\tasks\\001-automated-data-scraping-pipeline\\scripts\\scrape-brickeconomy.js:233:10)\n    at async main (C:\\Work\\lego-dashboard\\.auto-claude\\worktrees\\tasks\\001-automated-data-scraping-pipeline\\scripts\\scrape-brickeconomy.js:328:24)\n[2026-02-02T01:04:57.781Z] [WARN] Scraping 10316-1 failed (attempt 2/3), retrying in 4000ms\n  Error: Failed to scrape 10316-1: No price data found on page - page may have changed structure\n  Stack: Error: Failed to scrape 10316-1: No price data found on page - page may have changed structure\n    at withRetry.maxRetries (C:\\Work\\lego-dashboard\\.auto-claude\\worktrees\\tasks\\001-automated-data-scraping-pipeline\\scripts\\scrape-brickeconomy.js:266:13)\n    at async withRetry (C:\\Work\\lego-dashboard\\.auto-claude\\worktrees\\tasks\\001-automated-data-scraping-pipeline\\scripts\\scrape-brickeconomy.js:165:14)\n    at async scrapeSet (C:\\Work\\lego-dashboard\\.auto-claude\\worktrees\\tasks\\001-automated-data-scraping-pipeline\\scripts\\scrape-brickeconomy.js:233:10)\n    at async main (C:\\Work\\lego-dashboard\\.auto-claude\\worktrees\\tasks\\001-automated-data-scraping-pipeline\\scripts\\scrape-brickeconomy.js:328:24)\n[2026-02-02T01:05:04.733Z] [ERROR] Scraping 10316-1 failed after 3 attempts\n  Error: Failed to scrape 10316-1: No price data found on page - page may have changed structure\n  Stack: Error: Failed to scrape 10316-1: No price data found on page - page may have changed structure\n    at withRetry.maxRetries (C:\\Work\\lego-dashboard\\.auto-claude\\worktrees\\tasks\\001-automated-data-scraping-pipeline\\scripts\\scrape-brickeconomy.js:266:13)\n    at async withRetry (C:\\Work\\lego-dashboard\\.auto-claude\\worktrees\\tasks\\001-automated-data-scraping-pipeline\\scripts\\scrape-brickeconomy.js:165:14)\n    at async scrapeSet (C:\\Work\\lego-dashboard\\.auto-claude\\worktrees\\tasks\\001-automated-data-scraping-pipeline\\scripts\\scrape-brickeconomy.js:233:10)\n    at async main (C:\\Work\\lego-dashboard\\.auto-claude\\worktrees\\tasks\\001-automated-data-scraping-pipeline\\scripts\\scrape-brickeconomy.js:328:24)\n[2026-02-02T01:05:04.733Z] [ERROR] Scraping failed\n  Error: Failed to scrape 10316-1: No price data found on page - page may have changed structure\n  Stack: Error: Failed to scrape 10316-1: No price data found on page - page may have changed structure\n    at withRetry.maxRetries (C:\\Work\\lego-dashboard\\.auto-claude\\worktrees\\tasks\\001-automated-data-scraping-pipeline\\scripts\\scrape-brickeconomy.js:266:13)\n    at async withRetry (C:\\Work\\lego-dashboard\\.auto-claude\\worktrees\\tasks\\001-automated-data-scraping-pipeline\\scripts\\scrape-brickeconomy.js:165:14)\n    at async scrapeSet (C:\\Work\\lego-dashboard\\.auto-claude\\worktrees\\tasks\\001-automated-data-scraping-pipeline\\scripts\\scrape-brickeconomy.js:233:10)\n    at async main (C:\\Work\\lego-dashboard\\.auto-claude\\worktrees\\tasks\\001-automated-data-scraping-pipeline\\scripts\\scrape-brickeconomy.js:328:24)\nError: Failed to scrape 10316-1: No price data found on page - page may have changed structure\n",
+      "exitCode": 1,
+      "startTime": "2026-02-02T01:04:47.566Z",
+      "endTime": "2026-02-02T01:05:04.743Z",
+      "durationMs": 17177
+    },
+    "ebay": {
+      "success": true,
+      "output": "\n============================================================\neBay EU Price Scraper\n============================================================\n[2026-02-02T01:05:05.119Z] [INFO] Sets to scrape: 1\n[2026-02-02T01:05:05.120Z] [INFO] Dry run: false\n[2026-02-02T01:05:05.121Z] [INFO] Scraping 10316-1 - The Lord of the Rings Rivendell\n[2026-02-02T01:05:05.767Z] [INFO] Trying Germany (ebay.de)...\n[2026-02-02T01:05:09.654Z] [INFO] Found 42 sold listings on ebay.de\n[2026-02-02T01:05:10.045Z] [INFO] Market value for 10316-1: €416.42 (from Germany)\n[2026-02-02T01:05:10.046Z] [INFO] Saved results to C:\\Work\\lego-dashboard\\.auto-claude\\worktrees\\tasks\\001-automated-data-scraping-pipeline\\data\\ebay-price-history.json\n[2026-02-02T01:05:10.046Z] [INFO] Updating portfolio.json with 1 new values...\n[2026-02-02T01:05:10.047Z] [INFO] Updated C:\\Work\\lego-dashboard\\.auto-claude\\worktrees\\tasks\\001-automated-data-scraping-pipeline\\data\\portfolio.json\n\n============================================================\nScraping Summary\n============================================================\n[2026-02-02T01:05:10.047Z] [INFO] Total sets: 1\n[2026-02-02T01:05:10.047Z] [INFO] Successful: 1\n[2026-02-02T01:05:10.047Z] [INFO] Failed: 0\n[2026-02-02T01:05:10.047Z] [INFO] Skipped (dry run): 0\n",
+      "exitCode": 0,
+      "startTime": "2026-02-02T01:05:04.743Z",
+      "endTime": "2026-02-02T01:05:10.066Z",
+      "durationMs": 5323
+    },
+    "snapshot": {
+      "success": true,
+      "output": "",
+      "exitCode": null,
+      "startTime": null,
+      "endTime": null,
+      "durationMs": 0,
+      "skipped": true
+    },
+    "errors": [
+      {
+        "step": "brickeconomy",
+        "message": "BrickEconomy scraper failed with exit code 1",
+        "exitCode": 1
+      }
+    ]
+  }
+]
