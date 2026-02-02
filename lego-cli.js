@@ -161,8 +161,18 @@ const commands = {
   refresh: async () => {
     console.log('🔄 Running AI analysis...');
     const { execSync } = require('child_process');
-    execSync('node deep-analysis.js', { 
-      cwd: __dirname, 
+    execSync('node deep-analysis.js', {
+      cwd: __dirname,
+      stdio: 'inherit',
+      env: { ...process.env }
+    });
+  },
+
+  deals: async () => {
+    console.log('🔍 Scanning for marketplace deals...');
+    const { execSync } = require('child_process');
+    execSync('node scripts/deal-finder.js', {
+      cwd: __dirname,
       stdio: 'inherit',
       env: { ...process.env }
     });
@@ -219,6 +229,7 @@ Commands:
   recommendations   AI-powered buy/sell/hold advice
   themes            Portfolio breakdown by theme
   refresh           Re-run AI analysis on all sets
+  deals             Scan marketplaces for watchlist deals
   serve             Start dashboard web server
   help              Show this help
 
@@ -226,6 +237,7 @@ Examples:
   node lego-cli.js status
   node lego-cli.js analyze 75192
   node lego-cli.js recommendations
+  node lego-cli.js deals
     `);
   }
 };
