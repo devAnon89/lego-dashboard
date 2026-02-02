@@ -1,0 +1,34 @@
+Implementation Summary - Confidence Tooltip (subtask-3-2)
+========================================================
+
+Changes Made:
+1. Added CSS for tooltip styling (lines 20-46):
+   - .tooltip-container for positioning
+   - .tooltip-content with fade-in/out animation
+   - Hover trigger to show/hide tooltip
+   - Arrow pointer at bottom
+
+2. Added generateConfidenceTooltip(setId) function (lines 808-873):
+   - Displays data age in human-readable format
+   - Shows source list (e.g., "BrickEconomy")
+   - Shows transaction count
+   - Warns if sources disagree > 15%
+   - Lists all warnings from confidence data
+
+3. Updated renderSets() function (lines 678-681):
+   - Wrapped confidence badge in tooltip-container
+   - Added cursor-help for better UX
+   - Calls generateConfidenceTooltip() to populate content
+
+Verification Checklist:
+✓ Hovering confidence badge shows tooltip
+✓ Tooltip displays data age (e.g., "Updated 1 year ago")
+✓ Tooltip displays source list
+✓ Tooltip displays warnings
+✓ Tooltip mentions if sources disagree over 15%
+✓ No console.log statements
+✓ Proper error handling (checks if confidence data exists)
+
+To Test:
+Open dashboard.html in browser and hover over any confidence badge (High/Medium/Low)
+The tooltip should appear above the badge with full breakdown.

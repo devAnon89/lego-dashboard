@@ -17,6 +17,35 @@
     .score-bar { background: linear-gradient(90deg, #ef4444 0%, #eab308 50%, #22c55e 100%); }
     .tab-active { border-bottom: 2px solid #3b82f6; color: #3b82f6; }
     .prediction-badge { background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%); }
+    .tooltip-container { position: relative; display: inline-block; }
+    .tooltip-content {
+      visibility: hidden;
+      opacity: 0;
+      position: absolute;
+      z-index: 1000;
+      bottom: 125%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(17, 24, 39, 0.98);
+      border: 1px solid rgba(255,255,255,0.2);
+      backdrop-filter: blur(10px);
+      padding: 12px;
+      border-radius: 8px;
+      width: 280px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      transition: opacity 0.3s, visibility 0.3s;
+    }
+    .tooltip-container:hover .tooltip-content { visibility: visible; opacity: 1; }
+    .tooltip-content::after {
+      content: "";
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      margin-left: -5px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: rgba(17, 24, 39, 0.98) transparent transparent transparent;
+    }
     ::-webkit-scrollbar { width: 8px; }
     ::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); }
     ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 4px; }
@@ -228,6 +257,7 @@
     let portfolio = null;
     let analysis = null;
     let priceHistory = null;
+    let confidence = null;
     let salesData = null;
     let purchasesData = null;
     let currentTab = 'all';
@@ -282,6 +312,11 @@
           priceHistory = null;
         }
         try {
+          confidence = await fetch('data/confidence.json').then(r => r.json());
+        } catch (e) {
+          confidence = null;
+        }
+        try {
           salesData = await fetch('data/sales.json').then(r => r.json());
         } catch (e) {
           salesData = null;
@@ -306,6 +341,7 @@
         const a = analysis[id] || {};
         const avgScore = ((a.license || 0) + (a.retirement || 0) + (a.appeal || 0) + (a.liquidity || 0)) / 4;
         const predictions = a.predictions || {};
+        const conf = confidence?.sets?.[id]?.confidence || 'Low';
 
         // Merge sales data
         const setSales = salesData && salesData.sales ?
@@ -315,7 +351,7 @@
         const setPurchases = purchasesData && purchasesData.purchases ?
           purchasesData.purchases.filter(purchase => purchase.setId === id) : [];
 
-        return { id, ...data, analysis: a, avgScore, predictions, sales: setSales, purchaseHistory: setPurchases };
+        return { id, ...data, analysis: a, avgScore, predictions, confidence: conf, sales: setSales, purchaseHistory: setPurchases };
       });
 
       // Summary
@@ -640,6 +676,9 @@
         const projected1yr = s.predictions?.['1yr']?.value || (s.value * 1.15);
         const projectedGrowth = s.predictions?.growth1yr || 15;
 
+        const conf = s.confidence || 'Low';
+        const confidenceColors = { High: 'bg-green-500/20 text-green-400 border-green-500/30', Medium: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30', Low: 'bg-red-500/20 text-red-400 border-red-500/30' };
+
         return `
           <div class="card rounded-xl p-4 cursor-pointer hover:bg-white/10 transition" onclick="showDetail('${s.id}')">
             <div class="flex justify-between items-start mb-3">
@@ -651,8 +690,9 @@
                 ${actionIcons[action] || '❓'} ${action}
               </span>
             </div>
-            
-            <div class="grid grid-cols-2 gap-2 mb-3">
+
+
+            <div class="grid grid-cols-3 gap-2 mb-3">
               <div>
                 <div class="text-xs text-gray-400">Value</div>
                 <div class="font-bold text-sm">€${s.value.toLocaleString('de-DE', {minimumFractionDigits: 0})}</div>
@@ -676,7 +716,7 @@
               </div>
             </div>
 
-            <div class="flex items-center justify-between text-sm">
+            <div class="flex items-center justify-between text-sm mb-2">
               <div class="flex items-center gap-2">
                 <span class="text-gray-400">Score:</span>
                 <span class="font-bold text-blue-400">${s.avgScore.toFixed(1)}/10</span>
@@ -684,6 +724,26 @@
               <div class="flex items-center gap-2">
                 <span class="text-gray-400">Entry:</span>
                 <span class="${entryColors[s.analysis.entry] || 'text-gray-400'}">${s.analysis.entry || '-'}</span>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between text-sm">
+              <div class="flex items-center gap-2">
+                <span class="text-gray-400">Confidence:</span>
+                <div class="tooltip-container">
+                  <span class="px-2 py-0.5 rounded text-xs font-medium border ${confidenceColors[conf]} cursor-help">${conf}</span>
+                  <div class="tooltip-content">${generateConfidenceTooltip(s.id)}</div>
+                </div>
+                ${hasSourceDisagreement(s.id) ? `
+                  <div class="tooltip-container">
+                    <span class="flex items-center justify-center w-5 h-5 rounded-full bg-yellow-500/20 border border-yellow-500/50 cursor-help" title="Source disagreement">
+                      <svg class="w-3 h-3 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                      </svg>
+                    </span>
+                    <div class="tooltip-content">${generateDisagreementTooltip(s.id)}</div>
+                  </div>
+                ` : ''}
               </div>
             </div>
 
@@ -892,6 +952,118 @@
           <span class="text-sm font-bold w-8">${value || 0}</span>
         </div>
       `;
+    }
+
+    function hasSourceDisagreement(setId) {
+      if (!confidence || !confidence.sets || !confidence.sets[setId]) {
+        return false;
+      }
+      const confData = confidence.sets[setId];
+      const factors = confData.factors || {};
+      const sourceAgreement = factors.sourceAgreement || {};
+      const maxDiff = sourceAgreement.maxDiff;
+      return maxDiff !== null && maxDiff > 0.15;
+    }
+
+    function generateDisagreementTooltip(setId) {
+      if (!confidence || !confidence.sets || !confidence.sets[setId]) {
+        return '';
+      }
+      const confData = confidence.sets[setId];
+      const factors = confData.factors || {};
+      const sourceAgreement = factors.sourceAgreement || {};
+      const maxDiff = sourceAgreement.maxDiff;
+
+      if (maxDiff === null || maxDiff <= 0.15) {
+        return '';
+      }
+
+      const sources = sourceAgreement.sources || [];
+      const pctDiff = (maxDiff * 100).toFixed(1);
+
+      return `
+        <div class="text-xs space-y-2">
+          <div class="font-semibold text-white border-b border-yellow-600 pb-1">⚠️ Source Disagreement</div>
+          <div>
+            <span class="text-gray-400">Price variance:</span>
+            <span class="text-yellow-300 ml-1 font-bold">${pctDiff}%</span>
+          </div>
+          <div>
+            <span class="text-gray-400">Sources:</span>
+            <span class="text-white ml-1">${sources.join(', ')}</span>
+          </div>
+          <div class="text-yellow-300 text-xs pt-1 border-t border-gray-600">
+            Multiple sources show significant price differences. Exercise caution when valuing this set.
+          </div>
+        </div>
+      `;
+    }
+
+    function generateConfidenceTooltip(setId) {
+      if (!confidence || !confidence.sets || !confidence.sets[setId]) {
+        return '';
+      }
+
+      const confData = confidence.sets[setId];
+      const factors = confData.factors || {};
+      const recency = factors.recency || {};
+      const sourceAgreement = factors.sourceAgreement || {};
+      const txVolume = factors.transactionVolume || {};
+      const warnings = confData.warnings || [];
+
+      // Format data age
+      const ageDays = recency.age_days || 0;
+      let ageText = '';
+      if (ageDays < 1) ageText = 'Updated today';
+      else if (ageDays === 1) ageText = 'Updated 1 day ago';
+      else if (ageDays < 30) ageText = `Updated ${ageDays} days ago`;
+      else if (ageDays < 365) ageText = `Updated ${Math.floor(ageDays/30)} months ago`;
+      else ageText = `Updated ${Math.floor(ageDays/365)} year${Math.floor(ageDays/365) > 1 ? 's' : ''} ago`;
+
+      // Format sources
+      const sources = sourceAgreement.sources || [];
+      const sourcesText = sources.length > 0 ? sources.join(', ') : 'No sources';
+
+      // Check for significant disagreement
+      const maxDiff = sourceAgreement.maxDiff;
+      const hasDisagreement = maxDiff !== null && maxDiff > 0.15;
+
+      let tooltipHTML = `
+        <div class="text-xs space-y-2">
+          <div class="font-semibold text-white border-b border-gray-600 pb-1">Confidence Breakdown</div>
+          <div>
+            <span class="text-gray-400">Data age:</span>
+            <span class="text-white ml-1">${ageText}</span>
+          </div>
+          <div>
+            <span class="text-gray-400">Sources:</span>
+            <span class="text-white ml-1">${sourcesText}</span>
+          </div>
+          <div>
+            <span class="text-gray-400">Transactions:</span>
+            <span class="text-white ml-1">${txVolume.count || 0}</span>
+          </div>
+      `;
+
+      if (hasDisagreement) {
+        tooltipHTML += `
+          <div class="text-yellow-400 pt-1 border-t border-gray-600">
+            ⚠️ Sources disagree by ${(maxDiff * 100).toFixed(1)}%
+          </div>
+        `;
+      }
+
+      if (warnings.length > 0) {
+        tooltipHTML += `
+          <div class="pt-1 border-t border-gray-600">
+            <div class="text-red-400 font-medium">⚠️ Warnings:</div>
+            ${warnings.map(w => `<div class="text-red-300">• ${w}</div>`).join('')}
+          </div>
+        `;
+      }
+
+      tooltipHTML += `</div>`;
+      return tooltipHTML;
     }
 
     function closeModal() {
