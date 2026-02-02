@@ -21,6 +21,10 @@ const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 const MAX_RETRIES = parseInt(process.env.MAX_RETRIES || '3', 10);
 const RETRY_DELAY = parseInt(process.env.RETRY_DELAY || '2000', 10);
 
+// Cache TTL constants (in milliseconds)
+const CACHE_TTL_STANDARD = 24 * 60 * 60 * 1000; // 24 hours
+const CACHE_TTL_VOLATILE = 12 * 60 * 60 * 1000; // 12 hours
+
 // Data file paths
 const DATA_DIR = path.join(__dirname, '..', 'data');
 const PORTFOLIO_FILE = path.join(DATA_DIR, 'portfolio.json');
@@ -98,6 +102,120 @@ function loadDeepAnalysis() {
     logger.warn('Could not load deep analysis file, returning empty data');
     return { metadata: {} };
   }
+}
+
+/**
+ * Load AI predictions cache
+ * @returns {Object} Cached predictions data
+ */
+function loadPredictionsCache() {
+  try {
+    return JSON.parse(fs.readFileSync(AI_PREDICTIONS_CACHE_FILE, 'utf-8'));
+  } catch {
+    return {
+      metadata: {
+        lastUpdated: null,
+        note: 'AI predictions cache with TTL-based expiration'
+      }
+    };
+  }
+}
+
+/**
+ * Save AI predictions cache
+ * @param {Object} cache - Cache data to save
+ */
+function savePredictionsCache(cache) {
+  try {
+    cache.metadata = cache.metadata || {};
+    cache.metadata.lastUpdated = new Date().toISOString();
+    cache.metadata.note = 'AI predictions cache with TTL-based expiration';
+    fs.writeFileSync(AI_PREDICTIONS_CACHE_FILE, JSON.stringify(cache, null, 2));
+  } catch (error) {
+    logger.error('Failed to save predictions cache', error);
+  }
+}
+
+/**
+ * Determine if a set is volatile based on price analysis
+ * Volatile sets have high price variation or recent significant changes
+ * @param {Object} priceAnalysis - Price analysis results
+ * @returns {boolean} True if the set is considered volatile
+ */
+function isVolatileSet(priceAnalysis) {
+  // Check volatility from summary
+  if (priceAnalysis.summary?.volatility === 'high') {
+    return true;
+  }
+
+  // Check for significant recent price changes (>10% in 30 days)
+  const trend30d = priceAnalysis.brickEconomy?.trend30d;
+  if (trend30d && Math.abs(trend30d.percentChange || 0) > 10) {
+    return true;
+  }
+
+  return false;
+}
+
+/**
+ * Check if cached prediction is still valid
+ * @param {Object} cachedPrediction - Cached prediction data
+ * @param {boolean} isVolatile - Whether the set is volatile
+ * @returns {boolean} True if cache is still valid
+ */
+function isCacheValid(cachedPrediction, isVolatile) {
+  if (!cachedPrediction || !cachedPrediction.cachedAt) {
+    return false;
+  }
+
+  const cachedAt = new Date(cachedPrediction.cachedAt).getTime();
+  const now = Date.now();
+  const ttl = isVolatile ? CACHE_TTL_VOLATILE : CACHE_TTL_STANDARD;
+
+  return (now - cachedAt) < ttl;
+}
+
+/**
+ * Get cached prediction for a set if valid
+ * @param {string} setId - Set identifier
+ * @param {Object} cache - Predictions cache
+ * @param {Object} priceAnalysis - Price analysis for volatility check
+ * @returns {Object|null} Cached prediction or null if expired/missing
+ */
+function getCachedPrediction(setId, cache, priceAnalysis) {
+  const cached = cache[setId];
+  if (!cached) {
+    return null;
+  }
+
+  const isVolatile = isVolatileSet(priceAnalysis);
+  if (isCacheValid(cached, isVolatile)) {
+    logger.info(`Using cached prediction for ${setId} (${isVolatile ? 'volatile' : 'standard'} TTL)`);
+    return cached;
+  }
+
+  logger.info(`Cache expired for ${setId}, will regenerate`);
+  return null;
+}
+
+/**
+ * Cache a prediction result
+ * @param {string} setId - Set identifier
+ * @param {Object} prediction - Prediction result
+ * @param {Object} cache - Predictions cache
+ * @param {boolean} isVolatile - Whether the set is volatile
+ * @returns {Object} The prediction with cache metadata
+ */
+function cachePrediction(setId, prediction, cache, isVolatile) {
+  const cachedPrediction = {
+    ...prediction,
+    cachedAt: new Date().toISOString(),
+    ttlType: isVolatile ? 'volatile' : 'standard',
+    ttlHours: isVolatile ? 12 : 24
+  };
+
+  cache[setId] = cachedPrediction;
+  return cachedPrediction;
 }
 
 /**
@@ -439,6 +557,10 @@ async function main() {
   const ebayHistory = loadEbayPriceHistory();
   const deepAnalysis = loadDeepAnalysis();
   const priceHistory = priceAnalyzer.loadPriceHistory();
+  const predictionsCache = loadPredictionsCache();
+
+  // Check for force-refresh flag
+  const forceRefresh = args.includes('--force') || args.includes('--refresh');
 
   // Determine which sets to predict
   let setsToPredictIds = [];
@@ -458,23 +580,58 @@ async function main() {
   }
 
   logger.info(`Generating predictions for ${setsToPredictIds.length} set(s)...`);
+  if (forceRefresh) {
+    logger.info('Force refresh enabled - ignoring cache');
+  }
   logger.info('');
 
   // Generate predictions
   const predictions = [];
+  let cacheHits = 0;
+  let cacheMisses = 0;
+
   for (const setId of setsToPredictIds) {
     try {
+      // Find set in portfolio for price analysis
+      const setData = portfolio.sets.find(s => s.setNumber === setId);
+
+      // Get price analysis for volatility check
+      const priceAnalysis = priceAnalyzer.analyzeSet(setId, priceHistory, ebayHistory, setData);
+      const isVolatile = isVolatileSet(priceAnalysis);
+
+      // Check cache first (unless force refresh)
+      if (!forceRefresh) {
+        const cachedPrediction = getCachedPrediction(setId, predictionsCache, priceAnalysis);
+        if (cachedPrediction) {
+          predictions.push(cachedPrediction);
+          displayPrediction(cachedPrediction);
+          cacheHits++;
+          continue;
+        }
+      }
+
+      // Generate new prediction
+      cacheMisses++;
       const prediction = await generatePrediction(setId, portfolio, ebayHistory, deepAnalysis, priceHistory);
-      predictions.push(prediction);
-      displayPrediction(prediction);
+
+      // Cache the prediction
+      const cachedPrediction = cachePrediction(setId, prediction, predictionsCache, isVolatile);
+      predictions.push(cachedPrediction);
+      displayPrediction(cachedPrediction);
 
       // Add delay between API calls to avoid rate limiting
-      if (setsToPredictIds.length > 1) {
+      if (setsToPredictIds.length > 1 && cacheMisses > 0) {
         await sleep(500);
       }
     } catch (error) {
       logger.error(`Failed to generate prediction for ${setId}`, error);
     }
+  }
+
+  // Save updated cache
+  if (cacheMisses > 0) {
+    savePredictionsCache(predictionsCache);
+    logger.info(`Saved ${cacheMisses} new prediction(s) to cache`);
   }
 
   // Summary
@@ -485,6 +642,10 @@ async function main() {
   logger.info(`Total sets: ${setsToPredictIds.length}`);
   logger.info(`Successful predictions: ${successful}`);
   logger.info(`Failed: ${failed}`);
+  logger.info('');
+  logger.info('Cache Statistics:');
+  logger.info(`  Cache hits: ${cacheHits}`);
+  logger.info(`  Cache misses: ${cacheMisses}`);
 
   if (predictions.length > 0) {
     const avgGrowth1yr = predictions.reduce((sum, p) => sum + (p.prediction.growth1yr || 0), 0) / predictions.length;
@@ -515,6 +676,12 @@ module.exports = {
   loadPortfolio,
   loadEbayPriceHistory,
   loadDeepAnalysis,
+  loadPredictionsCache,
+  savePredictionsCache,
+  isVolatileSet,
+  isCacheValid,
+  getCachedPrediction,
+  cachePrediction,
   buildPrompt,
   callOpenAI,
   generatePrediction,
@@ -526,6 +693,8 @@ module.exports = {
   EBAY_PRICE_HISTORY_FILE,
   DEEP_ANALYSIS_FILE,
   AI_PREDICTIONS_CACHE_FILE,
+  CACHE_TTL_STANDARD,
+  CACHE_TTL_VOLATILE,
 };
 
 if (require.main === module) {
