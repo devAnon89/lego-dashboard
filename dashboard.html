@@ -60,6 +60,7 @@
         <p class="text-gray-400 mt-1">AI-Powered Portfolio Analysis with BrickEconomy ML Predictions</p>
       </div>
       <div class="flex items-center gap-4">
+        <a href="deals.html" class="px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg text-sm font-medium transition">🎯 Deals</a>
         <span class="text-sm text-gray-400" id="lastUpdated"></span>
         <button onclick="refreshData()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg text-sm font-medium transition">🔄 Refresh</button>
       </div>
@@ -67,7 +68,7 @@
   </header>
 
   <!-- Summary Cards -->
-  <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8" id="summaryCards">
+  <div class="grid grid-cols-2 md:grid-cols-6 gap-4 mb-8" id="summaryCards">
     <div class="card rounded-xl p-4">
       <div class="text-gray-400 text-sm">Total Value</div>
       <div class="text-2xl font-bold text-white" id="totalValue">-</div>
@@ -77,6 +78,11 @@
       <div class="text-gray-400 text-sm">Total Gain/Loss</div>
       <div class="text-2xl font-bold" id="totalGain">-</div>
       <div class="text-sm" id="totalGainPct"></div>
+    </div>
+    <div class="card rounded-xl p-4">
+      <div class="text-gray-400 text-sm">Realized Gains</div>
+      <div class="text-2xl font-bold" id="totalRealizedGains">-</div>
+      <div class="text-sm text-gray-500" id="totalSales"></div>
     </div>
     <div class="card rounded-xl p-4">
       <div class="text-gray-400 text-sm">Total Sets</div>
@@ -252,6 +258,8 @@
     let analysis = null;
     let priceHistory = null;
     let confidence = null;
+    let salesData = null;
+    let purchasesData = null;
     let currentTab = 'all';
     let currentFilter = '';
     let historyChart = null;
@@ -308,6 +316,16 @@
         } catch (e) {
           confidence = null;
         }
+        try {
+          salesData = await fetch('data/sales.json').then(r => r.json());
+        } catch (e) {
+          salesData = null;
+        }
+        try {
+          purchasesData = await fetch('data/purchases.json').then(r => r.json());
+        } catch (e) {
+          purchasesData = null;
+        }
         renderDashboard();
       } catch (e) {
         console.error('Failed to load data:', e);
@@ -324,7 +342,16 @@
         const avgScore = ((a.license || 0) + (a.retirement || 0) + (a.appeal || 0) + (a.liquidity || 0)) / 4;
         const predictions = a.predictions || {};
         const conf = confidence?.sets?.[id]?.confidence || 'Low';
-        return { id, ...data, analysis: a, avgScore, predictions, confidence: conf };
+
+        // Merge sales data
+        const setSales = salesData && salesData.sales ?
+          salesData.sales.filter(sale => sale.setId === id) : [];
+
+        // Merge purchase data
+        const setPurchases = purchasesData && purchasesData.purchases ?
+          purchasesData.purchases.filter(purchase => purchase.setId === id) : [];
+
+        return { id, ...data, analysis: a, avgScore, predictions, confidence: conf, sales: setSales, purchaseHistory: setPurchases };
       });
 
       // Summary
@@ -346,6 +373,24 @@
 
       const avgScore = sets.reduce((sum, s) => sum + s.avgScore, 0) / sets.length;
       document.getElementById('avgScore').textContent = avgScore.toFixed(1);
+
+      // Calculate total realized gains
+      let totalRealizedGains = 0;
+      let totalSalesCount = 0;
+      sets.forEach(s => {
+        if (s.sales && Array.isArray(s.sales)) {
+          s.sales.forEach(sale => {
+            totalRealizedGains += (sale.realizedGain || 0);
+            totalSalesCount++;
+          });
+        }
+      });
+
+      const realizedGainsEl = document.getElementById('totalRealizedGains');
+      const totalSalesEl = document.getElementById('totalSales');
+      realizedGainsEl.textContent = (totalRealizedGains >= 0 ? '+' : '') + '€' + totalRealizedGains.toLocaleString('de-DE', {minimumFractionDigits: 2});
+      realizedGainsEl.className = 'text-2xl font-bold ' + (totalRealizedGains >= 0 ? 'text-green-400' : 'text-red-400');
+      totalSalesEl.textContent = totalSalesCount + ' sale' + (totalSalesCount !== 1 ? 's' : '');
 
       // Calculate portfolio projections
       let projected1yr = 0;
@@ -646,6 +691,7 @@
               </span>
             </div>
 
+
             <div class="grid grid-cols-3 gap-2 mb-3">
               <div>
                 <div class="text-xs text-gray-400">Value</div>
@@ -654,6 +700,15 @@
               <div>
                 <div class="text-xs text-gray-400">Growth</div>
                 <div class="font-bold text-sm ${growthColor}">${s.growth_pct >= 0 ? '+' : ''}${s.growth_pct.toFixed(1)}%</div>
+              </div>
+              <div title="${s.purchaseHistory && s.purchaseHistory.length > 0 ? (() => {
+                const totalQty = s.purchaseHistory.reduce((sum, p) => sum + (p.quantity || 0), 0);
+                const weightedTotal = s.purchaseHistory.reduce((sum, p) => sum + (p.price || 0) * (p.quantity || 0), 0);
+                const avgPaid = totalQty > 0 ? weightedTotal / totalQty : s.paid;
+                return `Avg paid: €${avgPaid.toFixed(2)} (weighted average from ${s.purchaseHistory.length} purchase${s.purchaseHistory.length !== 1 ? 's' : ''})`;
+              })() : `Cost basis: €${s.paid.toFixed(2)}`}">
+                <div class="text-xs text-gray-400">Paid</div>
+                <div class="font-bold text-sm text-gray-300">€${s.paid.toLocaleString('de-DE', {minimumFractionDigits: 0})}</div>
               </div>
               <div>
                 <div class="text-xs text-purple-400 flex items-center gap-1">🔮 1yr</div>
@@ -704,6 +759,16 @@
       const s = { id, ...portfolio.sets[id], analysis: analysis[id] || {} };
       const avgScore = ((s.analysis.license || 0) + (s.analysis.retirement || 0) + (s.analysis.appeal || 0) + (s.analysis.liquidity || 0)) / 4;
       const predictions = s.analysis.predictions || {};
+
+      // Merge sales data
+      const setSales = salesData && salesData.sales ?
+        salesData.sales.filter(sale => sale.setId === id) : [];
+      s.sales = setSales;
+
+      // Merge purchase data
+      const setPurchases = purchasesData && purchasesData.purchases ?
+        purchasesData.purchases.filter(purchase => purchase.setId === id) : [];
+      s.purchaseHistory = setPurchases;
 
       const actionColors = { BUY: 'bg-green-500 text-white', HOLD: 'bg-yellow-500 text-black', SELL: 'bg-red-500 text-white' };
       const entryColors = { excellent: 'bg-green-500/20 text-green-400', good: 'bg-blue-500/20 text-blue-400', fair: 'bg-yellow-500/20 text-yellow-400', poor: 'bg-red-500/20 text-red-400' };
@@ -790,6 +855,80 @@
             <span class="font-semibold">Overall Investment Score</span>
             <span class="text-2xl font-bold text-blue-400">${avgScore.toFixed(1)}/10</span>
           </div>
+        </div>
+
+        <div class="bg-gray-800 rounded-lg p-4 mb-6">
+          <h3 class="font-semibold mb-3 flex items-center gap-2">📦 Purchase History</h3>
+          ${s.purchaseHistory && s.purchaseHistory.length > 0 ? `
+            <div class="overflow-x-auto">
+              <table class="w-full text-sm">
+                <thead>
+                  <tr class="border-b border-gray-700">
+                    <th class="text-left py-2 px-3 text-gray-400 font-medium">Date</th>
+                    <th class="text-left py-2 px-3 text-gray-400 font-medium">Price</th>
+                    <th class="text-left py-2 px-3 text-gray-400 font-medium">Quantity</th>
+                    <th class="text-left py-2 px-3 text-gray-400 font-medium">Seller</th>
+                    <th class="text-left py-2 px-3 text-gray-400 font-medium">Condition</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${s.purchaseHistory.map(purchase => `
+                    <tr class="border-b border-gray-700/50">
+                      <td class="py-2 px-3 text-gray-300">${purchase.date || '-'}</td>
+                      <td class="py-2 px-3 text-white font-medium">€${purchase.price ? purchase.price.toLocaleString('de-DE', {minimumFractionDigits: 2}) : '-'}</td>
+                      <td class="py-2 px-3 text-gray-300">${purchase.quantity || '-'}</td>
+                      <td class="py-2 px-3 text-gray-300">${purchase.seller || '-'}</td>
+                      <td class="py-2 px-3">
+                        <span class="px-2 py-1 rounded text-xs ${purchase.condition === 'New' ? 'bg-green-500/20 text-green-400' : 'bg-blue-500/20 text-blue-400'}">
+                          ${purchase.condition || '-'}
+                        </span>
+                      </td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+            </div>
+          ` : `
+            <p class="text-gray-400 text-sm">No purchase history recorded</p>
+          `}
+        </div>
+
+        <div class="bg-gray-800 rounded-lg p-4 mb-6">
+          <h3 class="font-semibold mb-3 flex items-center gap-2">💰 Sales History</h3>
+          ${s.sales && s.sales.length > 0 ? `
+            <div class="overflow-x-auto">
+              <table class="w-full text-sm">
+                <thead>
+                  <tr class="border-b border-gray-700">
+                    <th class="text-left py-2 px-3 text-gray-400 font-medium">Date</th>
+                    <th class="text-left py-2 px-3 text-gray-400 font-medium">Sale Price</th>
+                    <th class="text-left py-2 px-3 text-gray-400 font-medium">Quantity</th>
+                    <th class="text-left py-2 px-3 text-gray-400 font-medium">Buyer</th>
+                    <th class="text-left py-2 px-3 text-gray-400 font-medium">Realized Gain</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${s.sales.map(sale => {
+                    const realizedGain = sale.realizedGain || 0;
+                    const gainColor = realizedGain >= 0 ? 'text-green-400' : 'text-red-400';
+                    return `
+                      <tr class="border-b border-gray-700/50">
+                        <td class="py-2 px-3 text-gray-300">${sale.date || '-'}</td>
+                        <td class="py-2 px-3 text-white font-medium">€${sale.price ? sale.price.toLocaleString('de-DE', {minimumFractionDigits: 2}) : '-'}</td>
+                        <td class="py-2 px-3 text-gray-300">${sale.qty || '-'}</td>
+                        <td class="py-2 px-3 text-gray-300">${sale.buyer || '-'}</td>
+                        <td class="py-2 px-3 font-medium ${gainColor}">
+                          ${realizedGain >= 0 ? '+' : ''}€${realizedGain.toLocaleString('de-DE', {minimumFractionDigits: 2})}
+                        </td>
+                      </tr>
+                    `;
+                  }).join('')}
+                </tbody>
+              </table>
+            </div>
+          ` : `
+            <p class="text-gray-400 text-sm">No sales history recorded</p>
+          `}
         </div>
 
         ${s.purchaseDate ? `<div class="bg-gray-800 rounded-lg p-4 mb-4"><span class="text-gray-400">📅 Purchase Date:</span> <span class="text-white">${s.purchaseDate}</span></div>` : ''}
