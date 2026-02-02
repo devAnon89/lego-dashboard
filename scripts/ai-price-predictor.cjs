@@ -213,13 +213,17 @@ function loadDeepAnalysis() {
  */
 function loadPredictionsCache() {
   try {
-    return JSON.parse(fs.readFileSync(AI_PREDICTIONS_CACHE_FILE, 'utf-8'));
+    const cache = JSON.parse(fs.readFileSync(AI_PREDICTIONS_CACHE_FILE, 'utf-8'));
+    // Ensure predictions object exists
+    if (!cache.predictions) cache.predictions = {};
+    return cache;
   } catch {
     return {
       metadata: {
         lastUpdated: null,
         note: 'AI predictions cache with TTL-based expiration'
-      }
+      },
+      predictions: {}
     };
   }
 }
@@ -286,7 +290,9 @@ function isCacheValid(cachedPrediction, isVolatile) {
  * @returns {Object|null} Cached prediction or null if expired/missing
  */
 function getCachedPrediction(setId, cache, priceAnalysis) {
-  const cached = cache[setId];
+  // Ensure predictions object exists
+  if (!cache.predictions) cache.predictions = {};
+  const cached = cache.predictions[setId];
   if (!cached) {
     return null;
   }
@@ -317,7 +323,9 @@ function cachePrediction(setId, prediction, cache, isVolatile) {
     ttlHours: isVolatile ? 12 : 24
   };
 
-  cache[setId] = cachedPrediction;
+  // Ensure predictions object exists
+  if (!cache.predictions) cache.predictions = {};
+  cache.predictions[setId] = cachedPrediction;
   return cachedPrediction;
 }
 
