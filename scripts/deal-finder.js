@@ -6,6 +6,33 @@
  * Run: node deal-finder.js [--dry-run] [--set 10316-1]
  */
 
+/**
+ * CURRENT IMPLEMENTATION STATUS:
+ *
+ * ✅ Implemented:
+ * - Watchlist data structure
+ * - BrickLink URL generation with filters (condition, location, rating)
+ * - Price comparison against target prices
+ * - Deal scoring algorithm (discount, seller rating, condition)
+ * - Duplicate detection
+ * - Deal status tracking
+ *
+ * ⚠️  MVP Limitation - Mock Data:
+ * This version generates mock deals with placeholder seller data for testing.
+ * BrickLink URLs are correctly generated for manual browsing.
+ *
+ * 🔄 Future Enhancement - Real Scraping:
+ * To implement actual marketplace scraping:
+ * 1. Add Puppeteer/Playwright for browser automation
+ * 2. Fetch and parse BrickLink HTML listings
+ * 3. Handle rate limiting (delays, backoff)
+ * 4. Handle CAPTCHAs and anti-bot measures
+ * 5. Parse seller ratings, locations, conditions from HTML
+ * 6. Add error handling for network failures
+ *
+ * For now, users can click generated BrickLink URLs to manually browse listings.
+ */
+
 const fs = require('fs');
 const path = require('path');
 

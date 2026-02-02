@@ -97,6 +97,17 @@
   </div>
 
   <script>
+    // HTML escaping function to prevent XSS attacks
+    function escapeHtml(unsafe) {
+      if (!unsafe) return '';
+      return String(unsafe)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
     // Data store
     let deals = [];
     let filteredDeals = [];
@@ -175,8 +186,8 @@
           <div class="flex items-center gap-3 flex-1">
             <div class="text-2xl font-bold text-gray-600">#${i + 1}</div>
             <div class="flex-1">
-              <div class="font-medium text-white">${deal.setNumber} - ${deal.setName}</div>
-              <div class="text-sm text-gray-400">${deal.condition} • ${deal.marketplace === 'bricklink' ? '🟠 BrickLink' : '🔵 eBay'}</div>
+              <div class="font-medium text-white">${escapeHtml(deal.setNumber)} - ${escapeHtml(deal.setName)}</div>
+              <div class="text-sm text-gray-400">${escapeHtml(deal.condition)} • ${deal.marketplace === 'bricklink' ? '🟠 BrickLink' : '🔵 eBay'}</div>
             </div>
           </div>
           <div class="text-right">
@@ -243,10 +254,10 @@
               <div class="flex-1">
                 <div class="flex items-start justify-between mb-2">
                   <div>
-                    <h3 class="text-lg font-semibold text-white">${deal.setNumber} - ${deal.setName}</h3>
+                    <h3 class="text-lg font-semibold text-white">${escapeHtml(deal.setNumber)} - ${escapeHtml(deal.setName)}</h3>
                     <div class="flex items-center gap-2 mt-1">
                       <span class="${marketplaceClass} px-2 py-1 rounded text-xs font-medium">${marketplaceIcon} ${marketplaceName}</span>
-                      <span class="bg-gray-700 px-2 py-1 rounded text-xs">${deal.condition}</span>
+                      <span class="bg-gray-700 px-2 py-1 rounded text-xs">${escapeHtml(deal.condition)}</span>
                       ${deal.sellerRating ? `<span class="text-yellow-400 text-xs">⭐ ${deal.sellerRating}</span>` : ''}
                     </div>
                   </div>
@@ -273,25 +284,25 @@
 
                 <!-- Seller Info -->
                 <div class="flex items-center gap-4 text-sm text-gray-400 mb-3">
-                  <span>👤 ${deal.sellerName}</span>
-                  ${deal.sellerLocation ? `<span>📍 ${deal.sellerLocation}</span>` : ''}
+                  <span>👤 ${escapeHtml(deal.sellerName)}</span>
+                  ${deal.sellerLocation ? `<span>📍 ${escapeHtml(deal.sellerLocation)}</span>` : ''}
                   ${deal.shippingCost ? `<span>📦 €${deal.shippingCost.toFixed(2)} shipping</span>` : '<span>📦 Free shipping</span>'}
                 </div>
 
                 <!-- Description -->
-                ${deal.description ? `<p class="text-sm text-gray-400 mb-3">${deal.description}</p>` : ''}
+                ${deal.description ? `<p class="text-sm text-gray-400 mb-3">${escapeHtml(deal.description)}</p>` : ''}
 
                 <!-- Action Buttons -->
                 <div class="flex flex-wrap gap-2">
-                  <a href="${deal.url}" target="_blank" rel="noopener noreferrer"
+                  <a href="${escapeHtml(deal.url)}" target="_blank" rel="noopener noreferrer"
                      class="flex-1 min-w-[120px] px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg text-center font-medium transition">
                     🔗 Open Listing
                   </a>
-                  <button onclick="markAsPurchased('${deal.id}')"
+                  <button onclick="markAsPurchased('${escapeHtml(deal.id)}')"
                           class="px-4 py-2 bg-green-600 hover:bg-green-700 rounded-lg font-medium transition whitespace-nowrap">
                     ✅ Mark Purchased
                   </button>
-                  <button onclick="archiveDeal('${deal.id}')"
+                  <button onclick="archiveDeal('${escapeHtml(deal.id)}')"
                           class="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg font-medium transition">
                     📥 Archive
                   </button>
