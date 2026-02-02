@@ -22,7 +22,9 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "chart.js": "^4.4.1"
+    "chart.js": "^4.4.1",
+    "openai": "^4.77.0",
+    "puppeteer": "^24.36.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.16.0",
