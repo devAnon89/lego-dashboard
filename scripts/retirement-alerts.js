@@ -307,3 +307,19 @@ if (alerts.length === 0) {
 }
 
 console.log(`\n✅ Alerts saved: ${alertsPath}`);
+
+// Copy files to public/data for web serving
+const publicDataDir = path.join(__dirname, '..', 'public', 'data');
+if (!fs.existsSync(publicDataDir)) {
+  fs.mkdirSync(publicDataDir, { recursive: true });
+}
+
+const publicAlertsPath = path.join(publicDataDir, 'retirement-alerts.json');
+const publicHistoryPath = path.join(publicDataDir, 'retirement-history.json');
+
+fs.copyFileSync(alertsPath, publicAlertsPath);
+fs.copyFileSync(historyPath, publicHistoryPath);
+
+console.log(`✅ Files copied to public/data/`);
+console.log(`   - retirement-alerts.json`);
+console.log(`   - retirement-history.json`);
