@@ -1,5 +1,5 @@
 {
-  "lastUpdate": "2026-02-02T01:05:10.045Z",
+  "lastUpdate": "2026-02-02T17:58:40.756Z",
   "snapshots": [
     {
       "timestamp": "2026-02-02T00:43:58.820Z",
@@ -341,6 +341,22 @@
           "timestamp": "2026-02-02T01:05:10.045Z"
         }
       ]
+    },
+    {
+      "timestamp": "2026-02-02T17:58:40.756Z",
+      "source": "eBay EU",
+      "data": [
+        {
+          "setId": "10316-1",
+          "name": "The Lord of the Rings Rivendell",
+          "url": "https://www.ebay.de/sch/i.html?_nkw=LEGO%2010316%20new%20sealed&LH_Complete=1&LH_Sold=1&_sop=13",
+          "domains": [],
+          "prices": [],
+          "listings": [],
+          "marketValue": null,
+          "timestamp": "2026-02-02T17:58:40.756Z"
+        }
+      ]
     }
   ],
   "config": {
@@ -352,5 +368,6 @@
       "ebay.nl"
     ],
     "searchTemplate": "LEGO {setNumber} new sealed"
-  }
+  },
+  "soldListings": {}
 }

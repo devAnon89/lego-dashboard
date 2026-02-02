@@ -7,8 +7,9 @@
  * 1. Load portfolio
  * 2. Run BrickEconomy scraper for all sets
  * 3. Run eBay scraper for all sets
- * 4. Generate daily portfolio snapshot
- * 5. Log comprehensive summary report
+ * 4. Run AI price prediction for all sets
+ * 5. Generate daily portfolio snapshot
+ * 6. Log comprehensive summary report
  *
  * Usage:
  *   node scripts/automated-scraper.js
@@ -16,13 +17,14 @@
  *   node scripts/automated-scraper.js --set 10316-1
  *   node scripts/automated-scraper.js --source brickeconomy
  *   node scripts/automated-scraper.js --source ebay --set 10316-1
+ *   node scripts/automated-scraper.js --source ai-prediction --set 10316-1
  *   node scripts/automated-scraper.js --help
  */
 
 const fs = require('fs');
 const path = require('path');
 const { spawn } = require('child_process');
-const logger = require('./logger');
+const logger = require('./logger.cjs');
 
 // Data file paths
 const DATA_DIR = path.join(__dirname, '..', 'data');
@@ -54,7 +56,7 @@ Options:
   --dry-run               Run in dry-run mode (no actual scraping)
   --set <setId>           Scrape only a specific set (e.g., 10316-1)
   --source <source>       Run only a specific scraper source
-                          Valid sources: brickeconomy, ebay
+                          Valid sources: brickeconomy, ebay, ai-prediction
 
 Examples:
   node scripts/automated-scraper.js
@@ -71,6 +73,9 @@ Examples:
 
   node scripts/automated-scraper.js --source ebay --set 10316-1
       Run only eBay scraper for set 10316-1
+
+  node scripts/automated-scraper.js --source ai-prediction --set 10316-1
+      Run only AI price prediction for set 10316-1
   `);
   process.exit(0);
 }
@@ -206,9 +211,9 @@ async function main() {
   }
 
   // Validate source filter
-  if (sourceFilter && !['brickeconomy', 'ebay'].includes(sourceFilter)) {
+  if (sourceFilter && !['brickeconomy', 'ebay', 'ai-prediction'].includes(sourceFilter)) {
     logger.error(`Invalid source: ${sourceFilter}`);
-    logger.error('Valid sources: brickeconomy, ebay');
+    logger.error('Valid sources: brickeconomy, ebay, ai-prediction');
     process.exit(1);
   }
 
@@ -239,6 +244,7 @@ async function main() {
       portfolio: { loaded: false, setsCount: 0 },
       brickeconomy: { success: false, skipped: true },
       ebay: { success: false, skipped: true },
+      aiPrediction: { success: false, skipped: true },
       snapshot: { success: false, skipped: true }
     };
 
@@ -271,6 +277,14 @@ async function main() {
       durationMs: 0
     },
     ebay: {
+      success: false,
+      output: '',
+      exitCode: null,
+      startTime: null,
+      endTime: null,
+      durationMs: 0
+    },
+    aiPrediction: {
       success: false,
       output: '',
       exitCode: null,
@@ -336,7 +350,7 @@ async function main() {
     const brickEconomyArgs = singleSet ? ['--set', singleSet] : ['--all'];
 
     const brickEconomyResult = await executeScript(
-      path.join(__dirname, 'scrape-brickeconomy.js'),
+      path.join(__dirname, 'scrape-brickeconomy.cjs'),
       brickEconomyArgs
     );
 
@@ -383,7 +397,7 @@ async function main() {
     const ebayArgs = singleSet ? ['--set', singleSet] : ['--all'];
 
     const ebayResult = await executeScript(
-      path.join(__dirname, 'ebay-scraper.js'),
+      path.join(__dirname, 'ebay-scraper.cjs'),
       ebayArgs
     );
 
@@ -409,12 +423,59 @@ async function main() {
     results.ebay.skipped = true;
   }
 
-  // Step 4: Generate daily snapshot
+  // Step 4: Run AI price prediction
+  const shouldRunAIPrediction = !sourceFilter || sourceFilter === 'ai-prediction';
+
+  if (shouldRunAIPrediction) {
+    logger.section('Step 4: Running AI Price Prediction');
+
+    if (singleSet) {
+      logger.info(`Generating AI predictions for set ${singleSet}...`);
+    } else {
+      logger.info(`Generating AI predictions for ${results.portfolio.setsCount} sets...`);
+    }
+
+    logger.info('Source: OpenAI GPT-4');
+
+    const aiPredictionStartTime = Date.now();
+    results.aiPrediction.startTime = new Date().toISOString();
+
+    // Build arguments for AI predictor
+    const aiPredictionArgs = singleSet ? ['--set', singleSet] : ['--all'];
+
+    const aiPredictionResult = await executeScript(
+      path.join(__dirname, 'ai-price-predictor.cjs'),
+      aiPredictionArgs
+    );
+
+    results.aiPrediction.endTime = new Date().toISOString();
+    results.aiPrediction.durationMs = Date.now() - aiPredictionStartTime;
+    results.aiPrediction.success = aiPredictionResult.success;
+    results.aiPrediction.exitCode = aiPredictionResult.exitCode;
+    results.aiPrediction.output = aiPredictionResult.output;
+
+    if (aiPredictionResult.success) {
+      logger.info(`${getStatusString(true)} AI price prediction completed`);
+      logger.info(`  Duration: ${(results.aiPrediction.durationMs / 1000).toFixed(2)}s`);
+    } else {
+      const errorMsg = `AI price prediction failed with exit code ${aiPredictionResult.exitCode}`;
+      logger.error(`${getStatusString(false)} ${errorMsg}`);
+      logger.debug('Output:', aiPredictionResult.output);
+      results.errors.push({ step: 'ai-prediction', message: errorMsg, exitCode: aiPredictionResult.exitCode });
+    }
+  } else {
+    logger.section('Step 4: AI Price Prediction - SKIPPED');
+    logger.info('Skipped due to source filter');
+    results.aiPrediction.success = true;
+    results.aiPrediction.skipped = true;
+  }
+
+  // Step 5: Generate daily snapshot
   // Only generate snapshot when running full pipeline (no filters)
   const shouldGenerateSnapshot = !sourceFilter && !singleSet;
 
   if (shouldGenerateSnapshot) {
-    logger.section('Step 4: Generating Daily Snapshot');
+    logger.section('Step 5: Generating Daily Snapshot');
     logger.info('Creating portfolio snapshot for historical tracking...');
     logger.info('This will aggregate all scraped data into a daily summary');
 
@@ -422,7 +483,7 @@ async function main() {
     results.snapshot.startTime = new Date().toISOString();
 
     const snapshotResult = await executeScript(
-      path.join(__dirname, 'daily-snapshot.js'),
+      path.join(__dirname, 'daily-snapshot.cjs'),
       []
     );
 
@@ -442,7 +503,7 @@ async function main() {
       results.errors.push({ step: 'snapshot', message: errorMsg, exitCode: snapshotResult.exitCode });
     }
   } else {
-    logger.section('Step 4: Daily Snapshot - SKIPPED');
+    logger.section('Step 5: Daily Snapshot - SKIPPED');
     logger.info('Skipped due to selective scraping mode');
     results.snapshot.success = true;
     results.snapshot.skipped = true;
@@ -457,11 +518,12 @@ async function main() {
   // Steps that were skipped are considered successful
   const overallSuccess = results.brickeconomy.success &&
                          results.ebay.success &&
+                         results.aiPrediction.success &&
                          results.snapshot.success;
 
   results.status = overallSuccess ? 'success' : 'failed';
 
-  // Step 5: Log comprehensive summary report
+  // Step 6: Log comprehensive summary report
   logger.section('Pipeline Summary Report');
   logger.info(`Run ID: ${runId}`);
   logger.info(`Started: ${new Date(results.startTime).toLocaleString()}`);
@@ -473,6 +535,7 @@ async function main() {
   logger.info(`  Portfolio:     ${getStatusString(results.portfolio.loaded)} (${results.portfolio.setsCount} sets)`);
   logger.info(`  BrickEconomy:  ${getStatusString(results.brickeconomy.success)} (${(results.brickeconomy.durationMs / 1000).toFixed(2)}s)`);
   logger.info(`  eBay:          ${getStatusString(results.ebay.success)} (${(results.ebay.durationMs / 1000).toFixed(2)}s)`);
+  logger.info(`  AI Prediction: ${getStatusString(results.aiPrediction.success)} (${(results.aiPrediction.durationMs / 1000).toFixed(2)}s)`);
   logger.info(`  Snapshot:      ${getStatusString(results.snapshot.success)} (${(results.snapshot.durationMs / 1000).toFixed(2)}s)`);
 
   if (results.errors.length > 0) {

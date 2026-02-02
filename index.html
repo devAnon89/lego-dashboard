@@ -150,6 +150,129 @@
       </div>
     </div>
 
+    <!-- AI Market Analysis Section -->
+    <div class="card rounded-xl p-4 mb-8" id="aiPredictionSection">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-lg font-semibold flex items-center gap-2">
+          🤖 AI Market Analysis
+        </h3>
+        <div class="flex items-center gap-2">
+          <span
+            id="aiConfidenceBadge"
+            class="px-3 py-1 rounded-full text-xs font-medium bg-gray-700/50 text-gray-400"
+          >
+            No AI Data
+          </span>
+          <span
+            class="prediction-badge px-3 py-1 rounded-full text-xs font-medium"
+            >OpenAI Powered</span
+          >
+        </div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- AI Prediction Summary -->
+        <div
+          class="bg-gradient-to-br from-cyan-900/30 to-blue-900/30 rounded-xl p-4 border border-cyan-500/20"
+        >
+          <div class="flex items-center gap-2 mb-3">
+            <span class="text-cyan-400">🎯</span>
+            <span class="text-sm font-medium text-cyan-300"
+              >AI Prediction Summary</span
+            >
+          </div>
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-sm text-gray-400">Sets Analyzed</span>
+              <span class="font-bold text-white" id="aiSetsAnalyzed">-</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-sm text-gray-400">Avg Confidence</span>
+              <span id="aiAvgConfidence" class="font-bold text-cyan-400">-</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-sm text-gray-400">Data Source</span>
+              <span class="font-medium text-gray-300" id="aiDataSource">-</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-sm text-gray-400">Last Updated</span>
+              <span class="text-xs text-gray-400" id="aiLastUpdated">-</span>
+            </div>
+          </div>
+        </div>
+        <!-- AI Confidence Breakdown -->
+        <div
+          class="bg-gradient-to-br from-blue-900/30 to-indigo-900/30 rounded-xl p-4 border border-blue-500/20"
+        >
+          <div class="flex items-center gap-2 mb-3">
+            <span class="text-blue-400">📊</span>
+            <span class="text-sm font-medium text-blue-300"
+              >Confidence Breakdown</span
+            >
+          </div>
+          <div class="space-y-3">
+            <div>
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-xs text-green-400 flex items-center gap-1">
+                  <span class="w-2 h-2 rounded-full bg-green-500"></span>
+                  High Confidence
+                </span>
+                <span class="text-xs font-bold text-white" id="aiHighCount">0</span>
+              </div>
+              <div class="bg-gray-700 rounded-full h-1.5 overflow-hidden">
+                <div
+                  id="aiHighBar"
+                  class="bg-green-500 h-full rounded-full transition-all duration-500"
+                  style="width: 0%"
+                ></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-xs text-yellow-400 flex items-center gap-1">
+                  <span class="w-2 h-2 rounded-full bg-yellow-500"></span>
+                  Medium Confidence
+                </span>
+                <span class="text-xs font-bold text-white" id="aiMediumCount">0</span>
+              </div>
+              <div class="bg-gray-700 rounded-full h-1.5 overflow-hidden">
+                <div
+                  id="aiMediumBar"
+                  class="bg-yellow-500 h-full rounded-full transition-all duration-500"
+                  style="width: 0%"
+                ></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-xs text-red-400 flex items-center gap-1">
+                  <span class="w-2 h-2 rounded-full bg-red-500"></span>
+                  Low Confidence
+                </span>
+                <span class="text-xs font-bold text-white" id="aiLowCount">0</span>
+              </div>
+              <div class="bg-gray-700 rounded-full h-1.5 overflow-hidden">
+                <div
+                  id="aiLowBar"
+                  class="bg-red-500 h-full rounded-full transition-all duration-500"
+                  style="width: 0%"
+                ></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- AI Reasoning Summary -->
+      <div class="mt-4 p-3 bg-cyan-500/10 border border-cyan-500/20 rounded-lg">
+        <div class="flex items-center gap-2 mb-2">
+          <span class="text-cyan-400">💡</span>
+          <span class="text-sm font-medium text-cyan-300">AI Reasoning Insights</span>
+        </div>
+        <p class="text-xs text-gray-300" id="aiReasoningSummary">
+          AI predictions analyze historical prices, similar sets performance, eBay sold listings, and market factors to estimate future values. Click on any set to see detailed AI reasoning.
+        </p>
+      </div>
+    </div>
+
     <!-- Top Projected Gains -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
       <div class="card rounded-xl p-4">
