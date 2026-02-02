@@ -12,6 +12,11 @@
 const fs = require('fs');
 const path = require('path');
 const puppeteer = require('puppeteer');
+const logger = require('./logger');
+
+// Configuration from environment
+const MAX_RETRIES = parseInt(process.env.MAX_RETRIES || '3', 10);
+const RETRY_DELAY = parseInt(process.env.RETRY_DELAY || '2000', 10);
 
 // Map of set IDs to BrickEconomy URLs
 const setUrls = {
@@ -138,18 +143,54 @@ function extractSetDataFromPage() {
 }
 
 /**
+ * Sleep utility for retry delays
+ */
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+/**
+ * Execute a function with retry logic and exponential backoff
+ */
+async function withRetry(fn, options = {}) {
+  const { maxRetries = MAX_RETRIES, retryDelay = RETRY_DELAY, context = '' } = options;
+
+  let lastError;
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      return await fn();
+    } catch (error) {
+      lastError = error;
+
+      if (attempt < maxRetries) {
+        const delay = retryDelay * Math.pow(2, attempt - 1); // Exponential backoff
+        logger.warn(`${context} failed (attempt ${attempt}/${maxRetries}), retrying in ${delay}ms`, error);
+        await sleep(delay);
+      } else {
+        logger.error(`${context} failed after ${maxRetries} attempts`, error);
+      }
+    }
+  }
+
+  throw lastError;
+}
+
+/**
  * Scrape a single BrickEconomy set page using Puppeteer
  */
 async function scrapeSet(setId, options = {}) {
   const { dryRun = false, headless = true } = options;
 
   if (!setUrls[setId]) {
-    throw new Error(`Unknown set ID: ${setId}`);
+    const error = new Error(`Unknown set ID: ${setId}. Please check the set ID and try again.`);
+    logger.error('Invalid set ID requested', { setId, availableCount: Object.keys(setUrls).length });
+    throw error;
   }
 
   const url = setUrls[setId];
 
   if (dryRun) {
+    logger.info(`Dry run mode: would scrape ${setId}`);
     return {
       setId,
       url,
@@ -158,30 +199,49 @@ async function scrapeSet(setId, options = {}) {
     };
   }
 
-  const browser = await puppeteer.launch({
-    headless,
-    args: ['--no-sandbox', '--disable-setuid-sandbox']
+  // Wrap the entire scraping operation in retry logic
+  return await withRetry(async () => {
+    const browser = await puppeteer.launch({
+      headless,
+      args: ['--no-sandbox', '--disable-setuid-sandbox']
+    });
+
+    try {
+      const page = await browser.newPage();
+      await page.setViewport({ width: 1920, height: 1080 });
+
+      logger.debug(`Navigating to ${url}`);
+      await page.goto(url, { waitUntil: 'networkidle2', timeout: 30000 });
+
+      // Execute extraction in browser context
+      const data = await page.evaluate(extractSetDataFromPage);
+
+      // Validate that we got some data
+      if (!data || (!data.priceHistory.length && !data.currentValue)) {
+        throw new Error('No price data found on page - page may have changed structure');
+      }
+
+      // Add metadata
+      data.setId = setId;
+      data.url = url;
+      data.scrapedAt = new Date().toISOString();
+
+      logger.info(`Successfully scraped ${setId}`, {
+        priceHistoryEntries: data.priceHistory.length,
+        currentValue: data.currentValue
+      });
+
+      return data;
+    } catch (error) {
+      throw new Error(`Failed to scrape ${setId}: ${error.message}`);
+    } finally {
+      await browser.close();
+    }
+  }, {
+    maxRetries: MAX_RETRIES,
+    retryDelay: RETRY_DELAY,
+    context: `Scraping ${setId}`
   });
-
-  try {
-    const page = await browser.newPage();
-    await page.setViewport({ width: 1920, height: 1080 });
-    await page.goto(url, { waitUntil: 'networkidle2', timeout: 30000 });
-
-    // Execute extraction in browser context
-    const data = await page.evaluate(extractSetDataFromPage);
-
-    // Add metadata
-    data.setId = setId;
-    data.url = url;
-    data.scrapedAt = new Date().toISOString();
-
-    return data;
-  } catch (error) {
-    throw new Error(`Failed to scrape ${setId}: ${error.message}`);
-  } finally {
-    await browser.close();
-  }
 }
 
 /**
@@ -234,36 +294,47 @@ async function main() {
   try {
     if (options.setId) {
       // Scrape single set
-      const result = await scrapeSet(options.setId, options);
+      try {
+        const result = await scrapeSet(options.setId, options);
 
-      if (options.dryRun) {
-        console.error('DRY RUN MODE');
-        console.error('Set:', result.setId);
-        console.error('URL:', result.url);
-        console.error('Status:', result.message);
-      } else {
-        // Output JSON result
-        console.error(`Successfully scraped ${result.setId}`);
-        console.error(`Price history entries: ${result.priceHistory.length}`);
-        console.error(`Current value: €${result.currentValue}`);
-        console.error(`Predictions: ${Object.keys(result.predictions).length}`);
+        if (options.dryRun) {
+          console.error('DRY RUN MODE');
+          console.error('Set:', result.setId);
+          console.error('URL:', result.url);
+          console.error('Status:', result.message);
+        } else {
+          // Output JSON result
+          console.error(`Successfully scraped ${result.setId}`);
+          console.error(`Price history entries: ${result.priceHistory.length}`);
+          console.error(`Current value: €${result.currentValue}`);
+          console.error(`Predictions: ${Object.keys(result.predictions).length}`);
 
-        // Save to data directory
-        const dataDir = path.join(__dirname, '..', 'data', 'brickeconomy');
-        if (!fs.existsSync(dataDir)) {
-          fs.mkdirSync(dataDir, { recursive: true });
+          // Save to data directory
+          const dataDir = path.join(__dirname, '..', 'data', 'brickeconomy');
+          if (!fs.existsSync(dataDir)) {
+            fs.mkdirSync(dataDir, { recursive: true });
+          }
+
+          const outputPath = path.join(dataDir, `${result.setId}.json`);
+          fs.writeFileSync(outputPath, JSON.stringify(result, null, 2));
+          console.error(`Data saved to: ${outputPath}`);
         }
 
-        const outputPath = path.join(dataDir, `${result.setId}.json`);
-        fs.writeFileSync(outputPath, JSON.stringify(result, null, 2));
-        console.error(`Data saved to: ${outputPath}`);
+        process.exit(0);
+      } catch (error) {
+        logger.error('Scraping failed', error);
+        console.error('Error:', error.message);
+        process.exit(1);
       }
-
-      process.exit(0);
     } else if (options.all) {
       // Scrape all sets
       const setIds = Object.keys(setUrls);
+      logger.info(`Starting bulk scrape of ${setIds.length} sets`);
       console.error(`Scraping ${setIds.length} sets...`);
+
+      let successCount = 0;
+      let failureCount = 0;
+      const failures = [];
 
       for (const setId of setIds) {
         try {
@@ -280,22 +351,39 @@ async function main() {
           } else {
             console.error(`✓ ${setId}: ${result.message}`);
           }
+          successCount++;
         } catch (error) {
           console.error(`✗ ${setId}: ${error.message}`);
+          failureCount++;
+          failures.push({ setId, error: error.message });
         }
       }
 
-      console.error('Done!');
-      process.exit(0);
+      logger.info('Bulk scrape completed', {
+        total: setIds.length,
+        success: successCount,
+        failures: failureCount
+      });
+
+      console.error('\nDone!');
+      console.error(`Success: ${successCount}, Failures: ${failureCount}`);
+
+      if (failures.length > 0) {
+        console.error('\nFailed sets:');
+        failures.forEach(f => console.error(`  - ${f.setId}: ${f.error}`));
+      }
+
+      process.exit(failureCount > 0 ? 1 : 0);
     }
   } catch (error) {
+    logger.error('Fatal error in main', error);
     console.error('Error:', error.message);
     process.exit(1);
   }
 }
 
 // Export for use as module
-module.exports = { extractSetDataFromPage, scrapeSet, setUrls };
+module.exports = { extractSetDataFromPage, scrapeSet, setUrls, withRetry, sleep };
 
 // Run if executed directly
 if (require.main === module) {
