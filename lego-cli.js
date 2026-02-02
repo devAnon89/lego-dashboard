@@ -10,6 +10,7 @@ const path = require('path');
 const DATA_DIR = path.join(__dirname, 'data');
 const PORTFOLIO_FILE = path.join(DATA_DIR, 'portfolio.json');
 const ANALYSIS_FILE = path.join(DATA_DIR, 'deep-analysis.json');
+const WATCHLIST_FILE = path.join(DATA_DIR, 'watchlist.json');
 
 // Load data
 function loadPortfolio() {
@@ -21,6 +22,14 @@ function loadAnalysis() {
     return JSON.parse(fs.readFileSync(ANALYSIS_FILE, 'utf8'));
   } catch {
     return {};
+  }
+}
+
+function loadWatchlist() {
+  try {
+    return JSON.parse(fs.readFileSync(WATCHLIST_FILE, 'utf8'));
+  } catch {
+    return { metadata: {}, sets: [] };
   }
 }
 
@@ -161,18 +170,93 @@ const commands = {
   refresh: async () => {
     console.log('🔄 Running AI analysis...');
     const { execSync } = require('child_process');
-    execSync('node deep-analysis.js', { 
-      cwd: __dirname, 
+    execSync('node deep-analysis.js', {
+      cwd: __dirname,
       stdio: 'inherit',
       env: { ...process.env }
     });
   },
 
+  deals: async () => {
+    console.log('🔍 Scanning for marketplace deals...');
+    const { execSync } = require('child_process');
+    execSync('node scripts/deal-finder.js', {
+      cwd: __dirname,
+      stdio: 'inherit',
+      env: { ...process.env }
+    });
+  },
+
+  watchlist: () => {
+    const watchlist = loadWatchlist();
+
+    if (!watchlist.sets || watchlist.sets.length === 0) {
+      console.log('\n👀 WATCHLIST');
+      console.log('═'.repeat(50));
+      console.log('No sets on watchlist');
+      console.log('═'.repeat(50));
+      return;
+    }
+
+    console.log('\n👀 WATCHLIST');
+    console.log('═'.repeat(60));
+    console.log(`Watching ${watchlist.sets.length} sets for deals`);
+    console.log('─'.repeat(60));
+
+    watchlist.sets.forEach((set, i) => {
+      if (i > 0) console.log('─'.repeat(60));
+      console.log(`\n🧱 ${set.name} (${set.setNumber})`);
+      console.log(`Theme: ${set.theme}`);
+      console.log(`🎯 Target: €${set.target_price} | Max: €${set.max_price}`);
+      console.log(`Condition: ${set.preferred_condition}`);
+      console.log(`Locations: ${set.location_filters.join(', ')}`);
+      console.log(`Min Rating: ${set.min_seller_rating}%`);
+    });
+
+    console.log('\n' + '═'.repeat(60));
+  },
+
   serve: () => {
     const http = require('http');
     const PORT = process.env.PORT || 3456;
-    
+    const DEALS_FILE = path.join(DATA_DIR, 'deals-found.json');
+
     const server = http.createServer((req, res) => {
+      // API endpoint for deals
+      if (req.url === '/api/deals') {
+        try {
+          const dealsData = JSON.parse(fs.readFileSync(DEALS_FILE, 'utf8'));
+          // Transform deals to match the expected format for the UI
+          const deals = dealsData.deals.map((deal, index) => ({
+            id: `${deal.setId}-${index}`,
+            setNumber: deal.setId,
+            setName: deal.name,
+            marketplace: deal.source.toLowerCase(),
+            condition: deal.condition,
+            price: deal.price,
+            marketPrice: deal.targetPrice,
+            discount: deal.discount,
+            sellerName: deal.seller,
+            sellerRating: deal.sellerRating,
+            sellerLocation: deal.location,
+            shippingCost: 0,
+            url: deal.listingUrl,
+            description: `Found at ${deal.price}€ - ${deal.discount}% below target price`,
+            listedDate: deal.foundAt
+          }));
+
+          res.writeHead(200, {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
+          });
+          res.end(JSON.stringify(deals));
+        } catch (err) {
+          res.writeHead(500, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: 'Failed to load deals' }));
+        }
+        return;
+      }
+
       let filePath;
       if (req.url === '/' || req.url === '/index.html') {
         filePath = path.join(__dirname, 'public', 'index.html');
@@ -181,7 +265,7 @@ const commands = {
       } else {
         filePath = path.join(__dirname, 'public', req.url);
       }
-      
+
       const ext = path.extname(filePath);
       const contentTypes = {
         '.html': 'text/html',
@@ -189,21 +273,21 @@ const commands = {
         '.css': 'text/css',
         '.json': 'application/json'
       };
-      
+
       fs.readFile(filePath, (err, data) => {
         if (err) {
           res.writeHead(404);
           res.end('Not found');
           return;
         }
-        res.writeHead(200, { 
+        res.writeHead(200, {
           'Content-Type': contentTypes[ext] || 'text/plain',
           'Access-Control-Allow-Origin': '*'
         });
         res.end(data);
       });
     });
-    
+
     server.listen(PORT, () => {
       console.log(`🧱 LEGO Dashboard running at http://localhost:${PORT}`);
     });
@@ -219,6 +303,8 @@ Commands:
   recommendations   AI-powered buy/sell/hold advice
   themes            Portfolio breakdown by theme
   refresh           Re-run AI analysis on all sets
+  deals             Scan marketplaces for watchlist deals
+  watchlist         View watchlist with target prices
   serve             Start dashboard web server
   help              Show this help
 
@@ -226,6 +312,8 @@ Examples:
   node lego-cli.js status
   node lego-cli.js analyze 75192
   node lego-cli.js recommendations
+  node lego-cli.js deals
+  node lego-cli.js watchlist
     `);
   }
 };
