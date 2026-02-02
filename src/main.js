@@ -217,25 +217,25 @@ function renderDashboard() {
   document.getElementById('avgScore').textContent = avgScore.toFixed(1);
 
   // Calculate portfolio projections
-  // Note: currentTotal must be calculated the same way (value * qty) for consistent comparison
-  let currentTotal = 0;
+  // Note: s.value already includes quantity (it's the total value for that line item)
+  // AI predictions also predict total value (not per-unit), so no qty multiplication needed
   let projected1yr = 0;
   let projected5yr = 0;
   sets.forEach((s) => {
-    const qty = (s.qty_new || 0) + (s.qty_used || 0);
-    currentTotal += s.value * qty;
     const pred = s.predictions;
     if (pred && pred['1yr']) {
-      projected1yr += (pred['1yr'].value || s.value) * qty;
+      projected1yr += pred['1yr'].value || s.value;
     } else {
-      projected1yr += s.value * qty * 1.15; // Default 15% growth estimate
+      projected1yr += s.value * 1.15; // Default 15% growth estimate
     }
     if (pred && pred['5yr']) {
-      projected5yr += (pred['5yr'].value || s.value) * qty;
+      projected5yr += pred['5yr'].value || s.value;
     } else {
-      projected5yr += s.value * qty * 1.8; // Default 80% growth estimate over 5yr
+      projected5yr += s.value * 1.8; // Default 80% growth estimate over 5yr
     }
   });
+
+  const currentTotal = portfolio.summary.total_current;
   const growth1yr = ((projected1yr - currentTotal) / currentTotal) * 100;
   const growth5yr = ((projected5yr - currentTotal) / currentTotal) * 100;
 
