@@ -9,6 +9,7 @@ window.Chart = Chart;
 let portfolio = null;
 let analysis = null;
 let priceHistory = null;
+let aiPredictions = null;
 let currentTab = 'all';
 let currentFilter = '';
 let historyChart = null;
@@ -62,11 +63,48 @@ async function loadData() {
     } catch (e) {
       priceHistory = null;
     }
+    try {
+      aiPredictions = await fetch('data/ai-predictions-cache.json').then((r) =>
+        r.json()
+      );
+    } catch (e) {
+      aiPredictions = null;
+    }
     renderDashboard();
   } catch (e) {
     document.getElementById('setsGrid').innerHTML =
       '<div class="text-red-400">Failed to load portfolio data</div>';
   }
+}
+
+// Get AI prediction for a set, merging with BrickEconomy predictions
+function getSetPredictions(setId, analysisData) {
+  const brickEconomyPredictions = analysisData.predictions || {};
+
+  // Check for AI predictions cache
+  if (aiPredictions && aiPredictions.predictions && aiPredictions.predictions[setId]) {
+    const aiCache = aiPredictions.predictions[setId];
+    const aiPred = aiCache.prediction || {};
+
+    // Merge AI predictions with BrickEconomy, AI takes priority when available
+    return {
+      ...brickEconomyPredictions,
+      '1yr': aiPred['1yr'] || brickEconomyPredictions['1yr'],
+      '5yr': aiPred['5yr'] || brickEconomyPredictions['5yr'],
+      growth1yr: aiPred['1yr']
+        ? ((aiPred['1yr'].value - (analysisData.currentValue || 0)) / (analysisData.currentValue || 1)) * 100
+        : brickEconomyPredictions.growth1yr,
+      growth5yr: aiPred['5yr']
+        ? ((aiPred['5yr'].value - (analysisData.currentValue || 0)) / (analysisData.currentValue || 1)) * 100
+        : brickEconomyPredictions.growth5yr,
+      aiConfidence: aiPred.confidence || null,
+      aiReasoning: aiPred.reasoning || null,
+      aiSource: aiCache.modelVersion ? `OpenAI ${aiCache.modelVersion}` : 'AI Prediction',
+      aiCachedAt: aiCache.cachedAt || null,
+    };
+  }
+
+  return brickEconomyPredictions;
 }
 
 function renderDashboard() {
@@ -81,7 +119,8 @@ function renderDashboard() {
         (a.appeal || 0) +
         (a.liquidity || 0)) /
       4;
-    const predictions = a.predictions || {};
+    // Merge AI predictions with existing predictions
+    const predictions = getSetPredictions(id, { ...a, currentValue: data.value });
     return { id, ...data, analysis: a, avgScore, predictions };
   });
 
@@ -413,7 +452,8 @@ function filterSets() {
         (a.appeal || 0) +
         (a.liquidity || 0)) /
       4;
-    const predictions = a.predictions || {};
+    // Merge AI predictions with existing predictions
+    const predictions = getSetPredictions(id, { ...a, currentValue: data.value });
     return { id, ...data, analysis: a, avgScore, predictions };
   });
 
@@ -527,7 +567,8 @@ function showDetail(id) {
       (s.analysis.appeal || 0) +
       (s.analysis.liquidity || 0)) /
     4;
-  const predictions = s.analysis.predictions || {};
+  // Merge AI predictions with existing predictions
+  const predictions = getSetPredictions(id, { ...s.analysis, currentValue: s.value });
 
   const actionColors = {
     BUY: 'bg-green-500 text-white',
