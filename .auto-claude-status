@@ -1,0 +1,25 @@
+{
+  "active": true,
+  "spec": "004-responsive-mobile-design",
+  "state": "building",
+  "subtasks": {
+    "completed": 3,
+    "total": 8,
+    "in_progress": 1,
+    "failed": 0
+  },
+  "phase": {
+    "current": "Mobile Responsive Implementation",
+    "id": null,
+    "total": 7
+  },
+  "workers": {
+    "active": 0,
+    "max": 1
+  },
+  "session": {
+    "number": 5,
+    "started_at": "2026-02-02T00:11:35.786887"
+  },
+  "last_update": "2026-02-02T00:29:34.027466"
+}

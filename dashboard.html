@@ -131,6 +131,57 @@
         }
       }
     }
+
+    /* Mobile Tabs with horizontal scroll */
+    .tabs-container {
+      overflow-x: auto;
+      overflow-y: hidden;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255,255,255,0.2) transparent;
+    }
+
+    .tabs-container::-webkit-scrollbar {
+      height: 3px;
+    }
+
+    .tabs-container::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .tabs-container::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,0.2);
+      border-radius: 2px;
+    }
+
+    @media (max-width: 768px) {
+      .tabs-container {
+        margin-left: -1rem;
+        margin-right: -1rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+
+      .tabs-wrapper {
+        display: inline-flex;
+        min-width: 100%;
+      }
+
+      .tabs-wrapper button {
+        flex-shrink: 0;
+        min-width: fit-content;
+        padding: 0.75rem 1.25rem; /* min 44px touch target */
+        font-size: 0.875rem;
+        white-space: nowrap;
+      }
+    }
+
+    @media (min-width: 769px) {
+      .tabs-wrapper {
+        display: flex;
+        width: 100%;
+      }
+    }
   </style>
 </head>
 <body class="min-h-screen text-white p-4 md:p-8">
@@ -333,11 +384,13 @@
   </div>
 
   <!-- Tabs -->
-  <div class="flex gap-6 border-b border-gray-700 mb-6">
-    <button class="pb-2 tab-active" data-tab="all" onclick="switchTab('all')">All Sets</button>
-    <button class="pb-2 text-gray-400 hover:text-white" data-tab="buy" onclick="switchTab('buy')">Buy</button>
-    <button class="pb-2 text-gray-400 hover:text-white" data-tab="hold" onclick="switchTab('hold')">Hold</button>
-    <button class="pb-2 text-gray-400 hover:text-white" data-tab="sell" onclick="switchTab('sell')">Sell</button>
+  <div class="tabs-container border-b border-gray-700 mb-6">
+    <div class="tabs-wrapper gap-6">
+      <button class="pb-2 tab-active" data-tab="all" onclick="switchTab('all')">All Sets</button>
+      <button class="pb-2 text-gray-400 hover:text-white" data-tab="buy" onclick="switchTab('buy')">Buy</button>
+      <button class="pb-2 text-gray-400 hover:text-white" data-tab="hold" onclick="switchTab('hold')">Hold</button>
+      <button class="pb-2 text-gray-400 hover:text-white" data-tab="sell" onclick="switchTab('sell')">Sell</button>
+    </div>
   </div>
 
   <!-- Search & Filter -->
