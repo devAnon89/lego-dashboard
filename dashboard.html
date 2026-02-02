@@ -484,6 +484,103 @@
       renderHistoryChart();
     }
 
+    // Theme aggregation functions
+    function aggregateByTheme(sets) {
+      const themeData = {};
+
+      sets.forEach(set => {
+        const theme = set.theme || 'Unknown';
+        if (!themeData[theme]) {
+          themeData[theme] = {
+            theme: theme,
+            totalValue: 0,
+            totalPaid: 0,
+            totalGain: 0,
+            totalUnits: 0,
+            setCount: 0,
+            sets: []
+          };
+        }
+
+        const qty = (set.qty_new || 0) + (set.qty_used || 0);
+        const value = set.current_value || 0;
+        const paid = set.price_paid || 0;
+
+        themeData[theme].totalValue += value;
+        themeData[theme].totalPaid += paid;
+        themeData[theme].totalGain += (value - paid);
+        themeData[theme].totalUnits += qty;
+        themeData[theme].setCount += 1;
+        themeData[theme].sets.push(set);
+      });
+
+      // Calculate percentages and ROI for each theme
+      Object.values(themeData).forEach(theme => {
+        theme.gainPct = theme.totalPaid > 0 ? ((theme.totalGain / theme.totalPaid) * 100) : 0;
+        theme.avgScore = theme.sets.reduce((sum, s) => sum + (s.avgScore || 0), 0) / theme.sets.length;
+      });
+
+      return themeData;
+    }
+
+    function calculateThemeAllocation(themeData, totalValue) {
+      const allocation = {};
+
+      Object.entries(themeData).forEach(([theme, data]) => {
+        allocation[theme] = {
+          ...data,
+          allocationPct: totalValue > 0 ? (data.totalValue / totalValue) * 100 : 0
+        };
+      });
+
+      return allocation;
+    }
+
+    function getTopThemesByMetric(themeData, metric, limit = 5) {
+      return Object.values(themeData)
+        .sort((a, b) => b[metric] - a[metric])
+        .slice(0, limit);
+    }
+
+    function getThemeHistoricalPerformance(theme) {
+      if (!priceHistory) return null;
+
+      const monthlyData = {};
+
+      // Get all unique dates
+      const allDates = new Set();
+      Object.values(priceHistory.sets).forEach(set => {
+        if (set.priceHistory) {
+          set.priceHistory.forEach(p => allDates.add(p.date.substring(0, 7)));
+        }
+      });
+
+      const sortedDates = Array.from(allDates).sort();
+
+      sortedDates.forEach(month => {
+        let totalValue = 0;
+        Object.entries(portfolio.sets).forEach(([setId, setData]) => {
+          if (setData.theme === theme) {
+            const qty = (setData.qty_new || 0) + (setData.qty_used || 0);
+            const historySet = priceHistory.sets[setId];
+            if (historySet && historySet.priceHistory) {
+              const monthData = historySet.priceHistory.find(p => p.date.startsWith(month));
+              if (monthData) {
+                totalValue += monthData.newValue * qty;
+              } else {
+                totalValue += setData.current_value || 0;
+              }
+            } else {
+              totalValue += setData.current_value || 0;
+            }
+          }
+        });
+        monthlyData[month] = totalValue;
+      });
+
+      return monthlyData;
+    }
+
     function renderProjectedPerformers(containerId, sets, isTop) {
       const container = document.getElementById(containerId);
       container.innerHTML = sets.map((s, i) => {
