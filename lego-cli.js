@@ -10,6 +10,7 @@ const path = require('path');
 const DATA_DIR = path.join(__dirname, 'data');
 const PORTFOLIO_FILE = path.join(DATA_DIR, 'portfolio.json');
 const ANALYSIS_FILE = path.join(DATA_DIR, 'deep-analysis.json');
+const PURCHASES_FILE = path.join(DATA_DIR, 'purchases.json');
 
 // Load data
 function loadPortfolio() {
@@ -22,6 +23,30 @@ function loadAnalysis() {
   } catch {
     return {};
   }
+}
+
+function loadPurchases() {
+  try {
+    return JSON.parse(fs.readFileSync(PURCHASES_FILE, 'utf8'));
+  } catch {
+    return { purchases: [] };
+  }
+}
+
+function savePurchases(data) {
+  fs.writeFileSync(PURCHASES_FILE, JSON.stringify(data, null, 2));
+}
+
+function parseFlags(args) {
+  const flags = {};
+  for (let i = 0; i < args.length; i++) {
+    if (args[i].startsWith('--')) {
+      const key = args[i].substring(2);
+      flags[key] = args[i + 1];
+      i++;
+    }
+  }
+  return flags;
 }
 
 // Commands
@@ -140,7 +165,7 @@ const commands = {
   themes: () => {
     const portfolio = loadPortfolio();
     const themes = {};
-    
+
     Object.values(portfolio.sets).forEach(s => {
       const theme = s.theme || 'Unknown';
       if (!themes[theme]) themes[theme] = { count: 0, value: 0 };
@@ -148,14 +173,58 @@ const commands = {
       themes[theme].count += qty;
       themes[theme].value += (s.value || 0) * qty;
     });
-    
+
     console.log('\n📊 PORTFOLIO BY THEME');
     console.log('═'.repeat(50));
-    
+
     const sorted = Object.entries(themes).sort((a, b) => b[1].value - a[1].value);
     sorted.forEach(([theme, data]) => {
       console.log(`${theme}: ${data.count} sets, €${data.value.toFixed(2)}`);
     });
+  },
+
+  'add-purchase': (setId, ...flagArgs) => {
+    if (!setId) {
+      console.log('Usage: lego add-purchase <set_id> --date YYYY-MM-DD --price <price> --qty <qty> --seller <seller> --condition <New|Used>');
+      return;
+    }
+
+    const flags = parseFlags(flagArgs);
+
+    // Validate required fields
+    if (!flags.date || !flags.price || !flags.qty || !flags.seller || !flags.condition) {
+      console.log('❌ Missing required fields. All of --date, --price, --qty, --seller, --condition are required.');
+      return;
+    }
+
+    // Validate condition
+    if (flags.condition !== 'New' && flags.condition !== 'Used') {
+      console.log('❌ Condition must be either "New" or "Used"');
+      return;
+    }
+
+    // Load existing purchases
+    const data = loadPurchases();
+
+    // Create purchase record
+    const purchase = {
+      id: Date.now().toString(),
+      setId: setId,
+      date: flags.date,
+      price: parseFloat(flags.price),
+      qty: parseInt(flags.qty),
+      seller: flags.seller,
+      condition: flags.condition,
+      notes: flags.notes || ''
+    };
+
+    // Add to purchases array
+    data.purchases.push(purchase);
+
+    // Save
+    savePurchases(data);
+
+    console.log('✅ Purchase recorded successfully');
   },
 
   refresh: async () => {
@@ -218,6 +287,7 @@ Commands:
   analyze <set_id>  Deep analysis of a specific set
   recommendations   AI-powered buy/sell/hold advice
   themes            Portfolio breakdown by theme
+  add-purchase      Record a new purchase
   refresh           Re-run AI analysis on all sets
   serve             Start dashboard web server
   help              Show this help
@@ -226,6 +296,7 @@ Examples:
   node lego-cli.js status
   node lego-cli.js analyze 75192
   node lego-cli.js recommendations
+  node lego-cli.js add-purchase 10316-1 --date 2024-01-15 --price 414 --qty 1 --seller 'BrickLink' --condition 'New'
     `);
   }
 };
