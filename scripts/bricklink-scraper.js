@@ -73,28 +73,47 @@ function getBrickLinkSearchUrl(setId, options = {}) {
 function parseBrickLinkListings(pageContent) {
   const listings = [];
 
-  // BrickLink listing patterns to extract:
-  // - Price
-  // - Seller name
-  // - Seller rating
-  // - Condition (New/Used)
-  // - Location
-  // - Listing URL
+  // BrickLink typically structures listings in table rows or divs
+  // Split content into potential listing blocks
+  const listingBlocks = pageContent.split(/(?=<tr|<div[^>]*class="[^"]*listing)/i);
 
-  // Price patterns like "$123.45" or "€123,45" or "£123.45"
+  for (const block of listingBlocks) {
+    const listing = extractListingData(block);
+    if (listing && listing.price) {
+      listings.push(listing);
+    }
+  }
+
+  return listings;
+}
+
+/**
+ * Extract listing data from a single listing block
+ * @param {string} block - HTML block containing one listing
+ * @returns {object|null} Listing object or null if invalid
+ */
+function extractListingData(block) {
+  const listing = {
+    price: null,
+    currency: null,
+    seller: null,
+    rating: null,
+    condition: null,
+    location: null,
+    url: null,
+  };
+
+  // Extract price with currency
   const pricePatterns = [
-    /\$\s*([\d.,]+)/gi,
-    /€\s*([\d.,]+)/gi,
-    /£\s*([\d.,]+)/gi,
-    /USD\s*([\d.,]+)/gi,
-    /EUR\s*([\d.,]+)/gi,
-    /GBP\s*([\d.,]+)/gi,
+    { pattern: /US\s*\$\s*([\d.,]+)|USD\s*([\d.,]+)|\$\s*([\d.,]+)/i, currency: 'USD' },
+    { pattern: /€\s*([\d.,]+)|EUR\s*([\d.,]+)/i, currency: 'EUR' },
+    { pattern: /£\s*([\d.,]+)|GBP\s*([\d.,]+)/i, currency: 'GBP' },
   ];
 
-  for (const pattern of pricePatterns) {
-    let match;
-    while ((match = pattern.exec(pageContent)) !== null) {
-      let priceStr = match[1];
+  for (const { pattern, currency } of pricePatterns) {
+    const match = block.match(pattern);
+    if (match) {
+      let priceStr = match[1] || match[2] || match[3];
       // Handle European format (1.234,56 or 123,45)
       if (priceStr.includes(',')) {
         priceStr = priceStr.replace(/\./g, '').replace(',', '.');
@@ -104,21 +123,103 @@ function parseBrickLinkListings(pageContent) {
       }
       const price = parseFloat(priceStr);
       if (price > 5 && price < 50000) {  // Reasonable LEGO price range
-        listings.push({
-          price,
-          currency: match[0].substring(0, 3),
-          // Additional fields would be extracted from actual HTML parsing
-          seller: null,
-          rating: null,
-          condition: null,
-          location: null,
-          url: null,
-        });
+        listing.price = price;
+        listing.currency = currency;
+        break;
       }
     }
   }
 
-  return listings;
+  // Extract seller name
+  // BrickLink patterns: store links with names, store text
+  const sellerPatterns = [
+    /<a[^>]*href="[^"]*store\.asp[^"]*"[^>]*>([^<]+)<\/a>/i,
+    /<a[^>]*href="[^"]*v2\/catalog[^"]*"[^>]*>([^<]+)<\/a>/i,
+    /Store:\s*([^\n<]+)/i,
+    /seller[^>]*>([^<]+)</i,
+  ];
+
+  for (const pattern of sellerPatterns) {
+    const match = block.match(pattern);
+    if (match && match[1]) {
+      const seller = match[1].trim();
+      // Skip if it looks like a number (store ID)
+      if (!/^\d+$/.test(seller)) {
+        listing.seller = seller;
+        break;
+      }
+    }
+  }
+
+  // Extract seller rating
+  // Patterns: "98%", "Rating: 98", "(98.5%)"
+  const ratingPatterns = [
+    /(\d+(?:\.\d+)?)\s*%/,
+    /rating[:\s]+(\d+(?:\.\d+)?)/i,
+    /\((\d+(?:\.\d+)?)%?\)/,
+  ];
+
+  for (const pattern of ratingPatterns) {
+    const match = block.match(pattern);
+    if (match && match[1]) {
+      const rating = parseFloat(match[1]);
+      if (rating >= 0 && rating <= 100) {
+        listing.rating = rating;
+        break;
+      }
+    }
+  }
+
+  // Extract condition
+  // Patterns: "New", "Used", "N", "U"
+  if (/\b(New|N)\b/i.test(block) && !/Used/i.test(block)) {
+    listing.condition = 'New';
+  } else if (/\b(Used|U)\b/i.test(block)) {
+    listing.condition = 'Used';
+  }
+
+  // Extract location/country
+  // Patterns: "US", "DE", "UK", country names
+  const locationPatterns = [
+    /\b(US|DE|UK|FR|NL|IT|ES|CA|AU)\b/,
+    /country[:\s]+([A-Z]{2})/i,
+    /location[:\s]+([A-Z]{2})/i,
+  ];
+
+  for (const pattern of locationPatterns) {
+    const match = block.match(pattern);
+    if (match && match[1]) {
+      listing.location = match[1].toUpperCase();
+      break;
+    }
+  }
+
+  // Extract listing URL
+  // BrickLink listing URLs typically contain /store.asp or /v2/catalog
+  const urlPatterns = [
+    /href=["']([^"']*store\.asp[^"']*)["']/i,
+    /href=["']([^"']*v2\/catalog[^"']*)["']/i,
+    /href=["']([^"']*invNew\.asp[^"']*)["']/i,
+    /url[:\s]+["']([^"']+)["']/i,
+  ];
+
+  for (const pattern of urlPatterns) {
+    const match = block.match(pattern);
+    if (match && match[1]) {
+      let url = match[1];
+      // Make relative URLs absolute
+      if (url.startsWith('/')) {
+        url = 'https://www.bricklink.com' + url;
+      } else if (!url.startsWith('http')) {
+        url = 'https://www.bricklink.com/' + url;
+      }
+      listing.url = url;
+      break;
+    }
+  }
+
+  // Only return listing if it has at least a price
+  return listing.price ? listing : null;
 }
 
 /**
@@ -163,6 +264,68 @@ function savePriceHistory(history) {
 }
 
 /**
+ * Test the parsing function with sample HTML
+ */
+function testParsing() {
+  console.log('=== Testing BrickLink Listing Parser ===\n');
+
+  // Sample BrickLink HTML listing block
+  const sampleHtml = `
+    <tr>
+      <td>
+        <a href="/store.asp?sID=12345">BrickMaster Store</a>
+        Rating: 99.2%
+      </td>
+      <td>New</td>
+      <td>US $149.99</td>
+      <td>US</td>
+    </tr>
+    <tr>
+      <td>
+        <a href="/v2/catalog/catalogitem.page?S=10316#T=S&O=">LegoDeals123</a>
+        (98%)
+      </td>
+      <td>Used</td>
+      <td>€125,50</td>
+      <td>DE</td>
+    </tr>
+    <tr>
+      <td>Store: BrickBargains</td>
+      <td>N</td>
+      <td>£135.00</td>
+      <td>UK</td>
+      <td>Rating: 97</td>
+    </tr>
+  `;
+
+  const listings = parseBrickLinkListings(sampleHtml);
+
+  console.log(`Extracted ${listings.length} listings:\n`);
+  listings.forEach((listing, i) => {
+    console.log(`Listing ${i + 1}:`);
+    console.log(`  Price: ${listing.currency} ${listing.price}`);
+    console.log(`  Seller: ${listing.seller || 'N/A'}`);
+    console.log(`  Rating: ${listing.rating !== null ? listing.rating + '%' : 'N/A'}`);
+    console.log(`  Condition: ${listing.condition || 'N/A'}`);
+    console.log(`  Location: ${listing.location || 'N/A'}`);
+    console.log(`  URL: ${listing.url || 'N/A'}`);
+    console.log('');
+  });
+
+  // Verify all fields are extracted
+  const allFieldsExtracted = listings.every(l =>
+    l.price && l.currency && l.seller && l.rating !== null &&
+    l.condition && l.location
+  );
+
+  if (allFieldsExtracted) {
+    console.log('✓ All required fields extracted successfully!');
+  } else {
+    console.log('⚠ Warning: Some fields missing from extracted listings');
+  }
+}
+
+/**
  * Main scraper - outputs commands for browser automation
  */
 async function main() {
@@ -170,6 +333,13 @@ async function main() {
   const dryRun = args.includes('--dry-run');
   const singleSet = args.find((a, i) => args[i-1] === '--set');
   const testUrl = args.find((a, i) => args[i-1] === '--test-url');
+  const testParse = args.includes('--test-parse');
+
+  // Handle --test-parse flag for verification
+  if (testParse) {
+    testParsing();
+    return;
+  }
 
   // Handle --test-url flag for verification
   if (testUrl) {
@@ -230,6 +400,7 @@ async function main() {
 module.exports = {
   getBrickLinkSearchUrl,
   parseBrickLinkListings,
+  extractListingData,
   calculateMarketValue,
   loadPriceHistory,
   savePriceHistory,
