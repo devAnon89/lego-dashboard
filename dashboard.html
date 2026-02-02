@@ -253,6 +253,7 @@
     <button class="pb-2 text-gray-400 hover:text-white" data-tab="buy" onclick="switchTab('buy')">Buy</button>
     <button class="pb-2 text-gray-400 hover:text-white" data-tab="hold" onclick="switchTab('hold')">Hold</button>
     <button class="pb-2 text-gray-400 hover:text-white" data-tab="sell" onclick="switchTab('sell')">Sell</button>
+    <div id="themeFilterBadge" class="hidden ml-auto"></div>
   </div>
 
   <!-- Search & Filter -->
@@ -287,6 +288,7 @@
     let priceHistory = null;
     let currentTab = 'all';
     let currentFilter = '';
+    let currentThemeFilter = null;
     let historyChart = null;
     let themeHistoryChart = null;
 
@@ -751,6 +753,15 @@
         options: {
           responsive: true,
           maintainAspectRatio: false,
+          onClick: (event, activeElements) => {
+            if (activeElements.length > 0) {
+              const index = activeElements[0].index;
+              const theme = labels[index];
+              filterByTheme(theme);
+              // Scroll to sets grid
+              document.getElementById('setsGrid').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+          },
           plugins: {
             legend: {
               display: true,
@@ -770,6 +781,12 @@
                     index: i
                   }));
                 }
+              },
+              onClick: (event, legendItem, legend) => {
+                const theme = legend.chart.data.labels[legendItem.index];
+                filterByTheme(theme);
+                // Scroll to sets grid
+                document.getElementById('setsGrid').scrollIntoView({ behavior: 'smooth', block: 'start' });
               }
             },
             tooltip: {
@@ -900,7 +917,7 @@
         const benchmarkIcon = vsBenchmark > 0 ? '↑' : '↓';
 
         return `
-          <tr class="border-b border-gray-800 hover:bg-gray-800/50 transition">
+          <tr class="border-b border-gray-800 hover:bg-gray-800/50 transition cursor-pointer" onclick="filterByTheme('${theme.theme}'); document.getElementById('setsGrid').scrollIntoView({ behavior: 'smooth', block: 'start' });">
             <td class="py-3 px-2 font-medium">${theme.theme}</td>
             <td class="py-3 px-2 text-right text-gray-400">${theme.setCount}</td>
             <td class="py-3 px-2 text-right">€${theme.totalPaid.toFixed(0)}</td>
@@ -1059,9 +1076,36 @@
       switchTab(currentTab);
     }
 
+    function filterByTheme(theme) {
+      currentThemeFilter = theme;
+      updateThemeFilterDisplay();
+      filterSets();
+    }
+
+    function clearThemeFilter() {
+      currentThemeFilter = null;
+      updateThemeFilterDisplay();
+      filterSets();
+    }
+
+    function updateThemeFilterDisplay() {
+      const filterBadge = document.getElementById('themeFilterBadge');
+      if (currentThemeFilter) {
+        filterBadge.innerHTML = `
+          <div class="flex items-center gap-2 px-3 py-1 bg-blue-500/20 border border-blue-500/30 rounded-lg text-sm">
+            <span>🎨 ${currentThemeFilter}</span>
+            <button onclick="clearThemeFilter()" class="text-blue-400 hover:text-blue-300 font-bold">✕</button>
+          </div>
+        `;
+        filterBadge.classList.remove('hidden');
+      } else {
+        filterBadge.classList.add('hidden');
+      }
+    }
+
     function filterSets() {
       const search = document.getElementById('searchInput').value.toLowerCase();
-      const theme = document.getElementById('themeFilter').value;
+      const theme = currentThemeFilter || document.getElementById('themeFilter').value;
       const sortBy = document.getElementById('sortBy').value;
 
       let sets = Object.entries(portfolio.sets).map(([id, data]) => {
@@ -1081,9 +1125,9 @@
         sets = sets.filter(s => s.name.toLowerCase().includes(search) || s.theme.toLowerCase().includes(search));
       }
 
-      // Filter by theme
+      // Filter by theme (from drill-down or dropdown)
       if (theme) {
-        sets = sets.filter(s => s.theme.startsWith(theme));
+        sets = sets.filter(s => s.theme === theme || s.theme.startsWith(theme));
       }
 
       // Sort
