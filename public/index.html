@@ -856,6 +856,7 @@
           <div class="space-y-3">
             ${renderScoreBar('License Strength', s.analysis.license)}
             ${renderScoreBar('Retirement Risk', s.analysis.retirement)}
+            ${renderRetirementWindow(s.analysis.retirement)}
             ${renderScoreBar('Collector Appeal', s.analysis.appeal)}
             ${renderScoreBar('Market Liquidity', s.analysis.liquidity)}
           </div>
@@ -884,6 +885,44 @@
             <div class="${color} h-full rounded-full" style="width: ${pct}%"></div>
           </div>
           <span class="text-sm font-bold w-8">${value || 0}</span>
+        </div>
+      `;
+    }
+
+    function renderRetirementWindow(retirementScore) {
+      const score = retirementScore || 0;
+      let retirementWindow = 'Unknown';
+      let bgColor = 'bg-gray-700/30';
+      let textColor = 'text-gray-400';
+
+      if (score >= 9) {
+        retirementWindow = 'Q1-Q2 2026';
+        bgColor = 'bg-red-500/20';
+        textColor = 'text-red-400';
+      } else if (score >= 8) {
+        retirementWindow = 'H2 2026';
+        bgColor = 'bg-orange-500/20';
+        textColor = 'text-orange-400';
+      } else if (score >= 7) {
+        retirementWindow = 'Q1-Q2 2027';
+        bgColor = 'bg-yellow-500/20';
+        textColor = 'text-yellow-400';
+      } else if (score >= 5) {
+        retirementWindow = 'H2 2027 or later';
+        bgColor = 'bg-blue-500/20';
+        textColor = 'text-blue-400';
+      } else {
+        retirementWindow = 'Not retiring soon';
+        bgColor = 'bg-gray-700/30';
+        textColor = 'text-gray-400';
+      }
+
+      return `
+        <div class="flex items-center gap-3 pl-36 mb-1">
+          <div class="flex-1 ${bgColor} rounded-lg px-3 py-2 flex items-center justify-between">
+            <span class="text-xs ${textColor}">📅 Est. Retirement Window:</span>
+            <span class="text-sm font-semibold ${textColor}">${retirementWindow}</span>
+          </div>
         </div>
       `;
     }
