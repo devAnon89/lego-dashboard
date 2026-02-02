@@ -25,12 +25,12 @@ function transformPortfolio(data) {
     setsObj[id] = {
       name: set.name,
       theme: set.theme,
-      retail_price: set.retail,
-      price_paid: set.paid,
-      current_value: set.value,
+      retail: set.retail,
+      paid: set.paid,
+      value: set.value,
       qty_new: set.qtyNew,
       qty_used: set.qtyUsed,
-      growth: set.growth,
+      growth_pct: set.growth,
     };
   });
 
