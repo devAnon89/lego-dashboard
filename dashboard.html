@@ -137,6 +137,25 @@
     </div>
   </div>
 
+  <!-- Theme Performance History Chart -->
+  <div class="card rounded-xl p-4 mb-8">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-lg font-semibold flex items-center gap-2">📊 Theme Performance History</h3>
+      <div class="flex items-center gap-2">
+        <span class="text-xs text-gray-400">Top 5 themes by value over time</span>
+        <select id="themeHistoryRange" class="bg-gray-800 border border-gray-700 rounded px-2 py-1 text-sm" onchange="updateThemeHistoryChart()">
+          <option value="6">6 Months</option>
+          <option value="12" selected>1 Year</option>
+          <option value="24">2 Years</option>
+          <option value="all">All Time</option>
+        </select>
+      </div>
+    </div>
+    <div class="h-64">
+      <canvas id="themeHistoryChart"></canvas>
+    </div>
+  </div>
+
   <!-- Theme ROI Comparison Table -->
   <div class="card rounded-xl p-4 mb-8">
     <div class="flex items-center justify-between mb-4">
@@ -268,6 +287,7 @@
     let currentTab = 'all';
     let currentFilter = '';
     let historyChart = null;
+    let themeHistoryChart = null;
 
     // Transform new data format to expected format
     function transformPortfolio(data) {
@@ -427,6 +447,9 @@
       // Render theme allocation chart
       renderThemeChart();
 
+      // Render theme history chart
+      renderThemeHistoryChart();
+
       // Render theme ROI table
       renderThemeROITable();
 
@@ -531,6 +554,146 @@
 
     function updateHistoryChart() {
       renderHistoryChart();
+    }
+
+    function renderThemeHistoryChart() {
+      if (!priceHistory || !portfolio || !analysis) {
+        const chartElement = document.getElementById('themeHistoryChart');
+        if (chartElement) {
+          chartElement.parentElement.innerHTML = '<div class="text-gray-400 h-64 flex items-center justify-center">No price history data available</div>';
+        }
+        return;
+      }
+
+      const range = document.getElementById('themeHistoryRange').value;
+      const months = range === 'all' ? 999 : parseInt(range);
+
+      // Get all sets with their theme info
+      const sets = Object.entries(portfolio.sets).map(([id, data]) => {
+        const a = analysis[id] || {};
+        const avgScore = ((a.license || 0) + (a.retirement || 0) + (a.appeal || 0) + (a.liquidity || 0)) / 4;
+        const predictions = a.predictions || {};
+        return { id, ...data, analysis: a, avgScore, predictions };
+      });
+
+      // Aggregate by theme to get top 5 themes by current value
+      const themeData = aggregateByTheme(sets);
+      const topThemes = Object.entries(themeData)
+        .sort((a, b) => b[1].totalValue - a[1].totalValue)
+        .slice(0, 5)
+        .map(([theme]) => theme);
+
+      // Get all unique dates across all sets
+      const allDates = new Set();
+      Object.values(priceHistory.sets).forEach(set => {
+        if (set.priceHistory) {
+          set.priceHistory.forEach(p => allDates.add(p.date.substring(0, 7)));
+        }
+      });
+
+      const sortedDates = Array.from(allDates).sort();
+      const recentDates = sortedDates.slice(-months);
+
+      // Color palette for themes (using same colors as theme chart)
+      const colors = [
+        '#8b5cf6', '#3b82f6', '#06b6d4', '#10b981', '#84cc16',
+        '#eab308', '#f59e0b', '#ef4444', '#ec4899', '#a855f7'
+      ];
+
+      // Calculate historical value for each theme
+      const datasets = topThemes.map((theme, index) => {
+        const themeMonthlyData = {};
+        const themeSets = themeData[theme].sets;
+
+        recentDates.forEach(month => {
+          let totalValue = 0;
+          themeSets.forEach(set => {
+            const qty = (set.qty_new || 0) + (set.qty_used || 0);
+            const historySet = priceHistory.sets[set.id];
+            if (historySet && historySet.priceHistory) {
+              const monthData = historySet.priceHistory.find(p => p.date.startsWith(month));
+              if (monthData) {
+                totalValue += monthData.newValue * qty;
+              } else {
+                totalValue += set.value; // fallback to current value
+              }
+            } else {
+              totalValue += set.value; // fallback
+            }
+          });
+          themeMonthlyData[month] = totalValue;
+        });
+
+        return {
+          label: theme,
+          data: Object.values(themeMonthlyData),
+          borderColor: colors[index % colors.length],
+          backgroundColor: colors[index % colors.length] + '20',
+          fill: false,
+          tension: 0.4,
+          pointRadius: 2,
+          pointHoverRadius: 6
+        };
+      });
+
+      const labels = recentDates.map(d => {
+        const [y, m] = d.split('-');
+        return new Date(y, m-1).toLocaleDateString('en-US', { month: 'short', year: '2-digit' });
+      });
+
+      const ctx = document.getElementById('themeHistoryChart');
+      if (!ctx) return;
+
+      if (themeHistoryChart) themeHistoryChart.destroy();
+
+      themeHistoryChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: datasets
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: true,
+              position: 'bottom',
+              labels: {
+                color: '#9ca3af',
+                padding: 10,
+                font: {
+                  size: 11
+                },
+                usePointStyle: true,
+                pointStyle: 'line'
+              }
+            },
+            tooltip: {
+              callbacks: {
+                label: (ctx) => `${ctx.dataset.label}: €${ctx.raw.toLocaleString('de-DE', {minimumFractionDigits: 2})}`
+              }
+            }
+          },
+          scales: {
+            y: {
+              grid: { color: 'rgba(255,255,255,0.05)' },
+              ticks: {
+                color: '#9ca3af',
+                callback: (v) => '€' + v.toLocaleString()
+              }
+            },
+            x: {
+              grid: { display: false },
+              ticks: { color: '#9ca3af' }
+            }
+          }
+        }
+      });
+    }
+
+    function updateThemeHistoryChart() {
+      renderThemeHistoryChart();
     }
 
     let themeChart = null;
