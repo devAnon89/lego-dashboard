@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "lastUpdated": "2026-02-02T18:40:00.000Z",
+    "lastUpdated": "2026-02-02T21:46:33.249Z",
     "source": "OpenAI GPT-4",
     "cacheVersion": "1.0",
     "note": "AI predictions cache with TTL-based expiration"
@@ -13,12 +13,12 @@
       "currentValue": 439.99,
       "prediction": {
         "1yr": {
-          "value": 520.00,
+          "value": 520,
           "date": "2027-02-02",
           "source": "OpenAI GPT-4"
         },
         "5yr": {
-          "value": 850.00,
+          "value": 850,
           "date": "2031-02-02",
           "source": "OpenAI GPT-4"
         },
@@ -45,12 +45,12 @@
       "currentValue": 237.59,
       "prediction": {
         "1yr": {
-          "value": 280.00,
+          "value": 280,
           "date": "2027-02-02",
           "source": "OpenAI GPT-4"
         },
         "5yr": {
-          "value": 420.00,
+          "value": 420,
           "date": "2031-02-02",
           "source": "OpenAI GPT-4"
         },
@@ -77,12 +77,12 @@
       "currentValue": 425.04,
       "prediction": {
         "1yr": {
-          "value": 480.00,
+          "value": 480,
           "date": "2027-02-02",
           "source": "OpenAI GPT-4"
         },
         "5yr": {
-          "value": 750.00,
+          "value": 750,
           "date": "2031-02-02",
           "source": "OpenAI GPT-4"
         },
@@ -102,5 +102,1733 @@
         "firstOfKind": false
       }
     }
+  },
+  "42115-1": {
+    "setId": "42115-1",
+    "setName": "Lamborghini Sián FKP 37",
+    "theme": "Technic / Licensed",
+    "currentValue": 425.57,
+    "prediction": {
+      "1yr": {
+        "value": 459,
+        "date": "2027-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "5yr": {
+        "value": 550,
+        "date": "2031-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "growth1yr": 7.86,
+      "growth5yr": 29.24,
+      "confidence": "medium",
+      "reasoning": "The Lamborghini Sián FKP 37 set has shown a strong growth trend over the past year, with a 20.52% increase. Given its unique status as the first Technic Ultimate Car Series Lamborghini and the high license strength, it is likely to continue appreciating, especially as it approaches retirement. However, the medium volatility and lack of recent eBay sales introduce some uncertainty, resulting in a medium confidence level for these predictions."
+    },
+    "analyzedAt": "2026-02-02T21:43:03.510Z",
+    "inputSummary": {
+      "ebayListingsCount": 0,
+      "similarSetsCount": 5,
+      "hasHistoricalData": true,
+      "firstOfKind": true
+    },
+    "cachedAt": "2026-02-02T21:43:03.510Z",
+    "ttlType": "standard",
+    "ttlHours": 24
+  },
+  "76191-1": {
+    "setId": "76191-1",
+    "setName": "Infinity Gauntlet",
+    "theme": "Marvel Super Heroes / Avengers",
+    "currentValue": 62.08,
+    "prediction": {
+      "1yr": {
+        "value": 75,
+        "date": "2027-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "5yr": {
+        "value": 110,
+        "date": "2031-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "growth1yr": 20.81,
+      "growth5yr": 77.19,
+      "confidence": "medium",
+      "reasoning": "The Infinity Gauntlet set is currently undervalued with a negative growth, but the overall trend is rising. Similar sets have shown mixed performance, with an average growth of -1.7%. Given the strong license and potential retirement within 1-2 years, a moderate recovery is expected in the short term, with a more substantial increase over five years as the set becomes rarer."
+    },
+    "analyzedAt": "2026-02-02T21:43:07.010Z",
+    "inputSummary": {
+      "ebayListingsCount": 0,
+      "similarSetsCount": 5,
+      "hasHistoricalData": true,
+      "firstOfKind": false
+    },
+    "cachedAt": "2026-02-02T21:43:07.010Z",
+    "ttlType": "standard",
+    "ttlHours": 24
+  },
+  "40499-1": {
+    "setId": "40499-1",
+    "setName": "Santa's Sleigh",
+    "theme": "Seasonal / Christmas",
+    "currentValue": 28.78,
+    "prediction": {
+      "1yr": {
+        "value": 31.5,
+        "date": "2027-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "5yr": {
+        "value": 45,
+        "date": "2031-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "growth1yr": 9.45,
+      "growth5yr": 56.36,
+      "confidence": "medium",
+      "reasoning": "Santa's Sleigh (40499-1) is currently experiencing a negative growth trend, but the overall market trend is rising, and the set is likely retiring soon, which can increase demand. The historical data shows a positive growth over the 90-day and 365-day periods, suggesting a potential recovery. Considering the performance of similar sets and the low volatility, a moderate increase in value is expected over the next year and a more significant increase over five years as the set becomes rarer."
+    },
+    "analyzedAt": "2026-02-02T21:43:11.543Z",
+    "inputSummary": {
+      "ebayListingsCount": 0,
+      "similarSetsCount": 5,
+      "hasHistoricalData": true,
+      "firstOfKind": false
+    },
+    "cachedAt": "2026-02-02T21:43:11.543Z",
+    "ttlType": "standard",
+    "ttlHours": 24
+  },
+  "42143-1": {
+    "setId": "42143-1",
+    "setName": "Ferrari Daytona SP3",
+    "theme": "Technic",
+    "currentValue": 395.99,
+    "prediction": {
+      "1yr": {
+        "value": 430,
+        "date": "2027-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "5yr": {
+        "value": 520,
+        "date": "2031-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "growth1yr": 8.59,
+      "growth5yr": 31.32,
+      "confidence": "medium",
+      "reasoning": "The Ferrari Daytona SP3's current market price is slightly below retail, but the overall trend is rising with a recent 90-day growth of 8.21%. Similar sets show an average growth of 10%, and the set may retire in 1-2 years, which typically boosts value. Given these factors and the medium volatility, a moderate increase is expected over the next year, with more significant appreciation over five years as the set becomes rarer."
+    },
+    "analyzedAt": "2026-02-02T21:43:14.490Z",
+    "inputSummary": {
+      "ebayListingsCount": 0,
+      "similarSetsCount": 5,
+      "hasHistoricalData": true,
+      "firstOfKind": false
+    },
+    "cachedAt": "2026-02-02T21:43:14.490Z",
+    "ttlType": "standard",
+    "ttlHours": 24
+  },
+  "76223-1": {
+    "setId": "76223-1",
+    "setName": "Nano Gauntlet",
+    "theme": "Marvel Super Heroes / Avengers",
+    "currentValue": 102.25,
+    "prediction": {
+      "1yr": {
+        "value": 97.5,
+        "date": "2027-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "5yr": {
+        "value": 115,
+        "date": "2031-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "growth1yr": -4.65,
+      "growth5yr": 12.47,
+      "confidence": "medium",
+      "reasoning": "The Nano Gauntlet set currently shows a negative growth trend, similar to other sets in the same category. However, its strong license and potential retirement within 1-2 years could lead to increased demand and value appreciation over time. Given the lack of recent sales data and the mixed performance of similar sets, the confidence level is medium."
+    },
+    "analyzedAt": "2026-02-02T21:43:18.731Z",
+    "inputSummary": {
+      "ebayListingsCount": 0,
+      "similarSetsCount": 5,
+      "hasHistoricalData": false,
+      "firstOfKind": false
+    },
+    "cachedAt": "2026-02-02T21:43:18.731Z",
+    "ttlType": "standard",
+    "ttlHours": 24
+  },
+  "76912-1": {
+    "setId": "76912-1",
+    "setName": "Fast & Furious 1970 Dodge Charger R/T",
+    "theme": "Speed Champions / Dodge",
+    "currentValue": 52.76,
+    "prediction": {
+      "1yr": {
+        "value": 48,
+        "date": "2027-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "5yr": {
+        "value": 60,
+        "date": "2031-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "growth1yr": -9.02,
+      "growth5yr": 13.72,
+      "confidence": "medium",
+      "reasoning": "The Fast & Furious 1970 Dodge Charger R/T set currently shows a negative growth trend, similar to other sets in the Speed Champions theme. However, its current market price is significantly higher than its retail price, indicating potential demand. Given the set's potential retirement in 1-2 years and the popularity of the Fast & Furious franchise, a moderate increase in value is expected over the next five years. The lack of recent sales data and overall market volatility contribute to a medium confidence level."
+    },
+    "analyzedAt": "2026-02-02T21:43:27.629Z",
+    "inputSummary": {
+      "ebayListingsCount": 0,
+      "similarSetsCount": 5,
+      "hasHistoricalData": false,
+      "firstOfKind": false
+    },
+    "cachedAt": "2026-02-02T21:43:27.629Z",
+    "ttlType": "standard",
+    "ttlHours": 24
+  },
+  "40573-1": {
+    "setId": "40573-1",
+    "setName": "Christmas Tree",
+    "theme": "Seasonal / Christmas",
+    "currentValue": 28.6,
+    "prediction": {
+      "1yr": {
+        "value": 30.5,
+        "date": "2027-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "5yr": {
+        "value": 35,
+        "date": "2031-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "growth1yr": 6.64,
+      "growth5yr": 22.38,
+      "confidence": "medium",
+      "reasoning": "The Christmas Tree set (40573-1) is currently experiencing a negative growth trend similar to other seasonal sets like Santa's Sleigh. Given its likely retirement soon, a slight increase in value is expected as availability decreases. However, the lack of historical data and recent sales makes the prediction uncertain. The average performance of similar sets shows a wide range of growth, suggesting potential for recovery, but the set's current market conditions and low license strength limit confidence in significant appreciation."
+    },
+    "analyzedAt": "2026-02-02T21:43:30.300Z",
+    "inputSummary": {
+      "ebayListingsCount": 0,
+      "similarSetsCount": 5,
+      "hasHistoricalData": false,
+      "firstOfKind": false
+    },
+    "cachedAt": "2026-02-02T21:43:30.300Z",
+    "ttlType": "standard",
+    "ttlHours": 24
+  },
+  "76917-1": {
+    "setId": "76917-1",
+    "setName": "Nissan Skyline GT-R",
+    "theme": "Speed Champions / Nissan",
+    "currentValue": 40.24,
+    "prediction": {
+      "1yr": {
+        "value": 38.5,
+        "date": "2027-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "5yr": {
+        "value": 45,
+        "date": "2031-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "growth1yr": -4.32,
+      "growth5yr": 11.83,
+      "confidence": "medium",
+      "reasoning": "The Nissan Skyline GT-R set is currently experiencing a negative growth trend, similar to other sets in the Speed Champions theme. Given the overall falling trend and high volatility, a slight decrease in value over the next year is expected. However, potential retirement within 1-2 years could stabilize or increase its value in the long term, leading to a moderate recovery over five years. The confidence level is medium due to the high volatility and lack of recent sales data."
+    },
+    "analyzedAt": "2026-02-02T21:43:33.043Z",
+    "inputSummary": {
+      "ebayListingsCount": 0,
+      "similarSetsCount": 5,
+      "hasHistoricalData": true,
+      "firstOfKind": false
+    },
+    "cachedAt": "2026-02-02T21:43:33.043Z",
+    "ttlType": "volatile",
+    "ttlHours": 12
+  },
+  "10316-1": {
+    "setId": "10316-1",
+    "setName": "The Lord of the Rings Rivendell",
+    "theme": "Icons / Licensed",
+    "currentValue": 1759.96,
+    "prediction": {
+      "1yr": {
+        "value": 1650,
+        "date": "2027-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "5yr": {
+        "value": 2100,
+        "date": "2031-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "growth1yr": -6.25,
+      "growth5yr": 19.32,
+      "confidence": "medium",
+      "reasoning": "The Rivendell set is currently experiencing a declining trend, with a 365-day decrease of 6.25%. However, as the first Icons-scale Lord of the Rings set, it holds a strong license appeal, which may stabilize its value over time. Given the average growth of similar sets and the set's active status, a moderate increase is expected in the long term, despite short-term volatility."
+    },
+    "analyzedAt": "2026-02-02T21:43:37.657Z",
+    "inputSummary": {
+      "ebayListingsCount": 0,
+      "similarSetsCount": 5,
+      "hasHistoricalData": true,
+      "firstOfKind": true
+    },
+    "cachedAt": "2026-02-02T21:43:37.657Z",
+    "ttlType": "standard",
+    "ttlHours": 24
+  },
+  "10323-1": {
+    "setId": "10323-1",
+    "setName": "PAC-MAN Arcade",
+    "theme": "Icons / Licensed",
+    "currentValue": 475.18,
+    "prediction": {
+      "1yr": {
+        "value": 440,
+        "date": "2027-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "5yr": {
+        "value": 520,
+        "date": "2031-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "growth1yr": -7.4,
+      "growth5yr": 9.43,
+      "confidence": "medium",
+      "reasoning": "The PAC-MAN Arcade set currently shows a negative growth trend, similar to other sets in the same price range. However, the market value is still significantly above retail, indicating demand. Given the average growth of similar sets and the lack of strong licensing appeal, a moderate increase is expected over the next five years. The confidence level is medium due to insufficient historical data and unknown market trends."
+    },
+    "analyzedAt": "2026-02-02T21:43:41.678Z",
+    "inputSummary": {
+      "ebayListingsCount": 0,
+      "similarSetsCount": 5,
+      "hasHistoricalData": false,
+      "firstOfKind": false
+    },
+    "cachedAt": "2026-02-02T21:43:41.678Z",
+    "ttlType": "standard",
+    "ttlHours": 24
+  },
+  "42161-1": {
+    "setId": "42161-1",
+    "setName": "Lamborghini Huracán Tecnica",
+    "theme": "Technic / Licensed",
+    "currentValue": 43.99,
+    "prediction": {
+      "1yr": {
+        "value": 42,
+        "date": "2027-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "5yr": {
+        "value": 48,
+        "date": "2031-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "growth1yr": -4.52,
+      "growth5yr": 9.12,
+      "confidence": "medium",
+      "reasoning": "The Lamborghini Huracán Tecnica set is currently experiencing a decline in market price, as indicated by the 90-day trend and lack of recent eBay sales. Similar sets show a mixed performance with an average negative growth. Given the set's active status and strong licensing, it may stabilize or slightly recover in the long term. However, the current overall trend and volatility suggest a cautious outlook."
+    },
+    "analyzedAt": "2026-02-02T21:43:44.607Z",
+    "inputSummary": {
+      "ebayListingsCount": 0,
+      "similarSetsCount": 5,
+      "hasHistoricalData": true,
+      "firstOfKind": false
+    },
+    "cachedAt": "2026-02-02T21:43:44.607Z",
+    "ttlType": "standard",
+    "ttlHours": 24
+  },
+  "71426-1": {
+    "setId": "71426-1",
+    "setName": "Piranha Plant",
+    "theme": "Super Mario / Miscellaneous",
+    "currentValue": 316.75,
+    "prediction": {
+      "1yr": {
+        "value": 303,
+        "date": "2027-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "5yr": {
+        "value": 350,
+        "date": "2031-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "growth1yr": -4.34,
+      "growth5yr": 10.5,
+      "confidence": "medium",
+      "reasoning": "The Piranha Plant set currently shows a negative growth trend, similar to the Nano Gauntlet, which also has a -4.4% growth. Given the lack of recent sales data and its active status, the set's market value may stabilize around its current price in the short term. Over five years, assuming the set retires and demand increases, it could appreciate moderately, similar to other sets in the Super Mario theme. However, the lack of licensing strength and current negative growth suggest a cautious outlook."
+    },
+    "analyzedAt": "2026-02-02T21:43:49.246Z",
+    "inputSummary": {
+      "ebayListingsCount": 0,
+      "similarSetsCount": 5,
+      "hasHistoricalData": false,
+      "firstOfKind": false
+    },
+    "cachedAt": "2026-02-02T21:43:49.246Z",
+    "ttlType": "standard",
+    "ttlHours": 24
+  },
+  "76922-1": {
+    "setId": "76922-1",
+    "setName": "BMW M4 GT3 & BMW M Hybrid V8",
+    "theme": "Speed Champions / BMW",
+    "currentValue": 36.77,
+    "prediction": {
+      "1yr": {
+        "value": 34.5,
+        "date": "2027-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "5yr": {
+        "value": 45,
+        "date": "2031-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "growth1yr": -6.17,
+      "growth5yr": 22.38,
+      "confidence": "medium",
+      "reasoning": "The current market price of the BMW M4 GT3 & BMW M Hybrid V8 set is experiencing a negative growth trend similar to other sets in the Speed Champions theme. Given the average negative growth of similar sets and the potential for retirement within 1-2 years, a slight recovery in the short term is possible, but significant appreciation is unlikely in the near term. Over five years, the set may gain value post-retirement, aligning with typical trends for retired LEGO sets, but the lack of historical data and current negative growth suggest a conservative estimate."
+    },
+    "analyzedAt": "2026-02-02T21:43:54.146Z",
+    "inputSummary": {
+      "ebayListingsCount": 0,
+      "similarSetsCount": 5,
+      "hasHistoricalData": false,
+      "firstOfKind": false
+    },
+    "cachedAt": "2026-02-02T21:43:54.146Z",
+    "ttlType": "standard",
+    "ttlHours": 24
+  },
+  "21345-1": {
+    "setId": "21345-1",
+    "setName": "Polaroid Camera",
+    "theme": "Ideas / Licensed",
+    "currentValue": 211.17,
+    "prediction": {
+      "1yr": {
+        "value": 190,
+        "date": "2027-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "5yr": {
+        "value": 250,
+        "date": "2031-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "growth1yr": -10.03,
+      "growth5yr": 18.39,
+      "confidence": "medium",
+      "reasoning": "The Polaroid Camera set is experiencing a current market price decline, as indicated by the 90-day and 365-day trends. However, its status as the first licensed Polaroid set and potential retirement within 1-2 years could drive future demand. The lack of recent eBay sales suggests limited market activity, but the set's unique appeal and licensing strength may support moderate long-term growth. Given these factors, a cautious growth trajectory is anticipated over the next five years."
+    },
+    "analyzedAt": "2026-02-02T21:43:58.452Z",
+    "inputSummary": {
+      "ebayListingsCount": 0,
+      "similarSetsCount": 5,
+      "hasHistoricalData": true,
+      "firstOfKind": true
+    },
+    "cachedAt": "2026-02-02T21:43:58.452Z",
+    "ttlType": "standard",
+    "ttlHours": 24
+  },
+  "76269-1": {
+    "setId": "76269-1",
+    "setName": "Avengers Tower",
+    "theme": "Marvel Super Heroes / Avengers",
+    "currentValue": 514.06,
+    "prediction": {
+      "1yr": {
+        "value": 529.48,
+        "date": "2027-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "5yr": {
+        "value": 564.06,
+        "date": "2031-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "growth1yr": 3,
+      "growth5yr": 9.73,
+      "confidence": "medium",
+      "reasoning": "The Avengers Tower set has a modest current growth of 2.8% and lacks historical data, making it challenging to predict future trends accurately. However, considering the average growth of similar sets at 4.4% and the set's active status, a conservative growth estimate of around 3% per year is reasonable. The medium confidence level reflects the uncertainty due to insufficient data and the variability in similar sets' performance."
+    },
+    "analyzedAt": "2026-02-02T21:44:02.517Z",
+    "inputSummary": {
+      "ebayListingsCount": 0,
+      "similarSetsCount": 5,
+      "hasHistoricalData": false,
+      "firstOfKind": false
+    },
+    "cachedAt": "2026-02-02T21:44:02.517Z",
+    "ttlType": "standard",
+    "ttlHours": 24
+  },
+  "21348-1": {
+    "setId": "21348-1",
+    "setName": "Dungeons & Dragons Red Dragon's Tale",
+    "theme": "Ideas / Licensed",
+    "currentValue": 316.79,
+    "prediction": {
+      "1yr": {
+        "value": 316.79,
+        "date": "2027-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "5yr": {
+        "value": 348.47,
+        "date": "2031-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "growth1yr": 0,
+      "growth5yr": 10,
+      "confidence": "medium",
+      "reasoning": "The current market price of the Dungeons & Dragons Red Dragon's Tale set is below its retail price, indicating a negative growth trend. Similar sets show a wide range of growth, with an average of 4.2%. Given the set's active status and lack of strong licensing appeal, a modest recovery to near retail price is expected over five years. The lack of historical data and recent sales adds uncertainty, but the average performance of similar sets suggests potential for slight appreciation."
+    },
+    "analyzedAt": "2026-02-02T21:44:06.865Z",
+    "inputSummary": {
+      "ebayListingsCount": 0,
+      "similarSetsCount": 5,
+      "hasHistoricalData": false,
+      "firstOfKind": false
+    },
+    "cachedAt": "2026-02-02T21:44:06.865Z",
+    "ttlType": "standard",
+    "ttlHours": 24
+  },
+  "40674-1": {
+    "setId": "40674-1",
+    "setName": "Stitch",
+    "theme": "BrickHeadz / Disney",
+    "currentValue": 22.86,
+    "prediction": {
+      "1yr": {
+        "value": 22.63,
+        "date": "2027-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "5yr": {
+        "value": 21.5,
+        "date": "2031-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "growth1yr": -1.01,
+      "growth5yr": -5.95,
+      "confidence": "medium",
+      "reasoning": "The current market value of the Stitch set is stable, with a slight negative growth trend similar to other sets in its category. Given the active retirement status and strong licensing, the set is likely to maintain its value in the short term. However, without significant demand or rarity factors, a gradual decline is expected over five years, aligning with the average negative growth of similar sets."
+    },
+    "analyzedAt": "2026-02-02T21:44:09.497Z",
+    "inputSummary": {
+      "ebayListingsCount": 0,
+      "similarSetsCount": 5,
+      "hasHistoricalData": true,
+      "firstOfKind": false
+    },
+    "cachedAt": "2026-02-02T21:44:09.497Z",
+    "ttlType": "standard",
+    "ttlHours": 24
+  },
+  "10333-1": {
+    "setId": "10333-1",
+    "setName": "The Lord of the Rings Barad-Dur",
+    "theme": "Icons / Licensed",
+    "currentValue": 1214.37,
+    "prediction": {
+      "1yr": {
+        "value": 1222.87,
+        "date": "2027-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "5yr": {
+        "value": 1350,
+        "date": "2031-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "growth1yr": 0.7,
+      "growth5yr": 11.17,
+      "confidence": "medium",
+      "reasoning": "The current market price of the set is €1214.37 with a modest growth rate of 0.7%. Given the lack of recent sales data and the set's active status, short-term growth is expected to be minimal. However, considering the performance of similar sets, especially those within the same theme, a moderate increase over the next five years is plausible. The confidence level is medium due to the limited data and unknown overall trend."
+    },
+    "analyzedAt": "2026-02-02T21:44:12.770Z",
+    "inputSummary": {
+      "ebayListingsCount": 0,
+      "similarSetsCount": 5,
+      "hasHistoricalData": false,
+      "firstOfKind": false
+    },
+    "cachedAt": "2026-02-02T21:44:12.770Z",
+    "ttlType": "standard",
+    "ttlHours": 24
+  },
+  "10330-1": {
+    "setId": "10330-1",
+    "setName": "McLaren MP4/4 & Ayrton Senna",
+    "theme": "Icons / Vehicles",
+    "currentValue": 128.82,
+    "prediction": {
+      "1yr": {
+        "value": 116.5,
+        "date": "2027-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "5yr": {
+        "value": 140,
+        "date": "2031-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "growth1yr": -9.56,
+      "growth5yr": 8.68,
+      "confidence": "medium",
+      "reasoning": "The McLaren MP4/4 & Ayrton Senna set is currently experiencing a declining trend, similar to the average performance of comparable sets. Despite its strong license strength, the lack of recent eBay sales and high volatility suggest limited short-term growth. However, as it remains active, there is potential for recovery and moderate appreciation over the next five years, assuming market conditions stabilize."
+    },
+    "analyzedAt": "2026-02-02T21:44:15.895Z",
+    "inputSummary": {
+      "ebayListingsCount": 0,
+      "similarSetsCount": 5,
+      "hasHistoricalData": true,
+      "firstOfKind": false
+    },
+    "cachedAt": "2026-02-02T21:44:15.895Z",
+    "ttlType": "volatile",
+    "ttlHours": 12
+  },
+  "31212-1": {
+    "setId": "31212-1",
+    "setName": "The Milky Way Galaxy",
+    "theme": "LEGO Art",
+    "currentValue": 501.6,
+    "prediction": {
+      "1yr": {
+        "value": 526.68,
+        "date": "2027-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "5yr": {
+        "value": 628,
+        "date": "2031-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "growth1yr": 5,
+      "growth5yr": 25.2,
+      "confidence": "medium",
+      "reasoning": "The Milky Way Galaxy set has shown a strong current market price growth of 25.4% from its retail price, indicating a positive trend. However, the lack of historical data and recent eBay sales introduces uncertainty. Similar sets have varied performance, with an average growth of -3.8%, but some have shown significant appreciation. Given these factors, a moderate growth is expected over the next 1 to 5 years, with a medium confidence level due to the limited data and market volatility."
+    },
+    "analyzedAt": "2026-02-02T21:44:19.835Z",
+    "inputSummary": {
+      "ebayListingsCount": 0,
+      "similarSetsCount": 5,
+      "hasHistoricalData": false,
+      "firstOfKind": false
+    },
+    "cachedAt": "2026-02-02T21:44:19.835Z",
+    "ttlType": "standard",
+    "ttlHours": 24
+  },
+  "43247-1": {
+    "setId": "43247-1",
+    "setName": "Young Simba the Lion King",
+    "theme": "Disney / The Lion King",
+    "currentValue": 114.39,
+    "prediction": {
+      "1yr": {
+        "value": 110,
+        "date": "2027-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "5yr": {
+        "value": 125,
+        "date": "2031-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "growth1yr": -3.84,
+      "growth5yr": 9.28,
+      "confidence": "medium",
+      "reasoning": "The current market price of the Young Simba set is below its retail price, reflecting a negative growth trend similar to other Disney-themed sets. However, given the potential for Disney collectibles to appreciate over time, the set may recover slightly in the long term. The lack of eBay sales data and the set's active status contribute to uncertainty, but the average performance of similar sets suggests moderate potential for value recovery."
+    },
+    "analyzedAt": "2026-02-02T21:44:22.049Z",
+    "inputSummary": {
+      "ebayListingsCount": 0,
+      "similarSetsCount": 5,
+      "hasHistoricalData": false,
+      "firstOfKind": false
+    },
+    "cachedAt": "2026-02-02T21:44:22.049Z",
+    "ttlType": "standard",
+    "ttlHours": 24
+  },
+  "42173-1": {
+    "setId": "42173-1",
+    "setName": "Koenigsegg Jesko Absolut Grey Hypercar",
+    "theme": "Technic / Licensed",
+    "currentValue": 43.99,
+    "prediction": {
+      "1yr": {
+        "value": 42,
+        "date": "2027-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "5yr": {
+        "value": 40,
+        "date": "2031-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "growth1yr": -4.52,
+      "growth5yr": -9.07,
+      "confidence": "low",
+      "reasoning": "The Koenigsegg Jesko Absolut Grey Hypercar (42173-1) is currently experiencing a negative growth trend with a market price below its retail price. The lack of historical data and recent eBay sales, combined with a low license strength, suggests limited demand. Similar sets show a wide range of performance, but the average growth is skewed by outliers. Given these factors, the set is unlikely to appreciate significantly in the short to medium term."
+    },
+    "analyzedAt": "2026-02-02T21:44:26.652Z",
+    "inputSummary": {
+      "ebayListingsCount": 0,
+      "similarSetsCount": 5,
+      "hasHistoricalData": false,
+      "firstOfKind": false
+    },
+    "cachedAt": "2026-02-02T21:44:26.652Z",
+    "ttlType": "standard",
+    "ttlHours": 24
+  },
+  "21265-1": {
+    "setId": "21265-1",
+    "setName": "The Crafting Table",
+    "theme": "Minecraft / Miscellaneous",
+    "currentValue": 184.4,
+    "prediction": {
+      "1yr": {
+        "value": 192.18,
+        "date": "2027-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "5yr": {
+        "value": 210,
+        "date": "2031-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "growth1yr": 4.22,
+      "growth5yr": 13.88,
+      "confidence": "medium",
+      "reasoning": "The Crafting Table set currently shows a positive growth trend, unlike most similar sets which have negative or moderate growth. Given its active status and lack of recent eBay sales data, the set's market value may continue to rise moderately in the short term. However, the lack of strong licensing and the mixed performance of similar sets suggest that long-term growth may be limited. Therefore, a cautious but optimistic growth prediction is made, with medium confidence due to the limited data available."
+    },
+    "analyzedAt": "2026-02-02T21:44:29.599Z",
+    "inputSummary": {
+      "ebayListingsCount": 0,
+      "similarSetsCount": 5,
+      "hasHistoricalData": false,
+      "firstOfKind": false
+    },
+    "cachedAt": "2026-02-02T21:44:29.599Z",
+    "ttlType": "standard",
+    "ttlHours": 24
+  },
+  "76934-1": {
+    "setId": "76934-1",
+    "setName": "Ferrari F40 Supercar",
+    "theme": "Speed Champions / Ferrari",
+    "currentValue": 23.75,
+    "prediction": {
+      "1yr": {
+        "value": 24.5,
+        "date": "2027-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "5yr": {
+        "value": 27,
+        "date": "2031-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "growth1yr": 3.16,
+      "growth5yr": 13.68,
+      "confidence": "medium",
+      "reasoning": "The Ferrari F40 Supercar (76934-1) has shown stable market performance with a slight negative trend over the past year. Given its strong license strength and potential retirement in 1-2 years, a modest increase in value is expected as it becomes less available. However, the lack of recent eBay sales and the negative growth of similar sets suggest limited immediate demand, leading to a cautious medium confidence in these predictions."
+    },
+    "analyzedAt": "2026-02-02T21:44:32.053Z",
+    "inputSummary": {
+      "ebayListingsCount": 0,
+      "similarSetsCount": 5,
+      "hasHistoricalData": true,
+      "firstOfKind": false
+    },
+    "cachedAt": "2026-02-02T21:44:32.053Z",
+    "ttlType": "standard",
+    "ttlHours": 24
+  },
+  "75682-1": {
+    "setId": "75682-1",
+    "setName": "Elphaba & Glinda Figures",
+    "theme": "Wicked / Part One",
+    "currentValue": 40.16,
+    "prediction": {
+      "1yr": {
+        "value": 38,
+        "date": "2027-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "5yr": {
+        "value": 45,
+        "date": "2031-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "growth1yr": -5.38,
+      "growth5yr": 12.05,
+      "confidence": "medium",
+      "reasoning": "The Elphaba & Glinda Figures set is currently experiencing a negative growth trend, similar to other sets in the market. Given its unique status as the first LEGO Wicked licensed set, it may gain collector interest over time, but the weak license strength and lack of historical data suggest a cautious outlook. The average performance of similar sets indicates a potential for modest recovery, but the lack of recent sales data and overall market volatility contribute to a medium confidence level in these predictions."
+    },
+    "analyzedAt": "2026-02-02T21:44:34.089Z",
+    "inputSummary": {
+      "ebayListingsCount": 0,
+      "similarSetsCount": 5,
+      "hasHistoricalData": false,
+      "firstOfKind": true
+    },
+    "cachedAt": "2026-02-02T21:44:34.089Z",
+    "ttlType": "standard",
+    "ttlHours": 24
+  },
+  "71438-1": {
+    "setId": "71438-1",
+    "setName": "Super Mario World Mario & Yoshi",
+    "theme": "Super Mario / Miscellaneous",
+    "currentValue": 263.98,
+    "prediction": {
+      "1yr": {
+        "value": 250,
+        "date": "2027-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "5yr": {
+        "value": 320,
+        "date": "2031-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "growth1yr": -5.3,
+      "growth5yr": 21.22,
+      "confidence": "medium",
+      "reasoning": "The Super Mario World Mario & Yoshi set has experienced a recent decline in value, as indicated by the 365-day trend. However, similar sets in the theme have shown potential for significant growth, particularly after retirement. Given the medium volatility and potential retirement within 1-2 years, a moderate increase in value is expected over the next five years. The confidence level is medium due to the lack of recent eBay sales data and the overall falling trend."
+    },
+    "analyzedAt": "2026-02-02T21:44:36.251Z",
+    "inputSummary": {
+      "ebayListingsCount": 0,
+      "similarSetsCount": 5,
+      "hasHistoricalData": true,
+      "firstOfKind": false
+    },
+    "cachedAt": "2026-02-02T21:44:36.251Z",
+    "ttlType": "standard",
+    "ttlHours": 24
+  },
+  "42172-1": {
+    "setId": "42172-1",
+    "setName": "McLaren P1",
+    "theme": "Technic / Licensed",
+    "currentValue": 395.99,
+    "prediction": {
+      "1yr": {
+        "value": 380,
+        "date": "2027-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "5yr": {
+        "value": 420,
+        "date": "2031-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "growth1yr": -4.04,
+      "growth5yr": 6.06,
+      "confidence": "medium",
+      "reasoning": "The McLaren P1 set is currently experiencing a downward trend, with a 90-day and 365-day decline in market value. Despite a strong license, the lack of recent eBay sales and its similarity to other sets with mixed growth suggest limited short-term appreciation. However, potential retirement within 1-2 years could lead to a moderate increase in value over the long term, aligning with the average growth of similar sets."
+    },
+    "analyzedAt": "2026-02-02T21:44:38.855Z",
+    "inputSummary": {
+      "ebayListingsCount": 0,
+      "similarSetsCount": 5,
+      "hasHistoricalData": true,
+      "firstOfKind": false
+    },
+    "cachedAt": "2026-02-02T21:44:38.855Z",
+    "ttlType": "standard",
+    "ttlHours": 24
+  },
+  "77073-1": {
+    "setId": "77073-1",
+    "setName": "Battle Bus",
+    "theme": "Fortnite",
+    "currentValue": 175.98,
+    "prediction": {
+      "1yr": {
+        "value": 150,
+        "date": "2027-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "5yr": {
+        "value": 200,
+        "date": "2031-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "growth1yr": -14.76,
+      "growth5yr": 13.65,
+      "confidence": "medium",
+      "reasoning": "The Battle Bus set has shown a significant current growth of 44.3%, but the overall trend is falling, with a 365-day decline of 35.84%. The lack of recent eBay sales and high volatility suggest uncertainty in the market. However, as the first LEGO Fortnite set, it may gain collector interest over time, especially after retirement. Given these factors, a moderate increase in value is expected over the next five years."
+    },
+    "analyzedAt": "2026-02-02T21:44:42.230Z",
+    "inputSummary": {
+      "ebayListingsCount": 0,
+      "similarSetsCount": 5,
+      "hasHistoricalData": true,
+      "firstOfKind": true
+    },
+    "cachedAt": "2026-02-02T21:44:42.230Z",
+    "ttlType": "volatile",
+    "ttlHours": 12
+  },
+  "10350-1": {
+    "setId": "10350-1",
+    "setName": "Tudor Corner",
+    "theme": "Icons / Modular Buildings",
+    "currentValue": 880,
+    "prediction": {
+      "1yr": {
+        "value": 845,
+        "date": "2027-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "5yr": {
+        "value": 1020,
+        "date": "2031-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "growth1yr": -3.98,
+      "growth5yr": 15.91,
+      "confidence": "medium",
+      "reasoning": "The Tudor Corner set currently shows a negative growth trend, similar to some other sets in the Icons / Modular Buildings theme. However, the average growth of similar sets is positive, suggesting potential for future appreciation. Given the lack of recent sales data and the set's active status, a moderate recovery in the short term is possible, with a more substantial increase over five years as it potentially retires and becomes more sought after by collectors."
+    },
+    "analyzedAt": "2026-02-02T21:44:46.353Z",
+    "inputSummary": {
+      "ebayListingsCount": 0,
+      "similarSetsCount": 5,
+      "hasHistoricalData": false,
+      "firstOfKind": false
+    },
+    "cachedAt": "2026-02-02T21:44:46.353Z",
+    "ttlType": "standard",
+    "ttlHours": 24
+  },
+  "10342-1": {
+    "setId": "10342-1",
+    "setName": "Pretty Pink Flower Bouquet",
+    "theme": "Botanicals",
+    "currentValue": 43.82,
+    "prediction": {
+      "1yr": {
+        "value": 40.5,
+        "date": "2027-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "5yr": {
+        "value": 55,
+        "date": "2031-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "growth1yr": -7.58,
+      "growth5yr": 25.51,
+      "confidence": "medium",
+      "reasoning": "The Pretty Pink Flower Bouquet set is currently experiencing a decline in market value, similar to other sets in the Botanicals theme. Given its potential retirement in 1-2 years, the set may see a slight increase in value post-retirement, but the current trend and lack of strong licensing suggest modest growth. The average performance of similar sets shows a wide range, indicating medium volatility and uncertainty in future value predictions."
+    },
+    "analyzedAt": "2026-02-02T21:44:49.583Z",
+    "inputSummary": {
+      "ebayListingsCount": 0,
+      "similarSetsCount": 5,
+      "hasHistoricalData": true,
+      "firstOfKind": false
+    },
+    "cachedAt": "2026-02-02T21:44:49.583Z",
+    "ttlType": "standard",
+    "ttlHours": 24
+  },
+  "21353-1": {
+    "setId": "21353-1",
+    "setName": "The Botanical Garden",
+    "theme": "Ideas",
+    "currentValue": 1367.7,
+    "prediction": {
+      "1yr": {
+        "value": 1416.02,
+        "date": "2027-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "5yr": {
+        "value": 1690.44,
+        "date": "2031-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "growth1yr": 3.53,
+      "growth5yr": 23.6,
+      "confidence": "medium",
+      "reasoning": "The Botanical Garden set has shown a strong current market price significantly above its retail price, suggesting high demand or limited availability. Despite the lack of historical data, the set's unique status as the first Ideas Botanical Garden could drive interest. Similar sets show mixed performance, but the average growth is slightly negative. Given these factors, a moderate growth rate is projected, with a medium confidence level due to the lack of comprehensive data and market volatility."
+    },
+    "analyzedAt": "2026-02-02T21:44:52.381Z",
+    "inputSummary": {
+      "ebayListingsCount": 0,
+      "similarSetsCount": 5,
+      "hasHistoricalData": false,
+      "firstOfKind": true
+    },
+    "cachedAt": "2026-02-02T21:44:52.381Z",
+    "ttlType": "standard",
+    "ttlHours": 24
+  },
+  "31165-1": {
+    "setId": "31165-1",
+    "setName": "Wild Animals Panda Family",
+    "theme": "Creator / 3 in 1",
+    "currentValue": 27.02,
+    "prediction": {
+      "1yr": {
+        "value": 24.5,
+        "date": "2027-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "5yr": {
+        "value": 22,
+        "date": "2031-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "growth1yr": -9.33,
+      "growth5yr": -18.58,
+      "confidence": "low",
+      "reasoning": "The Wild Animals Panda Family set is currently experiencing a declining trend, with a 12.06% drop over the past year and no recent eBay sales to suggest demand. Similar sets have shown negative growth, averaging -26.7%, and the set's volatility is high. Given these factors and its active status, further depreciation is likely, but the lack of historical data and market volatility reduce prediction confidence."
+    },
+    "analyzedAt": "2026-02-02T21:44:54.781Z",
+    "inputSummary": {
+      "ebayListingsCount": 0,
+      "similarSetsCount": 5,
+      "hasHistoricalData": true,
+      "firstOfKind": false
+    },
+    "cachedAt": "2026-02-02T21:44:54.781Z",
+    "ttlType": "volatile",
+    "ttlHours": 12
+  },
+  "42204-1": {
+    "setId": "42204-1",
+    "setName": "Fast & Furious Toyota Supra MK4",
+    "theme": "Technic / Fast and Furious",
+    "currentValue": 96.61,
+    "prediction": {
+      "1yr": {
+        "value": 91.78,
+        "date": "2027-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "5yr": {
+        "value": 85,
+        "date": "2031-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "growth1yr": -5,
+      "growth5yr": -12.02,
+      "confidence": "medium",
+      "reasoning": "The Fast & Furious Toyota Supra MK4 set is currently experiencing a negative growth trend, similar to other sets in the Technic theme. Despite the high volatility and falling overall trend, the set's active status and strong licensing could stabilize its value. However, without recent eBay sales data and considering the average performance of similar sets, a moderate decline is expected over the next five years."
+    },
+    "analyzedAt": "2026-02-02T21:44:58.007Z",
+    "inputSummary": {
+      "ebayListingsCount": 0,
+      "similarSetsCount": 5,
+      "hasHistoricalData": true,
+      "firstOfKind": false
+    },
+    "cachedAt": "2026-02-02T21:44:58.007Z",
+    "ttlType": "volatile",
+    "ttlHours": 12
+  },
+  "72046-1": {
+    "setId": "72046-1",
+    "setName": "Game Boy",
+    "theme": "Super Mario / Miscellaneous",
+    "currentValue": 307.77,
+    "prediction": {
+      "1yr": {
+        "value": 347,
+        "date": "2027-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "5yr": {
+        "value": 450,
+        "date": "2031-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "growth1yr": 12.75,
+      "growth5yr": 46.21,
+      "confidence": "medium",
+      "reasoning": "The Game Boy set is the first of its kind, which could drive collector interest and value appreciation. Despite the lack of recent sales data, its current growth rate of 13.3% is promising. Similar sets show varied performance, but the average growth is positive. Considering the potential retirement and novelty factor, a moderate increase in value is expected over the next 1 to 5 years."
+    },
+    "analyzedAt": "2026-02-02T21:45:02.201Z",
+    "inputSummary": {
+      "ebayListingsCount": 0,
+      "similarSetsCount": 5,
+      "hasHistoricalData": false,
+      "firstOfKind": true
+    },
+    "cachedAt": "2026-02-02T21:45:02.201Z",
+    "ttlType": "standard",
+    "ttlHours": 24
+  },
+  "77239-1": {
+    "setId": "77239-1",
+    "setName": "Porsche 911 GT3 RS Super Car",
+    "theme": "Speed Champions / Porsche",
+    "currentValue": 23.75,
+    "prediction": {
+      "1yr": {
+        "value": 23,
+        "date": "2027-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "5yr": {
+        "value": 22.5,
+        "date": "2031-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "growth1yr": -3.16,
+      "growth5yr": -5.26,
+      "confidence": "medium",
+      "reasoning": "The Porsche 911 GT3 RS Super Car set is currently experiencing a negative growth trend similar to other sets in the Speed Champions theme. Given the lack of recent sales data and the average negative growth of similar sets, it is likely that the set will continue to depreciate slightly over the next year. In five years, unless there is a significant change in market demand or the set's retirement status, the value is expected to decrease further, albeit at a slower rate. The confidence level is medium due to the limited data and unknown overall trend."
+    },
+    "analyzedAt": "2026-02-02T21:45:06.435Z",
+    "inputSummary": {
+      "ebayListingsCount": 0,
+      "similarSetsCount": 5,
+      "hasHistoricalData": false,
+      "firstOfKind": false
+    },
+    "cachedAt": "2026-02-02T21:45:06.435Z",
+    "ttlType": "standard",
+    "ttlHours": 24
+  },
+  "77237-1": {
+    "setId": "77237-1",
+    "setName": "Dodge Challenger SRT Hellcat Sports Car",
+    "theme": "Speed Champions / Dodge",
+    "currentValue": 23.75,
+    "prediction": {
+      "1yr": {
+        "value": 23,
+        "date": "2027-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "5yr": {
+        "value": 22.5,
+        "date": "2031-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "growth1yr": -3.16,
+      "growth5yr": -5.26,
+      "confidence": "low",
+      "reasoning": "The current market price of the Dodge Challenger SRT Hellcat Sports Car is below its retail price, with a negative growth of -12.0%. Similar sets show a wide range of growth, but the average is negative, indicating a downward trend. The lack of recent sales data and the set's active status contribute to uncertainty, leading to a low confidence level in predicting future values."
+    },
+    "analyzedAt": "2026-02-02T21:45:10.366Z",
+    "inputSummary": {
+      "ebayListingsCount": 0,
+      "similarSetsCount": 5,
+      "hasHistoricalData": false,
+      "firstOfKind": false
+    },
+    "cachedAt": "2026-02-02T21:45:10.366Z",
+    "ttlType": "standard",
+    "ttlHours": 24
+  },
+  "42210-1": {
+    "setId": "42210-1",
+    "setName": "2 Fast 2 Furious Nissan Skyline GT-R (R34)",
+    "theme": "Technic / Licensed",
+    "currentValue": 246.38,
+    "prediction": {
+      "1yr": {
+        "value": 271.02,
+        "date": "2027-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "5yr": {
+        "value": 325,
+        "date": "2031-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "growth1yr": 10,
+      "growth5yr": 31.91,
+      "confidence": "medium",
+      "reasoning": "The current market price of the Nissan Skyline GT-R (R34) set is significantly higher than its retail price, indicating strong demand. Despite the lack of recent sales data, the set's licensed theme and potential retirement within 1-2 years suggest further appreciation. Similar sets show varied performance, but the strong license strength and current growth rate support a positive outlook. However, the absence of historical data and market volatility introduce uncertainty, resulting in a medium confidence level."
+    },
+    "analyzedAt": "2026-02-02T21:45:14.060Z",
+    "inputSummary": {
+      "ebayListingsCount": 0,
+      "similarSetsCount": 5,
+      "hasHistoricalData": false,
+      "firstOfKind": false
+    },
+    "cachedAt": "2026-02-02T21:45:14.060Z",
+    "ttlType": "standard",
+    "ttlHours": 24
+  },
+  "10354-1": {
+    "setId": "10354-1",
+    "setName": "The Lord of the Rings The Shire",
+    "theme": "Icons / Licensed",
+    "currentValue": 237.59,
+    "prediction": {
+      "1yr": {
+        "value": 255,
+        "date": "2027-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "5yr": {
+        "value": 320,
+        "date": "2031-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "growth1yr": 7.33,
+      "growth5yr": 34.69,
+      "confidence": "medium",
+      "reasoning": "The current market price of the set is below retail, indicating a negative short-term trend. However, similar sets in the Lord of the Rings theme have shown significant growth over time. Given the average growth of similar sets and the potential for increased demand post-retirement, moderate appreciation is expected in the long term. The lack of historical data and current market volatility contribute to a medium confidence level."
+    },
+    "analyzedAt": "2026-02-02T21:45:19.077Z",
+    "inputSummary": {
+      "ebayListingsCount": 0,
+      "similarSetsCount": 5,
+      "hasHistoricalData": false,
+      "firstOfKind": false
+    },
+    "cachedAt": "2026-02-02T21:45:19.077Z",
+    "ttlType": "standard",
+    "ttlHours": 24
+  },
+  "43279-1": {
+    "setId": "43279-1",
+    "setName": "WALL•E and EVE",
+    "theme": "Disney / WALL•E",
+    "currentValue": 63.44,
+    "prediction": {
+      "1yr": {
+        "value": 61,
+        "date": "2027-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "5yr": {
+        "value": 58,
+        "date": "2031-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "growth1yr": -3.85,
+      "growth5yr": -8.58,
+      "confidence": "low",
+      "reasoning": "The current market price of the WALL•E and EVE set is below its retail price, indicating a negative growth trend similar to other sets in the same theme. The average growth of similar sets is -10.5%, suggesting further decline. Given the lack of historical data and eBay sales, the set's active status, and weak license strength, the market value is likely to decrease over the next few years. However, due to insufficient data and unknown market trends, the confidence level is low."
+    },
+    "analyzedAt": "2026-02-02T21:45:22.801Z",
+    "inputSummary": {
+      "ebayListingsCount": 0,
+      "similarSetsCount": 5,
+      "hasHistoricalData": false,
+      "firstOfKind": false
+    },
+    "cachedAt": "2026-02-02T21:45:22.801Z",
+    "ttlType": "standard",
+    "ttlHours": 24
+  },
+  "21276-1": {
+    "setId": "21276-1",
+    "setName": "The Creeper",
+    "theme": "Minecraft / Minifig-scale",
+    "currentValue": 169.97,
+    "prediction": {
+      "1yr": {
+        "value": 180,
+        "date": "2027-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "5yr": {
+        "value": 220,
+        "date": "2031-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "growth1yr": 5.9,
+      "growth5yr": 29.43,
+      "confidence": "medium",
+      "reasoning": "The Creeper set currently shows a strong market price significantly above its retail price, indicating high demand or scarcity. Despite the lack of recent sales data, its current growth rate is positive compared to similar sets, which mostly show negative growth. Given its potential retirement in 1-2 years, the set may see a further increase in value as it becomes rarer. However, the lack of historical data and overall trend information introduces uncertainty, resulting in a medium confidence level for these predictions."
+    },
+    "analyzedAt": "2026-02-02T21:45:25.663Z",
+    "inputSummary": {
+      "ebayListingsCount": 0,
+      "similarSetsCount": 5,
+      "hasHistoricalData": false,
+      "firstOfKind": false
+    },
+    "cachedAt": "2026-02-02T21:45:25.664Z",
+    "ttlType": "standard",
+    "ttlHours": 24
+  },
+  "21279-1": {
+    "setId": "21279-1",
+    "setName": "The Enderman Tower",
+    "theme": "Minecraft / Minifig-scale",
+    "currentValue": 73.25,
+    "prediction": {
+      "1yr": {
+        "value": 78,
+        "date": "2027-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "5yr": {
+        "value": 110,
+        "date": "2031-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "growth1yr": 6.48,
+      "growth5yr": 50.17,
+      "confidence": "medium",
+      "reasoning": "The Enderman Tower set currently has a negative growth rate, but similar sets in the Minecraft theme have shown positive growth over time. Given the average growth of similar sets is 18.1% and considering the set's potential retirement in 1-2 years, a moderate recovery in value is expected. However, the lack of recent sales data and the set's current negative trend suggest a cautious approach, leading to a medium confidence level in these predictions."
+    },
+    "analyzedAt": "2026-02-02T21:45:30.390Z",
+    "inputSummary": {
+      "ebayListingsCount": 0,
+      "similarSetsCount": 5,
+      "hasHistoricalData": false,
+      "firstOfKind": false
+    },
+    "cachedAt": "2026-02-02T21:45:30.390Z",
+    "ttlType": "standard",
+    "ttlHours": 24
+  },
+  "72037-1": {
+    "setId": "72037-1",
+    "setName": "Mario Kart - Mario & Standard Kart",
+    "theme": "Super Mario / Miscellaneous",
+    "currentValue": 747.96,
+    "prediction": {
+      "1yr": {
+        "value": 680,
+        "date": "2027-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "5yr": {
+        "value": 900,
+        "date": "2031-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "growth1yr": -9.09,
+      "growth5yr": 20.33,
+      "confidence": "medium",
+      "reasoning": "The current market value of the set is significantly higher than its retail price, but recent trends indicate a decline in value. The lack of recent eBay sales suggests low liquidity, which could contribute to price volatility. However, as the first Mario Kart buildable set, it may gain collector interest over time, especially if it retires soon. Given the overall falling trend and high volatility, the 1-year prediction is slightly lower, while the 5-year prediction assumes a recovery and potential appreciation due to its unique status."
+    },
+    "analyzedAt": "2026-02-02T21:45:34.545Z",
+    "inputSummary": {
+      "ebayListingsCount": 0,
+      "similarSetsCount": 5,
+      "hasHistoricalData": true,
+      "firstOfKind": true
+    },
+    "cachedAt": "2026-02-02T21:45:34.545Z",
+    "ttlType": "volatile",
+    "ttlHours": 12
+  },
+  "77241-1": {
+    "setId": "77241-1",
+    "setName": "2 Fast 2 Furious Honda S2000",
+    "theme": "Speed Champions / Honda",
+    "currentValue": 43.9,
+    "prediction": {
+      "1yr": {
+        "value": 39.5,
+        "date": "2027-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "5yr": {
+        "value": 45,
+        "date": "2031-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "growth1yr": -10.02,
+      "growth5yr": 2.51,
+      "confidence": "medium",
+      "reasoning": "The current market value of the set is €43.9, but it has been experiencing a negative growth trend, similar to other sets in the same theme. Given the average growth of similar sets is -16.8% and the overall trend is falling, a slight decrease in value over the next year is expected. However, the potential retirement within 1-2 years could stabilize or slightly increase the value in the long term, leading to a modest recovery over five years. The confidence level is medium due to the lack of recent sales data and the medium volatility of the market."
+    },
+    "analyzedAt": "2026-02-02T21:45:38.504Z",
+    "inputSummary": {
+      "ebayListingsCount": 0,
+      "similarSetsCount": 5,
+      "hasHistoricalData": true,
+      "firstOfKind": false
+    },
+    "cachedAt": "2026-02-02T21:45:38.504Z",
+    "ttlType": "standard",
+    "ttlHours": 24
+  },
+  "42212-1": {
+    "setId": "42212-1",
+    "setName": "Ferrari FXX K",
+    "theme": "Technic / Licensed",
+    "currentValue": 57.48,
+    "prediction": {
+      "1yr": {
+        "value": 55,
+        "date": "2027-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "5yr": {
+        "value": 60,
+        "date": "2031-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "growth1yr": -4.31,
+      "growth5yr": 4.38,
+      "confidence": "low",
+      "reasoning": "The Ferrari FXX K set currently shows a negative growth trend and lacks sufficient historical data for a robust analysis. Similar sets have shown a wide range of growth, with some experiencing significant depreciation. Given its active status and weak licensing appeal, the set is unlikely to appreciate significantly in the short term. However, over five years, it may recover to its retail price as it becomes less available. The lack of data and market volatility contribute to a low confidence level in these predictions."
+    },
+    "analyzedAt": "2026-02-02T21:45:44.092Z",
+    "inputSummary": {
+      "ebayListingsCount": 0,
+      "similarSetsCount": 5,
+      "hasHistoricalData": false,
+      "firstOfKind": false
+    },
+    "cachedAt": "2026-02-02T21:45:44.092Z",
+    "ttlType": "standard",
+    "ttlHours": 24
+  },
+  "43257-1": {
+    "setId": "43257-1",
+    "setName": "Angel",
+    "theme": "Disney / Lilo and Stitch",
+    "currentValue": 57.19,
+    "prediction": {
+      "1yr": {
+        "value": 60,
+        "date": "2027-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "5yr": {
+        "value": 75,
+        "date": "2031-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "growth1yr": 4.91,
+      "growth5yr": 31.14,
+      "confidence": "medium",
+      "reasoning": "The Angel set currently shows a negative growth trend, similar to other sets in the same theme. However, given its strong license strength and the potential for increased demand as it approaches retirement, a modest recovery in value is expected over the next year. Over five years, assuming it follows a pattern similar to other Disney-themed sets, a gradual increase in value is likely, especially if it becomes a collector's item. The lack of historical data and recent sales introduces some uncertainty, hence the medium confidence level."
+    },
+    "analyzedAt": "2026-02-02T21:45:47.163Z",
+    "inputSummary": {
+      "ebayListingsCount": 0,
+      "similarSetsCount": 5,
+      "hasHistoricalData": false,
+      "firstOfKind": false
+    },
+    "cachedAt": "2026-02-02T21:45:47.163Z",
+    "ttlType": "standard",
+    "ttlHours": 24
+  },
+  "77253-1": {
+    "setId": "77253-1",
+    "setName": "Bugatti Vision GT Hyper Sports Car",
+    "theme": "Speed Champions / Bugatti",
+    "currentValue": 24.63,
+    "prediction": {
+      "1yr": {
+        "value": 24.63,
+        "date": "2027-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "5yr": {
+        "value": 24.63,
+        "date": "2031-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "growth1yr": 0,
+      "growth5yr": 0,
+      "confidence": "low",
+      "reasoning": "The Bugatti Vision GT Hyper Sports Car set currently shows a negative growth trend similar to other sets in the same theme, with no recent sales data to suggest a change in demand. Given the lack of historical data and the set's active status, it's difficult to predict significant value changes. Therefore, the market value is expected to remain stable in the short to medium term, but the confidence in this prediction is low due to the limited data available."
+    },
+    "analyzedAt": "2026-02-02T21:46:01.409Z",
+    "inputSummary": {
+      "ebayListingsCount": 0,
+      "similarSetsCount": 5,
+      "hasHistoricalData": false,
+      "firstOfKind": false
+    },
+    "cachedAt": "2026-02-02T21:46:01.409Z",
+    "ttlType": "standard",
+    "ttlHours": 24
+  },
+  "77254-1": {
+    "setId": "77254-1",
+    "setName": "Ferrari SF90 XX Stradale Sports Car",
+    "theme": "Speed Champions / Ferrari",
+    "currentValue": 24.63,
+    "prediction": {
+      "1yr": {
+        "value": 23.5,
+        "date": "2027-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "5yr": {
+        "value": 28,
+        "date": "2031-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "growth1yr": -4.59,
+      "growth5yr": 13.68,
+      "confidence": "medium",
+      "reasoning": "The Ferrari SF90 XX Stradale Sports Car set is currently experiencing a negative growth trend similar to other sets in the same theme. Given the average negative growth of similar sets and the lack of recent sales data, a slight decline in value is expected over the next year. However, as the set remains active and has a strong license, it may recover and appreciate slightly over five years, aligning with the average performance of similar sets."
+    },
+    "analyzedAt": "2026-02-02T21:46:04.413Z",
+    "inputSummary": {
+      "ebayListingsCount": 0,
+      "similarSetsCount": 5,
+      "hasHistoricalData": false,
+      "firstOfKind": false
+    },
+    "cachedAt": "2026-02-02T21:46:04.413Z",
+    "ttlType": "standard",
+    "ttlHours": 24
+  },
+  "77255-1": {
+    "setId": "77255-1",
+    "setName": "Lightning McQueen",
+    "theme": "Speed Champions / Disney",
+    "currentValue": 24.63,
+    "prediction": {
+      "1yr": {
+        "value": 24,
+        "date": "2027-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "5yr": {
+        "value": 28,
+        "date": "2031-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "growth1yr": -2.56,
+      "growth5yr": 13.68,
+      "confidence": "medium",
+      "reasoning": "The Lightning McQueen set currently shows a negative growth trend similar to other sets in the Speed Champions theme. Given its active status and strong licensing, it is likely to stabilize around its current market price in the short term. Over five years, as the set potentially retires and becomes more sought after, a modest increase in value is expected, aligning with the average performance of similar sets."
+    },
+    "analyzedAt": "2026-02-02T21:46:07.482Z",
+    "inputSummary": {
+      "ebayListingsCount": 0,
+      "similarSetsCount": 5,
+      "hasHistoricalData": false,
+      "firstOfKind": false
+    },
+    "cachedAt": "2026-02-02T21:46:07.482Z",
+    "ttlType": "standard",
+    "ttlHours": 24
+  },
+  "31218-1": {
+    "setId": "31218-1",
+    "setName": "Japanese Cherry Blossom Landscape",
+    "theme": "LEGO Art / Paintings",
+    "currentValue": 473.33,
+    "prediction": {
+      "1yr": {
+        "value": 520,
+        "date": "2027-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "5yr": {
+        "value": 650,
+        "date": "2031-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "growth1yr": 9.86,
+      "growth5yr": 37.32,
+      "confidence": "medium",
+      "reasoning": "The Japanese Cherry Blossom Landscape set has shown strong initial growth, likely due to its unique status as the first LEGO Art mosaic landscape painting. Despite the lack of recent sales data, its current market price significantly exceeds the retail price, indicating high demand. Given the performance of similar sets and the potential for retirement within 1-2 years, a moderate increase is expected over the next year. Over five years, the set's uniqueness and potential collector interest could drive further appreciation, though the lack of licensing and unknown overall trend introduce some uncertainty."
+    },
+    "analyzedAt": "2026-02-02T21:46:10.474Z",
+    "inputSummary": {
+      "ebayListingsCount": 0,
+      "similarSetsCount": 5,
+      "hasHistoricalData": false,
+      "firstOfKind": true
+    },
+    "cachedAt": "2026-02-02T21:46:10.474Z",
+    "ttlType": "standard",
+    "ttlHours": 24
+  },
+  "30719-1": {
+    "setId": "30719-1",
+    "setName": "Go-Kart Racer",
+    "theme": "City / Racing",
+    "currentValue": 7.02,
+    "prediction": {
+      "1yr": {
+        "value": 7.5,
+        "date": "2027-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "5yr": {
+        "value": 8.5,
+        "date": "2031-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "growth1yr": 6.84,
+      "growth5yr": 21.08,
+      "confidence": "medium",
+      "reasoning": "The Go-Kart Racer set has already shown significant growth from its retail price, and similar small sets in the City theme tend to have moderate appreciation over time. Given the lack of recent sales data and its active status, the set is likely to see gradual growth. However, without strong licensing or unique features, the growth may not be as rapid as some other sets. The average growth of similar sets suggests potential for continued appreciation, but the volatility and overall trend are unknown, leading to a medium confidence level."
+    },
+    "analyzedAt": "2026-02-02T21:46:15.157Z",
+    "inputSummary": {
+      "ebayListingsCount": 0,
+      "similarSetsCount": 5,
+      "hasHistoricalData": false,
+      "firstOfKind": false
+    },
+    "cachedAt": "2026-02-02T21:46:15.157Z",
+    "ttlType": "standard",
+    "ttlHours": 24
+  },
+  "30721-1": {
+    "setId": "30721-1",
+    "setName": "Flower Stand with Roses",
+    "theme": "Friends / General",
+    "currentValue": 4.39,
+    "prediction": {
+      "1yr": {
+        "value": 4.6,
+        "date": "2027-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "5yr": {
+        "value": 5.2,
+        "date": "2031-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "growth1yr": 4.78,
+      "growth5yr": 18.45,
+      "confidence": "medium",
+      "reasoning": "The Flower Stand with Roses set has a modest current growth rate compared to similar sets, and its market price is slightly above retail. Given the lack of historical data and eBay sales, the set's growth is uncertain. However, considering the average growth of similar sets, a conservative estimate suggests a gradual increase in value over the next five years. The confidence level is medium due to the limited data and unknown overall trend."
+    },
+    "analyzedAt": "2026-02-02T21:46:24.180Z",
+    "inputSummary": {
+      "ebayListingsCount": 0,
+      "similarSetsCount": 5,
+      "hasHistoricalData": false,
+      "firstOfKind": false
+    },
+    "cachedAt": "2026-02-02T21:46:24.180Z",
+    "ttlType": "standard",
+    "ttlHours": 24
+  },
+  "40922-1": {
+    "setId": "40922-1",
+    "setName": "Lilo & Stitch Angel",
+    "theme": "BrickHeadz / Disney",
+    "currentValue": 22.86,
+    "prediction": {
+      "1yr": {
+        "value": 20.1,
+        "date": "2027-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "5yr": {
+        "value": 18.5,
+        "date": "2031-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "growth1yr": -12.07,
+      "growth5yr": -19.07,
+      "confidence": "medium",
+      "reasoning": "The current market trend for similar sets shows a consistent negative growth rate, averaging around -11.5%. Given the active retirement status and strong license strength, the set may stabilize slightly in the short term but is likely to continue depreciating over the long term. The lack of recent sales data and overall market volatility contribute to a medium confidence level in these predictions."
+    },
+    "analyzedAt": "2026-02-02T21:46:27.682Z",
+    "inputSummary": {
+      "ebayListingsCount": 0,
+      "similarSetsCount": 5,
+      "hasHistoricalData": false,
+      "firstOfKind": false
+    },
+    "cachedAt": "2026-02-02T21:46:27.682Z",
+    "ttlType": "standard",
+    "ttlHours": 24
+  },
+  "40779-1": {
+    "setId": "40779-1",
+    "setName": "Year of the Horse",
+    "theme": "Seasonal / Chinese New Year",
+    "currentValue": 4.4,
+    "prediction": {
+      "1yr": {
+        "value": 4,
+        "date": "2027-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "5yr": {
+        "value": 3.5,
+        "date": "2031-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "growth1yr": -9.09,
+      "growth5yr": -20.45,
+      "confidence": "low",
+      "reasoning": "The Year of the Horse set has a current market price of €4.4 with a high growth rate due to its initial retail price of €0. However, similar sets in the Seasonal theme show negative growth trends, suggesting potential depreciation. The lack of recent sales data and the set's likely retirement contribute to the uncertainty in predicting future values."
+    },
+    "analyzedAt": "2026-02-02T21:46:29.725Z",
+    "inputSummary": {
+      "ebayListingsCount": 0,
+      "similarSetsCount": 5,
+      "hasHistoricalData": false,
+      "firstOfKind": false
+    },
+    "cachedAt": "2026-02-02T21:46:29.725Z",
+    "ttlType": "standard",
+    "ttlHours": 24
+  },
+  "40915-1": {
+    "setId": "40915-1",
+    "setName": "Lion Dance",
+    "theme": "Seasonal / Chinese Traditional Festivals",
+    "currentValue": 0,
+    "prediction": {
+      "1yr": {
+        "value": 5,
+        "date": "2027-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "5yr": {
+        "value": 15,
+        "date": "2031-02-02",
+        "source": "OpenAI GPT-4"
+      },
+      "growth1yr": null,
+      "growth5yr": null,
+      "confidence": "low",
+      "reasoning": "The Lion Dance set currently has no market data or retail price, making it difficult to predict its future value accurately. However, similar sets with a retail price of €0, like the Year of the Horse, have shown significant growth. Given the average growth of similar sets and the cultural significance of the Lion Dance, a modest increase in value over the next few years is possible, though the lack of data results in a low confidence level."
+    },
+    "analyzedAt": "2026-02-02T21:46:33.249Z",
+    "inputSummary": {
+      "ebayListingsCount": 0,
+      "similarSetsCount": 5,
+      "hasHistoricalData": false,
+      "firstOfKind": false
+    },
+    "cachedAt": "2026-02-02T21:46:33.249Z",
+    "ttlType": "standard",
+    "ttlHours": 24
   }
 }
