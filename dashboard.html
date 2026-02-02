@@ -607,7 +607,7 @@
               </span>
             </div>
             
-            <div class="grid grid-cols-3 gap-2 mb-3">
+            <div class="grid grid-cols-2 gap-2 mb-3">
               <div>
                 <div class="text-xs text-gray-400">Value</div>
                 <div class="font-bold text-sm">€${s.value.toLocaleString('de-DE', {minimumFractionDigits: 0})}</div>
@@ -615,6 +615,15 @@
               <div>
                 <div class="text-xs text-gray-400">Growth</div>
                 <div class="font-bold text-sm ${growthColor}">${s.growth_pct >= 0 ? '+' : ''}${s.growth_pct.toFixed(1)}%</div>
+              </div>
+              <div title="${s.purchaseHistory && s.purchaseHistory.length > 0 ? (() => {
+                const totalQty = s.purchaseHistory.reduce((sum, p) => sum + (p.quantity || 0), 0);
+                const weightedTotal = s.purchaseHistory.reduce((sum, p) => sum + (p.price || 0) * (p.quantity || 0), 0);
+                const avgPaid = totalQty > 0 ? weightedTotal / totalQty : s.paid;
+                return `Avg paid: €${avgPaid.toFixed(2)} (weighted average from ${s.purchaseHistory.length} purchase${s.purchaseHistory.length !== 1 ? 's' : ''})`;
+              })() : `Cost basis: €${s.paid.toFixed(2)}`}">
+                <div class="text-xs text-gray-400">Paid</div>
+                <div class="font-bold text-sm text-gray-300">€${s.paid.toLocaleString('de-DE', {minimumFractionDigits: 0})}</div>
               </div>
               <div>
                 <div class="text-xs text-purple-400 flex items-center gap-1">🔮 1yr</div>
