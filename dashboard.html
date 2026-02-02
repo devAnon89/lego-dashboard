@@ -874,11 +874,15 @@
           name: set.name,
           theme: set.theme,
           retail_price: set.retail,
+          retail: set.retail,
           price_paid: set.paid,
+          paid: set.paid,
           current_value: set.value,
-          qty_new: set.qtyNew,
-          qty_used: set.qtyUsed,
-          growth: set.growth
+          value: set.value,
+          qty_new: set.qtyNew || 0,
+          qty_used: set.qtyUsed || 0,
+          growth: set.growth,
+          growth_pct: set.growth
         };
       });
       
@@ -1824,7 +1828,7 @@
             </div>
 
 
-            <div class="grid grid-cols-3 gap-2 mb-3">
+            <div class="grid grid-cols-4 gap-2 mb-3">
               <div>
                 <div class="text-xs text-gray-400">Value</div>
                 <div class="font-bold text-sm">€${s.value.toLocaleString('de-DE', {minimumFractionDigits: 0})}</div>
@@ -1843,7 +1847,13 @@
                 <div class="font-bold text-sm text-gray-300">€${s.paid.toLocaleString('de-DE', {minimumFractionDigits: 0})}</div>
               </div>
               <div>
-                <div class="text-xs text-purple-400 flex items-center gap-1">🔮 1yr</div>
+                <div class="text-xs text-gray-400">Qty</div>
+                <div class="font-bold text-sm text-gray-300">${(s.qty_new || 0) + (s.qty_used || 0)} <span class="text-xs font-normal ${s.qty_new > 0 && s.qty_used > 0 ? 'text-yellow-400' : s.qty_new > 0 ? 'text-green-400' : 'text-gray-500'}">${s.qty_new > 0 && s.qty_used > 0 ? `${s.qty_new}N/${s.qty_used}U` : s.qty_new > 0 ? 'New' : 'Used'}</span></div>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 gap-2 mb-3">
+              <div>
+                <div class="text-xs text-purple-400 flex items-center gap-1">🔮 1yr Projection</div>
                 <div class="font-bold text-sm text-purple-400">+${projectedGrowth.toFixed(0)}%</div>
               </div>
             </div>
