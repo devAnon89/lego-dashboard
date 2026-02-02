@@ -31,6 +31,74 @@ const VOLATILITY_THRESHOLDS = {
   HIGH: 0.15,   // > 15%
 };
 
+// Theme introduction data - maps themes/categories to their first set and introduction dates
+// Used for first-of-kind detection to identify pioneering sets in their category
+const THEME_INTRODUCTIONS = {
+  // Icons/Licensed first-of-kind sets
+  'Icons / Licensed / Lord of the Rings': {
+    firstSet: '10316-1',
+    year: 2023,
+    description: 'First Icons-scale Lord of the Rings set (Rivendell)',
+  },
+  'Icons / Modular Buildings': {
+    firstSet: '10182-1',
+    year: 2007,
+    description: 'First Modular Building (Café Corner)',
+  },
+  'Botanicals': {
+    firstSet: '10280-1',
+    year: 2021,
+    description: 'First Botanical Collection (Flower Bouquet)',
+  },
+  'Ideas / Licensed / Polaroid': {
+    firstSet: '21345-1',
+    year: 2024,
+    description: 'First Polaroid licensed set',
+  },
+  'Ideas / Botanical': {
+    firstSet: '21353-1',
+    year: 2024,
+    description: 'First Ideas Botanical Garden',
+  },
+  'LEGO Art / Paintings': {
+    firstSet: '31218-1',
+    year: 2024,
+    description: 'First LEGO Art mosaic landscape painting',
+  },
+  'Super Mario / Mario Kart': {
+    firstSet: '72037-1',
+    year: 2025,
+    description: 'First Mario Kart buildable set',
+  },
+  'Technic / Lamborghini': {
+    firstSet: '42115-1',
+    year: 2020,
+    description: 'First Technic Ultimate Car Series Lamborghini',
+  },
+  'Fortnite': {
+    firstSet: '77073-1',
+    year: 2024,
+    description: 'First LEGO Fortnite licensed set (Battle Bus)',
+  },
+  'Wicked': {
+    firstSet: '75682-1',
+    year: 2024,
+    description: 'First LEGO Wicked licensed set',
+  },
+  'Super Mario / Game Boy': {
+    firstSet: '72046-1',
+    year: 2025,
+    description: 'First buildable Game Boy set',
+  },
+};
+
+// Keywords that indicate first-of-kind status in specific categories
+const FIRST_OF_KIND_INDICATORS = {
+  licenses: ['Lord of the Rings', 'Polaroid', 'Fortnite', 'Wicked', 'Mario Kart', 'Game Boy'],
+  categories: ['Modular Buildings', 'Botanical', 'Paintings'],
+  prefixes: ['First', 'Iconic', 'Ultimate'],
+};
+
 /**
  * Load price history from BrickEconomy data
  * @returns {Object} Price history data
@@ -301,6 +369,103 @@ function analyzeEbayTrendForPeriod(soldListingsData, days) {
 }
 
 /**
+ * Detect if a set is "first of kind" based on theme introduction data
+ * @param {string} setId - Set identifier (e.g., '10316-1')
+ * @param {Object} setInfo - Set information from portfolio (name, theme)
+ * @returns {Object} First-of-kind analysis result
+ */
+function detectFirstOfKind(setId, setInfo) {
+  const result = {
+    isFirstOfKind: false,
+    category: null,
+    reason: null,
+    introductionYear: null,
+    premiumFactor: 1.0,
+  };
+
+  if (!setId || !setInfo) {
+    return result;
+  }
+
+  const theme = setInfo.theme || '';
+  const name = setInfo.name || '';
+
+  // Check exact matches in THEME_INTRODUCTIONS
+  for (const [category, data] of Object.entries(THEME_INTRODUCTIONS)) {
+    if (data.firstSet === setId) {
+      result.isFirstOfKind = true;
+      result.category = category;
+      result.reason = data.description;
+      result.introductionYear = data.year;
+      result.premiumFactor = 1.25; // 25% premium for first-of-kind sets
+      return result;
+    }
+  }
+
+  // Check if set matches theme introduction pattern
+  for (const [category, data] of Object.entries(THEME_INTRODUCTIONS)) {
+    const categoryParts = category.split(' / ');
+    const themeParts = theme.split(' / ');
+
+    // Check if theme hierarchy matches
+    const themeMatches = categoryParts.every((part, index) => {
+      if (index >= themeParts.length) return false;
+      return themeParts[index].toLowerCase().includes(part.toLowerCase()) ||
+             part.toLowerCase().includes(themeParts[index].toLowerCase());
+    });
+
+    if (themeMatches && data.firstSet === setId) {
+      result.isFirstOfKind = true;
+      result.category = category;
+      result.reason = data.description;
+      result.introductionYear = data.year;
+      result.premiumFactor = 1.25;
+      return result;
+    }
+  }
+
+  // Check for license-based first-of-kind
+  for (const license of FIRST_OF_KIND_INDICATORS.licenses) {
+    if (name.toLowerCase().includes(license.toLowerCase()) ||
+        theme.toLowerCase().includes(license.toLowerCase())) {
+      // Check if this set is the first for this license in THEME_INTRODUCTIONS
+      const matchingCategory = Object.entries(THEME_INTRODUCTIONS).find(([cat, data]) => {
+        return cat.toLowerCase().includes(license.toLowerCase()) && data.firstSet === setId;
+      });
+
+      if (matchingCategory) {
+        result.isFirstOfKind = true;
+        result.category = matchingCategory[0];
+        result.reason = matchingCategory[1].description;
+        result.introductionYear = matchingCategory[1].year;
+        result.premiumFactor = 1.20;
+        return result;
+      }
+    }
+  }
+
+  // Check for category-based first-of-kind
+  for (const category of FIRST_OF_KIND_INDICATORS.categories) {
+    if (theme.toLowerCase().includes(category.toLowerCase())) {
+      const matchingCategory = Object.entries(THEME_INTRODUCTIONS).find(([cat, data]) => {
+        return cat.toLowerCase().includes(category.toLowerCase()) && data.firstSet === setId;
+      });
+
+      if (matchingCategory) {
+        result.isFirstOfKind = true;
+        result.category = matchingCategory[0];
+        result.reason = matchingCategory[1].description;
+        result.introductionYear = matchingCategory[1].year;
+        result.premiumFactor = 1.15;
+        return result;
+      }
+    }
+  }
+
+  return result;
+}
+
+/**
  * Determine overall trend direction based on multiple periods
  * @param {Object} trend30d - 30-day trend analysis
  * @param {Object} trend90d - 90-day trend analysis
@@ -331,9 +496,10 @@ function determineOverallTrend(trend30d, trend90d, trend365d) {
  * @param {string} setId - Set identifier
  * @param {Object} priceHistoryData - Price history data
  * @param {Object} ebayHistoryData - eBay price history data
+ * @param {Object} portfolioSetInfo - Portfolio set info (optional, for first-of-kind detection)
  * @returns {Object} Complete analysis results
  */
-function analyzeSet(setId, priceHistoryData, ebayHistoryData) {
+function analyzeSet(setId, priceHistoryData, ebayHistoryData, portfolioSetInfo = null) {
   const setData = priceHistoryData.sets?.[setId];
   const priceHistory = setData?.priceHistory || [];
 
@@ -355,9 +521,14 @@ function analyzeSet(setId, priceHistoryData, ebayHistoryData) {
   const overallVolatility = calculateCoeffOfVariation(allPrices);
   const overallVolatilityIndicator = getVolatilityIndicator(overallVolatility);
 
+  // First-of-kind detection
+  const setInfo = portfolioSetInfo || { name: setData?.name, theme: setData?.theme };
+  const firstOfKind = detectFirstOfKind(setId, setInfo);
+
   return {
     setId,
-    setName: setData?.name || 'Unknown',
+    setName: setData?.name || portfolioSetInfo?.name || 'Unknown',
+    theme: portfolioSetInfo?.theme || setData?.theme || 'Unknown',
     currentValue: setData?.currentValue || null,
     analyzedAt: new Date().toISOString(),
     brickEconomy: {
@@ -375,9 +546,11 @@ function analyzeSet(setId, priceHistoryData, ebayHistoryData) {
       statistics: ebayListings?.statistics || null,
       lastUpdate: ebayListings?.lastUpdate || null,
     },
+    firstOfKind,
     summary: {
       trend: overallTrend,
       volatility: overallVolatilityIndicator,
+      firstOfKind: firstOfKind.isFirstOfKind,
       recommendation: getRecommendation(overallTrend, overallVolatilityIndicator),
     },
   };
@@ -415,9 +588,22 @@ function getRecommendation(trend, volatility) {
 function displayAnalysis(analysis) {
   logger.section(`Analysis: ${analysis.setId} - ${analysis.setName}`);
 
+  logger.info(`Theme: ${analysis.theme || 'Unknown'}`);
   logger.info(`Current Value: ${analysis.currentValue ? '€' + analysis.currentValue.toFixed(2) : 'N/A'}`);
   logger.info(`Overall Trend: ${analysis.summary.trend.toUpperCase()}`);
   logger.info(`Volatility: ${analysis.summary.volatility.toUpperCase()}`);
+
+  // Display first-of-kind status
+  if (analysis.firstOfKind && analysis.firstOfKind.isFirstOfKind) {
+    logger.info('');
+    logger.info('⭐ FIRST OF KIND');
+    logger.info(`  Category: ${analysis.firstOfKind.category}`);
+    logger.info(`  Reason: ${analysis.firstOfKind.reason}`);
+    logger.info(`  Introduction Year: ${analysis.firstOfKind.introductionYear}`);
+    logger.info(`  Premium Factor: ${(analysis.firstOfKind.premiumFactor * 100 - 100).toFixed(0)}% premium`);
+  }
+
+  logger.info('');
   logger.info(`Recommendation: ${analysis.summary.recommendation}`);
 
   logger.info('');
@@ -472,6 +658,7 @@ async function main() {
     logger.info('Trend indicators: rising, stable, falling');
     logger.info('Volatility indicators: low, medium, high');
     logger.info('Analysis periods: 30-day, 90-day, 365-day');
+    logger.info('First-of-kind detection: enabled');
     return;
   }
 
@@ -503,7 +690,9 @@ async function main() {
   const results = [];
   for (const setId of setsToAnalyze) {
     try {
-      const analysis = analyzeSet(setId, priceHistory, ebayHistory);
+      // Get portfolio set info for first-of-kind detection
+      const portfolioSetInfo = portfolio.sets.find(s => s.setNumber === setId);
+      const analysis = analyzeSet(setId, priceHistory, ebayHistory, portfolioSetInfo);
       results.push(analysis);
       displayAnalysis(analysis);
     } catch (error) {
@@ -517,12 +706,14 @@ async function main() {
   const falling = results.filter(r => r.summary.trend === 'falling').length;
   const stable = results.filter(r => r.summary.trend === 'stable').length;
   const unknown = results.filter(r => r.summary.trend === 'unknown').length;
+  const firstOfKindCount = results.filter(r => r.summary.firstOfKind).length;
 
   logger.info(`Total sets analyzed: ${results.length}`);
   logger.info(`Rising: ${rising}`);
   logger.info(`Stable: ${stable}`);
   logger.info(`Falling: ${falling}`);
   logger.info(`Unknown/Insufficient data: ${unknown}`);
+  logger.info(`First-of-kind sets: ${firstOfKindCount}`);
 
   return results;
 }
@@ -543,10 +734,13 @@ module.exports = {
   analyzeTrendForPeriod,
   analyzeEbayTrendForPeriod,
   determineOverallTrend,
+  detectFirstOfKind,
   analyzeSet,
   getRecommendation,
   TREND_THRESHOLDS,
   VOLATILITY_THRESHOLDS,
+  THEME_INTRODUCTIONS,
+  FIRST_OF_KIND_INDICATORS,
   DATA_DIR,
   PORTFOLIO_FILE,
   PRICE_HISTORY_FILE,
