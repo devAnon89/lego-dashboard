@@ -1,0 +1,79 @@
+{
+  "priceHistory": [
+    {
+      "date": "2025-03-31",
+      "newValue": 56.31,
+      "usedValue": 59.99
+    },
+    {
+      "date": "2025-04-30",
+      "newValue": 45.2,
+      "usedValue": 46.94
+    },
+    {
+      "date": "2025-05-31",
+      "newValue": 44.07,
+      "usedValue": 46.95
+    },
+    {
+      "date": "2025-06-30",
+      "newValue": 42.62,
+      "usedValue": 44.26
+    },
+    {
+      "date": "2025-07-31",
+      "newValue": 42.7,
+      "usedValue": 45.49
+    },
+    {
+      "date": "2025-08-31",
+      "newValue": 40.68,
+      "usedValue": 42.25
+    },
+    {
+      "date": "2025-09-30",
+      "newValue": 41.17,
+      "usedValue": 44.57
+    },
+    {
+      "date": "2025-11-01",
+      "newValue": 38.38,
+      "usedValue": 39.85
+    },
+    {
+      "date": "2025-12-01",
+      "newValue": 40.1,
+      "usedValue": 42.72
+    },
+    {
+      "date": "2026-01-01",
+      "newValue": 36.35,
+      "usedValue": 37.75
+    }
+  ],
+  "predictions": {
+    "1yr": {
+      "value": 32.01,
+      "source": "prediction-section"
+    },
+    "5yr": {
+      "value": 33.5,
+      "low": 33,
+      "high": 34,
+      "source": "prediction-section"
+    },
+    "retirement": {
+      "estimated": "Mid 2027",
+      "confidence": 72.7
+    },
+    "annualGrowth": 6.17
+  },
+  "currentValue": 25.39,
+  "setInfo": {
+    "name": "Champions 2 Fast 2 Furious Honda S2000",
+    "retailPrice": 26.99
+  },
+  "setId": "77241-1",
+  "url": "https://www.brickeconomy.com/set/77241-1/lego-speed-champions-2-fast-2-furious-honda-s2000",
+  "scrapedAt": "2026-02-02T19:43:36.792Z"
+}

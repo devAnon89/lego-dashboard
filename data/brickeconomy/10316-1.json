@@ -1,0 +1,214 @@
+{
+  "priceHistory": [
+    {
+      "date": "2023-02-01",
+      "newValue": 845.5,
+      "usedValue": 900.81
+    },
+    {
+      "date": "2023-03-01",
+      "newValue": 657.49,
+      "usedValue": 682.78
+    },
+    {
+      "date": "2023-03-31",
+      "newValue": 642.94,
+      "usedValue": 685
+    },
+    {
+      "date": "2023-04-30",
+      "newValue": 594.9,
+      "usedValue": 617.78
+    },
+    {
+      "date": "2023-05-31",
+      "newValue": 608.87,
+      "usedValue": 648.7
+    },
+    {
+      "date": "2023-06-30",
+      "newValue": 607.68,
+      "usedValue": 631.06
+    },
+    {
+      "date": "2023-07-31",
+      "newValue": 612.69,
+      "usedValue": 652.77
+    },
+    {
+      "date": "2023-08-31",
+      "newValue": 594.05,
+      "usedValue": 616.9
+    },
+    {
+      "date": "2023-09-30",
+      "newValue": 633.94,
+      "usedValue": 686.28
+    },
+    {
+      "date": "2023-11-01",
+      "newValue": 602.05,
+      "usedValue": 625.2
+    },
+    {
+      "date": "2023-12-01",
+      "newValue": 538.95,
+      "usedValue": 574.21
+    },
+    {
+      "date": "2024-01-01",
+      "newValue": 596.45,
+      "usedValue": 619.39
+    },
+    {
+      "date": "2024-02-01",
+      "newValue": 594.5,
+      "usedValue": 633.39
+    },
+    {
+      "date": "2024-03-01",
+      "newValue": 560.78,
+      "usedValue": 582.35
+    },
+    {
+      "date": "2024-03-31",
+      "newValue": 568.16,
+      "usedValue": 605.33
+    },
+    {
+      "date": "2024-04-30",
+      "newValue": 573.62,
+      "usedValue": 595.68
+    },
+    {
+      "date": "2024-05-31",
+      "newValue": 564.63,
+      "usedValue": 601.57
+    },
+    {
+      "date": "2024-06-30",
+      "newValue": 605.79,
+      "usedValue": 629.09
+    },
+    {
+      "date": "2024-07-31",
+      "newValue": 578.38,
+      "usedValue": 616.22
+    },
+    {
+      "date": "2024-08-31",
+      "newValue": 550.61,
+      "usedValue": 571.79
+    },
+    {
+      "date": "2024-09-30",
+      "newValue": 671.48,
+      "usedValue": 726.92
+    },
+    {
+      "date": "2024-11-01",
+      "newValue": 590.07,
+      "usedValue": 612.76
+    },
+    {
+      "date": "2024-12-01",
+      "newValue": 631.77,
+      "usedValue": 673.1
+    },
+    {
+      "date": "2025-01-01",
+      "newValue": 587.19,
+      "usedValue": 609.78
+    },
+    {
+      "date": "2025-02-01",
+      "newValue": 618.74,
+      "usedValue": 659.22
+    },
+    {
+      "date": "2025-03-01",
+      "newValue": 528.61,
+      "usedValue": 548.95
+    },
+    {
+      "date": "2025-03-31",
+      "newValue": 469.5,
+      "usedValue": 500.21
+    },
+    {
+      "date": "2025-04-30",
+      "newValue": 536.31,
+      "usedValue": 556.94
+    },
+    {
+      "date": "2025-05-31",
+      "newValue": 491.56,
+      "usedValue": 523.72
+    },
+    {
+      "date": "2025-06-30",
+      "newValue": 503.18,
+      "usedValue": 522.53
+    },
+    {
+      "date": "2025-07-31",
+      "newValue": 497.78,
+      "usedValue": 530.34
+    },
+    {
+      "date": "2025-08-31",
+      "newValue": 462.22,
+      "usedValue": 480
+    },
+    {
+      "date": "2025-09-30",
+      "newValue": 496.51,
+      "usedValue": 537.51
+    },
+    {
+      "date": "2025-11-01",
+      "newValue": 491.49,
+      "usedValue": 510.39
+    },
+    {
+      "date": "2025-12-01",
+      "newValue": 516.82,
+      "usedValue": 550.63
+    },
+    {
+      "date": "2026-01-01",
+      "newValue": 506.4,
+      "usedValue": 525.88
+    },
+    {
+      "date": "2026-02-01",
+      "newValue": 495.57,
+      "usedValue": 527.99
+    }
+  ],
+  "predictions": {
+    "1yr": {
+      "value": 585.11,
+      "source": "prediction-section"
+    },
+    "5yr": {
+      "value": 588,
+      "low": 576,
+      "high": 600,
+      "source": "prediction-section"
+    },
+    "retirement": {
+      "estimated": "Mid 2026",
+      "confidence": 72.7
+    },
+    "annualGrowth": 4.74
+  },
+  "currentValue": 428.27,
+  "setInfo": {
+    "name": "Lord of the Rings Rivendell",
+    "retailPrice": 499.99
+  },
+  "setId": "10316-1",
+  "url": "https://www.brickeconomy.com/set/10316-1/lego-the-lord-of-the-rings-rivendell",
+  "scrapedAt": "2026-02-02T19:41:21.383Z"
+}

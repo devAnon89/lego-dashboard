@@ -1,0 +1,28 @@
+{
+  "priceHistory": [],
+  "predictions": {
+    "1yr": {
+      "value": 34.58,
+      "source": "prediction-section"
+    },
+    "5yr": {
+      "value": 39,
+      "low": 37,
+      "high": 41,
+      "source": "prediction-section"
+    },
+    "retirement": {
+      "estimated": "Mid 2027",
+      "confidence": 73.2
+    },
+    "annualGrowth": 9.31
+  },
+  "currentValue": 221,
+  "setInfo": {
+    "name": "Champions Porsche 911 GT3 RS Super Car",
+    "retailPrice": 26.99
+  },
+  "setId": "77239-1",
+  "url": "https://www.brickeconomy.com/set/77239-1/lego-speed-champions-porsche-911-gt3-rs",
+  "scrapedAt": "2026-02-02T19:43:33.974Z"
+}

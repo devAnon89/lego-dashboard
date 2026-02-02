@@ -1,0 +1,24 @@
+{
+  "priceHistory": [],
+  "predictions": {
+    "1yr": {
+      "value": 148.84,
+      "source": "prediction-section"
+    },
+    "5yr": {
+      "value": 186.5,
+      "low": 183,
+      "high": 190,
+      "source": "prediction-section"
+    },
+    "annualGrowth": 8
+  },
+  "currentValue": 132.18,
+  "setInfo": {
+    "name": "Japanese Cherry Blossom Landscape",
+    "retailPrice": 119.99
+  },
+  "setId": "31218-1",
+  "url": "https://www.brickeconomy.com/set/31218-1/lego-art-japanese-cherry-blossom-landscape",
+  "scrapedAt": "2026-02-02T19:42:02.810Z"
+}

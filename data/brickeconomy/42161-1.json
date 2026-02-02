@@ -1,0 +1,194 @@
+{
+  "priceHistory": [
+    {
+      "date": "2023-05-31",
+      "newValue": 47.07,
+      "usedValue": 50.15
+    },
+    {
+      "date": "2023-06-30",
+      "newValue": 45.75,
+      "usedValue": 47.51
+    },
+    {
+      "date": "2023-07-31",
+      "newValue": 65.47,
+      "usedValue": 69.75
+    },
+    {
+      "date": "2023-08-31",
+      "newValue": 60.95,
+      "usedValue": 63.29
+    },
+    {
+      "date": "2023-09-30",
+      "newValue": 61.46,
+      "usedValue": 66.54
+    },
+    {
+      "date": "2023-11-01",
+      "newValue": 53.57,
+      "usedValue": 55.64
+    },
+    {
+      "date": "2023-12-01",
+      "newValue": 55.92,
+      "usedValue": 59.58
+    },
+    {
+      "date": "2024-01-01",
+      "newValue": 58.65,
+      "usedValue": 60.91
+    },
+    {
+      "date": "2024-02-01",
+      "newValue": 57.6,
+      "usedValue": 61.37
+    },
+    {
+      "date": "2024-03-01",
+      "newValue": 50.27,
+      "usedValue": 52.2
+    },
+    {
+      "date": "2024-03-31",
+      "newValue": 48.84,
+      "usedValue": 52.04
+    },
+    {
+      "date": "2024-04-30",
+      "newValue": 50.42,
+      "usedValue": 52.36
+    },
+    {
+      "date": "2024-05-31",
+      "newValue": 51.76,
+      "usedValue": 55.14
+    },
+    {
+      "date": "2024-06-30",
+      "newValue": 52.95,
+      "usedValue": 54.98
+    },
+    {
+      "date": "2024-07-31",
+      "newValue": 54.56,
+      "usedValue": 58.13
+    },
+    {
+      "date": "2024-08-31",
+      "newValue": 56.07,
+      "usedValue": 58.23
+    },
+    {
+      "date": "2024-09-30",
+      "newValue": 57.44,
+      "usedValue": 62.18
+    },
+    {
+      "date": "2024-11-01",
+      "newValue": 52.66,
+      "usedValue": 54.69
+    },
+    {
+      "date": "2024-12-01",
+      "newValue": 57.18,
+      "usedValue": 60.92
+    },
+    {
+      "date": "2025-01-01",
+      "newValue": 54.31,
+      "usedValue": 56.39
+    },
+    {
+      "date": "2025-02-01",
+      "newValue": 56.69,
+      "usedValue": 60.4
+    },
+    {
+      "date": "2025-03-01",
+      "newValue": 51.94,
+      "usedValue": 53.94
+    },
+    {
+      "date": "2025-03-31",
+      "newValue": 49.28,
+      "usedValue": 52.5
+    },
+    {
+      "date": "2025-04-30",
+      "newValue": 54.3,
+      "usedValue": 56.39
+    },
+    {
+      "date": "2025-05-31",
+      "newValue": 52.3,
+      "usedValue": 55.73
+    },
+    {
+      "date": "2025-06-30",
+      "newValue": 53.1,
+      "usedValue": 55.14
+    },
+    {
+      "date": "2025-07-31",
+      "newValue": 49.95,
+      "usedValue": 53.22
+    },
+    {
+      "date": "2025-08-31",
+      "newValue": 47.38,
+      "usedValue": 49.2
+    },
+    {
+      "date": "2025-09-30",
+      "newValue": 53.38,
+      "usedValue": 57.79
+    },
+    {
+      "date": "2025-11-01",
+      "newValue": 54.05,
+      "usedValue": 56.13
+    },
+    {
+      "date": "2025-12-01",
+      "newValue": 57.37,
+      "usedValue": 61.12
+    },
+    {
+      "date": "2026-01-01",
+      "newValue": 47.43,
+      "usedValue": 49.26
+    },
+    {
+      "date": "2026-02-01",
+      "newValue": 52.32,
+      "usedValue": 55.74
+    }
+  ],
+  "predictions": {
+    "1yr": {
+      "value": 56.76,
+      "source": "prediction-section"
+    },
+    "5yr": {
+      "value": 51,
+      "low": 50,
+      "high": 52,
+      "source": "prediction-section"
+    },
+    "retirement": {
+      "estimated": "Mid 2026",
+      "confidence": 82.5
+    },
+    "annualGrowth": 3.2
+  },
+  "currentValue": 38.26,
+  "setInfo": {
+    "name": "Lamborghini Huracán Tecnica",
+    "retailPrice": 52.99
+  },
+  "setId": "42161-1",
+  "url": "https://www.brickeconomy.com/set/42161-1/lego-technic-lamborghini-huracan-tecnica",
+  "scrapedAt": "2026-02-02T19:42:25.395Z"
+}

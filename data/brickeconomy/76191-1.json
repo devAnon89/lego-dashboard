@@ -1,0 +1,283 @@
+{
+  "priceHistory": [
+    {
+      "date": "2021-08-31",
+      "newValue": 81.57,
+      "usedValue": 81.57
+    },
+    {
+      "date": "2021-09-30",
+      "newValue": 80.56,
+      "usedValue": 80.56
+    },
+    {
+      "date": "2021-11-01",
+      "newValue": 81.06,
+      "usedValue": 81.06
+    },
+    {
+      "date": "2021-12-01",
+      "newValue": 74.87,
+      "usedValue": 74.87
+    },
+    {
+      "date": "2022-01-01",
+      "newValue": 74.77,
+      "usedValue": 79.66
+    },
+    {
+      "date": "2022-02-01",
+      "newValue": 66.73,
+      "usedValue": 72.79
+    },
+    {
+      "date": "2022-03-01",
+      "newValue": 72.46,
+      "usedValue": 77.2
+    },
+    {
+      "date": "2022-03-31",
+      "newValue": 74.35,
+      "usedValue": 81.11
+    },
+    {
+      "date": "2022-04-30",
+      "newValue": 71.88,
+      "usedValue": 76.59
+    },
+    {
+      "date": "2022-05-31",
+      "newValue": 73.76,
+      "usedValue": 80.47
+    },
+    {
+      "date": "2022-06-30",
+      "newValue": 74.9,
+      "usedValue": 79.8
+    },
+    {
+      "date": "2022-07-31",
+      "newValue": 78.24,
+      "usedValue": 85.35
+    },
+    {
+      "date": "2022-08-31",
+      "newValue": 79.3,
+      "usedValue": 84.48
+    },
+    {
+      "date": "2022-09-30",
+      "newValue": 78.61,
+      "usedValue": 85.75
+    },
+    {
+      "date": "2022-11-01",
+      "newValue": 81.63,
+      "usedValue": 86.97
+    },
+    {
+      "date": "2022-12-01",
+      "newValue": 73.29,
+      "usedValue": 79.95
+    },
+    {
+      "date": "2023-01-01",
+      "newValue": 69.45,
+      "usedValue": 74
+    },
+    {
+      "date": "2023-02-01",
+      "newValue": 78.49,
+      "usedValue": 85.63
+    },
+    {
+      "date": "2023-03-01",
+      "newValue": 72.09,
+      "usedValue": 76.81
+    },
+    {
+      "date": "2023-03-31",
+      "newValue": 75.07,
+      "usedValue": 81.89
+    },
+    {
+      "date": "2023-04-30",
+      "newValue": 78.68,
+      "usedValue": 83.83
+    },
+    {
+      "date": "2023-05-31",
+      "newValue": 73.06,
+      "usedValue": 79.7
+    },
+    {
+      "date": "2023-06-30",
+      "newValue": 76.1,
+      "usedValue": 81.07
+    },
+    {
+      "date": "2023-07-31",
+      "newValue": 79.31,
+      "usedValue": 86.52
+    },
+    {
+      "date": "2023-08-31",
+      "newValue": 77.65,
+      "usedValue": 82.73
+    },
+    {
+      "date": "2023-09-30",
+      "newValue": 66.11,
+      "usedValue": 72.12
+    },
+    {
+      "date": "2023-11-01",
+      "newValue": 67.69,
+      "usedValue": 72.12
+    },
+    {
+      "date": "2023-12-01",
+      "newValue": 86.99,
+      "usedValue": 94.9
+    },
+    {
+      "date": "2024-01-01",
+      "newValue": 80.47,
+      "usedValue": 85.73
+    },
+    {
+      "date": "2024-02-01",
+      "newValue": 81.11,
+      "usedValue": 88.49
+    },
+    {
+      "date": "2024-03-01",
+      "newValue": 74.51,
+      "usedValue": 79.38
+    },
+    {
+      "date": "2024-03-31",
+      "newValue": 79.56,
+      "usedValue": 86.8
+    },
+    {
+      "date": "2024-04-30",
+      "newValue": 60.42,
+      "usedValue": 64.37
+    },
+    {
+      "date": "2024-05-31",
+      "newValue": 72.55,
+      "usedValue": 79.14
+    },
+    {
+      "date": "2024-06-30",
+      "newValue": 82.72,
+      "usedValue": 88.14
+    },
+    {
+      "date": "2024-07-31",
+      "newValue": 74.51,
+      "usedValue": 81.29
+    },
+    {
+      "date": "2024-08-31",
+      "newValue": 77.45,
+      "usedValue": 82.52
+    },
+    {
+      "date": "2024-09-30",
+      "newValue": 82.89,
+      "usedValue": 90.43
+    },
+    {
+      "date": "2024-11-01",
+      "newValue": 74.18,
+      "usedValue": 79.03
+    },
+    {
+      "date": "2024-12-01",
+      "newValue": 74.71,
+      "usedValue": 81.5
+    },
+    {
+      "date": "2025-01-01",
+      "newValue": 75.18,
+      "usedValue": 80.1
+    },
+    {
+      "date": "2025-02-01",
+      "newValue": 80.37,
+      "usedValue": 87.68
+    },
+    {
+      "date": "2025-03-01",
+      "newValue": 69.6,
+      "usedValue": 74.15
+    },
+    {
+      "date": "2025-03-31",
+      "newValue": 67.27,
+      "usedValue": 73.39
+    },
+    {
+      "date": "2025-04-30",
+      "newValue": 72.55,
+      "usedValue": 77.29
+    },
+    {
+      "date": "2025-05-31",
+      "newValue": 67.13,
+      "usedValue": 73.23
+    },
+    {
+      "date": "2025-06-30",
+      "newValue": 65.28,
+      "usedValue": 69.55
+    },
+    {
+      "date": "2025-07-31",
+      "newValue": 64.28,
+      "usedValue": 70.13
+    },
+    {
+      "date": "2025-08-31",
+      "newValue": 73.52,
+      "usedValue": 78.33
+    },
+    {
+      "date": "2025-09-30",
+      "newValue": 68.4,
+      "usedValue": 74.61
+    },
+    {
+      "date": "2025-11-01",
+      "newValue": 69.61,
+      "usedValue": 74.17
+    },
+    {
+      "date": "2025-12-01",
+      "newValue": 71.86,
+      "usedValue": 78.39
+    },
+    {
+      "date": "2026-01-01",
+      "newValue": 84.92,
+      "usedValue": 90.47
+    },
+    {
+      "date": "2026-02-01",
+      "newValue": 96.12,
+      "usedValue": 104.86
+    }
+  ],
+  "predictions": {},
+  "currentValue": 74.8,
+  "setInfo": {
+    "name": "Infinity War Infinity Gauntlet",
+    "retailPrice": 89.99
+  },
+  "setId": "76191-1",
+  "url": "https://www.brickeconomy.com/set/76191-1/lego-marvel-super-heroes-infinity-gauntlet",
+  "scrapedAt": "2026-02-02T19:43:00.945Z"
+}

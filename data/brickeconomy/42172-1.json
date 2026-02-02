@@ -1,0 +1,124 @@
+{
+  "priceHistory": [
+    {
+      "date": "2024-06-30",
+      "newValue": 570.17,
+      "usedValue": 592.1
+    },
+    {
+      "date": "2024-07-31",
+      "newValue": 589.47,
+      "usedValue": 628.03
+    },
+    {
+      "date": "2024-08-31",
+      "newValue": 552.16,
+      "usedValue": 573.39
+    },
+    {
+      "date": "2024-09-30",
+      "newValue": 588.31,
+      "usedValue": 636.88
+    },
+    {
+      "date": "2024-11-01",
+      "newValue": 521.48,
+      "usedValue": 541.53
+    },
+    {
+      "date": "2024-12-01",
+      "newValue": 548.99,
+      "usedValue": 584.9
+    },
+    {
+      "date": "2025-01-01",
+      "newValue": 506.74,
+      "usedValue": 526.23
+    },
+    {
+      "date": "2025-02-01",
+      "newValue": 514.21,
+      "usedValue": 547.85
+    },
+    {
+      "date": "2025-03-01",
+      "newValue": 453.07,
+      "usedValue": 470.5
+    },
+    {
+      "date": "2025-03-31",
+      "newValue": 404.56,
+      "usedValue": 431.03
+    },
+    {
+      "date": "2025-04-30",
+      "newValue": 455.84,
+      "usedValue": 473.38
+    },
+    {
+      "date": "2025-05-31",
+      "newValue": 473.96,
+      "usedValue": 504.96
+    },
+    {
+      "date": "2025-06-30",
+      "newValue": 454.08,
+      "usedValue": 471.54
+    },
+    {
+      "date": "2025-07-31",
+      "newValue": 473.91,
+      "usedValue": 504.91
+    },
+    {
+      "date": "2025-08-31",
+      "newValue": 438.16,
+      "usedValue": 455.01
+    },
+    {
+      "date": "2025-09-30",
+      "newValue": 476.29,
+      "usedValue": 515.62
+    },
+    {
+      "date": "2025-11-01",
+      "newValue": 438.49,
+      "usedValue": 455.36
+    },
+    {
+      "date": "2025-12-01",
+      "newValue": 472.73,
+      "usedValue": 503.66
+    },
+    {
+      "date": "2026-01-01",
+      "newValue": 420.46,
+      "usedValue": 436.64
+    }
+  ],
+  "predictions": {
+    "1yr": {
+      "value": 482.95,
+      "source": "prediction-section"
+    },
+    "5yr": {
+      "value": 461,
+      "low": 452,
+      "high": 470,
+      "source": "prediction-section"
+    },
+    "retirement": {
+      "estimated": "End of 2026",
+      "confidence": 80.9
+    },
+    "annualGrowth": 3.2
+  },
+  "currentValue": 364.41,
+  "setInfo": {
+    "name": "McLaren P1",
+    "retailPrice": 449.99
+  },
+  "setId": "42172-1",
+  "url": "https://www.brickeconomy.com/set/42172-1/lego-technic-mclaren-p1",
+  "scrapedAt": "2026-02-02T19:42:28.006Z"
+}

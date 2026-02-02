@@ -1,0 +1,73 @@
+{
+  "priceHistory": [
+    {
+      "date": "2025-03-01",
+      "newValue": 39.19,
+      "usedValue": 41.75
+    },
+    {
+      "date": "2025-03-31",
+      "newValue": 38.82,
+      "usedValue": 42.35
+    },
+    {
+      "date": "2025-04-30",
+      "newValue": 37.43,
+      "usedValue": 39.88
+    },
+    {
+      "date": "2025-05-31",
+      "newValue": 35.81,
+      "usedValue": 39.07
+    },
+    {
+      "date": "2025-06-30",
+      "newValue": 35.01,
+      "usedValue": 37.3
+    },
+    {
+      "date": "2025-07-31",
+      "newValue": 40.41,
+      "usedValue": 44.08
+    },
+    {
+      "date": "2025-08-31",
+      "newValue": 39.5,
+      "usedValue": 42.09
+    },
+    {
+      "date": "2025-09-30",
+      "newValue": 38.4,
+      "usedValue": 41.89
+    },
+    {
+      "date": "2025-11-01",
+      "newValue": 37.91,
+      "usedValue": 40.39
+    },
+    {
+      "date": "2025-12-01",
+      "newValue": 38.72,
+      "usedValue": 42.24
+    },
+    {
+      "date": "2026-01-01",
+      "newValue": 36.8,
+      "usedValue": 39.2
+    },
+    {
+      "date": "2026-02-01",
+      "newValue": 41.59,
+      "usedValue": 45.37
+    }
+  ],
+  "predictions": {},
+  "currentValue": 34.67,
+  "setInfo": {
+    "name": "Santa's Sleigh",
+    "retailPrice": 39.99
+  },
+  "setId": "40499-1",
+  "url": "https://www.brickeconomy.com/set/40499-1/lego-holiday-christmas-santas-sleigh",
+  "scrapedAt": "2026-02-02T19:42:05.738Z"
+}

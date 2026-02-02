@@ -1,0 +1,24 @@
+{
+  "priceHistory": [],
+  "predictions": {
+    "1yr": {
+      "value": 16.92,
+      "source": "prediction-section"
+    },
+    "5yr": {
+      "value": 19,
+      "low": 18,
+      "high": 20,
+      "source": "prediction-section"
+    },
+    "annualGrowth": 10.22
+  },
+  "currentValue": 104,
+  "setInfo": {
+    "name": "Disney Lilo & Stitch Angel",
+    "retailPrice": 12.99
+  },
+  "setId": "40922-1",
+  "url": "https://www.brickeconomy.com/set/40922-1/lego-brickheadz-lilo-stitch-angel",
+  "scrapedAt": "2026-02-02T19:42:16.660Z"
+}

@@ -1,0 +1,154 @@
+{
+  "priceHistory": [
+    {
+      "date": "2024-01-01",
+      "newValue": 93.51,
+      "usedValue": 97.1
+    },
+    {
+      "date": "2024-02-01",
+      "newValue": 89.41,
+      "usedValue": 95.26
+    },
+    {
+      "date": "2024-03-01",
+      "newValue": 86.18,
+      "usedValue": 89.5
+    },
+    {
+      "date": "2024-03-31",
+      "newValue": 86.12,
+      "usedValue": 91.75
+    },
+    {
+      "date": "2024-04-30",
+      "newValue": 81.45,
+      "usedValue": 84.58
+    },
+    {
+      "date": "2024-05-31",
+      "newValue": 80.98,
+      "usedValue": 86.27
+    },
+    {
+      "date": "2024-06-30",
+      "newValue": 78.88,
+      "usedValue": 81.92
+    },
+    {
+      "date": "2024-07-31",
+      "newValue": 83.02,
+      "usedValue": 88.45
+    },
+    {
+      "date": "2024-08-31",
+      "newValue": 82.52,
+      "usedValue": 85.69
+    },
+    {
+      "date": "2024-09-30",
+      "newValue": 89.99,
+      "usedValue": 97.42
+    },
+    {
+      "date": "2024-11-01",
+      "newValue": 73.84,
+      "usedValue": 76.68
+    },
+    {
+      "date": "2024-12-01",
+      "newValue": 91.07,
+      "usedValue": 97.03
+    },
+    {
+      "date": "2025-01-01",
+      "newValue": 84,
+      "usedValue": 87.23
+    },
+    {
+      "date": "2025-02-01",
+      "newValue": 84.95,
+      "usedValue": 90.51
+    },
+    {
+      "date": "2025-03-01",
+      "newValue": 75.87,
+      "usedValue": 78.79
+    },
+    {
+      "date": "2025-03-31",
+      "newValue": 69.57,
+      "usedValue": 74.12
+    },
+    {
+      "date": "2025-04-30",
+      "newValue": 75.54,
+      "usedValue": 78.44
+    },
+    {
+      "date": "2025-05-31",
+      "newValue": 77.77,
+      "usedValue": 82.86
+    },
+    {
+      "date": "2025-06-30",
+      "newValue": 73.27,
+      "usedValue": 76.09
+    },
+    {
+      "date": "2025-07-31",
+      "newValue": 75.15,
+      "usedValue": 80.06
+    },
+    {
+      "date": "2025-08-31",
+      "newValue": 75.11,
+      "usedValue": 78
+    },
+    {
+      "date": "2025-09-30",
+      "newValue": 79.69,
+      "usedValue": 86.27
+    },
+    {
+      "date": "2025-11-01",
+      "newValue": 84.37,
+      "usedValue": 87.62
+    },
+    {
+      "date": "2025-12-01",
+      "newValue": 85.74,
+      "usedValue": 91.35
+    },
+    {
+      "date": "2026-01-01",
+      "newValue": 73.2,
+      "usedValue": 76.02
+    }
+  ],
+  "predictions": {
+    "1yr": {
+      "value": 94.55,
+      "source": "prediction-section"
+    },
+    "5yr": {
+      "value": 96,
+      "low": 94,
+      "high": 98,
+      "source": "prediction-section"
+    },
+    "retirement": {
+      "estimated": "Mid 2026",
+      "confidence": 78.3
+    },
+    "annualGrowth": 5.21
+  },
+  "currentValue": 59.87,
+  "setInfo": {
+    "name": "Polaroid Camera",
+    "retailPrice": 79.99
+  },
+  "setId": "21345-1",
+  "url": "https://www.brickeconomy.com/set/21345-1/lego-ideas-polaroid-onestep-sx-70-camera",
+  "scrapedAt": "2026-02-02T19:41:34.673Z"
+}

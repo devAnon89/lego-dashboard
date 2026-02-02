@@ -1,0 +1,24 @@
+{
+  "priceHistory": [],
+  "predictions": {
+    "1yr": {
+      "value": 33.58,
+      "source": "prediction-section"
+    },
+    "5yr": {
+      "value": 35,
+      "low": 33,
+      "high": 37,
+      "source": "prediction-section"
+    },
+    "annualGrowth": 6.51
+  },
+  "currentValue": 277,
+  "setInfo": {
+    "name": "Champions Ferrari SF90 XX Stradale Sports Car",
+    "retailPrice": 27.99
+  },
+  "setId": "77254-1",
+  "url": "https://www.brickeconomy.com/set/77254-1/lego-speed-champions-ferrari-sf90-xx-stradale",
+  "scrapedAt": "2026-02-02T19:43:42.000Z"
+}

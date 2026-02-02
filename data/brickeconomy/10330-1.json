@@ -1,0 +1,149 @@
+{
+  "priceHistory": [
+    {
+      "date": "2024-02-01",
+      "newValue": 128.15,
+      "usedValue": 136.54
+    },
+    {
+      "date": "2024-03-01",
+      "newValue": 105.73,
+      "usedValue": 109.79
+    },
+    {
+      "date": "2024-03-31",
+      "newValue": 97.21,
+      "usedValue": 103.57
+    },
+    {
+      "date": "2024-04-30",
+      "newValue": 97.4,
+      "usedValue": 101.15
+    },
+    {
+      "date": "2024-05-31",
+      "newValue": 99.47,
+      "usedValue": 105.98
+    },
+    {
+      "date": "2024-06-30",
+      "newValue": 92.58,
+      "usedValue": 96.14
+    },
+    {
+      "date": "2024-07-31",
+      "newValue": 90.83,
+      "usedValue": 96.78
+    },
+    {
+      "date": "2024-08-31",
+      "newValue": 88.46,
+      "usedValue": 91.86
+    },
+    {
+      "date": "2024-09-30",
+      "newValue": 93.98,
+      "usedValue": 101.74
+    },
+    {
+      "date": "2024-11-01",
+      "newValue": 86.97,
+      "usedValue": 90.32
+    },
+    {
+      "date": "2024-12-01",
+      "newValue": 95.39,
+      "usedValue": 101.64
+    },
+    {
+      "date": "2025-01-01",
+      "newValue": 87.05,
+      "usedValue": 90.4
+    },
+    {
+      "date": "2025-02-01",
+      "newValue": 85.25,
+      "usedValue": 90.82
+    },
+    {
+      "date": "2025-03-01",
+      "newValue": 76.04,
+      "usedValue": 78.96
+    },
+    {
+      "date": "2025-03-31",
+      "newValue": 63.12,
+      "usedValue": 67.25
+    },
+    {
+      "date": "2025-04-30",
+      "newValue": 62.12,
+      "usedValue": 64.51
+    },
+    {
+      "date": "2025-05-31",
+      "newValue": 65.83,
+      "usedValue": 70.13
+    },
+    {
+      "date": "2025-06-30",
+      "newValue": 65.59,
+      "usedValue": 68.11
+    },
+    {
+      "date": "2025-07-31",
+      "newValue": 66.94,
+      "usedValue": 71.32
+    },
+    {
+      "date": "2025-08-31",
+      "newValue": 62.95,
+      "usedValue": 65.37
+    },
+    {
+      "date": "2025-09-30",
+      "newValue": 69.32,
+      "usedValue": 75.04
+    },
+    {
+      "date": "2025-11-01",
+      "newValue": 70.93,
+      "usedValue": 73.66
+    },
+    {
+      "date": "2025-12-01",
+      "newValue": 71.82,
+      "usedValue": 76.51
+    },
+    {
+      "date": "2026-01-01",
+      "newValue": 68.68,
+      "usedValue": 71.32
+    }
+  ],
+  "predictions": {
+    "1yr": {
+      "value": 96.39,
+      "source": "prediction-section"
+    },
+    "5yr": {
+      "value": 103,
+      "low": 101,
+      "high": 105,
+      "source": "prediction-section"
+    },
+    "retirement": {
+      "estimated": "Early to mid 2027",
+      "confidence": 80.7
+    },
+    "annualGrowth": 6.84
+  },
+  "currentValue": 59.89,
+  "setInfo": {
+    "name": "MP4/4 & Ayrton Senna",
+    "retailPrice": 79.99
+  },
+  "setId": "10330-1",
+  "url": "https://www.brickeconomy.com/set/10330-1/lego-mclaren-mp4-4-ayrton-senna",
+  "scrapedAt": "2026-02-02T19:41:24.160Z"
+}

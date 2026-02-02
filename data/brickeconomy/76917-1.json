@@ -1,0 +1,224 @@
+{
+  "priceHistory": [
+    {
+      "date": "2022-12-01",
+      "newValue": 23.53,
+      "usedValue": 25.07
+    },
+    {
+      "date": "2023-01-01",
+      "newValue": 36.9,
+      "usedValue": 38.31
+    },
+    {
+      "date": "2023-02-01",
+      "newValue": 40.77,
+      "usedValue": 43.44
+    },
+    {
+      "date": "2023-03-01",
+      "newValue": 38.89,
+      "usedValue": 40.39
+    },
+    {
+      "date": "2023-03-31",
+      "newValue": 39.41,
+      "usedValue": 41.99
+    },
+    {
+      "date": "2023-04-30",
+      "newValue": 36.74,
+      "usedValue": 38.15
+    },
+    {
+      "date": "2023-05-31",
+      "newValue": 35.73,
+      "usedValue": 38.07
+    },
+    {
+      "date": "2023-06-30",
+      "newValue": 37.28,
+      "usedValue": 38.71
+    },
+    {
+      "date": "2023-07-31",
+      "newValue": 34.97,
+      "usedValue": 37.26
+    },
+    {
+      "date": "2023-08-31",
+      "newValue": 34.1,
+      "usedValue": 35.41
+    },
+    {
+      "date": "2023-09-30",
+      "newValue": 37.13,
+      "usedValue": 40.2
+    },
+    {
+      "date": "2023-11-01",
+      "newValue": 33.26,
+      "usedValue": 34.54
+    },
+    {
+      "date": "2023-12-01",
+      "newValue": 36.43,
+      "usedValue": 38.81
+    },
+    {
+      "date": "2024-01-01",
+      "newValue": 33.79,
+      "usedValue": 35.09
+    },
+    {
+      "date": "2024-02-01",
+      "newValue": 34.74,
+      "usedValue": 37.01
+    },
+    {
+      "date": "2024-03-01",
+      "newValue": 32.43,
+      "usedValue": 33.67
+    },
+    {
+      "date": "2024-03-31",
+      "newValue": 34.09,
+      "usedValue": 36.32
+    },
+    {
+      "date": "2024-04-30",
+      "newValue": 31.97,
+      "usedValue": 33.2
+    },
+    {
+      "date": "2024-05-31",
+      "newValue": 34.43,
+      "usedValue": 36.68
+    },
+    {
+      "date": "2024-06-30",
+      "newValue": 30.71,
+      "usedValue": 31.9
+    },
+    {
+      "date": "2024-07-31",
+      "newValue": 32.58,
+      "usedValue": 34.71
+    },
+    {
+      "date": "2024-08-31",
+      "newValue": 31.01,
+      "usedValue": 32.2
+    },
+    {
+      "date": "2024-09-30",
+      "newValue": 30.86,
+      "usedValue": 33.41
+    },
+    {
+      "date": "2024-11-01",
+      "newValue": 31.58,
+      "usedValue": 32.8
+    },
+    {
+      "date": "2024-12-01",
+      "newValue": 32.78,
+      "usedValue": 34.93
+    },
+    {
+      "date": "2025-01-01",
+      "newValue": 30.9,
+      "usedValue": 32.09
+    },
+    {
+      "date": "2025-02-01",
+      "newValue": 29.7,
+      "usedValue": 31.64
+    },
+    {
+      "date": "2025-03-01",
+      "newValue": 25.26,
+      "usedValue": 26.23
+    },
+    {
+      "date": "2025-03-31",
+      "newValue": 21.29,
+      "usedValue": 22.69
+    },
+    {
+      "date": "2025-04-30",
+      "newValue": 23.23,
+      "usedValue": 24.13
+    },
+    {
+      "date": "2025-05-31",
+      "newValue": 22.93,
+      "usedValue": 24.43
+    },
+    {
+      "date": "2025-06-30",
+      "newValue": 23.5,
+      "usedValue": 24.41
+    },
+    {
+      "date": "2025-07-31",
+      "newValue": 23.1,
+      "usedValue": 24.61
+    },
+    {
+      "date": "2025-08-31",
+      "newValue": 23.24,
+      "usedValue": 24.13
+    },
+    {
+      "date": "2025-09-30",
+      "newValue": 24.11,
+      "usedValue": 26.1
+    },
+    {
+      "date": "2025-11-01",
+      "newValue": 25.19,
+      "usedValue": 26.16
+    },
+    {
+      "date": "2025-12-01",
+      "newValue": 26.07,
+      "usedValue": 27.78
+    },
+    {
+      "date": "2026-01-01",
+      "newValue": 27.53,
+      "usedValue": 28.59
+    },
+    {
+      "date": "2026-02-01",
+      "newValue": 24.19,
+      "usedValue": 25.77
+    }
+  ],
+  "predictions": {
+    "1yr": {
+      "value": 29.47,
+      "source": "prediction-section"
+    },
+    "5yr": {
+      "value": 30.5,
+      "low": 29,
+      "high": 32,
+      "source": "prediction-section"
+    },
+    "retirement": {
+      "estimated": "June 2026",
+      "confidence": 90
+    },
+    "annualGrowth": 6.15
+  },
+  "currentValue": 20.85,
+  "setInfo": {
+    "name": "Champions Nissan Skyline GT-R",
+    "retailPrice": 24.99
+  },
+  "setId": "76917-1",
+  "url": "https://www.brickeconomy.com/set/76917-1/lego-speed-champions-2-fast-2-furious-nissan-skyline-gt-r-r34",
+  "scrapedAt": "2026-02-02T19:43:08.966Z"
+}

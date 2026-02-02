@@ -1,0 +1,119 @@
+{
+  "priceHistory": [
+    {
+      "date": "2024-07-31",
+      "newValue": 229.88,
+      "usedValue": 244.92
+    },
+    {
+      "date": "2024-08-31",
+      "newValue": 222.13,
+      "usedValue": 230.67
+    },
+    {
+      "date": "2024-09-30",
+      "newValue": 206.64,
+      "usedValue": 223.7
+    },
+    {
+      "date": "2024-11-01",
+      "newValue": 192.8,
+      "usedValue": 200.21
+    },
+    {
+      "date": "2024-12-01",
+      "newValue": 192.47,
+      "usedValue": 205.07
+    },
+    {
+      "date": "2025-01-01",
+      "newValue": 183.75,
+      "usedValue": 190.82
+    },
+    {
+      "date": "2025-02-01",
+      "newValue": 180.43,
+      "usedValue": 192.23
+    },
+    {
+      "date": "2025-03-01",
+      "newValue": 171.34,
+      "usedValue": 177.93
+    },
+    {
+      "date": "2025-03-31",
+      "newValue": 147.31,
+      "usedValue": 156.95
+    },
+    {
+      "date": "2025-04-30",
+      "newValue": 163.66,
+      "usedValue": 169.95
+    },
+    {
+      "date": "2025-05-31",
+      "newValue": 172.86,
+      "usedValue": 184.17
+    },
+    {
+      "date": "2025-06-30",
+      "newValue": 165.58,
+      "usedValue": 171.95
+    },
+    {
+      "date": "2025-07-31",
+      "newValue": 170.18,
+      "usedValue": 181.31
+    },
+    {
+      "date": "2025-08-31",
+      "newValue": 159.39,
+      "usedValue": 165.52
+    },
+    {
+      "date": "2025-09-30",
+      "newValue": 155.49,
+      "usedValue": 168.33
+    },
+    {
+      "date": "2025-11-01",
+      "newValue": 145.57,
+      "usedValue": 151.17
+    },
+    {
+      "date": "2025-12-01",
+      "newValue": 154.4,
+      "usedValue": 164.5
+    },
+    {
+      "date": "2026-01-01",
+      "newValue": 151.28,
+      "usedValue": 157.09
+    }
+  ],
+  "predictions": {
+    "1yr": {
+      "value": 161.25,
+      "source": "prediction-section"
+    },
+    "5yr": {
+      "value": 184.5,
+      "low": 181,
+      "high": 188,
+      "source": "prediction-section"
+    },
+    "retirement": {
+      "estimated": "Mid 2026",
+      "confidence": 95.9
+    },
+    "annualGrowth": 10.12
+  },
+  "currentValue": 122.97,
+  "setInfo": {
+    "name": "Mario World Mario & Yoshi",
+    "retailPrice": 129.99
+  },
+  "setId": "71438-1",
+  "url": "https://www.brickeconomy.com/set/71438-1/lego-super-mario-super-mario-world-mario-yoshi",
+  "scrapedAt": "2026-02-02T19:42:39.013Z"
+}

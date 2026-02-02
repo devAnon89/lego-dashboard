@@ -1,0 +1,28 @@
+{
+  "priceHistory": [],
+  "predictions": {
+    "1yr": {
+      "value": 44.97,
+      "source": "prediction-section"
+    },
+    "5yr": {
+      "value": 45,
+      "low": 43,
+      "high": 47,
+      "source": "prediction-section"
+    },
+    "retirement": {
+      "estimated": "Mid 2027",
+      "confidence": 77
+    },
+    "annualGrowth": 5.51
+  },
+  "currentValue": 32.68,
+  "setInfo": {
+    "name": "The Creeper",
+    "retailPrice": 39.99
+  },
+  "setId": "21276-1",
+  "url": "https://www.brickeconomy.com/set/21276-1/lego-minecraft-the-creeper",
+  "scrapedAt": "2026-02-02T19:41:29.342Z"
+}
