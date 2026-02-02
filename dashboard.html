@@ -137,6 +137,38 @@
     </div>
   </div>
 
+  <!-- Theme ROI Comparison Table -->
+  <div class="card rounded-xl p-4 mb-8">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-lg font-semibold flex items-center gap-2">💰 Theme ROI Comparison</h3>
+      <div class="flex items-center gap-2">
+        <span class="text-xs text-gray-400">Click headers to sort</span>
+        <select id="themeROISort" class="bg-gray-800 border border-gray-700 rounded px-2 py-1 text-sm" onchange="renderThemeROITable()">
+          <option value="roi">Sort by ROI</option>
+          <option value="value">Sort by Value</option>
+          <option value="gain">Sort by Gain</option>
+          <option value="theme">Sort by Theme</option>
+        </select>
+      </div>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm">
+        <thead>
+          <tr class="border-b border-gray-700">
+            <th class="text-left py-3 px-2 text-gray-400 font-medium cursor-pointer hover:text-white transition" onclick="sortThemeROI('theme')">Theme</th>
+            <th class="text-right py-3 px-2 text-gray-400 font-medium cursor-pointer hover:text-white transition" onclick="sortThemeROI('sets')">Sets</th>
+            <th class="text-right py-3 px-2 text-gray-400 font-medium cursor-pointer hover:text-white transition" onclick="sortThemeROI('invested')">Invested</th>
+            <th class="text-right py-3 px-2 text-gray-400 font-medium cursor-pointer hover:text-white transition" onclick="sortThemeROI('value')">Current Value</th>
+            <th class="text-right py-3 px-2 text-gray-400 font-medium cursor-pointer hover:text-white transition" onclick="sortThemeROI('gain')">Gain/Loss</th>
+            <th class="text-right py-3 px-2 text-gray-400 font-medium cursor-pointer hover:text-white transition" onclick="sortThemeROI('roi')">ROI %</th>
+          </tr>
+        </thead>
+        <tbody id="themeROITableBody">
+        </tbody>
+      </table>
+    </div>
+  </div>
+
   <!-- Top Projected Gains -->
   <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
     <div class="card rounded-xl p-4">
@@ -395,6 +427,9 @@
       // Render theme allocation chart
       renderThemeChart();
 
+      // Render theme ROI table
+      renderThemeROITable();
+
       // Render sets
       filterSets();
     }
@@ -624,6 +659,103 @@
       });
 
       return themeData;
+    }
+
+    // Theme ROI table rendering
+    let currentThemeROISort = 'roi';
+    let themeROISortDirection = 'desc';
+
+    function renderThemeROITable() {
+      if (!portfolio || !analysis) return;
+
+      const sets = Object.entries(portfolio.sets).map(([id, data]) => {
+        const a = analysis[id] || {};
+        const avgScore = ((a.license || 0) + (a.retirement || 0) + (a.appeal || 0) + (a.liquidity || 0)) / 4;
+        const predictions = a.predictions || {};
+        return { id, ...data, analysis: a, avgScore, predictions };
+      });
+
+      const themeData = aggregateByTheme(sets);
+      const sortBy = document.getElementById('themeROISort')?.value || currentThemeROISort;
+
+      let themeArray = Object.values(themeData);
+
+      // Sort based on selected criterion
+      themeArray.sort((a, b) => {
+        let aVal, bVal;
+        switch(sortBy) {
+          case 'theme':
+            return themeROISortDirection === 'asc'
+              ? a.theme.localeCompare(b.theme)
+              : b.theme.localeCompare(a.theme);
+          case 'sets':
+            aVal = a.setCount;
+            bVal = b.setCount;
+            break;
+          case 'invested':
+            aVal = a.totalPaid;
+            bVal = b.totalPaid;
+            break;
+          case 'value':
+            aVal = a.totalValue;
+            bVal = b.totalValue;
+            break;
+          case 'gain':
+            aVal = a.totalGain;
+            bVal = b.totalGain;
+            break;
+          case 'roi':
+          default:
+            aVal = a.gainPct;
+            bVal = b.gainPct;
+            break;
+        }
+        return themeROISortDirection === 'desc' ? bVal - aVal : aVal - bVal;
+      });
+
+      const tbody = document.getElementById('themeROITableBody');
+      if (!tbody) return;
+
+      tbody.innerHTML = themeArray.map(theme => {
+        const roiColor = theme.gainPct >= 20 ? 'text-green-400' :
+                         theme.gainPct >= 0 ? 'text-yellow-400' : 'text-red-400';
+        const roiBg = theme.gainPct >= 20 ? 'bg-green-500/10' :
+                      theme.gainPct >= 0 ? 'bg-yellow-500/10' : 'bg-red-500/10';
+        const gainColor = theme.totalGain >= 0 ? 'text-green-400' : 'text-red-400';
+        const gainIcon = theme.totalGain >= 0 ? '↑' : '↓';
+
+        return `
+          <tr class="border-b border-gray-800 hover:bg-gray-800/50 transition">
+            <td class="py-3 px-2 font-medium">${theme.theme}</td>
+            <td class="py-3 px-2 text-right text-gray-400">${theme.setCount}</td>
+            <td class="py-3 px-2 text-right">€${theme.totalPaid.toFixed(0)}</td>
+            <td class="py-3 px-2 text-right font-medium">€${theme.totalValue.toFixed(0)}</td>
+            <td class="py-3 px-2 text-right ${gainColor} font-medium">${gainIcon} €${Math.abs(theme.totalGain).toFixed(0)}</td>
+            <td class="py-3 px-2 text-right">
+              <span class="${roiBg} ${roiColor} px-2 py-1 rounded font-bold">
+                ${theme.gainPct >= 0 ? '+' : ''}${theme.gainPct.toFixed(1)}%
+              </span>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function sortThemeROI(column) {
+      if (currentThemeROISort === column) {
+        themeROISortDirection = themeROISortDirection === 'desc' ? 'asc' : 'desc';
+      } else {
+        currentThemeROISort = column;
+        themeROISortDirection = column === 'theme' ? 'asc' : 'desc';
+      }
+
+      // Update dropdown to match
+      const dropdown = document.getElementById('themeROISort');
+      if (dropdown && ['roi', 'value', 'gain', 'theme'].includes(column)) {
+        dropdown.value = column;
+      }
+
+      renderThemeROITable();
     }
 
     function calculateThemeAllocation(themeData, totalValue) {
