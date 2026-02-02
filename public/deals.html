@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🎯 Marketplace Deals | LEGO Investment Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%); }
+    .card { background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); }
+    .glow-green { box-shadow: 0 0 20px rgba(34, 197, 94, 0.3); }
+    .glow-blue { box-shadow: 0 0 20px rgba(59, 130, 246, 0.3); }
+    .deal-badge { background: linear-gradient(135deg, #22c55e 0%, #10b981 100%); }
+    .marketplace-bricklink { background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); }
+    .marketplace-ebay { background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); }
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); }
+    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 4px; }
+  </style>
+</head>
+<body class="min-h-screen text-white p-4 md:p-8">
+  <!-- Header -->
+  <header class="mb-8">
+    <div class="flex items-center justify-between flex-wrap gap-4">
+      <div>
+        <h1 class="text-3xl md:text-4xl font-bold">🎯 Marketplace Deals</h1>
+        <p class="text-gray-400 mt-1">Underpriced listings from BrickLink & eBay below your target prices</p>
+      </div>
+      <div class="flex items-center gap-4">
+        <a href="index.html" class="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg text-sm font-medium transition">← Back to Portfolio</a>
+        <span class="text-sm text-gray-400" id="lastUpdated"></span>
+        <button onclick="refreshDeals()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg text-sm font-medium transition">🔄 Refresh</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Summary Cards -->
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+    <div class="card rounded-xl p-4 glow-green">
+      <div class="text-gray-400 text-sm">Active Deals</div>
+      <div class="text-2xl font-bold text-green-400" id="totalDeals">-</div>
+      <div class="text-sm text-gray-500">below target price</div>
+    </div>
+    <div class="card rounded-xl p-4">
+      <div class="text-gray-400 text-sm">Avg Discount</div>
+      <div class="text-2xl font-bold text-green-400" id="avgDiscount">-</div>
+      <div class="text-sm text-gray-500">vs market price</div>
+    </div>
+    <div class="card rounded-xl p-4">
+      <div class="text-gray-400 text-sm">BrickLink Deals</div>
+      <div class="text-2xl font-bold text-orange-400" id="bricklinkCount">-</div>
+      <div class="text-sm text-gray-500">listings found</div>
+    </div>
+    <div class="card rounded-xl p-4">
+      <div class="text-gray-400 text-sm">eBay Deals</div>
+      <div class="text-2xl font-bold text-blue-400" id="ebayCount">-</div>
+      <div class="text-sm text-gray-500">listings found</div>
+    </div>
+  </div>
+
+  <!-- Best Deals -->
+  <div class="card rounded-xl p-4 mb-8">
+    <h3 class="text-lg font-semibold mb-4 flex items-center gap-2">🔥 Top 5 Best Deals</h3>
+    <div id="topDeals" class="space-y-3"></div>
+  </div>
+
+  <!-- Filters -->
+  <div class="flex flex-wrap gap-4 mb-6">
+    <input type="text" id="searchInput" placeholder="🔍 Search deals..." class="bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 flex-1 min-w-[200px]" oninput="filterDeals()">
+    <select id="marketplaceFilter" class="bg-gray-800 border border-gray-700 rounded-lg px-4 py-2" onchange="filterDeals()">
+      <option value="">All Marketplaces</option>
+      <option value="bricklink">BrickLink</option>
+      <option value="ebay">eBay</option>
+    </select>
+    <select id="conditionFilter" class="bg-gray-800 border border-gray-700 rounded-lg px-4 py-2" onchange="filterDeals()">
+      <option value="">All Conditions</option>
+      <option value="new">New</option>
+      <option value="used">Used</option>
+    </select>
+    <select id="sortBy" class="bg-gray-800 border border-gray-700 rounded-lg px-4 py-2" onchange="filterDeals()">
+      <option value="discount">Sort by Discount</option>
+      <option value="price">Sort by Price</option>
+      <option value="rating">Sort by Seller Rating</option>
+      <option value="date">Sort by Date</option>
+    </select>
+  </div>
+
+  <!-- Deals Grid -->
+  <div id="dealsGrid" class="space-y-4"></div>
+
+  <!-- Empty State -->
+  <div id="emptyState" class="hidden card rounded-xl p-8 text-center">
+    <div class="text-6xl mb-4">📭</div>
+    <h3 class="text-xl font-semibold mb-2">No Deals Found</h3>
+    <p class="text-gray-400">We'll notify you when new deals matching your criteria appear!</p>
+  </div>
+
+  <script>
+    // Data store
+    let deals = [];
+    let filteredDeals = [];
+
+    // Initialize
+    async function init() {
+      await loadDeals();
+      renderSummary();
+      renderTopDeals();
+      filterDeals();
+      updateLastUpdated();
+    }
+
+    // Load deals from API
+    async function loadDeals() {
+      try {
+        const response = await fetch('/api/deals');
+        if (!response.ok) {
+          throw new Error('Failed to fetch deals');
+        }
+        deals = await response.json();
+        filteredDeals = [...deals];
+      } catch (error) {
+        deals = getMockDeals(); // Fallback to mock data for testing
+        filteredDeals = [...deals];
+      }
+    }
+
+    // Refresh deals
+    async function refreshDeals() {
+      await loadDeals();
+      renderSummary();
+      renderTopDeals();
+      filterDeals();
+      updateLastUpdated();
+    }
+
+    // Render summary cards
+    function renderSummary() {
+      const totalDeals = deals.length;
+      const avgDiscount = totalDeals > 0
+        ? (deals.reduce((sum, d) => sum + d.discount, 0) / totalDeals).toFixed(0)
+        : 0;
+      const bricklinkCount = deals.filter(d => d.marketplace === 'bricklink').length;
+      const ebayCount = deals.filter(d => d.marketplace === 'ebay').length;
+
+      document.getElementById('totalDeals').textContent = totalDeals;
+      document.getElementById('avgDiscount').textContent = `-${avgDiscount}%`;
+      document.getElementById('bricklinkCount').textContent = bricklinkCount;
+      document.getElementById('ebayCount').textContent = ebayCount;
+    }
+
+    // Render top deals
+    function renderTopDeals() {
+      const topDeals = [...deals]
+        .sort((a, b) => b.discount - a.discount)
+        .slice(0, 5);
+
+      const container = document.getElementById('topDeals');
+      if (topDeals.length === 0) {
+        container.innerHTML = '<p class="text-gray-400 text-sm">No deals available</p>';
+        return;
+      }
+
+      container.innerHTML = topDeals.map((deal, i) => `
+        <div class="flex items-center justify-between p-3 bg-gray-800/50 rounded-lg hover:bg-gray-700/50 transition">
+          <div class="flex items-center gap-3 flex-1">
+            <div class="text-2xl font-bold text-gray-600">#${i + 1}</div>
+            <div class="flex-1">
+              <div class="font-medium text-white">${deal.setNumber} - ${deal.setName}</div>
+              <div class="text-sm text-gray-400">${deal.condition} • ${deal.marketplace === 'bricklink' ? '🟠 BrickLink' : '🔵 eBay'}</div>
+            </div>
+          </div>
+          <div class="text-right">
+            <div class="text-lg font-bold text-green-400">-${deal.discount}%</div>
+            <div class="text-sm text-gray-400">€${deal.price.toFixed(2)}</div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Filter deals
+    function filterDeals() {
+      const search = document.getElementById('searchInput').value.toLowerCase();
+      const marketplace = document.getElementById('marketplaceFilter').value;
+      const condition = document.getElementById('conditionFilter').value;
+      const sortBy = document.getElementById('sortBy').value;
+
+      // Filter
+      filteredDeals = deals.filter(deal => {
+        const matchesSearch = !search ||
+          deal.setNumber.toLowerCase().includes(search) ||
+          deal.setName.toLowerCase().includes(search);
+        const matchesMarketplace = !marketplace || deal.marketplace === marketplace;
+        const matchesCondition = !condition || deal.condition.toLowerCase() === condition;
+
+        return matchesSearch && matchesMarketplace && matchesCondition;
+      });
+
+      // Sort
+      if (sortBy === 'discount') {
+        filteredDeals.sort((a, b) => b.discount - a.discount);
+      } else if (sortBy === 'price') {
+        filteredDeals.sort((a, b) => a.price - b.price);
+      } else if (sortBy === 'rating') {
+        filteredDeals.sort((a, b) => b.sellerRating - a.sellerRating);
+      } else if (sortBy === 'date') {
+        filteredDeals.sort((a, b) => new Date(b.listedDate) - new Date(a.listedDate));
+      }
+
+      renderDeals();
+    }
+
+    // Render deals grid
+    function renderDeals() {
+      const grid = document.getElementById('dealsGrid');
+      const emptyState = document.getElementById('emptyState');
+
+      if (filteredDeals.length === 0) {
+        grid.innerHTML = '';
+        emptyState.classList.remove('hidden');
+        return;
+      }
+
+      emptyState.classList.add('hidden');
+      grid.innerHTML = filteredDeals.map(deal => {
+        const marketplaceClass = deal.marketplace === 'bricklink' ? 'marketplace-bricklink' : 'marketplace-ebay';
+        const marketplaceIcon = deal.marketplace === 'bricklink' ? '🟠' : '🔵';
+        const marketplaceName = deal.marketplace === 'bricklink' ? 'BrickLink' : 'eBay';
+
+        return `
+          <div class="card rounded-xl p-4 hover:scale-[1.01] transition">
+            <div class="flex flex-col md:flex-row gap-4">
+              <!-- Deal Info -->
+              <div class="flex-1">
+                <div class="flex items-start justify-between mb-2">
+                  <div>
+                    <h3 class="text-lg font-semibold text-white">${deal.setNumber} - ${deal.setName}</h3>
+                    <div class="flex items-center gap-2 mt-1">
+                      <span class="${marketplaceClass} px-2 py-1 rounded text-xs font-medium">${marketplaceIcon} ${marketplaceName}</span>
+                      <span class="bg-gray-700 px-2 py-1 rounded text-xs">${deal.condition}</span>
+                      ${deal.sellerRating ? `<span class="text-yellow-400 text-xs">⭐ ${deal.sellerRating}</span>` : ''}
+                    </div>
+                  </div>
+                  <div class="deal-badge px-3 py-1 rounded-full text-sm font-bold whitespace-nowrap">
+                    -${deal.discount}% OFF
+                  </div>
+                </div>
+
+                <!-- Pricing -->
+                <div class="grid grid-cols-3 gap-4 mb-3">
+                  <div>
+                    <div class="text-xs text-gray-400">Current Price</div>
+                    <div class="text-lg font-bold text-white">€${deal.price.toFixed(2)}</div>
+                  </div>
+                  <div>
+                    <div class="text-xs text-gray-400">Market Value</div>
+                    <div class="text-sm text-gray-300 line-through">€${deal.marketPrice.toFixed(2)}</div>
+                  </div>
+                  <div>
+                    <div class="text-xs text-gray-400">You Save</div>
+                    <div class="text-lg font-bold text-green-400">€${(deal.marketPrice - deal.price).toFixed(2)}</div>
+                  </div>
+                </div>
+
+                <!-- Seller Info -->
+                <div class="flex items-center gap-4 text-sm text-gray-400 mb-3">
+                  <span>👤 ${deal.sellerName}</span>
+                  ${deal.sellerLocation ? `<span>📍 ${deal.sellerLocation}</span>` : ''}
+                  ${deal.shippingCost ? `<span>📦 €${deal.shippingCost.toFixed(2)} shipping</span>` : '<span>📦 Free shipping</span>'}
+                </div>
+
+                <!-- Description -->
+                ${deal.description ? `<p class="text-sm text-gray-400 mb-3">${deal.description}</p>` : ''}
+
+                <!-- Action Buttons -->
+                <div class="flex gap-2">
+                  <a href="${deal.url}" target="_blank" rel="noopener noreferrer"
+                     class="flex-1 px-4 py-2 bg-green-600 hover:bg-green-700 rounded-lg text-center font-medium transition">
+                    🛒 Buy Now
+                  </a>
+                  <button onclick="saveDeal('${deal.id}')"
+                          class="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg font-medium transition">
+                    💾 Save
+                  </button>
+                  <button onclick="shareDeal('${deal.id}')"
+                          class="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg font-medium transition">
+                    🔗 Share
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Update last updated timestamp
+    function updateLastUpdated() {
+      const now = new Date();
+      document.getElementById('lastUpdated').textContent =
+        'Last updated: ' + now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+    }
+
+    // Save deal
+    function saveDeal(dealId) {
+      alert('Deal saved! (Feature coming soon)');
+    }
+
+    // Share deal
+    function shareDeal(dealId) {
+      const deal = deals.find(d => d.id === dealId);
+      if (deal && navigator.share) {
+        navigator.share({
+          title: `${deal.setNumber} - ${deal.setName}`,
+          text: `Check out this ${deal.discount}% off deal on ${deal.marketplace}!`,
+          url: deal.url
+        }).catch(() => {
+          // Fallback to clipboard
+          navigator.clipboard.writeText(deal.url);
+          alert('Link copied to clipboard!');
+        });
+      } else if (deal) {
+        navigator.clipboard.writeText(deal.url);
+        alert('Link copied to clipboard!');
+      }
+    }
+
+    // Mock data for testing
+    function getMockDeals() {
+      return [
+        {
+          id: '1',
+          setNumber: '75192',
+          setName: 'Millennium Falcon',
+          marketplace: 'bricklink',
+          condition: 'New',
+          price: 599.99,
+          marketPrice: 849.99,
+          discount: 29,
+          sellerName: 'BrickMaster',
+          sellerRating: 4.8,
+          sellerLocation: 'Germany',
+          shippingCost: 15.00,
+          url: 'https://bricklink.com/listing/example',
+          description: 'Brand new, sealed box. Perfect condition.',
+          listedDate: '2025-01-15T10:00:00Z'
+        },
+        {
+          id: '2',
+          setNumber: '10179',
+          setName: 'Ultimate Collector\'s Millennium Falcon',
+          marketplace: 'ebay',
+          condition: 'Used',
+          price: 2499.00,
+          marketPrice: 3500.00,
+          discount: 29,
+          sellerName: 'LEGOCollector99',
+          sellerRating: 4.9,
+          sellerLocation: 'Netherlands',
+          shippingCost: 0,
+          url: 'https://ebay.com/listing/example',
+          description: 'Complete set with all pieces and instructions. Displayed only.',
+          listedDate: '2025-01-14T15:30:00Z'
+        },
+        {
+          id: '3',
+          setNumber: '10294',
+          setName: 'Titanic',
+          marketplace: 'bricklink',
+          condition: 'New',
+          price: 549.00,
+          marketPrice: 679.99,
+          discount: 19,
+          sellerName: 'BrickShop',
+          sellerRating: 4.7,
+          sellerLocation: 'France',
+          shippingCost: 12.50,
+          url: 'https://bricklink.com/listing/example2',
+          description: 'Factory sealed, ready to ship.',
+          listedDate: '2025-01-13T09:00:00Z'
+        },
+        {
+          id: '4',
+          setNumber: '21322',
+          setName: 'Pirates of Barracuda Bay',
+          marketplace: 'ebay',
+          condition: 'New',
+          price: 189.99,
+          marketPrice: 249.99,
+          discount: 24,
+          sellerName: 'LEGODeals',
+          sellerRating: 4.6,
+          sellerLocation: 'Belgium',
+          shippingCost: 8.50,
+          url: 'https://ebay.com/listing/example2',
+          description: 'Sealed box, minor shelf wear.',
+          listedDate: '2025-01-12T14:20:00Z'
+        },
+        {
+          id: '5',
+          setNumber: '42143',
+          setName: 'Ferrari Daytona SP3',
+          marketplace: 'bricklink',
+          condition: 'New',
+          price: 329.00,
+          marketPrice: 399.99,
+          discount: 18,
+          sellerName: 'TechnicPro',
+          sellerRating: 4.9,
+          sellerLocation: 'Germany',
+          shippingCost: 0,
+          url: 'https://bricklink.com/listing/example3',
+          description: 'Perfect sealed condition. Free shipping!',
+          listedDate: '2025-01-11T11:45:00Z'
+        }
+      ];
+    }
+
+    // Initialize on page load
+    init();
+  </script>
+</body>
+</html>
