@@ -20,7 +20,8 @@ For EACH set, provide:
 4. MARKET_LIQUIDITY (0-10): Ease of sale
 5. PRICE_ENTRY: excellent/good/fair/poor based on paid vs retail
 6. ACTION: BUY/HOLD/SELL with confidence (high/medium/low)
-7. ONE_LINER: Brief investment thesis
+7. RETIREMENT_WINDOW: Estimated quarter when set will retire (Q1 2026, Q2 2026, etc.) based on retirement_risk - higher risk = sooner window
+8. ONE_LINER: Brief investment thesis
 
 Return JSON object with set IDs as keys:
 {
@@ -32,6 +33,7 @@ Return JSON object with set IDs as keys:
     "entry": "good",
     "action": "HOLD",
     "confidence": "high",
+    "retirement_window": "Q3 2026",
     "thesis": "..."
   }
 }`;
@@ -59,7 +61,26 @@ async function main() {
   const sets = Object.entries(portfolio.sets);
   const BATCH_SIZE = 10;
   const results = {};
-  
+
+  // Dry-run mode for verification
+  if (process.argv.includes('--dry-run')) {
+    const sampleResult = {
+      "75252": {
+        "license": 9,
+        "retirement": 7,
+        "appeal": 9,
+        "liquidity": 8,
+        "entry": "good",
+        "action": "HOLD",
+        "confidence": "high",
+        "retirement_window": "Q2 2026",
+        "thesis": "Strong Star Wars UCS set with high collector appeal"
+      }
+    };
+    console.log(JSON.stringify(sampleResult, null, 2));
+    return;
+  }
+
   console.log(`🔍 Analyzing ${sets.length} sets in batches of ${BATCH_SIZE}...\n`);
   
   for (let i = 0; i < sets.length; i += BATCH_SIZE) {
