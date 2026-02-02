@@ -1,0 +1,15 @@
+{
+  "sales": [
+    {
+      "id": "1769992514101",
+      "setId": "10316-1",
+      "date": "2025-01-20",
+      "price": 450,
+      "qty": 2,
+      "buyer": "eBay Buyer XYZ",
+      "costBasis": 410,
+      "realizedGain": 80,
+      "notes": ""
+    }
+  ]
+}

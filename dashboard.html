@@ -17,6 +17,35 @@
     .score-bar { background: linear-gradient(90deg, #ef4444 0%, #eab308 50%, #22c55e 100%); }
     .tab-active { border-bottom: 2px solid #3b82f6; color: #3b82f6; }
     .prediction-badge { background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%); }
+    .tooltip-container { position: relative; display: inline-block; }
+    .tooltip-content {
+      visibility: hidden;
+      opacity: 0;
+      position: absolute;
+      z-index: 1000;
+      bottom: 125%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(17, 24, 39, 0.98);
+      border: 1px solid rgba(255,255,255,0.2);
+      backdrop-filter: blur(10px);
+      padding: 12px;
+      border-radius: 8px;
+      width: 280px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      transition: opacity 0.3s, visibility 0.3s;
+    }
+    .tooltip-container:hover .tooltip-content { visibility: visible; opacity: 1; }
+    .tooltip-content::after {
+      content: "";
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      margin-left: -5px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: rgba(17, 24, 39, 0.98) transparent transparent transparent;
+    }
     ::-webkit-scrollbar { width: 8px; }
     ::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); }
     ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 4px; }
@@ -31,6 +60,7 @@
         <p class="text-gray-400 mt-1">AI-Powered Portfolio Analysis with BrickEconomy ML Predictions</p>
       </div>
       <div class="flex items-center gap-4">
+        <a href="deals.html" class="px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg text-sm font-medium transition">🎯 Deals</a>
         <span class="text-sm text-gray-400" id="lastUpdated"></span>
         <button onclick="refreshData()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg text-sm font-medium transition">🔄 Refresh</button>
       </div>
@@ -38,7 +68,7 @@
   </header>
 
   <!-- Summary Cards -->
-  <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8" id="summaryCards">
+  <div class="grid grid-cols-2 md:grid-cols-6 gap-4 mb-8" id="summaryCards">
     <div class="card rounded-xl p-4">
       <div class="text-gray-400 text-sm">Total Value</div>
       <div class="text-2xl font-bold text-white" id="totalValue">-</div>
@@ -48,6 +78,11 @@
       <div class="text-gray-400 text-sm">Total Gain/Loss</div>
       <div class="text-2xl font-bold" id="totalGain">-</div>
       <div class="text-sm" id="totalGainPct"></div>
+    </div>
+    <div class="card rounded-xl p-4">
+      <div class="text-gray-400 text-sm">Realized Gains</div>
+      <div class="text-2xl font-bold" id="totalRealizedGains">-</div>
+      <div class="text-sm text-gray-500" id="totalSales"></div>
     </div>
     <div class="card rounded-xl p-4">
       <div class="text-gray-400 text-sm">Total Sets</div>
@@ -126,6 +161,69 @@
     </div>
   </div>
 
+  <!-- Theme Allocation Chart -->
+  <div class="card rounded-xl p-4 mb-8">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-lg font-semibold flex items-center gap-2">🎨 Portfolio by Theme</h3>
+      <span class="text-xs text-gray-400">Value allocation across LEGO themes</span>
+    </div>
+    <div class="h-80">
+      <canvas id="themeChart"></canvas>
+    </div>
+  </div>
+
+  <!-- Theme Performance History Chart -->
+  <div class="card rounded-xl p-4 mb-8">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-lg font-semibold flex items-center gap-2">📊 Theme Performance History</h3>
+      <div class="flex items-center gap-2">
+        <span class="text-xs text-gray-400">Top 5 themes by value over time</span>
+        <select id="themeHistoryRange" class="bg-gray-800 border border-gray-700 rounded px-2 py-1 text-sm" onchange="updateThemeHistoryChart()">
+          <option value="6">6 Months</option>
+          <option value="12" selected>1 Year</option>
+          <option value="24">2 Years</option>
+          <option value="all">All Time</option>
+        </select>
+      </div>
+    </div>
+    <div class="h-64">
+      <canvas id="themeHistoryChart"></canvas>
+    </div>
+  </div>
+
+  <!-- Theme ROI Comparison Table -->
+  <div class="card rounded-xl p-4 mb-8">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-lg font-semibold flex items-center gap-2">💰 Theme ROI Comparison</h3>
+      <div class="flex items-center gap-2">
+        <span class="text-xs text-gray-400">Click headers to sort</span>
+        <select id="themeROISort" class="bg-gray-800 border border-gray-700 rounded px-2 py-1 text-sm" onchange="renderThemeROITable()">
+          <option value="roi">Sort by ROI</option>
+          <option value="value">Sort by Value</option>
+          <option value="gain">Sort by Gain</option>
+          <option value="theme">Sort by Theme</option>
+        </select>
+      </div>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm">
+        <thead>
+          <tr class="border-b border-gray-700">
+            <th class="text-left py-3 px-2 text-gray-400 font-medium cursor-pointer hover:text-white transition" onclick="sortThemeROI('theme')">Theme</th>
+            <th class="text-right py-3 px-2 text-gray-400 font-medium cursor-pointer hover:text-white transition" onclick="sortThemeROI('sets')">Sets</th>
+            <th class="text-right py-3 px-2 text-gray-400 font-medium cursor-pointer hover:text-white transition" onclick="sortThemeROI('invested')">Invested</th>
+            <th class="text-right py-3 px-2 text-gray-400 font-medium cursor-pointer hover:text-white transition" onclick="sortThemeROI('value')">Current Value</th>
+            <th class="text-right py-3 px-2 text-gray-400 font-medium cursor-pointer hover:text-white transition" onclick="sortThemeROI('gain')">Gain/Loss</th>
+            <th class="text-right py-3 px-2 text-gray-400 font-medium cursor-pointer hover:text-white transition" onclick="sortThemeROI('roi')">ROI %</th>
+            <th class="text-right py-3 px-2 text-gray-400 font-medium">vs Portfolio</th>
+          </tr>
+        </thead>
+        <tbody id="themeROITableBody">
+        </tbody>
+      </table>
+    </div>
+  </div>
+
   <!-- Top Projected Gains -->
   <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
     <div class="card rounded-xl p-4">
@@ -190,6 +288,7 @@
     <button class="pb-2 text-gray-400 hover:text-white" data-tab="buy" onclick="switchTab('buy')">Buy</button>
     <button class="pb-2 text-gray-400 hover:text-white" data-tab="hold" onclick="switchTab('hold')">Hold</button>
     <button class="pb-2 text-gray-400 hover:text-white" data-tab="sell" onclick="switchTab('sell')">Sell</button>
+    <div id="themeFilterBadge" class="hidden ml-auto"></div>
   </div>
 
   <!-- Search & Filter -->
@@ -222,9 +321,14 @@
     let portfolio = null;
     let analysis = null;
     let priceHistory = null;
+    let confidence = null;
+    let salesData = null;
+    let purchasesData = null;
     let currentTab = 'all';
     let currentFilter = '';
+    let currentThemeFilter = null;
     let historyChart = null;
+    let themeHistoryChart = null;
 
     // Transform new data format to expected format
     function transformPortfolio(data) {
@@ -273,6 +377,21 @@
         } catch (e) {
           priceHistory = null;
         }
+        try {
+          confidence = await fetch('data/confidence.json').then(r => r.json());
+        } catch (e) {
+          confidence = null;
+        }
+        try {
+          salesData = await fetch('data/sales.json').then(r => r.json());
+        } catch (e) {
+          salesData = null;
+        }
+        try {
+          purchasesData = await fetch('data/purchases.json').then(r => r.json());
+        } catch (e) {
+          purchasesData = null;
+        }
         renderDashboard();
       } catch (e) {
         console.error('Failed to load data:', e);
@@ -288,7 +407,17 @@
         const a = analysis[id] || {};
         const avgScore = ((a.license || 0) + (a.retirement || 0) + (a.appeal || 0) + (a.liquidity || 0)) / 4;
         const predictions = a.predictions || {};
-        return { id, ...data, analysis: a, avgScore, predictions };
+        const conf = confidence?.sets?.[id]?.confidence || 'Low';
+
+        // Merge sales data
+        const setSales = salesData && salesData.sales ?
+          salesData.sales.filter(sale => sale.setId === id) : [];
+
+        // Merge purchase data
+        const setPurchases = purchasesData && purchasesData.purchases ?
+          purchasesData.purchases.filter(purchase => purchase.setId === id) : [];
+
+        return { id, ...data, analysis: a, avgScore, predictions, confidence: conf, sales: setSales, purchaseHistory: setPurchases };
       });
 
       // Summary
@@ -310,6 +439,24 @@
 
       const avgScore = sets.reduce((sum, s) => sum + s.avgScore, 0) / sets.length;
       document.getElementById('avgScore').textContent = avgScore.toFixed(1);
+
+      // Calculate total realized gains
+      let totalRealizedGains = 0;
+      let totalSalesCount = 0;
+      sets.forEach(s => {
+        if (s.sales && Array.isArray(s.sales)) {
+          s.sales.forEach(sale => {
+            totalRealizedGains += (sale.realizedGain || 0);
+            totalSalesCount++;
+          });
+        }
+      });
+
+      const realizedGainsEl = document.getElementById('totalRealizedGains');
+      const totalSalesEl = document.getElementById('totalSales');
+      realizedGainsEl.textContent = (totalRealizedGains >= 0 ? '+' : '') + '€' + totalRealizedGains.toLocaleString('de-DE', {minimumFractionDigits: 2});
+      realizedGainsEl.className = 'text-2xl font-bold ' + (totalRealizedGains >= 0 ? 'text-green-400' : 'text-red-400');
+      totalSalesEl.textContent = totalSalesCount + ' sale' + (totalSalesCount !== 1 ? 's' : '');
 
       // Calculate portfolio projections
       let projected1yr = 0;
@@ -380,6 +527,15 @@
 
       // Render history chart
       renderHistoryChart();
+
+      // Render theme allocation chart
+      renderThemeChart();
+
+      // Render theme history chart
+      renderThemeHistoryChart();
+
+      // Render theme ROI table
+      renderThemeROITable();
 
       // Render sets
       filterSets();
@@ -484,6 +640,460 @@
       renderHistoryChart();
     }
 
+    function renderThemeHistoryChart() {
+      if (!priceHistory || !portfolio || !analysis) {
+        const chartElement = document.getElementById('themeHistoryChart');
+        if (chartElement) {
+          chartElement.parentElement.innerHTML = '<div class="text-gray-400 h-64 flex items-center justify-center">No price history data available</div>';
+        }
+        return;
+      }
+
+      const range = document.getElementById('themeHistoryRange').value;
+      const months = range === 'all' ? 999 : parseInt(range);
+
+      // Get all sets with their theme info
+      const sets = Object.entries(portfolio.sets).map(([id, data]) => {
+        const a = analysis[id] || {};
+        const avgScore = ((a.license || 0) + (a.retirement || 0) + (a.appeal || 0) + (a.liquidity || 0)) / 4;
+        const predictions = a.predictions || {};
+        return { id, ...data, analysis: a, avgScore, predictions };
+      });
+
+      // Aggregate by theme to get top 5 themes by current value
+      const themeData = aggregateByTheme(sets);
+      const topThemes = Object.entries(themeData)
+        .sort((a, b) => b[1].totalValue - a[1].totalValue)
+        .slice(0, 5)
+        .map(([theme]) => theme);
+
+      // Get all unique dates across all sets
+      const allDates = new Set();
+      Object.values(priceHistory.sets).forEach(set => {
+        if (set.priceHistory) {
+          set.priceHistory.forEach(p => allDates.add(p.date.substring(0, 7)));
+        }
+      });
+
+      const sortedDates = Array.from(allDates).sort();
+      const recentDates = sortedDates.slice(-months);
+
+      // Color palette for themes (using same colors as theme chart)
+      const colors = [
+        '#8b5cf6', '#3b82f6', '#06b6d4', '#10b981', '#84cc16',
+        '#eab308', '#f59e0b', '#ef4444', '#ec4899', '#a855f7'
+      ];
+
+      // Calculate historical value for each theme
+      const datasets = topThemes.map((theme, index) => {
+        const themeMonthlyData = {};
+        const themeSets = themeData[theme].sets;
+
+        recentDates.forEach(month => {
+          let totalValue = 0;
+          themeSets.forEach(set => {
+            const qty = (set.qty_new || 0) + (set.qty_used || 0);
+            const historySet = priceHistory.sets[set.id];
+            if (historySet && historySet.priceHistory) {
+              const monthData = historySet.priceHistory.find(p => p.date.startsWith(month));
+              if (monthData) {
+                totalValue += monthData.newValue * qty;
+              } else {
+                totalValue += set.value; // fallback to current value
+              }
+            } else {
+              totalValue += set.value; // fallback
+            }
+          });
+          themeMonthlyData[month] = totalValue;
+        });
+
+        return {
+          label: theme,
+          data: Object.values(themeMonthlyData),
+          borderColor: colors[index % colors.length],
+          backgroundColor: colors[index % colors.length] + '20',
+          fill: false,
+          tension: 0.4,
+          pointRadius: 2,
+          pointHoverRadius: 6
+        };
+      });
+
+      const labels = recentDates.map(d => {
+        const [y, m] = d.split('-');
+        return new Date(y, m-1).toLocaleDateString('en-US', { month: 'short', year: '2-digit' });
+      });
+
+      const ctx = document.getElementById('themeHistoryChart');
+      if (!ctx) return;
+
+      if (themeHistoryChart) themeHistoryChart.destroy();
+
+      themeHistoryChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: datasets
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: true,
+              position: 'bottom',
+              labels: {
+                color: '#9ca3af',
+                padding: 10,
+                font: {
+                  size: 11
+                },
+                usePointStyle: true,
+                pointStyle: 'line'
+              }
+            },
+            tooltip: {
+              callbacks: {
+                label: (ctx) => `${ctx.dataset.label}: €${ctx.raw.toLocaleString('de-DE', {minimumFractionDigits: 2})}`
+              }
+            }
+          },
+          scales: {
+            y: {
+              grid: { color: 'rgba(255,255,255,0.05)' },
+              ticks: {
+                color: '#9ca3af',
+                callback: (v) => '€' + v.toLocaleString()
+              }
+            },
+            x: {
+              grid: { display: false },
+              ticks: { color: '#9ca3af' }
+            }
+          }
+        }
+      });
+    }
+
+    function updateThemeHistoryChart() {
+      renderThemeHistoryChart();
+    }
+
+    let themeChart = null;
+    function renderThemeChart() {
+      if (!portfolio || !analysis) return;
+
+      const sets = Object.entries(portfolio.sets).map(([id, data]) => {
+        const a = analysis[id] || {};
+        const avgScore = ((a.license || 0) + (a.retirement || 0) + (a.appeal || 0) + (a.liquidity || 0)) / 4;
+        const predictions = a.predictions || {};
+        return { id, ...data, analysis: a, avgScore, predictions };
+      });
+
+      // Aggregate portfolio by theme
+      const themeData = aggregateByTheme(sets);
+      const themeValues = Object.entries(themeData)
+        .map(([theme, data]) => ({
+          theme: theme,
+          value: data.totalValue
+        }))
+        .sort((a, b) => b.value - a.value);
+
+      // Prepare chart data
+      const labels = themeValues.map(t => t.theme);
+      const values = themeValues.map(t => t.value);
+      const total = values.reduce((sum, v) => sum + v, 0);
+      const percentages = values.map(v => ((v / total) * 100).toFixed(1));
+
+      // Color palette for themes
+      const colors = [
+        '#8b5cf6', '#3b82f6', '#06b6d4', '#10b981', '#84cc16',
+        '#eab308', '#f59e0b', '#ef4444', '#ec4899', '#a855f7',
+        '#6366f1', '#14b8a6', '#22c55e', '#facc15', '#fb923c'
+      ];
+
+      const ctx = document.getElementById('themeChart');
+      if (!ctx) return;
+
+      if (themeChart) {
+        themeChart.destroy();
+      }
+
+      themeChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: labels,
+          datasets: [{
+            data: values,
+            backgroundColor: colors.slice(0, labels.length),
+            borderColor: '#1a1a2e',
+            borderWidth: 2
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          onClick: (event, activeElements) => {
+            if (activeElements.length > 0) {
+              const index = activeElements[0].index;
+              const theme = labels[index];
+              filterByTheme(theme);
+              // Scroll to sets grid
+              document.getElementById('setsGrid').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+          },
+          plugins: {
+            legend: {
+              display: true,
+              position: 'right',
+              labels: {
+                color: '#9ca3af',
+                padding: 12,
+                font: {
+                  size: 11
+                },
+                generateLabels: (chart) => {
+                  const data = chart.data;
+                  return data.labels.map((label, i) => ({
+                    text: `${label} (${percentages[i]}%)`,
+                    fillStyle: data.datasets[0].backgroundColor[i],
+                    hidden: false,
+                    index: i
+                  }));
+                }
+              },
+              onClick: (event, legendItem, legend) => {
+                const theme = legend.chart.data.labels[legendItem.index];
+                filterByTheme(theme);
+                // Scroll to sets grid
+                document.getElementById('setsGrid').scrollIntoView({ behavior: 'smooth', block: 'start' });
+              }
+            },
+            tooltip: {
+              callbacks: {
+                label: (ctx) => {
+                  const value = ctx.raw;
+                  const percentage = ((value / total) * 100).toFixed(1);
+                  return `€${value.toLocaleString('de-DE', {minimumFractionDigits: 2})} (${percentage}%)`;
+                }
+              }
+            }
+          }
+        }
+      });
+    }
+
+    // Theme aggregation functions
+    function aggregateByTheme(sets) {
+      const themeData = {};
+
+      sets.forEach(set => {
+        const theme = set.theme || 'Unknown';
+        if (!themeData[theme]) {
+          themeData[theme] = {
+            theme: theme,
+            totalValue: 0,
+            totalPaid: 0,
+            totalGain: 0,
+            totalUnits: 0,
+            setCount: 0,
+            sets: []
+          };
+        }
+
+        const qty = (set.qty_new || 0) + (set.qty_used || 0);
+        const value = set.current_value || 0;
+        const paid = set.price_paid || 0;
+
+        themeData[theme].totalValue += value;
+        themeData[theme].totalPaid += paid;
+        themeData[theme].totalGain += (value - paid);
+        themeData[theme].totalUnits += qty;
+        themeData[theme].setCount += 1;
+        themeData[theme].sets.push(set);
+      });
+
+      // Calculate percentages and ROI for each theme
+      Object.values(themeData).forEach(theme => {
+        theme.gainPct = theme.totalPaid > 0 ? ((theme.totalGain / theme.totalPaid) * 100) : 0;
+        theme.avgScore = theme.sets.reduce((sum, s) => sum + (s.avgScore || 0), 0) / theme.sets.length;
+      });
+
+      return themeData;
+    }
+
+    // Theme ROI table rendering
+    let currentThemeROISort = 'roi';
+    let themeROISortDirection = 'desc';
+
+    function renderThemeROITable() {
+      if (!portfolio || !analysis) return;
+
+      const sets = Object.entries(portfolio.sets).map(([id, data]) => {
+        const a = analysis[id] || {};
+        const avgScore = ((a.license || 0) + (a.retirement || 0) + (a.appeal || 0) + (a.liquidity || 0)) / 4;
+        const predictions = a.predictions || {};
+        return { id, ...data, analysis: a, avgScore, predictions };
+      });
+
+      const themeData = aggregateByTheme(sets);
+      const sortBy = document.getElementById('themeROISort')?.value || currentThemeROISort;
+
+      let themeArray = Object.values(themeData);
+
+      // Sort based on selected criterion
+      themeArray.sort((a, b) => {
+        let aVal, bVal;
+        switch(sortBy) {
+          case 'theme':
+            return themeROISortDirection === 'asc'
+              ? a.theme.localeCompare(b.theme)
+              : b.theme.localeCompare(a.theme);
+          case 'sets':
+            aVal = a.setCount;
+            bVal = b.setCount;
+            break;
+          case 'invested':
+            aVal = a.totalPaid;
+            bVal = b.totalPaid;
+            break;
+          case 'value':
+            aVal = a.totalValue;
+            bVal = b.totalValue;
+            break;
+          case 'gain':
+            aVal = a.totalGain;
+            bVal = b.totalGain;
+            break;
+          case 'roi':
+          default:
+            aVal = a.gainPct;
+            bVal = b.gainPct;
+            break;
+        }
+        return themeROISortDirection === 'desc' ? bVal - aVal : aVal - bVal;
+      });
+
+      const tbody = document.getElementById('themeROITableBody');
+      if (!tbody) return;
+
+      // Calculate portfolio average ROI (weighted by invested amount)
+      const totalInvested = themeArray.reduce((sum, t) => sum + t.totalPaid, 0);
+      const totalValue = themeArray.reduce((sum, t) => sum + t.totalValue, 0);
+      const portfolioAvgROI = totalInvested > 0 ? ((totalValue - totalInvested) / totalInvested) * 100 : 0;
+
+      tbody.innerHTML = themeArray.map(theme => {
+        const roiColor = theme.gainPct >= 20 ? 'text-green-400' :
+                         theme.gainPct >= 0 ? 'text-yellow-400' : 'text-red-400';
+        const roiBg = theme.gainPct >= 20 ? 'bg-green-500/10' :
+                      theme.gainPct >= 0 ? 'bg-yellow-500/10' : 'bg-red-500/10';
+        const gainColor = theme.totalGain >= 0 ? 'text-green-400' : 'text-red-400';
+        const gainIcon = theme.totalGain >= 0 ? '↑' : '↓';
+
+        // Calculate performance vs portfolio average (in percentage points)
+        const vsBenchmark = theme.gainPct - portfolioAvgROI;
+        const benchmarkColor = vsBenchmark > 0 ? 'text-green-400' : 'text-red-400';
+        const benchmarkBg = vsBenchmark > 0 ? 'bg-green-500/10' : 'bg-red-500/10';
+        const benchmarkIcon = vsBenchmark > 0 ? '↑' : '↓';
+
+        return `
+          <tr class="border-b border-gray-800 hover:bg-gray-800/50 transition cursor-pointer" onclick="filterByTheme('${theme.theme}'); document.getElementById('setsGrid').scrollIntoView({ behavior: 'smooth', block: 'start' });">
+            <td class="py-3 px-2 font-medium">${theme.theme}</td>
+            <td class="py-3 px-2 text-right text-gray-400">${theme.setCount}</td>
+            <td class="py-3 px-2 text-right">€${theme.totalPaid.toFixed(0)}</td>
+            <td class="py-3 px-2 text-right font-medium">€${theme.totalValue.toFixed(0)}</td>
+            <td class="py-3 px-2 text-right ${gainColor} font-medium">${gainIcon} €${Math.abs(theme.totalGain).toFixed(0)}</td>
+            <td class="py-3 px-2 text-right">
+              <span class="${roiBg} ${roiColor} px-2 py-1 rounded font-bold">
+                ${theme.gainPct >= 0 ? '+' : ''}${theme.gainPct.toFixed(1)}%
+              </span>
+            </td>
+            <td class="py-3 px-2 text-right">
+              <span class="${benchmarkBg} ${benchmarkColor} px-2 py-1 rounded font-medium">
+                ${benchmarkIcon} ${vsBenchmark > 0 ? '+' : ''}${vsBenchmark.toFixed(1)} pp
+              </span>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function sortThemeROI(column) {
+      if (currentThemeROISort === column) {
+        themeROISortDirection = themeROISortDirection === 'desc' ? 'asc' : 'desc';
+      } else {
+        currentThemeROISort = column;
+        themeROISortDirection = column === 'theme' ? 'asc' : 'desc';
+      }
+
+      // Update dropdown to match
+      const dropdown = document.getElementById('themeROISort');
+      if (dropdown && ['roi', 'value', 'gain', 'theme'].includes(column)) {
+        dropdown.value = column;
+      }
+
+      renderThemeROITable();
+    }
+
+    function calculateThemeAllocation(themeData, totalValue) {
+      const allocation = {};
+
+      Object.entries(themeData).forEach(([theme, data]) => {
+        allocation[theme] = {
+          ...data,
+          allocationPct: totalValue > 0 ? (data.totalValue / totalValue) * 100 : 0
+        };
+      });
+
+      return allocation;
+    }
+
+    function getTopThemesByMetric(themeData, metric, limit = 5) {
+      return Object.values(themeData)
+        .sort((a, b) => b[metric] - a[metric])
+        .slice(0, limit);
+    }
+
+    function getThemeHistoricalPerformance(theme) {
+      if (!priceHistory) return null;
+
+      const monthlyData = {};
+
+      // Get all unique dates
+      const allDates = new Set();
+      Object.values(priceHistory.sets).forEach(set => {
+        if (set.priceHistory) {
+          set.priceHistory.forEach(p => allDates.add(p.date.substring(0, 7)));
+        }
+      });
+
+      const sortedDates = Array.from(allDates).sort();
+
+      sortedDates.forEach(month => {
+        let totalValue = 0;
+        Object.entries(portfolio.sets).forEach(([setId, setData]) => {
+          if (setData.theme === theme) {
+            const qty = (setData.qty_new || 0) + (setData.qty_used || 0);
+            const historySet = priceHistory.sets[setId];
+            if (historySet && historySet.priceHistory) {
+              const monthData = historySet.priceHistory.find(p => p.date.startsWith(month));
+              if (monthData) {
+                totalValue += monthData.newValue * qty;
+              } else {
+                totalValue += setData.current_value || 0;
+              }
+            } else {
+              totalValue += setData.current_value || 0;
+            }
+          }
+        });
+        monthlyData[month] = totalValue;
+      });
+
+      return monthlyData;
+    }
+
     function renderProjectedPerformers(containerId, sets, isTop) {
       const container = document.getElementById(containerId);
       container.innerHTML = sets.map((s, i) => {
@@ -547,9 +1157,36 @@
       switchTab(currentTab);
     }
 
+    function filterByTheme(theme) {
+      currentThemeFilter = theme;
+      updateThemeFilterDisplay();
+      filterSets();
+    }
+
+    function clearThemeFilter() {
+      currentThemeFilter = null;
+      updateThemeFilterDisplay();
+      filterSets();
+    }
+
+    function updateThemeFilterDisplay() {
+      const filterBadge = document.getElementById('themeFilterBadge');
+      if (currentThemeFilter) {
+        filterBadge.innerHTML = `
+          <div class="flex items-center gap-2 px-3 py-1 bg-blue-500/20 border border-blue-500/30 rounded-lg text-sm">
+            <span>🎨 ${currentThemeFilter}</span>
+            <button onclick="clearThemeFilter()" class="text-blue-400 hover:text-blue-300 font-bold">✕</button>
+          </div>
+        `;
+        filterBadge.classList.remove('hidden');
+      } else {
+        filterBadge.classList.add('hidden');
+      }
+    }
+
     function filterSets() {
       const search = document.getElementById('searchInput').value.toLowerCase();
-      const theme = document.getElementById('themeFilter').value;
+      const theme = currentThemeFilter || document.getElementById('themeFilter').value;
       const sortBy = document.getElementById('sortBy').value;
 
       let sets = Object.entries(portfolio.sets).map(([id, data]) => {
@@ -569,9 +1206,9 @@
         sets = sets.filter(s => s.name.toLowerCase().includes(search) || s.theme.toLowerCase().includes(search));
       }
 
-      // Filter by theme
+      // Filter by theme (from drill-down or dropdown)
       if (theme) {
-        sets = sets.filter(s => s.theme.startsWith(theme));
+        sets = sets.filter(s => s.theme === theme || s.theme.startsWith(theme));
       }
 
       // Sort
@@ -595,6 +1232,9 @@
         const projected1yr = s.predictions?.['1yr']?.value || (s.value * 1.15);
         const projectedGrowth = s.predictions?.growth1yr || 15;
 
+        const conf = s.confidence || 'Low';
+        const confidenceColors = { High: 'bg-green-500/20 text-green-400 border-green-500/30', Medium: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30', Low: 'bg-red-500/20 text-red-400 border-red-500/30' };
+
         return `
           <div class="card rounded-xl p-4 cursor-pointer hover:bg-white/10 transition" onclick="showDetail('${s.id}')">
             <div class="flex justify-between items-start mb-3">
@@ -606,7 +1246,8 @@
                 ${actionIcons[action] || '❓'} ${action}
               </span>
             </div>
-            
+
+
             <div class="grid grid-cols-3 gap-2 mb-3">
               <div>
                 <div class="text-xs text-gray-400">Value</div>
@@ -616,13 +1257,22 @@
                 <div class="text-xs text-gray-400">Growth</div>
                 <div class="font-bold text-sm ${growthColor}">${s.growth_pct >= 0 ? '+' : ''}${s.growth_pct.toFixed(1)}%</div>
               </div>
+              <div title="${s.purchaseHistory && s.purchaseHistory.length > 0 ? (() => {
+                const totalQty = s.purchaseHistory.reduce((sum, p) => sum + (p.quantity || 0), 0);
+                const weightedTotal = s.purchaseHistory.reduce((sum, p) => sum + (p.price || 0) * (p.quantity || 0), 0);
+                const avgPaid = totalQty > 0 ? weightedTotal / totalQty : s.paid;
+                return `Avg paid: €${avgPaid.toFixed(2)} (weighted average from ${s.purchaseHistory.length} purchase${s.purchaseHistory.length !== 1 ? 's' : ''})`;
+              })() : `Cost basis: €${s.paid.toFixed(2)}`}">
+                <div class="text-xs text-gray-400">Paid</div>
+                <div class="font-bold text-sm text-gray-300">€${s.paid.toLocaleString('de-DE', {minimumFractionDigits: 0})}</div>
+              </div>
               <div>
                 <div class="text-xs text-purple-400 flex items-center gap-1">🔮 1yr</div>
                 <div class="font-bold text-sm text-purple-400">+${projectedGrowth.toFixed(0)}%</div>
               </div>
             </div>
 
-            <div class="flex items-center justify-between text-sm">
+            <div class="flex items-center justify-between text-sm mb-2">
               <div class="flex items-center gap-2">
                 <span class="text-gray-400">Score:</span>
                 <span class="font-bold text-blue-400">${s.avgScore.toFixed(1)}/10</span>
@@ -630,6 +1280,26 @@
               <div class="flex items-center gap-2">
                 <span class="text-gray-400">Entry:</span>
                 <span class="${entryColors[s.analysis.entry] || 'text-gray-400'}">${s.analysis.entry || '-'}</span>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between text-sm">
+              <div class="flex items-center gap-2">
+                <span class="text-gray-400">Confidence:</span>
+                <div class="tooltip-container">
+                  <span class="px-2 py-0.5 rounded text-xs font-medium border ${confidenceColors[conf]} cursor-help">${conf}</span>
+                  <div class="tooltip-content">${generateConfidenceTooltip(s.id)}</div>
+                </div>
+                ${hasSourceDisagreement(s.id) ? `
+                  <div class="tooltip-container">
+                    <span class="flex items-center justify-center w-5 h-5 rounded-full bg-yellow-500/20 border border-yellow-500/50 cursor-help" title="Source disagreement">
+                      <svg class="w-3 h-3 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                      </svg>
+                    </span>
+                    <div class="tooltip-content">${generateDisagreementTooltip(s.id)}</div>
+                  </div>
+                ` : ''}
               </div>
             </div>
 
@@ -645,6 +1315,16 @@
       const s = { id, ...portfolio.sets[id], analysis: analysis[id] || {} };
       const avgScore = ((s.analysis.license || 0) + (s.analysis.retirement || 0) + (s.analysis.appeal || 0) + (s.analysis.liquidity || 0)) / 4;
       const predictions = s.analysis.predictions || {};
+
+      // Merge sales data
+      const setSales = salesData && salesData.sales ?
+        salesData.sales.filter(sale => sale.setId === id) : [];
+      s.sales = setSales;
+
+      // Merge purchase data
+      const setPurchases = purchasesData && purchasesData.purchases ?
+        purchasesData.purchases.filter(purchase => purchase.setId === id) : [];
+      s.purchaseHistory = setPurchases;
 
       const actionColors = { BUY: 'bg-green-500 text-white', HOLD: 'bg-yellow-500 text-black', SELL: 'bg-red-500 text-white' };
       const entryColors = { excellent: 'bg-green-500/20 text-green-400', good: 'bg-blue-500/20 text-blue-400', fair: 'bg-yellow-500/20 text-yellow-400', poor: 'bg-red-500/20 text-red-400' };
@@ -733,6 +1413,80 @@
           </div>
         </div>
 
+        <div class="bg-gray-800 rounded-lg p-4 mb-6">
+          <h3 class="font-semibold mb-3 flex items-center gap-2">📦 Purchase History</h3>
+          ${s.purchaseHistory && s.purchaseHistory.length > 0 ? `
+            <div class="overflow-x-auto">
+              <table class="w-full text-sm">
+                <thead>
+                  <tr class="border-b border-gray-700">
+                    <th class="text-left py-2 px-3 text-gray-400 font-medium">Date</th>
+                    <th class="text-left py-2 px-3 text-gray-400 font-medium">Price</th>
+                    <th class="text-left py-2 px-3 text-gray-400 font-medium">Quantity</th>
+                    <th class="text-left py-2 px-3 text-gray-400 font-medium">Seller</th>
+                    <th class="text-left py-2 px-3 text-gray-400 font-medium">Condition</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${s.purchaseHistory.map(purchase => `
+                    <tr class="border-b border-gray-700/50">
+                      <td class="py-2 px-3 text-gray-300">${purchase.date || '-'}</td>
+                      <td class="py-2 px-3 text-white font-medium">€${purchase.price ? purchase.price.toLocaleString('de-DE', {minimumFractionDigits: 2}) : '-'}</td>
+                      <td class="py-2 px-3 text-gray-300">${purchase.quantity || '-'}</td>
+                      <td class="py-2 px-3 text-gray-300">${purchase.seller || '-'}</td>
+                      <td class="py-2 px-3">
+                        <span class="px-2 py-1 rounded text-xs ${purchase.condition === 'New' ? 'bg-green-500/20 text-green-400' : 'bg-blue-500/20 text-blue-400'}">
+                          ${purchase.condition || '-'}
+                        </span>
+                      </td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+            </div>
+          ` : `
+            <p class="text-gray-400 text-sm">No purchase history recorded</p>
+          `}
+        </div>
+
+        <div class="bg-gray-800 rounded-lg p-4 mb-6">
+          <h3 class="font-semibold mb-3 flex items-center gap-2">💰 Sales History</h3>
+          ${s.sales && s.sales.length > 0 ? `
+            <div class="overflow-x-auto">
+              <table class="w-full text-sm">
+                <thead>
+                  <tr class="border-b border-gray-700">
+                    <th class="text-left py-2 px-3 text-gray-400 font-medium">Date</th>
+                    <th class="text-left py-2 px-3 text-gray-400 font-medium">Sale Price</th>
+                    <th class="text-left py-2 px-3 text-gray-400 font-medium">Quantity</th>
+                    <th class="text-left py-2 px-3 text-gray-400 font-medium">Buyer</th>
+                    <th class="text-left py-2 px-3 text-gray-400 font-medium">Realized Gain</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${s.sales.map(sale => {
+                    const realizedGain = sale.realizedGain || 0;
+                    const gainColor = realizedGain >= 0 ? 'text-green-400' : 'text-red-400';
+                    return `
+                      <tr class="border-b border-gray-700/50">
+                        <td class="py-2 px-3 text-gray-300">${sale.date || '-'}</td>
+                        <td class="py-2 px-3 text-white font-medium">€${sale.price ? sale.price.toLocaleString('de-DE', {minimumFractionDigits: 2}) : '-'}</td>
+                        <td class="py-2 px-3 text-gray-300">${sale.qty || '-'}</td>
+                        <td class="py-2 px-3 text-gray-300">${sale.buyer || '-'}</td>
+                        <td class="py-2 px-3 font-medium ${gainColor}">
+                          ${realizedGain >= 0 ? '+' : ''}€${realizedGain.toLocaleString('de-DE', {minimumFractionDigits: 2})}
+                        </td>
+                      </tr>
+                    `;
+                  }).join('')}
+                </tbody>
+              </table>
+            </div>
+          ` : `
+            <p class="text-gray-400 text-sm">No sales history recorded</p>
+          `}
+        </div>
+
         ${s.purchaseDate ? `<div class="bg-gray-800 rounded-lg p-4 mb-4"><span class="text-gray-400">📅 Purchase Date:</span> <span class="text-white">${s.purchaseDate}</span></div>` : ''}
         ${s.notes ? `<div class="bg-gray-800 rounded-lg p-4"><h3 class="font-semibold mb-2">📝 Notes</h3><p class="text-gray-300">${s.notes}</p></div>` : ''}
       `;
@@ -754,6 +1508,118 @@
           <span class="text-sm font-bold w-8">${value || 0}</span>
         </div>
       `;
+    }
+
+    function hasSourceDisagreement(setId) {
+      if (!confidence || !confidence.sets || !confidence.sets[setId]) {
+        return false;
+      }
+      const confData = confidence.sets[setId];
+      const factors = confData.factors || {};
+      const sourceAgreement = factors.sourceAgreement || {};
+      const maxDiff = sourceAgreement.maxDiff;
+      return maxDiff !== null && maxDiff > 0.15;
+    }
+
+    function generateDisagreementTooltip(setId) {
+      if (!confidence || !confidence.sets || !confidence.sets[setId]) {
+        return '';
+      }
+      const confData = confidence.sets[setId];
+      const factors = confData.factors || {};
+      const sourceAgreement = factors.sourceAgreement || {};
+      const maxDiff = sourceAgreement.maxDiff;
+
+      if (maxDiff === null || maxDiff <= 0.15) {
+        return '';
+      }
+
+      const sources = sourceAgreement.sources || [];
+      const pctDiff = (maxDiff * 100).toFixed(1);
+
+      return `
+        <div class="text-xs space-y-2">
+          <div class="font-semibold text-white border-b border-yellow-600 pb-1">⚠️ Source Disagreement</div>
+          <div>
+            <span class="text-gray-400">Price variance:</span>
+            <span class="text-yellow-300 ml-1 font-bold">${pctDiff}%</span>
+          </div>
+          <div>
+            <span class="text-gray-400">Sources:</span>
+            <span class="text-white ml-1">${sources.join(', ')}</span>
+          </div>
+          <div class="text-yellow-300 text-xs pt-1 border-t border-gray-600">
+            Multiple sources show significant price differences. Exercise caution when valuing this set.
+          </div>
+        </div>
+      `;
+    }
+
+    function generateConfidenceTooltip(setId) {
+      if (!confidence || !confidence.sets || !confidence.sets[setId]) {
+        return '';
+      }
+
+      const confData = confidence.sets[setId];
+      const factors = confData.factors || {};
+      const recency = factors.recency || {};
+      const sourceAgreement = factors.sourceAgreement || {};
+      const txVolume = factors.transactionVolume || {};
+      const warnings = confData.warnings || [];
+
+      // Format data age
+      const ageDays = recency.age_days || 0;
+      let ageText = '';
+      if (ageDays < 1) ageText = 'Updated today';
+      else if (ageDays === 1) ageText = 'Updated 1 day ago';
+      else if (ageDays < 30) ageText = `Updated ${ageDays} days ago`;
+      else if (ageDays < 365) ageText = `Updated ${Math.floor(ageDays/30)} months ago`;
+      else ageText = `Updated ${Math.floor(ageDays/365)} year${Math.floor(ageDays/365) > 1 ? 's' : ''} ago`;
+
+      // Format sources
+      const sources = sourceAgreement.sources || [];
+      const sourcesText = sources.length > 0 ? sources.join(', ') : 'No sources';
+
+      // Check for significant disagreement
+      const maxDiff = sourceAgreement.maxDiff;
+      const hasDisagreement = maxDiff !== null && maxDiff > 0.15;
+
+      let tooltipHTML = `
+        <div class="text-xs space-y-2">
+          <div class="font-semibold text-white border-b border-gray-600 pb-1">Confidence Breakdown</div>
+          <div>
+            <span class="text-gray-400">Data age:</span>
+            <span class="text-white ml-1">${ageText}</span>
+          </div>
+          <div>
+            <span class="text-gray-400">Sources:</span>
+            <span class="text-white ml-1">${sourcesText}</span>
+          </div>
+          <div>
+            <span class="text-gray-400">Transactions:</span>
+            <span class="text-white ml-1">${txVolume.count || 0}</span>
+          </div>
+      `;
+
+      if (hasDisagreement) {
+        tooltipHTML += `
+          <div class="text-yellow-400 pt-1 border-t border-gray-600">
+            ⚠️ Sources disagree by ${(maxDiff * 100).toFixed(1)}%
+          </div>
+        `;
+      }
+
+      if (warnings.length > 0) {
+        tooltipHTML += `
+          <div class="pt-1 border-t border-gray-600">
+            <div class="text-red-400 font-medium">⚠️ Warnings:</div>
+            ${warnings.map(w => `<div class="text-red-300">• ${w}</div>`).join('')}
+          </div>
+        `;
+      }
+
+      tooltipHTML += `</div>`;
+      return tooltipHTML;
     }
 
     function closeModal() {
