@@ -1,0 +1,446 @@
+{
+  "10316-1": {
+    "name": "10316-1",
+    "history": [
+      {
+        "date": "2026-02-02",
+        "timestamp": "2026-02-02T00:24:31.241Z",
+        "retirement_score": 3,
+        "retirement_window": null,
+        "retirement_confidence": null
+      }
+    ]
+  },
+  "10330-1": {
+    "name": "10330-1",
+    "history": [
+      {
+        "date": "2026-02-02",
+        "timestamp": "2026-02-02T00:24:31.241Z",
+        "retirement_score": 4,
+        "retirement_window": null,
+        "retirement_confidence": null
+      }
+    ]
+  },
+  "10342-1": {
+    "name": "10342-1",
+    "history": [
+      {
+        "date": "2026-02-02",
+        "timestamp": "2026-02-02T00:24:31.241Z",
+        "retirement_score": 6,
+        "retirement_window": null,
+        "retirement_confidence": null
+      }
+    ]
+  },
+  "21276-1": {
+    "name": "21276-1",
+    "history": [
+      {
+        "date": "2026-02-02",
+        "timestamp": "2026-02-02T00:24:31.241Z",
+        "retirement_score": 5,
+        "retirement_window": null,
+        "retirement_confidence": null
+      }
+    ]
+  },
+  "21279-1": {
+    "name": "21279-1",
+    "history": [
+      {
+        "date": "2026-02-02",
+        "timestamp": "2026-02-02T00:24:31.241Z",
+        "retirement_score": 5,
+        "retirement_window": null,
+        "retirement_confidence": null
+      }
+    ]
+  },
+  "21345-1": {
+    "name": "21345-1",
+    "history": [
+      {
+        "date": "2026-02-02",
+        "timestamp": "2026-02-02T00:24:31.241Z",
+        "retirement_score": 6,
+        "retirement_window": null,
+        "retirement_confidence": null
+      }
+    ]
+  },
+  "31165-1": {
+    "name": "31165-1",
+    "history": [
+      {
+        "date": "2026-02-02",
+        "timestamp": "2026-02-02T00:24:31.241Z",
+        "retirement_score": 2,
+        "retirement_window": null,
+        "retirement_confidence": null
+      }
+    ]
+  },
+  "31218-1": {
+    "name": "31218-1",
+    "history": [
+      {
+        "date": "2026-02-02",
+        "timestamp": "2026-02-02T00:24:31.241Z",
+        "retirement_score": 5,
+        "retirement_window": null,
+        "retirement_confidence": null
+      }
+    ]
+  },
+  "40499-1": {
+    "name": "40499-1",
+    "history": [
+      {
+        "date": "2026-02-02",
+        "timestamp": "2026-02-02T00:24:31.241Z",
+        "retirement_score": 7,
+        "retirement_window": null,
+        "retirement_confidence": null
+      }
+    ]
+  },
+  "40573-1": {
+    "name": "40573-1",
+    "history": [
+      {
+        "date": "2026-02-02",
+        "timestamp": "2026-02-02T00:24:31.241Z",
+        "retirement_score": 7,
+        "retirement_window": null,
+        "retirement_confidence": null
+      }
+    ]
+  },
+  "40674-1": {
+    "name": "40674-1",
+    "history": [
+      {
+        "date": "2026-02-02",
+        "timestamp": "2026-02-02T00:24:31.241Z",
+        "retirement_score": 4,
+        "retirement_window": null,
+        "retirement_confidence": null
+      }
+    ]
+  },
+  "40779-1": {
+    "name": "40779-1",
+    "history": [
+      {
+        "date": "2026-02-02",
+        "timestamp": "2026-02-02T00:24:31.241Z",
+        "retirement_score": 7,
+        "retirement_window": null,
+        "retirement_confidence": null
+      }
+    ]
+  },
+  "40922-1": {
+    "name": "40922-1",
+    "history": [
+      {
+        "date": "2026-02-02",
+        "timestamp": "2026-02-02T00:24:31.241Z",
+        "retirement_score": 4,
+        "retirement_window": null,
+        "retirement_confidence": null
+      }
+    ]
+  },
+  "42115-1": {
+    "name": "42115-1",
+    "history": [
+      {
+        "date": "2026-02-02",
+        "timestamp": "2026-02-02T00:24:31.241Z",
+        "retirement_score": 6,
+        "retirement_window": null,
+        "retirement_confidence": null
+      }
+    ]
+  },
+  "42143-1": {
+    "name": "42143-1",
+    "history": [
+      {
+        "date": "2026-02-02",
+        "timestamp": "2026-02-02T00:24:31.241Z",
+        "retirement_score": 5,
+        "retirement_window": null,
+        "retirement_confidence": null
+      }
+    ]
+  },
+  "42161-1": {
+    "name": "42161-1",
+    "history": [
+      {
+        "date": "2026-02-02",
+        "timestamp": "2026-02-02T00:24:31.241Z",
+        "retirement_score": 3,
+        "retirement_window": null,
+        "retirement_confidence": null
+      }
+    ]
+  },
+  "42172-1": {
+    "name": "42172-1",
+    "history": [
+      {
+        "date": "2026-02-02",
+        "timestamp": "2026-02-02T00:24:31.241Z",
+        "retirement_score": 5,
+        "retirement_window": null,
+        "retirement_confidence": null
+      }
+    ]
+  },
+  "42204-1": {
+    "name": "42204-1",
+    "history": [
+      {
+        "date": "2026-02-02",
+        "timestamp": "2026-02-02T00:24:31.241Z",
+        "retirement_score": 4,
+        "retirement_window": null,
+        "retirement_confidence": null
+      }
+    ]
+  },
+  "42210-1": {
+    "name": "42210-1",
+    "history": [
+      {
+        "date": "2026-02-02",
+        "timestamp": "2026-02-02T00:24:31.241Z",
+        "retirement_score": 5,
+        "retirement_window": null,
+        "retirement_confidence": null
+      }
+    ]
+  },
+  "43257-1": {
+    "name": "43257-1",
+    "history": [
+      {
+        "date": "2026-02-02",
+        "timestamp": "2026-02-02T00:24:31.241Z",
+        "retirement_score": 4,
+        "retirement_window": null,
+        "retirement_confidence": null
+      }
+    ]
+  },
+  "71438-1": {
+    "name": "71438-1",
+    "history": [
+      {
+        "date": "2026-02-02",
+        "timestamp": "2026-02-02T00:24:31.241Z",
+        "retirement_score": 6,
+        "retirement_window": null,
+        "retirement_confidence": null
+      }
+    ]
+  },
+  "72037-1": {
+    "name": "72037-1",
+    "history": [
+      {
+        "date": "2026-02-02",
+        "timestamp": "2026-02-02T00:24:31.241Z",
+        "retirement_score": 6,
+        "retirement_window": null,
+        "retirement_confidence": null
+      }
+    ]
+  },
+  "72046-1": {
+    "name": "72046-1",
+    "history": [
+      {
+        "date": "2026-02-02",
+        "timestamp": "2026-02-02T00:24:31.241Z",
+        "retirement_score": 5,
+        "retirement_window": null,
+        "retirement_confidence": null
+      }
+    ]
+  },
+  "75682-1": {
+    "name": "75682-1",
+    "history": [
+      {
+        "date": "2026-02-02",
+        "timestamp": "2026-02-02T00:24:31.241Z",
+        "retirement_score": 7,
+        "retirement_window": null,
+        "retirement_confidence": null
+      }
+    ]
+  },
+  "76191-1": {
+    "name": "76191-1",
+    "history": [
+      {
+        "date": "2026-02-02",
+        "timestamp": "2026-02-02T00:24:31.241Z",
+        "retirement_score": 6,
+        "retirement_window": null,
+        "retirement_confidence": null
+      }
+    ]
+  },
+  "76223-1": {
+    "name": "76223-1",
+    "history": [
+      {
+        "date": "2026-02-02",
+        "timestamp": "2026-02-02T00:24:31.241Z",
+        "retirement_score": 6,
+        "retirement_window": null,
+        "retirement_confidence": null
+      }
+    ]
+  },
+  "76912-1": {
+    "name": "76912-1",
+    "history": [
+      {
+        "date": "2026-02-02",
+        "timestamp": "2026-02-02T00:24:31.241Z",
+        "retirement_score": 5,
+        "retirement_window": null,
+        "retirement_confidence": null
+      }
+    ]
+  },
+  "76917-1": {
+    "name": "76917-1",
+    "history": [
+      {
+        "date": "2026-02-02",
+        "timestamp": "2026-02-02T00:24:31.241Z",
+        "retirement_score": 5,
+        "retirement_window": null,
+        "retirement_confidence": null
+      }
+    ]
+  },
+  "76922-1": {
+    "name": "76922-1",
+    "history": [
+      {
+        "date": "2026-02-02",
+        "timestamp": "2026-02-02T00:24:31.241Z",
+        "retirement_score": 5,
+        "retirement_window": null,
+        "retirement_confidence": null
+      }
+    ]
+  },
+  "76934-1": {
+    "name": "76934-1",
+    "history": [
+      {
+        "date": "2026-02-02",
+        "timestamp": "2026-02-02T00:24:31.241Z",
+        "retirement_score": 5,
+        "retirement_window": null,
+        "retirement_confidence": null
+      }
+    ]
+  },
+  "77073-1": {
+    "name": "77073-1",
+    "history": [
+      {
+        "date": "2026-02-02",
+        "timestamp": "2026-02-02T00:24:31.241Z",
+        "retirement_score": 7,
+        "retirement_window": null,
+        "retirement_confidence": null
+      }
+    ]
+  },
+  "77237-1": {
+    "name": "77237-1",
+    "history": [
+      {
+        "date": "2026-02-02",
+        "timestamp": "2026-02-02T00:24:31.241Z",
+        "retirement_score": 4,
+        "retirement_window": null,
+        "retirement_confidence": null
+      }
+    ]
+  },
+  "77239-1": {
+    "name": "77239-1",
+    "history": [
+      {
+        "date": "2026-02-02",
+        "timestamp": "2026-02-02T00:24:31.241Z",
+        "retirement_score": 4,
+        "retirement_window": null,
+        "retirement_confidence": null
+      }
+    ]
+  },
+  "77241-1": {
+    "name": "77241-1",
+    "history": [
+      {
+        "date": "2026-02-02",
+        "timestamp": "2026-02-02T00:24:31.241Z",
+        "retirement_score": 5,
+        "retirement_window": null,
+        "retirement_confidence": null
+      }
+    ]
+  },
+  "77253-1": {
+    "name": "77253-1",
+    "history": [
+      {
+        "date": "2026-02-02",
+        "timestamp": "2026-02-02T00:24:31.241Z",
+        "retirement_score": 4,
+        "retirement_window": null,
+        "retirement_confidence": null
+      }
+    ]
+  },
+  "77254-1": {
+    "name": "77254-1",
+    "history": [
+      {
+        "date": "2026-02-02",
+        "timestamp": "2026-02-02T00:24:31.241Z",
+        "retirement_score": 4,
+        "retirement_window": null,
+        "retirement_confidence": null
+      }
+    ]
+  },
+  "77255-1": {
+    "name": "77255-1",
+    "history": [
+      {
+        "date": "2026-02-02",
+        "timestamp": "2026-02-02T00:24:31.241Z",
+        "retirement_score": 4,
+        "retirement_window": null,
+        "retirement_confidence": null
+      }
+    ]
+  }
+}
