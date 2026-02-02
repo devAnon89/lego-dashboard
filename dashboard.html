@@ -6,6 +6,8 @@
   <title>🧱 LEGO Investment Dashboard</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1/dist/chartjs-plugin-zoom.min.js"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
     body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%); }
@@ -108,6 +110,27 @@
         font-size: 0.75rem; /* 12px - keeping readable on smallest screens */
       }
     }
+
+    /* Chart mobile responsiveness */
+    @media (max-width: 768px) {
+      /* Adjust chart container heights for mobile */
+      .chart-container {
+        height: 250px !important; /* Slightly reduced from desktop */
+      }
+
+      /* Make chart controls more touch-friendly */
+      #historyRange {
+        padding: 0.5rem;
+        font-size: 0.875rem;
+      }
+
+      /* Hide some chart labels on very small screens */
+      @media (max-width: 425px) {
+        .chart-container {
+          height: 220px !important;
+        }
+      }
+    }
   </style>
 </head>
 <body class="min-h-screen text-white p-4 md:p-8">
@@ -195,11 +218,11 @@
 
   <!-- Portfolio History Chart -->
   <div class="card rounded-xl p-4 mb-8">
-    <div class="flex items-center justify-between mb-4">
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-2 mb-4">
       <h3 class="text-lg font-semibold flex items-center gap-2">📈 Portfolio Value History</h3>
-      <div class="flex items-center gap-2">
-        <span class="text-xs text-gray-400">Based on price history from BrickEconomy</span>
-        <select id="historyRange" class="bg-gray-800 border border-gray-700 rounded px-2 py-1 text-sm" onchange="updateHistoryChart()">
+      <div class="flex flex-col md:flex-row items-start md:items-center gap-2">
+        <span class="text-xs text-gray-400 hidden md:inline">Based on price history from BrickEconomy</span>
+        <select id="historyRange" class="bg-gray-800 border border-gray-700 rounded px-2 py-1 text-sm w-full md:w-auto" onchange="updateHistoryChart()">
           <option value="6">6 Months</option>
           <option value="12" selected>1 Year</option>
           <option value="24">2 Years</option>
@@ -207,7 +230,8 @@
         </select>
       </div>
     </div>
-    <div class="h-64">
+    <div class="text-xs text-gray-400 mb-2 md:hidden">💡 Pinch to zoom • Swipe to pan</div>
+    <div class="h-64 chart-container">
       <canvas id="historyChart"></canvas>
     </div>
   </div>
@@ -580,18 +604,53 @@
             backgroundColor: 'rgba(139, 92, 246, 0.1)',
             fill: true,
             tension: 0.4,
-            pointRadius: 2,
-            pointHoverRadius: 6
+            pointRadius: window.innerWidth < 768 ? 4 : 2,
+            pointHoverRadius: window.innerWidth < 768 ? 8 : 6,
+            pointHitRadius: window.innerWidth < 768 ? 20 : 10
           }]
         },
         options: {
           responsive: true,
           maintainAspectRatio: false,
+          interaction: {
+            mode: 'nearest',
+            intersect: false
+          },
           plugins: {
             legend: { display: false },
             tooltip: {
+              enabled: true,
+              mode: 'index',
+              intersect: false,
+              padding: window.innerWidth < 768 ? 12 : 8,
+              titleFont: {
+                size: window.innerWidth < 768 ? 14 : 12
+              },
+              bodyFont: {
+                size: window.innerWidth < 768 ? 13 : 11
+              },
               callbacks: {
                 label: (ctx) => '€' + ctx.raw.toLocaleString('de-DE', {minimumFractionDigits: 2})
+              }
+            },
+            zoom: {
+              pan: {
+                enabled: true,
+                mode: 'x',
+                modifierKey: null
+              },
+              zoom: {
+                wheel: {
+                  enabled: true,
+                  speed: 0.1
+                },
+                pinch: {
+                  enabled: true
+                },
+                mode: 'x'
+              },
+              limits: {
+                x: { min: 'original', max: 'original' }
               }
             }
           },
@@ -600,12 +659,22 @@
               grid: { color: 'rgba(255,255,255,0.05)' },
               ticks: {
                 color: '#9ca3af',
+                font: {
+                  size: window.innerWidth < 768 ? 10 : 11
+                },
                 callback: (v) => '€' + v.toLocaleString()
               }
             },
             x: {
               grid: { display: false },
-              ticks: { color: '#9ca3af' }
+              ticks: {
+                color: '#9ca3af',
+                font: {
+                  size: window.innerWidth < 768 ? 10 : 11
+                },
+                maxRotation: window.innerWidth < 768 ? 45 : 0,
+                minRotation: window.innerWidth < 768 ? 45 : 0
+              }
             }
           }
         }
