@@ -233,6 +233,9 @@ console.log(`Changes detected: ${changesDetected}`);
 // Show sets with high retirement risk (>= 7)
 const highRiskSets = [];
 for (const [setId, data] of Object.entries(history)) {
+  // Skip special keys
+  if (setId === 'accuracy_metrics' || setId === 'metadata') continue;
+
   const lastEntry = data.history[data.history.length - 1];
   if (lastEntry && lastEntry.retirement_score >= 7) {
     highRiskSets.push({

@@ -235,6 +235,8 @@
     let portfolio = null;
     let analysis = null;
     let priceHistory = null;
+    let retirementAlerts = null;
+    let retirementHistory = null;
     let currentTab = 'all';
     let currentFilter = '';
     let historyChart = null;
@@ -283,11 +285,28 @@
         let rawPortfolio = await fetch('data/portfolio.json').then(r => r.json());
         portfolio = transformPortfolio(rawPortfolio);
         analysis = await fetch('data/deep-analysis.json').then(r => r.json());
+
+        // Load retirement data files
+        try {
+          retirementAlerts = await fetch('data/retirement-alerts.json').then(r => r.json());
+        } catch (e) {
+          console.warn('No retirement alerts data:', e);
+          retirementAlerts = { alerts: [] };
+        }
+
+        try {
+          retirementHistory = await fetch('data/retirement-history.json').then(r => r.json());
+        } catch (e) {
+          console.warn('No retirement history data:', e);
+          retirementHistory = null;
+        }
+
         try {
           priceHistory = await fetch('data/price-history.json').then(r => r.json());
         } catch (e) {
           priceHistory = null;
         }
+
         renderDashboard();
       } catch (e) {
         console.error('Failed to load data:', e);
@@ -409,91 +428,64 @@
     }
 
     function renderRetirementAlerts() {
-      if (!portfolio || !analysis) return;
+      if (!retirementAlerts || !retirementAlerts.alerts) return;
 
-      const alerts = [];
+      const alertsContainer = document.getElementById('retirementAlerts');
 
-      // Check each set for retirement risk alerts
-      Object.entries(portfolio.sets).forEach(([id, data]) => {
-        const a = analysis[id] || {};
-        const retirementScore = a.retirement || 0;
-        const predictions = a.predictions || {};
+      // Filter out dismissed alerts
+      const activeAlerts = retirementAlerts.alerts.filter(alert =>
+        !dismissedAlerts.has(alert.id || `${alert.set_id}-${alert.type}`)
+      );
 
-        // Show alert for high retirement risk (score >= 7)
-        // In a real implementation, this would compare against historical scores
-        // For now, we show alerts for sets with high retirement risk
-        if (retirementScore >= 7) {
-          const alertId = `${id}-retirement`;
-          if (!dismissedAlerts.has(alertId)) {
-            // Simulate old vs new score (in real implementation, this comes from API)
-            const oldScore = Math.max(0, retirementScore - 2);
-            const newScore = retirementScore;
-
-            // Estimate retirement window based on score
-            let retirementWindow = 'Unknown';
-            if (retirementScore >= 9) retirementWindow = 'Q1-Q2 2025';
-            else if (retirementScore >= 8) retirementWindow = 'Q3-Q4 2025';
-            else if (retirementScore >= 7) retirementWindow = '2026';
-
-            alerts.push({
-              id: alertId,
-              setId: id,
-              setName: data.name,
-              oldScore,
-              newScore,
-              retirementWindow
-            });
-          }
-        }
-      });
-
-      // Render alerts
-      const container = document.getElementById('retirementAlerts');
-      if (alerts.length === 0) {
-        container.innerHTML = '';
+      if (activeAlerts.length === 0) {
+        alertsContainer.innerHTML = '';
         return;
       }
 
-      container.innerHTML = `
-        <div class="space-y-3">
-          ${alerts.map(alert => `
-            <div class="alert-card card rounded-xl p-4 glow-orange border-orange-500/30" id="alert-${alert.id}">
-              <div class="flex items-start justify-between gap-4">
-                <div class="flex items-start gap-3 flex-1">
-                  <span class="text-2xl">⚠️</span>
-                  <div class="flex-1">
-                    <div class="flex items-center gap-2 mb-1">
-                      <h3 class="font-semibold text-orange-400">Retirement Risk Alert</h3>
-                      <span class="text-xs text-gray-400">•</span>
-                      <span class="text-sm text-white font-medium">${alert.setName}</span>
-                    </div>
-                    <div class="flex flex-wrap items-center gap-4 text-sm">
-                      <div class="flex items-center gap-2">
-                        <span class="text-gray-400">Risk Score:</span>
-                        <span class="text-yellow-400 font-medium">${alert.oldScore.toFixed(1)}</span>
-                        <span class="text-gray-500">→</span>
-                        <span class="text-red-400 font-bold">${alert.newScore.toFixed(1)}</span>
-                      </div>
-                      <div class="flex items-center gap-2">
-                        <span class="text-gray-400">Est. Retirement:</span>
-                        <span class="text-orange-300 font-medium">${alert.retirementWindow}</span>
-                      </div>
-                    </div>
-                    <p class="text-xs text-gray-400 mt-2">
-                      This set's retirement risk has increased. Consider reviewing your position.
-                    </p>
-                  </div>
+      const alertsHtml = activeAlerts.map(alert => {
+        const alertId = alert.id || `${alert.set_id}-${alert.type}`;
+        const severityColors = {
+          critical: 'border-red-500 bg-red-500/10',
+          high: 'border-orange-500 bg-orange-500/10',
+          medium: 'border-yellow-500 bg-yellow-500/10'
+        };
+        const color = severityColors[alert.severity] || severityColors.medium;
+
+        return `
+          <div class="card ${color} border rounded-xl p-4 alert-card">
+            <div class="flex items-start justify-between gap-4">
+              <div class="flex-1">
+                <div class="flex items-center gap-2 mb-2">
+                  <span class="text-lg">⚠️</span>
+                  <h3 class="font-semibold">${alert.message || 'Retirement Risk Alert'}</h3>
+                  <span class="text-xs px-2 py-1 rounded bg-gray-800 text-gray-300">${alert.severity}</span>
                 </div>
-                <button
-                  onclick="dismissAlert('${alert.id}')"
-                  class="text-gray-400 hover:text-white transition px-2 py-1 rounded hover:bg-white/10"
-                  title="Dismiss"
-                >
-                  ✕
-                </button>
+                <p class="text-sm text-gray-300 mb-1">
+                  <strong>${alert.set_name || alert.set_id}</strong>
+                </p>
+                <p class="text-sm text-gray-400">${alert.details || ''}</p>
+                ${alert.old_score !== undefined ? `
+                  <div class="mt-2 text-xs text-gray-400">
+                    Retirement Risk: ${alert.old_score}/10 → ${alert.new_score}/10
+                  </div>
+                ` : ''}
+                ${alert.retirement_window ? `
+                  <div class="text-xs text-gray-400">
+                    Est. Retirement: ${alert.retirement_window}
+                  </div>
+                ` : ''}
               </div>
+              <button onclick="dismissAlert('${alertId}')"
+                      class="text-gray-400 hover:text-white text-xl">×</button>
             </div>
-          `).join('')}
+          </div>
+        `;
+      }).join('');
+
+      alertsContainer.innerHTML = `
+        <div class="space-y-3">
+          <h2 class="text-xl font-semibold mb-3">🚨 Retirement Alerts</h2>
+          ${alertsHtml}
         </div>
       `;
     }
@@ -512,17 +504,17 @@
     }
 
     function renderPredictionAccuracy() {
-      // In a real implementation, this would fetch from an API endpoint
-      // that tracks historical predictions vs actual retirement dates
-      // For demo purposes, we simulate accuracy metrics
+      if (!retirementHistory || !retirementHistory.accuracy_metrics) {
+        document.getElementById('predictionAccuracy').textContent = 'N/A';
+        document.getElementById('predictionSampleSize').textContent = 'No data yet';
+        return;
+      }
 
-      // Simulated data: tracks retirement predictions made vs actual outcomes
-      const trackedPredictions = 47; // Number of sets where predictions were tracked
-      const correctPredictions = 38; // Number where prediction matched actual retirement
-      const accuracy = (correctPredictions / trackedPredictions) * 100;
+      const metrics = retirementHistory.accuracy_metrics;
+      const accuracy = metrics.prediction_hit_rate * 100;
 
       document.getElementById('predictionAccuracy').textContent = accuracy.toFixed(1) + '%';
-      document.getElementById('predictionSampleSize').textContent = trackedPredictions + ' predictions';
+      document.getElementById('predictionSampleSize').textContent = metrics.total_predictions + ' predictions tracked';
     }
 
     function renderHistoryChart() {
