@@ -38,7 +38,7 @@
   </header>
 
   <!-- Summary Cards -->
-  <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8" id="summaryCards">
+  <div class="grid grid-cols-2 md:grid-cols-6 gap-4 mb-8" id="summaryCards">
     <div class="card rounded-xl p-4">
       <div class="text-gray-400 text-sm">Total Value</div>
       <div class="text-2xl font-bold text-white" id="totalValue">-</div>
@@ -48,6 +48,11 @@
       <div class="text-gray-400 text-sm">Total Gain/Loss</div>
       <div class="text-2xl font-bold" id="totalGain">-</div>
       <div class="text-sm" id="totalGainPct"></div>
+    </div>
+    <div class="card rounded-xl p-4">
+      <div class="text-gray-400 text-sm">Realized Gains</div>
+      <div class="text-2xl font-bold" id="totalRealizedGains">-</div>
+      <div class="text-sm text-gray-500" id="totalSales"></div>
     </div>
     <div class="card rounded-xl p-4">
       <div class="text-gray-400 text-sm">Total Sets</div>
@@ -222,6 +227,7 @@
     let portfolio = null;
     let analysis = null;
     let priceHistory = null;
+    let salesData = null;
     let currentTab = 'all';
     let currentFilter = '';
     let historyChart = null;
@@ -273,6 +279,11 @@
         } catch (e) {
           priceHistory = null;
         }
+        try {
+          salesData = await fetch('data/sales.json').then(r => r.json());
+        } catch (e) {
+          salesData = null;
+        }
         renderDashboard();
       } catch (e) {
         console.error('Failed to load data:', e);
@@ -288,7 +299,12 @@
         const a = analysis[id] || {};
         const avgScore = ((a.license || 0) + (a.retirement || 0) + (a.appeal || 0) + (a.liquidity || 0)) / 4;
         const predictions = a.predictions || {};
-        return { id, ...data, analysis: a, avgScore, predictions };
+
+        // Merge sales data
+        const setSales = salesData && salesData.sales ?
+          salesData.sales.filter(sale => sale.setId === id) : [];
+
+        return { id, ...data, analysis: a, avgScore, predictions, sales: setSales };
       });
 
       // Summary
@@ -310,6 +326,24 @@
 
       const avgScore = sets.reduce((sum, s) => sum + s.avgScore, 0) / sets.length;
       document.getElementById('avgScore').textContent = avgScore.toFixed(1);
+
+      // Calculate total realized gains
+      let totalRealizedGains = 0;
+      let totalSalesCount = 0;
+      sets.forEach(s => {
+        if (s.sales && Array.isArray(s.sales)) {
+          s.sales.forEach(sale => {
+            totalRealizedGains += (sale.realizedGain || 0);
+            totalSalesCount++;
+          });
+        }
+      });
+
+      const realizedGainsEl = document.getElementById('totalRealizedGains');
+      const totalSalesEl = document.getElementById('totalSales');
+      realizedGainsEl.textContent = (totalRealizedGains >= 0 ? '+' : '') + '€' + totalRealizedGains.toLocaleString('de-DE', {minimumFractionDigits: 2});
+      realizedGainsEl.className = 'text-2xl font-bold ' + (totalRealizedGains >= 0 ? 'text-green-400' : 'text-red-400');
+      totalSalesEl.textContent = totalSalesCount + ' sale' + (totalSalesCount !== 1 ? 's' : '');
 
       // Calculate portfolio projections
       let projected1yr = 0;
@@ -655,6 +689,11 @@
       const avgScore = ((s.analysis.license || 0) + (s.analysis.retirement || 0) + (s.analysis.appeal || 0) + (s.analysis.liquidity || 0)) / 4;
       const predictions = s.analysis.predictions || {};
 
+      // Merge sales data
+      const setSales = salesData && salesData.sales ?
+        salesData.sales.filter(sale => sale.setId === id) : [];
+      s.sales = setSales;
+
       const actionColors = { BUY: 'bg-green-500 text-white', HOLD: 'bg-yellow-500 text-black', SELL: 'bg-red-500 text-white' };
       const entryColors = { excellent: 'bg-green-500/20 text-green-400', good: 'bg-blue-500/20 text-blue-400', fair: 'bg-yellow-500/20 text-yellow-400', poor: 'bg-red-500/20 text-red-400' };
       const growthColor = s.growth_pct >= 0 ? 'text-green-400' : 'text-red-400';
@@ -775,6 +814,44 @@
             </div>
           ` : `
             <p class="text-gray-400 text-sm">No purchase history recorded</p>
+          `}
+        </div>
+
+        <div class="bg-gray-800 rounded-lg p-4 mb-6">
+          <h3 class="font-semibold mb-3 flex items-center gap-2">💰 Sales History</h3>
+          ${s.sales && s.sales.length > 0 ? `
+            <div class="overflow-x-auto">
+              <table class="w-full text-sm">
+                <thead>
+                  <tr class="border-b border-gray-700">
+                    <th class="text-left py-2 px-3 text-gray-400 font-medium">Date</th>
+                    <th class="text-left py-2 px-3 text-gray-400 font-medium">Sale Price</th>
+                    <th class="text-left py-2 px-3 text-gray-400 font-medium">Quantity</th>
+                    <th class="text-left py-2 px-3 text-gray-400 font-medium">Buyer</th>
+                    <th class="text-left py-2 px-3 text-gray-400 font-medium">Realized Gain</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${s.sales.map(sale => {
+                    const realizedGain = sale.realizedGain || 0;
+                    const gainColor = realizedGain >= 0 ? 'text-green-400' : 'text-red-400';
+                    return `
+                      <tr class="border-b border-gray-700/50">
+                        <td class="py-2 px-3 text-gray-300">${sale.date || '-'}</td>
+                        <td class="py-2 px-3 text-white font-medium">€${sale.price ? sale.price.toLocaleString('de-DE', {minimumFractionDigits: 2}) : '-'}</td>
+                        <td class="py-2 px-3 text-gray-300">${sale.qty || '-'}</td>
+                        <td class="py-2 px-3 text-gray-300">${sale.buyer || '-'}</td>
+                        <td class="py-2 px-3 font-medium ${gainColor}">
+                          ${realizedGain >= 0 ? '+' : ''}€${realizedGain.toLocaleString('de-DE', {minimumFractionDigits: 2})}
+                        </td>
+                      </tr>
+                    `;
+                  }).join('')}
+                </tbody>
+              </table>
+            </div>
+          ` : `
+            <p class="text-gray-400 text-sm">No sales history recorded</p>
           `}
         </div>
 
