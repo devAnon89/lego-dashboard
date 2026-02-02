@@ -180,6 +180,7 @@
             <th class="text-right py-3 px-2 text-gray-400 font-medium cursor-pointer hover:text-white transition" onclick="sortThemeROI('value')">Current Value</th>
             <th class="text-right py-3 px-2 text-gray-400 font-medium cursor-pointer hover:text-white transition" onclick="sortThemeROI('gain')">Gain/Loss</th>
             <th class="text-right py-3 px-2 text-gray-400 font-medium cursor-pointer hover:text-white transition" onclick="sortThemeROI('roi')">ROI %</th>
+            <th class="text-right py-3 px-2 text-gray-400 font-medium">vs Portfolio</th>
           </tr>
         </thead>
         <tbody id="themeROITableBody">
@@ -879,6 +880,11 @@
       const tbody = document.getElementById('themeROITableBody');
       if (!tbody) return;
 
+      // Calculate portfolio average ROI (weighted by invested amount)
+      const totalInvested = themeArray.reduce((sum, t) => sum + t.totalPaid, 0);
+      const totalValue = themeArray.reduce((sum, t) => sum + t.totalValue, 0);
+      const portfolioAvgROI = totalInvested > 0 ? ((totalValue - totalInvested) / totalInvested) * 100 : 0;
+
       tbody.innerHTML = themeArray.map(theme => {
         const roiColor = theme.gainPct >= 20 ? 'text-green-400' :
                          theme.gainPct >= 0 ? 'text-yellow-400' : 'text-red-400';
@@ -886,6 +892,12 @@
                       theme.gainPct >= 0 ? 'bg-yellow-500/10' : 'bg-red-500/10';
         const gainColor = theme.totalGain >= 0 ? 'text-green-400' : 'text-red-400';
         const gainIcon = theme.totalGain >= 0 ? '↑' : '↓';
+
+        // Calculate performance vs portfolio average (in percentage points)
+        const vsBenchmark = theme.gainPct - portfolioAvgROI;
+        const benchmarkColor = vsBenchmark > 0 ? 'text-green-400' : 'text-red-400';
+        const benchmarkBg = vsBenchmark > 0 ? 'bg-green-500/10' : 'bg-red-500/10';
+        const benchmarkIcon = vsBenchmark > 0 ? '↑' : '↓';
 
         return `
           <tr class="border-b border-gray-800 hover:bg-gray-800/50 transition">
@@ -897,6 +909,11 @@
             <td class="py-3 px-2 text-right">
               <span class="${roiBg} ${roiColor} px-2 py-1 rounded font-bold">
                 ${theme.gainPct >= 0 ? '+' : ''}${theme.gainPct.toFixed(1)}%
+              </span>
+            </td>
+            <td class="py-3 px-2 text-right">
+              <span class="${benchmarkBg} ${benchmarkColor} px-2 py-1 rounded font-medium">
+                ${benchmarkIcon} ${vsBenchmark > 0 ? '+' : ''}${vsBenchmark.toFixed(1)} pp
               </span>
             </td>
           </tr>
