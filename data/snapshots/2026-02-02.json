@@ -1,0 +1,283 @@
+{
+  "date": "2026-02-02",
+  "timestamp": "2026-02-02T00:34:16.664Z",
+  "summary": {
+    "totalValue": 8986.14,
+    "totalPaid": 8265.33,
+    "totalGain": 8.72,
+    "totalGainPct": 8.72,
+    "setCount": 45
+  },
+  "setValues": {
+    "10316-1": {
+      "name": "The Lord of the Rings Rivendell",
+      "value": 1759.96,
+      "qty": 4,
+      "growthPct": 6.28
+    },
+    "10323-1": {
+      "name": "PAC-MAN Arcade",
+      "value": 237.59,
+      "qty": 1,
+      "growthPct": -2.81
+    },
+    "10330-1": {
+      "name": "McLaren MP4/4 & Ayrton Senna",
+      "value": 128.82,
+      "qty": 2,
+      "growthPct": -19.48
+    },
+    "10342-1": {
+      "name": "Pretty Pink Flower Bouquet",
+      "value": 43.82,
+      "qty": 1,
+      "growthPct": -8.7
+    },
+    "10350-1": {
+      "name": "Tudor Corner",
+      "value": 710.16,
+      "qty": 3,
+      "growthPct": 2.93
+    },
+    "10354-1": {
+      "name": "The Lord of the Rings The Shire",
+      "value": 237.59,
+      "qty": 1,
+      "growthPct": -12
+    },
+    "21265-1": {
+      "name": "The Crafting Table",
+      "value": 184.4,
+      "qty": 2,
+      "growthPct": 4.06
+    },
+    "21276-1": {
+      "name": "The Creeper",
+      "value": 169.97,
+      "qty": 5,
+      "growthPct": 39.44
+    },
+    "21279-1": {
+      "name": "The Enderman Tower",
+      "value": 76.44,
+      "qty": 1,
+      "growthPct": -15.06
+    },
+    "21345-1": {
+      "name": "Polaroid Camera",
+      "value": 140.78,
+      "qty": 2,
+      "growthPct": 23
+    },
+    "21353-1": {
+      "name": "The Botanical Garden",
+      "value": 696.63,
+      "qty": 2,
+      "growthPct": 5.55
+    },
+    "30719-1": {
+      "name": "Go-Kart Racer",
+      "value": 3.51,
+      "qty": 1,
+      "growthPct": 251.12
+    },
+    "31165-1": {
+      "name": "Wild Animals Panda Family",
+      "value": 27.02,
+      "qty": 1,
+      "growthPct": 2601.75
+    },
+    "31218-1": {
+      "name": "Japanese Cherry Blossom Landscape",
+      "value": 477.87,
+      "qty": 3,
+      "growthPct": 60.65
+    },
+    "40499-1": {
+      "name": "Santa's Sleigh",
+      "value": 28.98,
+      "qty": 1,
+      "growthPct": -27.49
+    },
+    "40573-1": {
+      "name": "Christmas Tree",
+      "value": 28.38,
+      "qty": 1,
+      "growthPct": -36.93
+    },
+    "40674-1": {
+      "name": "Stitch",
+      "value": 22.86,
+      "qty": 2,
+      "growthPct": -12
+    },
+    "40779-1": {
+      "name": "Year of the Horse",
+      "value": 5.28,
+      "qty": 1,
+      "growthPct": 428
+    },
+    "40915-1": {
+      "name": "Lion Dance",
+      "value": 0,
+      "qty": 1,
+      "growthPct": -100
+    },
+    "40922-1": {
+      "name": "Lilo & Stitch Angel",
+      "value": 22.86,
+      "qty": 2,
+      "growthPct": -12
+    },
+    "42115-1": {
+      "name": "Lamborghini Sián FKP 37",
+      "value": 425.04,
+      "qty": 1,
+      "growthPct": 27.52
+    },
+    "42143-1": {
+      "name": "Ferrari Daytona SP3",
+      "value": 395.99,
+      "qty": 1,
+      "growthPct": 11.26
+    },
+    "42161-1": {
+      "name": "Lamborghini Huracán Tecnica",
+      "value": 43.99,
+      "qty": 1,
+      "growthPct": 4299.12
+    },
+    "42172-1": {
+      "name": "McLaren P1",
+      "value": 395.99,
+      "qty": 1,
+      "growthPct": 12.49
+    },
+    "42204-1": {
+      "name": "Fast & Furious Toyota Supra MK4",
+      "value": 96.61,
+      "qty": 2,
+      "growthPct": -5.67
+    },
+    "42210-1": {
+      "name": "2 Fast 2 Furious Nissan Skyline GT-R (R34)",
+      "value": 246.38,
+      "qty": 2,
+      "growthPct": 10.11
+    },
+    "43257-1": {
+      "name": "Angel",
+      "value": 57.19,
+      "qty": 1,
+      "growthPct": -12
+    },
+    "71426-1": {
+      "name": "Piranha Plant",
+      "value": 316.75,
+      "qty": 6,
+      "growthPct": -4.4
+    },
+    "71438-1": {
+      "name": "Super Mario World Mario & Yoshi",
+      "value": 253.84,
+      "qty": 2,
+      "growthPct": 22.74
+    },
+    "72037-1": {
+      "name": "Mario Kart - Mario & Standard Kart",
+      "value": 747.96,
+      "qty": 5,
+      "growthPct": 22.73
+    },
+    "72046-1": {
+      "name": "Game Boy",
+      "value": 307.77,
+      "qty": 6,
+      "growthPct": 13.33
+    },
+    "75682-1": {
+      "name": "Elphaba & Glinda Figures",
+      "value": 40.16,
+      "qty": 1,
+      "growthPct": -26.96
+    },
+    "76191-1": {
+      "name": "Infinity Gauntlet",
+      "value": 62.1,
+      "qty": 1,
+      "growthPct": -25.07
+    },
+    "76223-1": {
+      "name": "Nano Gauntlet",
+      "value": 96.8,
+      "qty": 1,
+      "growthPct": -9.52
+    },
+    "76912-1": {
+      "name": "Fast & Furious 1970 Dodge Charger R/T",
+      "value": 54.08,
+      "qty": 1,
+      "growthPct": -34.41
+    },
+    "76917-1": {
+      "name": "Nissan Skyline GT-R",
+      "value": 40.24,
+      "qty": 2,
+      "growthPct": -2.56
+    },
+    "76922-1": {
+      "name": "BMW M4 GT3 & BMW M Hybrid V8",
+      "value": 37.3,
+      "qty": 1,
+      "growthPct": -12.58
+    },
+    "76934-1": {
+      "name": "Ferrari F40 Supercar",
+      "value": 23.75,
+      "qty": 1,
+      "growthPct": 6.46
+    },
+    "77073-1": {
+      "name": "Battle Bus",
+      "value": 175.98,
+      "qty": 2,
+      "growthPct": 44.32
+    },
+    "77237-1": {
+      "name": "Dodge Challenger SRT Hellcat Sports Car",
+      "value": 23.75,
+      "qty": 1,
+      "growthPct": -12
+    },
+    "77239-1": {
+      "name": "Porsche 911 GT3 RS Super Car",
+      "value": 23.75,
+      "qty": 1,
+      "growthPct": -12
+    },
+    "77241-1": {
+      "name": "2 Fast 2 Furious Honda S2000",
+      "value": 43.9,
+      "qty": 2,
+      "growthPct": -18.67
+    },
+    "77253-1": {
+      "name": "Bugatti Vision GT Hyper Sports Car",
+      "value": 24.63,
+      "qty": 1,
+      "growthPct": -12
+    },
+    "77254-1": {
+      "name": "Ferrari SF90 XX Stradale Sports Car",
+      "value": 24.63,
+      "qty": 1,
+      "growthPct": -12
+    },
+    "77255-1": {
+      "name": "Lightning McQueen",
+      "value": 24.63,
+      "qty": 1,
+      "growthPct": -12
+    }
+  }
+}

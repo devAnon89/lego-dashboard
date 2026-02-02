@@ -1,7 +1,10 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
 .vercel
 
 # Auto Claude data directory
 .auto-claude/
-
-# Dependencies
-node_modules/

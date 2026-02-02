@@ -1,34 +1,39 @@
 {
-  "name": "lego-dashboard",
+  "name": "lego-portfolio-dashboard",
   "version": "1.0.0",
-  "description": "Automated LEGO portfolio tracking with headless scraping for BrickEconomy, BrickLink, and eBay",
-  "main": "lego-cli.js",
+  "description": "Investment-grade LEGO set portfolio tracker with multi-source pricing, historical analysis, and market insights",
+  "type": "module",
   "scripts": {
-    "start": "node lego-cli.js",
-    "scrape:now": "node scripts/automated-scraper.js",
-    "scrape:schedule": "node scripts/scheduler.js",
-    "scrape:dry-run": "node scripts/automated-scraper.js --dry-run",
-    "scrape:help": "node scripts/automated-scraper.js --help",
-    "snapshot": "node scripts/daily-snapshot.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "keywords": [
     "lego",
     "portfolio",
-    "scraper",
-    "automation",
-    "investment-tracking"
+    "investment",
+    "tracking",
+    "dashboard"
   ],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
-    "puppeteer": "^22.0.0",
-    "puppeteer-extra": "^3.3.6",
-    "puppeteer-extra-plugin-stealth": "^2.11.2",
-    "node-cron": "^3.0.3",
-    "dotenv": "^16.4.5"
+    "chart.js": "^4.4.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@eslint/js": "^9.16.0",
+    "autoprefixer": "^10.4.17",
+    "eslint": "^9.16.0",
+    "globals": "^15.13.0",
+    "postcss": "^8.4.35",
+    "prettier": "^3.2.5",
+    "tailwindcss": "^3.4.1",
+    "vite": "^5.1.1"
+  },
   "engines": {
     "node": ">=18.0.0"
   }

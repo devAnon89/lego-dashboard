@@ -5,11 +5,13 @@ Investment-grade LEGO set portfolio management with multi-source pricing, histor
 ## Data Sources
 
 ### Primary Sources
+
 1. **BrickEconomy** - Comprehensive price history, market trends, retirement dates
 2. **BrickLink** - Real marketplace data, sold listings, inventory levels
 3. **eBay** - Actual sold prices, demand indicators
 
 ### Data Collection
+
 - Browser automation for BrickEconomy (via clawd browser)
 - BrickLink API (if available) or scraping
 - eBay sold listings search
@@ -17,6 +19,7 @@ Investment-grade LEGO set portfolio management with multi-source pricing, histor
 ## Portfolio Data Structure
 
 ### `/data/portfolio.json` - Master Portfolio
+
 ```json
 {
   "sets": {
@@ -40,22 +43,38 @@ Investment-grade LEGO set portfolio management with multi-source pricing, histor
 ```
 
 ### `/data/prices.json` - Price History
+
 ```json
 {
   "75192": {
     "current": {
       "brickeconomy": { "new": 1250, "used": 890, "date": "2025-01-27" },
-      "bricklink": { "new_avg": 1180, "new_min": 1050, "used_avg": 820, "date": "2025-01-27" },
-      "ebay": { "new_sold_avg": 1200, "new_sold_count": 12, "date": "2025-01-27" }
+      "bricklink": {
+        "new_avg": 1180,
+        "new_min": 1050,
+        "used_avg": 820,
+        "date": "2025-01-27"
+      },
+      "ebay": {
+        "new_sold_avg": 1200,
+        "new_sold_count": 12,
+        "date": "2025-01-27"
+      }
     },
     "history": [
-      { "date": "2025-01-20", "new": 1230, "used": 870, "source": "brickeconomy" }
+      {
+        "date": "2025-01-20",
+        "new": 1230,
+        "used": 870,
+        "source": "brickeconomy"
+      }
     ]
   }
 }
 ```
 
 ### `/data/market.json` - Market Intelligence
+
 ```json
 {
   "75192": {
@@ -78,6 +97,7 @@ Investment-grade LEGO set portfolio management with multi-source pricing, histor
 ## Investment Metrics
 
 ### Per-Set Metrics
+
 - **Current Value**: Weighted average from all sources
 - **ROI**: (Current - Purchase) / Purchase × 100
 - **CAGR**: Compound Annual Growth Rate since purchase
@@ -87,6 +107,7 @@ Investment-grade LEGO set portfolio management with multi-source pricing, histor
 - **Liquidity Score**: Based on eBay sold volume (1-10)
 
 ### Portfolio Metrics
+
 - **Total Investment**: Sum of all purchase prices
 - **Current Value**: Sum of all current values
 - **Total ROI**: Portfolio-level return
@@ -97,18 +118,21 @@ Investment-grade LEGO set portfolio management with multi-source pricing, histor
 ## Commands
 
 ### Portfolio Management
+
 - `lego status` - Full portfolio overview with metrics
 - `lego add <set_id> [price] [date]` - Add set to portfolio
 - `lego remove <set_id>` - Remove set
 - `lego update` - Refresh all prices from sources
 
 ### Analysis
+
 - `lego analyze <set_id>` - Deep dive on single set
 - `lego performance` - ROI/gains breakdown
 - `lego recommendations` - Buy/sell/hold advice
 - `lego watchlist` - Sets to consider buying
 
 ### Data
+
 - `lego sync` - Full sync from all sources
 - `lego history <set_id>` - Price history chart
 - `lego export` - Export to CSV/Excel
@@ -116,16 +140,19 @@ Investment-grade LEGO set portfolio management with multi-source pricing, histor
 ## Price Fetching Strategy
 
 ### BrickEconomy (Primary)
+
 1. Navigate to set page: `https://www.brickeconomy.com/set/{set_id}`
 2. Extract: current new/used prices, price history, EOL status
 3. Parse investment metrics they calculate
 
 ### BrickLink
+
 1. Price guide: `https://www.bricklink.com/v2/catalog/catalogitem.page?S={set_id}-1`
 2. Extract: 6-month avg, min, max for new/used
 3. Current inventory count (supply indicator)
 
 ### eBay Sold
+
 1. Search: `LEGO {set_id} {name} sealed -instructions -minifig`
 2. Filter: Sold items, last 30 days
 3. Calculate: Average, median, volume
@@ -133,12 +160,14 @@ Investment-grade LEGO set portfolio management with multi-source pricing, histor
 ## Investment Analysis
 
 ### Set Scoring (1-10)
+
 - **Growth Potential**: Theme popularity + retirement timing
 - **Liquidity**: Trading volume + demand
 - **Risk**: Price volatility + market saturation
 - **Overall Score**: Weighted combination
 
 ### Recommendations Engine
+
 - **BUY**: High score + below fair value
 - **HOLD**: Good fundamentals + appreciating
 - **SELL**: Poor liquidity + peaked value
@@ -147,12 +176,15 @@ Investment-grade LEGO set portfolio management with multi-source pricing, histor
 ## Automated Price Updates (eBay EU)
 
 ### Configuration
+
 File: `/data/ebay-price-history.json`
+
 - `updateIntervalHours`: 24 (daily updates)
 - `minChangeThreshold`: 0.05 (report changes >5%)
 - `primaryMarket`: ebay.de (best EU prices)
 
 ### Update Process
+
 1. Clawdbot checks HEARTBEAT.md daily (~9AM or on request)
 2. For each set with `qty_new > 0`:
    - Search eBay.de sold listings: `LEGO [setNumber] new sealed`
@@ -162,16 +194,19 @@ File: `/data/ebay-price-history.json`
 4. Report changes >5% to owner via Telegram
 
 ### Manual Trigger
+
 Ask Clawdbot: "Update LEGO portfolio prices" or "Check LEGO prices on eBay"
 
 ### Scripts
-- `scripts/ebay-scraper.js` - Generate search URLs, parse prices
-- `scripts/full-scrape.js` - BrickEconomy URLs reference
-- `scripts/daily-snapshot.js` - Save daily snapshots
+
+- `scripts/ebay-scraper.cjs` - Generate search URLs, parse prices
+- `scripts/full-scrape.cjs` - BrickEconomy URLs reference
+- `scripts/daily-snapshot.cjs` - Save daily snapshots
 
 ## Scheduled Tasks
 
 Consider setting up cron jobs:
+
 - Daily: Price check from eBay EU (automated via HEARTBEAT.md)
 - Weekly: Full multi-source sync (BrickEconomy + BrickLink)
 - Monthly: Portfolio performance report

@@ -13,15 +13,15 @@ Investment-grade LEGO set portfolio tracker with multi-source pricing, historica
 
 ## Live Dashboard
 
-[View Dashboard](https://lego-portfolio.vercel.app) *(if deployed)*
+[View Dashboard](https://lego-portfolio.vercel.app) _(if deployed)_
 
 ## Data Sources
 
-| Source | Data Type | Method |
-|--------|-----------|--------|
-| BrickEconomy | Price history, trends | Browser scraping |
-| BrickLink | Market prices, inventory | API/scraping |
-| eBay | Sold prices, demand | Search scraping |
+| Source       | Data Type                | Method           |
+| ------------ | ------------------------ | ---------------- |
+| BrickEconomy | Price history, trends    | Browser scraping |
+| BrickLink    | Market prices, inventory | API/scraping     |
+| eBay         | Sold prices, demand      | Search scraping  |
 
 ## Structure
 
@@ -30,30 +30,58 @@ Investment-grade LEGO set portfolio tracker with multi-source pricing, historica
 │   ├── index.html        # Main dashboard
 │   └── data/             # Portfolio data (JSON)
 ├── scripts/
-│   ├── scrape-brickeconomy.js
-│   ├── ebay-scraper.js
-│   ├── daily-snapshot.js
-│   └── full-scrape.js
+│   ├── scrape-brickeconomy.cjs
+│   ├── ebay-scraper.cjs
+│   ├── daily-snapshot.cjs
+│   └── full-scrape.cjs
 ├── data/                 # Source data
 │   ├── portfolio.json    # Your sets
 │   ├── analysis.json     # Market analysis
 │   └── price-history.json
-├── lego-cli.js           # CLI tool
+├── lego-cli.cjs          # CLI tool
 ├── dashboard.html        # Standalone dashboard
 └── vercel.json           # Deployment config
 ```
 
-## Quick Start
+## Prerequisites
+
+- Node.js >= 18.0.0
+- npm
+
+## Setup
 
 ```bash
-# View dashboard locally
-npx serve public
+# Install dependencies
+npm install
+```
 
+## Development
+
+```bash
+# Start development server
+npm run dev
+
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
+
+# Lint code
+npm run lint
+
+# Format code
+npm run format
+```
+
+## Scripts
+
+```bash
 # Run CLI
-node lego-cli.js --help
+node lego-cli.cjs --help
 
 # Scrape prices
-node scripts/full-scrape.js
+node scripts/full-scrape.cjs
 ```
 
 ## Automated Scraping
@@ -239,6 +267,7 @@ CMD ["npm", "run", "scrape:schedule"]
 ## Deployment
 
 Deploy to Vercel:
+
 ```bash
 vercel --prod
 ```
