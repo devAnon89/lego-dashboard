@@ -679,6 +679,16 @@
                   <span class="px-2 py-0.5 rounded text-xs font-medium border ${confidenceColors[conf]} cursor-help">${conf}</span>
                   <div class="tooltip-content">${generateConfidenceTooltip(s.id)}</div>
                 </div>
+                ${hasSourceDisagreement(s.id) ? `
+                  <div class="tooltip-container">
+                    <span class="flex items-center justify-center w-5 h-5 rounded-full bg-yellow-500/20 border border-yellow-500/50 cursor-help" title="Source disagreement">
+                      <svg class="w-3 h-3 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                      </svg>
+                    </span>
+                    <div class="tooltip-content">${generateDisagreementTooltip(s.id)}</div>
+                  </div>
+                ` : ''}
               </div>
             </div>
 
@@ -805,6 +815,51 @@
       `;
     }
 
+    function hasSourceDisagreement(setId) {
+      if (!confidence || !confidence.sets || !confidence.sets[setId]) {
+        return false;
+      }
+      const confData = confidence.sets[setId];
+      const factors = confData.factors || {};
+      const sourceAgreement = factors.sourceAgreement || {};
+      const maxDiff = sourceAgreement.maxDiff;
+      return maxDiff !== null && maxDiff > 0.15;
+    }
+
+    function generateDisagreementTooltip(setId) {
+      if (!confidence || !confidence.sets || !confidence.sets[setId]) {
+        return '';
+      }
+      const confData = confidence.sets[setId];
+      const factors = confData.factors || {};
+      const sourceAgreement = factors.sourceAgreement || {};
+      const maxDiff = sourceAgreement.maxDiff;
+
+      if (maxDiff === null || maxDiff <= 0.15) {
+        return '';
+      }
+
+      const sources = sourceAgreement.sources || [];
+      const pctDiff = (maxDiff * 100).toFixed(1);
+
+      return `
+        <div class="text-xs space-y-2">
+          <div class="font-semibold text-white border-b border-yellow-600 pb-1">⚠️ Source Disagreement</div>
+          <div>
+            <span class="text-gray-400">Price variance:</span>
+            <span class="text-yellow-300 ml-1 font-bold">${pctDiff}%</span>
+          </div>
+          <div>
+            <span class="text-gray-400">Sources:</span>
+            <span class="text-white ml-1">${sources.join(', ')}</span>
+          </div>
+          <div class="text-yellow-300 text-xs pt-1 border-t border-gray-600">
+            Multiple sources show significant price differences. Exercise caution when valuing this set.
+          </div>
+        </div>
+      `;
+    }
+
     function generateConfidenceTooltip(setId) {
       if (!confidence || !confidence.sets || !confidence.sets[setId]) {
         return '';
@@ -832,7 +887,7 @@
 
       // Check for significant disagreement
       const maxDiff = sourceAgreement.maxDiff;
-      const hasDisagreement = maxDiff !== null && maxDiff > 15;
+      const hasDisagreement = maxDiff !== null && maxDiff > 0.15;
 
       let tooltipHTML = `
         <div class="text-xs space-y-2">
@@ -854,7 +909,7 @@
       if (hasDisagreement) {
         tooltipHTML += `
           <div class="text-yellow-400 pt-1 border-t border-gray-600">
-            ⚠️ Sources disagree by ${maxDiff.toFixed(1)}%
+            ⚠️ Sources disagree by ${(maxDiff * 100).toFixed(1)}%
           </div>
         `;
       }
