@@ -10,6 +10,7 @@ const path = require('path');
 const DATA_DIR = path.join(__dirname, 'data');
 const PORTFOLIO_FILE = path.join(DATA_DIR, 'portfolio.json');
 const ANALYSIS_FILE = path.join(DATA_DIR, 'deep-analysis.json');
+const WATCHLIST_FILE = path.join(DATA_DIR, 'watchlist.json');
 
 // Load data
 function loadPortfolio() {
@@ -21,6 +22,14 @@ function loadAnalysis() {
     return JSON.parse(fs.readFileSync(ANALYSIS_FILE, 'utf8'));
   } catch {
     return {};
+  }
+}
+
+function loadWatchlist() {
+  try {
+    return JSON.parse(fs.readFileSync(WATCHLIST_FILE, 'utf8'));
+  } catch {
+    return { metadata: {}, sets: [] };
   }
 }
 
@@ -178,6 +187,35 @@ const commands = {
     });
   },
 
+  watchlist: () => {
+    const watchlist = loadWatchlist();
+
+    if (!watchlist.sets || watchlist.sets.length === 0) {
+      console.log('\n👀 WATCHLIST');
+      console.log('═'.repeat(50));
+      console.log('No sets on watchlist');
+      console.log('═'.repeat(50));
+      return;
+    }
+
+    console.log('\n👀 WATCHLIST');
+    console.log('═'.repeat(60));
+    console.log(`Watching ${watchlist.sets.length} sets for deals`);
+    console.log('─'.repeat(60));
+
+    watchlist.sets.forEach((set, i) => {
+      if (i > 0) console.log('─'.repeat(60));
+      console.log(`\n🧱 ${set.name} (${set.setNumber})`);
+      console.log(`Theme: ${set.theme}`);
+      console.log(`🎯 Target: €${set.target_price} | Max: €${set.max_price}`);
+      console.log(`Condition: ${set.preferred_condition}`);
+      console.log(`Locations: ${set.location_filters.join(', ')}`);
+      console.log(`Min Rating: ${set.min_seller_rating}%`);
+    });
+
+    console.log('\n' + '═'.repeat(60));
+  },
+
   serve: () => {
     const http = require('http');
     const PORT = process.env.PORT || 3456;
@@ -230,6 +268,7 @@ Commands:
   themes            Portfolio breakdown by theme
   refresh           Re-run AI analysis on all sets
   deals             Scan marketplaces for watchlist deals
+  watchlist         View watchlist with target prices
   serve             Start dashboard web server
   help              Show this help
 
@@ -238,6 +277,7 @@ Examples:
   node lego-cli.js analyze 75192
   node lego-cli.js recommendations
   node lego-cli.js deals
+  node lego-cli.js watchlist
     `);
   }
 };
