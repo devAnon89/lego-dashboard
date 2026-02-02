@@ -7,6 +7,7 @@
  *   node scripts/ebay-scraper.js --set 10316-1
  *   node scripts/ebay-scraper.js --dry-run --set 10316-1
  *   node scripts/ebay-scraper.js --all
+ *   node scripts/ebay-scraper.js --set 10316-1 --all-domains
  */
 
 const fs = require('fs');
@@ -166,12 +167,17 @@ function savePriceHistory(history) {
 /**
  * Scrape a single set from eBay
  */
-async function scrapeSingleSet(setId, setData, dryRun = false) {
-  const url = getEbaySearchUrl(setId);
+async function scrapeSingleSet(setId, setData, dryRun = false, allDomains = false) {
+  const domainsToTry = allDomains ? EBAY_DOMAINS : [EBAY_DOMAINS[0]];
+
   logger.info(`Scraping ${setId} - ${setData.name || 'Unknown'}`);
-  logger.debug(`URL: ${url}`);
+
+  if (allDomains) {
+    logger.info(`Multi-domain mode: Will try ${domainsToTry.length} domains`);
+  }
 
   if (dryRun) {
+    const url = getEbaySearchUrl(setId, domainsToTry[0].domain);
     logger.info(`[DRY RUN] Would scrape: ${url}`);
     return {
       setId,
@@ -184,6 +190,10 @@ async function scrapeSingleSet(setId, setData, dryRun = false) {
   }
 
   let browser;
+  let allPrices = [];
+  let successfulDomains = [];
+  let lastUrl = '';
+
   try {
     // Launch browser with retry logic
     browser = await withRetry(
@@ -199,37 +209,76 @@ async function scrapeSingleSet(setId, setData, dryRun = false) {
     // Set user agent to avoid bot detection
     await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36');
 
-    // Navigate to eBay with retry logic
-    await withRetry(
-      async () => {
-        await page.goto(url, { waitUntil: 'networkidle2', timeout: 30000 });
-      },
-      { context: `Navigate to ${url}` }
-    );
+    // Try each domain until we get valid prices or run out of domains
+    for (let i = 0; i < domainsToTry.length; i++) {
+      const domainConfig = domainsToTry[i];
+      const url = getEbaySearchUrl(setId, domainConfig.domain);
+      lastUrl = url;
 
-    // Wait for content to load
-    await sleep(2000);
+      logger.info(`Trying ${domainConfig.name} (${domainConfig.domain})...`);
 
-    // Extract prices from page
-    const prices = await page.evaluate(extractEbayPrices);
-    logger.info(`Found ${prices.length} sold listings for ${setId}`);
+      try {
+        // Navigate to eBay with retry logic
+        await withRetry(
+          async () => {
+            await page.goto(url, { waitUntil: 'networkidle2', timeout: 30000 });
+          },
+          { context: `Navigate to ${url}` }
+        );
 
-    // Calculate market value
-    const marketValue = calculateMarketValue(prices);
+        // Wait for content to load
+        await sleep(2000);
 
-    if (marketValue) {
-      logger.info(`Market value for ${setId}: €${marketValue.toFixed(2)}`);
-    } else {
-      logger.warn(`No valid prices found for ${setId}`);
+        // Extract prices from page
+        const prices = await page.evaluate(extractEbayPrices);
+        logger.info(`Found ${prices.length} sold listings on ${domainConfig.domain}`);
+
+        if (prices.length > 0) {
+          allPrices.push(...prices);
+          successfulDomains.push(domainConfig.name);
+
+          // If not using all-domains mode, stop after first successful domain
+          if (!allDomains) {
+            break;
+          }
+        } else {
+          logger.warn(`No prices found on ${domainConfig.domain}`);
+        }
+
+        // Add delay between domains to avoid rate limiting
+        if (allDomains && i < domainsToTry.length - 1) {
+          logger.debug(`Waiting before trying next domain...`);
+          await sleep(3000);
+        }
+
+      } catch (domainError) {
+        logger.warn(`Failed to scrape ${domainConfig.domain}`, domainError);
+
+        // Continue to next domain if available
+        if (i < domainsToTry.length - 1) {
+          logger.info(`Falling back to next domain...`);
+          await sleep(2000);
+        }
+      }
     }
 
     await browser.close();
 
+    // Calculate market value from all collected prices
+    const marketValue = calculateMarketValue(allPrices);
+
+    if (marketValue) {
+      logger.info(`Market value for ${setId}: €${marketValue.toFixed(2)} (from ${successfulDomains.join(', ')})`);
+    } else {
+      logger.warn(`No valid prices found for ${setId} across all domains`);
+    }
+
     return {
       setId,
       name: setData.name,
-      url,
-      prices,
+      url: lastUrl,
+      domains: successfulDomains,
+      prices: allPrices,
       marketValue,
       timestamp: new Date().toISOString()
     };
@@ -242,8 +291,9 @@ async function scrapeSingleSet(setId, setData, dryRun = false) {
     return {
       setId,
       name: setData.name,
-      url,
-      prices: [],
+      url: lastUrl,
+      domains: successfulDomains,
+      prices: allPrices,
       marketValue: null,
       error: error.message
     };
@@ -258,6 +308,7 @@ async function main() {
   const dryRun = args.includes('--dry-run');
   const singleSet = args.find((a, i) => args[i-1] === '--set');
   const scrapeAll = args.includes('--all');
+  const allDomains = args.includes('--all-domains');
 
   logger.section('eBay EU Price Scraper');
 
@@ -291,6 +342,9 @@ async function main() {
 
   logger.info(`Sets to scrape: ${Object.keys(sets).length}`);
   logger.info(`Dry run: ${dryRun}`);
+  if (allDomains) {
+    logger.info(`Multi-domain mode: Will try all eBay EU domains`);
+  }
 
   // Load price history
   const priceHistory = loadPriceHistory();
@@ -298,7 +352,7 @@ async function main() {
   // Scrape each set
   const results = [];
   for (const [setId, setData] of Object.entries(sets)) {
-    const result = await scrapeSingleSet(setId, setData, dryRun);
+    const result = await scrapeSingleSet(setId, setData, dryRun, allDomains);
     results.push(result);
 
     // Add delay between requests to avoid rate limiting
