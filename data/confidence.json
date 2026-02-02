@@ -1,0 +1,1225 @@
+{
+  "metadata": {
+    "lastCalculated": "2026-02-02T00:27:04.276Z",
+    "totalSets": 45,
+    "dataSource": "BrickEconomy + eBay",
+    "scoringCriteria": {
+      "recency": "fresh (<7 days) = +3, medium (7-30 days) = +2, stale (>30 days) = +0",
+      "sourceAgreement": "under 15% diff = +3, 15-25% diff = +1, over 25% diff = +0",
+      "transactionVolume": "high (>10) = +2, medium (5-10) = +1, low (<5) = +0",
+      "confidenceLevels": "High (7-8), Medium (4-6), Low (0-3)"
+    }
+  },
+  "sets": {
+    "10316-1": {
+      "confidence": "Medium",
+      "score": 4,
+      "factors": {
+        "recency": {
+          "score": 0,
+          "lastUpdated": "2025-01-27T15:10:00Z",
+          "age_days": 370
+        },
+        "sourceAgreement": {
+          "score": 2,
+          "sources": [
+            "BrickEconomy"
+          ],
+          "maxDiff": null
+        },
+        "transactionVolume": {
+          "score": 2,
+          "count": 24
+        }
+      },
+      "warnings": [
+        "No eBay data available",
+        "BrickEconomy data stale"
+      ]
+    },
+    "10323-1": {
+      "confidence": "Low",
+      "score": 2,
+      "factors": {
+        "recency": {
+          "score": 0,
+          "lastUpdated": "2025-01-27T15:10:00Z",
+          "age_days": 370
+        },
+        "sourceAgreement": {
+          "score": 2,
+          "sources": [
+            "BrickEconomy"
+          ],
+          "maxDiff": null
+        },
+        "transactionVolume": {
+          "score": 0,
+          "count": 0
+        }
+      },
+      "warnings": [
+        "No eBay data available",
+        "BrickEconomy data stale",
+        "Insufficient sales data"
+      ]
+    },
+    "10330-1": {
+      "confidence": "Low",
+      "score": 2,
+      "factors": {
+        "recency": {
+          "score": 0,
+          "lastUpdated": "2025-01-27T15:10:00Z",
+          "age_days": 370
+        },
+        "sourceAgreement": {
+          "score": 2,
+          "sources": [
+            "BrickEconomy"
+          ],
+          "maxDiff": null
+        },
+        "transactionVolume": {
+          "score": 0,
+          "count": 0
+        }
+      },
+      "warnings": [
+        "No eBay data available",
+        "BrickEconomy data stale",
+        "Insufficient sales data"
+      ]
+    },
+    "10342-1": {
+      "confidence": "Low",
+      "score": 2,
+      "factors": {
+        "recency": {
+          "score": 0,
+          "lastUpdated": "2025-01-27T15:10:00Z",
+          "age_days": 370
+        },
+        "sourceAgreement": {
+          "score": 2,
+          "sources": [
+            "BrickEconomy"
+          ],
+          "maxDiff": null
+        },
+        "transactionVolume": {
+          "score": 0,
+          "count": 0
+        }
+      },
+      "warnings": [
+        "No eBay data available",
+        "BrickEconomy data stale",
+        "Insufficient sales data"
+      ]
+    },
+    "10350-1": {
+      "confidence": "Low",
+      "score": 2,
+      "factors": {
+        "recency": {
+          "score": 0,
+          "lastUpdated": "2025-01-27T15:10:00Z",
+          "age_days": 370
+        },
+        "sourceAgreement": {
+          "score": 2,
+          "sources": [
+            "BrickEconomy"
+          ],
+          "maxDiff": null
+        },
+        "transactionVolume": {
+          "score": 0,
+          "count": 0
+        }
+      },
+      "warnings": [
+        "No eBay data available",
+        "BrickEconomy data stale",
+        "Insufficient sales data"
+      ]
+    },
+    "10354-1": {
+      "confidence": "Low",
+      "score": 2,
+      "factors": {
+        "recency": {
+          "score": 0,
+          "lastUpdated": "2025-01-27T15:10:00Z",
+          "age_days": 370
+        },
+        "sourceAgreement": {
+          "score": 2,
+          "sources": [
+            "BrickEconomy"
+          ],
+          "maxDiff": null
+        },
+        "transactionVolume": {
+          "score": 0,
+          "count": 0
+        }
+      },
+      "warnings": [
+        "No eBay data available",
+        "BrickEconomy data stale",
+        "Insufficient sales data"
+      ]
+    },
+    "21265-1": {
+      "confidence": "Low",
+      "score": 2,
+      "factors": {
+        "recency": {
+          "score": 0,
+          "lastUpdated": "2025-01-27T15:10:00Z",
+          "age_days": 370
+        },
+        "sourceAgreement": {
+          "score": 2,
+          "sources": [
+            "BrickEconomy"
+          ],
+          "maxDiff": null
+        },
+        "transactionVolume": {
+          "score": 0,
+          "count": 0
+        }
+      },
+      "warnings": [
+        "No eBay data available",
+        "BrickEconomy data stale",
+        "Insufficient sales data"
+      ]
+    },
+    "21276-1": {
+      "confidence": "Low",
+      "score": 2,
+      "factors": {
+        "recency": {
+          "score": 0,
+          "lastUpdated": "2025-01-27T15:10:00Z",
+          "age_days": 370
+        },
+        "sourceAgreement": {
+          "score": 2,
+          "sources": [
+            "BrickEconomy"
+          ],
+          "maxDiff": null
+        },
+        "transactionVolume": {
+          "score": 0,
+          "count": 0
+        }
+      },
+      "warnings": [
+        "No eBay data available",
+        "BrickEconomy data stale",
+        "Insufficient sales data"
+      ]
+    },
+    "21279-1": {
+      "confidence": "Low",
+      "score": 2,
+      "factors": {
+        "recency": {
+          "score": 0,
+          "lastUpdated": "2025-01-27T15:10:00Z",
+          "age_days": 370
+        },
+        "sourceAgreement": {
+          "score": 2,
+          "sources": [
+            "BrickEconomy"
+          ],
+          "maxDiff": null
+        },
+        "transactionVolume": {
+          "score": 0,
+          "count": 0
+        }
+      },
+      "warnings": [
+        "No eBay data available",
+        "BrickEconomy data stale",
+        "Insufficient sales data"
+      ]
+    },
+    "21345-1": {
+      "confidence": "Low",
+      "score": 2,
+      "factors": {
+        "recency": {
+          "score": 0,
+          "lastUpdated": "2025-01-27T15:10:00Z",
+          "age_days": 370
+        },
+        "sourceAgreement": {
+          "score": 2,
+          "sources": [
+            "BrickEconomy"
+          ],
+          "maxDiff": null
+        },
+        "transactionVolume": {
+          "score": 0,
+          "count": 0
+        }
+      },
+      "warnings": [
+        "No eBay data available",
+        "BrickEconomy data stale",
+        "Insufficient sales data"
+      ]
+    },
+    "21353-1": {
+      "confidence": "Low",
+      "score": 2,
+      "factors": {
+        "recency": {
+          "score": 0,
+          "lastUpdated": "2025-01-27T15:10:00Z",
+          "age_days": 370
+        },
+        "sourceAgreement": {
+          "score": 2,
+          "sources": [
+            "BrickEconomy"
+          ],
+          "maxDiff": null
+        },
+        "transactionVolume": {
+          "score": 0,
+          "count": 0
+        }
+      },
+      "warnings": [
+        "No eBay data available",
+        "BrickEconomy data stale",
+        "Insufficient sales data"
+      ]
+    },
+    "30719-1": {
+      "confidence": "Low",
+      "score": 2,
+      "factors": {
+        "recency": {
+          "score": 0,
+          "lastUpdated": "2025-01-27T15:10:00Z",
+          "age_days": 370
+        },
+        "sourceAgreement": {
+          "score": 2,
+          "sources": [
+            "BrickEconomy"
+          ],
+          "maxDiff": null
+        },
+        "transactionVolume": {
+          "score": 0,
+          "count": 0
+        }
+      },
+      "warnings": [
+        "No eBay data available",
+        "BrickEconomy data stale",
+        "Insufficient sales data"
+      ]
+    },
+    "31165-1": {
+      "confidence": "Low",
+      "score": 2,
+      "factors": {
+        "recency": {
+          "score": 0,
+          "lastUpdated": "2025-01-27T15:10:00Z",
+          "age_days": 370
+        },
+        "sourceAgreement": {
+          "score": 2,
+          "sources": [
+            "BrickEconomy"
+          ],
+          "maxDiff": null
+        },
+        "transactionVolume": {
+          "score": 0,
+          "count": 0
+        }
+      },
+      "warnings": [
+        "No eBay data available",
+        "BrickEconomy data stale",
+        "Insufficient sales data"
+      ]
+    },
+    "31218-1": {
+      "confidence": "Low",
+      "score": 2,
+      "factors": {
+        "recency": {
+          "score": 0,
+          "lastUpdated": "2025-01-27T15:10:00Z",
+          "age_days": 370
+        },
+        "sourceAgreement": {
+          "score": 2,
+          "sources": [
+            "BrickEconomy"
+          ],
+          "maxDiff": null
+        },
+        "transactionVolume": {
+          "score": 0,
+          "count": 0
+        }
+      },
+      "warnings": [
+        "No eBay data available",
+        "BrickEconomy data stale",
+        "Insufficient sales data"
+      ]
+    },
+    "40499-1": {
+      "confidence": "Low",
+      "score": 2,
+      "factors": {
+        "recency": {
+          "score": 0,
+          "lastUpdated": "2025-01-27T15:10:00Z",
+          "age_days": 370
+        },
+        "sourceAgreement": {
+          "score": 2,
+          "sources": [
+            "BrickEconomy"
+          ],
+          "maxDiff": null
+        },
+        "transactionVolume": {
+          "score": 0,
+          "count": 0
+        }
+      },
+      "warnings": [
+        "No eBay data available",
+        "BrickEconomy data stale",
+        "Insufficient sales data"
+      ]
+    },
+    "40573-1": {
+      "confidence": "Low",
+      "score": 2,
+      "factors": {
+        "recency": {
+          "score": 0,
+          "lastUpdated": "2025-01-27T15:10:00Z",
+          "age_days": 370
+        },
+        "sourceAgreement": {
+          "score": 2,
+          "sources": [
+            "BrickEconomy"
+          ],
+          "maxDiff": null
+        },
+        "transactionVolume": {
+          "score": 0,
+          "count": 0
+        }
+      },
+      "warnings": [
+        "No eBay data available",
+        "BrickEconomy data stale",
+        "Insufficient sales data"
+      ]
+    },
+    "40674-1": {
+      "confidence": "Low",
+      "score": 2,
+      "factors": {
+        "recency": {
+          "score": 0,
+          "lastUpdated": "2025-01-27T15:10:00Z",
+          "age_days": 370
+        },
+        "sourceAgreement": {
+          "score": 2,
+          "sources": [
+            "BrickEconomy"
+          ],
+          "maxDiff": null
+        },
+        "transactionVolume": {
+          "score": 0,
+          "count": 0
+        }
+      },
+      "warnings": [
+        "No eBay data available",
+        "BrickEconomy data stale",
+        "Insufficient sales data"
+      ]
+    },
+    "40779-1": {
+      "confidence": "Low",
+      "score": 2,
+      "factors": {
+        "recency": {
+          "score": 0,
+          "lastUpdated": "2025-01-27T15:10:00Z",
+          "age_days": 370
+        },
+        "sourceAgreement": {
+          "score": 2,
+          "sources": [
+            "BrickEconomy"
+          ],
+          "maxDiff": null
+        },
+        "transactionVolume": {
+          "score": 0,
+          "count": 0
+        }
+      },
+      "warnings": [
+        "No eBay data available",
+        "BrickEconomy data stale",
+        "Insufficient sales data"
+      ]
+    },
+    "40915-1": {
+      "confidence": "Low",
+      "score": 2,
+      "factors": {
+        "recency": {
+          "score": 0,
+          "lastUpdated": "2025-01-27T15:10:00Z",
+          "age_days": 370
+        },
+        "sourceAgreement": {
+          "score": 2,
+          "sources": [
+            "BrickEconomy"
+          ],
+          "maxDiff": null
+        },
+        "transactionVolume": {
+          "score": 0,
+          "count": 0
+        }
+      },
+      "warnings": [
+        "No eBay data available",
+        "BrickEconomy data stale",
+        "Insufficient sales data"
+      ]
+    },
+    "40922-1": {
+      "confidence": "Low",
+      "score": 2,
+      "factors": {
+        "recency": {
+          "score": 0,
+          "lastUpdated": "2025-01-27T15:10:00Z",
+          "age_days": 370
+        },
+        "sourceAgreement": {
+          "score": 2,
+          "sources": [
+            "BrickEconomy"
+          ],
+          "maxDiff": null
+        },
+        "transactionVolume": {
+          "score": 0,
+          "count": 0
+        }
+      },
+      "warnings": [
+        "No eBay data available",
+        "BrickEconomy data stale",
+        "Insufficient sales data"
+      ]
+    },
+    "42115-1": {
+      "confidence": "Medium",
+      "score": 4,
+      "factors": {
+        "recency": {
+          "score": 0,
+          "lastUpdated": "2025-01-27T15:10:00Z",
+          "age_days": 370
+        },
+        "sourceAgreement": {
+          "score": 2,
+          "sources": [
+            "BrickEconomy"
+          ],
+          "maxDiff": null
+        },
+        "transactionVolume": {
+          "score": 2,
+          "count": 48
+        }
+      },
+      "warnings": [
+        "No eBay data available",
+        "BrickEconomy data stale"
+      ]
+    },
+    "42143-1": {
+      "confidence": "Medium",
+      "score": 4,
+      "factors": {
+        "recency": {
+          "score": 0,
+          "lastUpdated": "2025-01-27T15:10:00Z",
+          "age_days": 370
+        },
+        "sourceAgreement": {
+          "score": 2,
+          "sources": [
+            "BrickEconomy"
+          ],
+          "maxDiff": null
+        },
+        "transactionVolume": {
+          "score": 2,
+          "count": 33
+        }
+      },
+      "warnings": [
+        "No eBay data available",
+        "BrickEconomy data stale"
+      ]
+    },
+    "42161-1": {
+      "confidence": "Low",
+      "score": 2,
+      "factors": {
+        "recency": {
+          "score": 0,
+          "lastUpdated": "2025-01-27T15:10:00Z",
+          "age_days": 370
+        },
+        "sourceAgreement": {
+          "score": 2,
+          "sources": [
+            "BrickEconomy"
+          ],
+          "maxDiff": null
+        },
+        "transactionVolume": {
+          "score": 0,
+          "count": 0
+        }
+      },
+      "warnings": [
+        "No eBay data available",
+        "BrickEconomy data stale",
+        "Insufficient sales data"
+      ]
+    },
+    "42172-1": {
+      "confidence": "Low",
+      "score": 2,
+      "factors": {
+        "recency": {
+          "score": 0,
+          "lastUpdated": "2025-01-27T15:10:00Z",
+          "age_days": 370
+        },
+        "sourceAgreement": {
+          "score": 2,
+          "sources": [
+            "BrickEconomy"
+          ],
+          "maxDiff": null
+        },
+        "transactionVolume": {
+          "score": 0,
+          "count": 0
+        }
+      },
+      "warnings": [
+        "No eBay data available",
+        "BrickEconomy data stale",
+        "Insufficient sales data"
+      ]
+    },
+    "42204-1": {
+      "confidence": "Low",
+      "score": 2,
+      "factors": {
+        "recency": {
+          "score": 0,
+          "lastUpdated": "2025-01-27T15:10:00Z",
+          "age_days": 370
+        },
+        "sourceAgreement": {
+          "score": 2,
+          "sources": [
+            "BrickEconomy"
+          ],
+          "maxDiff": null
+        },
+        "transactionVolume": {
+          "score": 0,
+          "count": 0
+        }
+      },
+      "warnings": [
+        "No eBay data available",
+        "BrickEconomy data stale",
+        "Insufficient sales data"
+      ]
+    },
+    "42210-1": {
+      "confidence": "Low",
+      "score": 2,
+      "factors": {
+        "recency": {
+          "score": 0,
+          "lastUpdated": "2025-01-27T15:10:00Z",
+          "age_days": 370
+        },
+        "sourceAgreement": {
+          "score": 2,
+          "sources": [
+            "BrickEconomy"
+          ],
+          "maxDiff": null
+        },
+        "transactionVolume": {
+          "score": 0,
+          "count": 0
+        }
+      },
+      "warnings": [
+        "No eBay data available",
+        "BrickEconomy data stale",
+        "Insufficient sales data"
+      ]
+    },
+    "43257-1": {
+      "confidence": "Low",
+      "score": 2,
+      "factors": {
+        "recency": {
+          "score": 0,
+          "lastUpdated": "2025-01-27T15:10:00Z",
+          "age_days": 370
+        },
+        "sourceAgreement": {
+          "score": 2,
+          "sources": [
+            "BrickEconomy"
+          ],
+          "maxDiff": null
+        },
+        "transactionVolume": {
+          "score": 0,
+          "count": 0
+        }
+      },
+      "warnings": [
+        "No eBay data available",
+        "BrickEconomy data stale",
+        "Insufficient sales data"
+      ]
+    },
+    "71426-1": {
+      "confidence": "Low",
+      "score": 2,
+      "factors": {
+        "recency": {
+          "score": 0,
+          "lastUpdated": "2025-01-27T15:10:00Z",
+          "age_days": 370
+        },
+        "sourceAgreement": {
+          "score": 2,
+          "sources": [
+            "BrickEconomy"
+          ],
+          "maxDiff": null
+        },
+        "transactionVolume": {
+          "score": 0,
+          "count": 0
+        }
+      },
+      "warnings": [
+        "No eBay data available",
+        "BrickEconomy data stale",
+        "Insufficient sales data"
+      ]
+    },
+    "71438-1": {
+      "confidence": "Low",
+      "score": 2,
+      "factors": {
+        "recency": {
+          "score": 0,
+          "lastUpdated": "2025-01-27T15:10:00Z",
+          "age_days": 370
+        },
+        "sourceAgreement": {
+          "score": 2,
+          "sources": [
+            "BrickEconomy"
+          ],
+          "maxDiff": null
+        },
+        "transactionVolume": {
+          "score": 0,
+          "count": 0
+        }
+      },
+      "warnings": [
+        "No eBay data available",
+        "BrickEconomy data stale",
+        "Insufficient sales data"
+      ]
+    },
+    "72037-1": {
+      "confidence": "Low",
+      "score": 3,
+      "factors": {
+        "recency": {
+          "score": 0,
+          "lastUpdated": "2025-01-27T15:10:00Z",
+          "age_days": 370
+        },
+        "sourceAgreement": {
+          "score": 2,
+          "sources": [
+            "BrickEconomy"
+          ],
+          "maxDiff": null
+        },
+        "transactionVolume": {
+          "score": 1,
+          "count": 6
+        }
+      },
+      "warnings": [
+        "No eBay data available",
+        "BrickEconomy data stale"
+      ]
+    },
+    "72046-1": {
+      "confidence": "Low",
+      "score": 2,
+      "factors": {
+        "recency": {
+          "score": 0,
+          "lastUpdated": "2025-01-27T15:10:00Z",
+          "age_days": 370
+        },
+        "sourceAgreement": {
+          "score": 2,
+          "sources": [
+            "BrickEconomy"
+          ],
+          "maxDiff": null
+        },
+        "transactionVolume": {
+          "score": 0,
+          "count": 0
+        }
+      },
+      "warnings": [
+        "No eBay data available",
+        "BrickEconomy data stale",
+        "Insufficient sales data"
+      ]
+    },
+    "75682-1": {
+      "confidence": "Low",
+      "score": 2,
+      "factors": {
+        "recency": {
+          "score": 0,
+          "lastUpdated": "2025-01-27T15:10:00Z",
+          "age_days": 370
+        },
+        "sourceAgreement": {
+          "score": 2,
+          "sources": [
+            "BrickEconomy"
+          ],
+          "maxDiff": null
+        },
+        "transactionVolume": {
+          "score": 0,
+          "count": 0
+        }
+      },
+      "warnings": [
+        "No eBay data available",
+        "BrickEconomy data stale",
+        "Insufficient sales data"
+      ]
+    },
+    "76191-1": {
+      "confidence": "Low",
+      "score": 2,
+      "factors": {
+        "recency": {
+          "score": 0,
+          "lastUpdated": "2025-01-27T15:10:00Z",
+          "age_days": 370
+        },
+        "sourceAgreement": {
+          "score": 2,
+          "sources": [
+            "BrickEconomy"
+          ],
+          "maxDiff": null
+        },
+        "transactionVolume": {
+          "score": 0,
+          "count": 0
+        }
+      },
+      "warnings": [
+        "No eBay data available",
+        "BrickEconomy data stale",
+        "Insufficient sales data"
+      ]
+    },
+    "76223-1": {
+      "confidence": "Low",
+      "score": 2,
+      "factors": {
+        "recency": {
+          "score": 0,
+          "lastUpdated": "2025-01-27T15:10:00Z",
+          "age_days": 370
+        },
+        "sourceAgreement": {
+          "score": 2,
+          "sources": [
+            "BrickEconomy"
+          ],
+          "maxDiff": null
+        },
+        "transactionVolume": {
+          "score": 0,
+          "count": 0
+        }
+      },
+      "warnings": [
+        "No eBay data available",
+        "BrickEconomy data stale",
+        "Insufficient sales data"
+      ]
+    },
+    "76912-1": {
+      "confidence": "Low",
+      "score": 2,
+      "factors": {
+        "recency": {
+          "score": 0,
+          "lastUpdated": "2025-01-27T15:10:00Z",
+          "age_days": 370
+        },
+        "sourceAgreement": {
+          "score": 2,
+          "sources": [
+            "BrickEconomy"
+          ],
+          "maxDiff": null
+        },
+        "transactionVolume": {
+          "score": 0,
+          "count": 0
+        }
+      },
+      "warnings": [
+        "No eBay data available",
+        "BrickEconomy data stale",
+        "Insufficient sales data"
+      ]
+    },
+    "76917-1": {
+      "confidence": "Low",
+      "score": 2,
+      "factors": {
+        "recency": {
+          "score": 0,
+          "lastUpdated": "2025-01-27T15:10:00Z",
+          "age_days": 370
+        },
+        "sourceAgreement": {
+          "score": 2,
+          "sources": [
+            "BrickEconomy"
+          ],
+          "maxDiff": null
+        },
+        "transactionVolume": {
+          "score": 0,
+          "count": 0
+        }
+      },
+      "warnings": [
+        "No eBay data available",
+        "BrickEconomy data stale",
+        "Insufficient sales data"
+      ]
+    },
+    "76922-1": {
+      "confidence": "Low",
+      "score": 2,
+      "factors": {
+        "recency": {
+          "score": 0,
+          "lastUpdated": "2025-01-27T15:10:00Z",
+          "age_days": 370
+        },
+        "sourceAgreement": {
+          "score": 2,
+          "sources": [
+            "BrickEconomy"
+          ],
+          "maxDiff": null
+        },
+        "transactionVolume": {
+          "score": 0,
+          "count": 0
+        }
+      },
+      "warnings": [
+        "No eBay data available",
+        "BrickEconomy data stale",
+        "Insufficient sales data"
+      ]
+    },
+    "76934-1": {
+      "confidence": "Low",
+      "score": 2,
+      "factors": {
+        "recency": {
+          "score": 0,
+          "lastUpdated": "2025-01-27T15:10:00Z",
+          "age_days": 370
+        },
+        "sourceAgreement": {
+          "score": 2,
+          "sources": [
+            "BrickEconomy"
+          ],
+          "maxDiff": null
+        },
+        "transactionVolume": {
+          "score": 0,
+          "count": 0
+        }
+      },
+      "warnings": [
+        "No eBay data available",
+        "BrickEconomy data stale",
+        "Insufficient sales data"
+      ]
+    },
+    "77073-1": {
+      "confidence": "Low",
+      "score": 3,
+      "factors": {
+        "recency": {
+          "score": 0,
+          "lastUpdated": "2025-01-27T15:10:00Z",
+          "age_days": 370
+        },
+        "sourceAgreement": {
+          "score": 2,
+          "sources": [
+            "BrickEconomy"
+          ],
+          "maxDiff": null
+        },
+        "transactionVolume": {
+          "score": 1,
+          "count": 6
+        }
+      },
+      "warnings": [
+        "No eBay data available",
+        "BrickEconomy data stale"
+      ]
+    },
+    "77237-1": {
+      "confidence": "Low",
+      "score": 2,
+      "factors": {
+        "recency": {
+          "score": 0,
+          "lastUpdated": "2025-01-27T15:10:00Z",
+          "age_days": 370
+        },
+        "sourceAgreement": {
+          "score": 2,
+          "sources": [
+            "BrickEconomy"
+          ],
+          "maxDiff": null
+        },
+        "transactionVolume": {
+          "score": 0,
+          "count": 0
+        }
+      },
+      "warnings": [
+        "No eBay data available",
+        "BrickEconomy data stale",
+        "Insufficient sales data"
+      ]
+    },
+    "77239-1": {
+      "confidence": "Low",
+      "score": 2,
+      "factors": {
+        "recency": {
+          "score": 0,
+          "lastUpdated": "2025-01-27T15:10:00Z",
+          "age_days": 370
+        },
+        "sourceAgreement": {
+          "score": 2,
+          "sources": [
+            "BrickEconomy"
+          ],
+          "maxDiff": null
+        },
+        "transactionVolume": {
+          "score": 0,
+          "count": 0
+        }
+      },
+      "warnings": [
+        "No eBay data available",
+        "BrickEconomy data stale",
+        "Insufficient sales data"
+      ]
+    },
+    "77241-1": {
+      "confidence": "Low",
+      "score": 2,
+      "factors": {
+        "recency": {
+          "score": 0,
+          "lastUpdated": "2025-01-27T15:10:00Z",
+          "age_days": 370
+        },
+        "sourceAgreement": {
+          "score": 2,
+          "sources": [
+            "BrickEconomy"
+          ],
+          "maxDiff": null
+        },
+        "transactionVolume": {
+          "score": 0,
+          "count": 0
+        }
+      },
+      "warnings": [
+        "No eBay data available",
+        "BrickEconomy data stale",
+        "Insufficient sales data"
+      ]
+    },
+    "77253-1": {
+      "confidence": "Low",
+      "score": 2,
+      "factors": {
+        "recency": {
+          "score": 0,
+          "lastUpdated": "2025-01-27T15:10:00Z",
+          "age_days": 370
+        },
+        "sourceAgreement": {
+          "score": 2,
+          "sources": [
+            "BrickEconomy"
+          ],
+          "maxDiff": null
+        },
+        "transactionVolume": {
+          "score": 0,
+          "count": 0
+        }
+      },
+      "warnings": [
+        "No eBay data available",
+        "BrickEconomy data stale",
+        "Insufficient sales data"
+      ]
+    },
+    "77254-1": {
+      "confidence": "Low",
+      "score": 2,
+      "factors": {
+        "recency": {
+          "score": 0,
+          "lastUpdated": "2025-01-27T15:10:00Z",
+          "age_days": 370
+        },
+        "sourceAgreement": {
+          "score": 2,
+          "sources": [
+            "BrickEconomy"
+          ],
+          "maxDiff": null
+        },
+        "transactionVolume": {
+          "score": 0,
+          "count": 0
+        }
+      },
+      "warnings": [
+        "No eBay data available",
+        "BrickEconomy data stale",
+        "Insufficient sales data"
+      ]
+    },
+    "77255-1": {
+      "confidence": "Low",
+      "score": 2,
+      "factors": {
+        "recency": {
+          "score": 0,
+          "lastUpdated": "2025-01-27T15:10:00Z",
+          "age_days": 370
+        },
+        "sourceAgreement": {
+          "score": 2,
+          "sources": [
+            "BrickEconomy"
+          ],
+          "maxDiff": null
+        },
+        "transactionVolume": {
+          "score": 0,
+          "count": 0
+        }
+      },
+      "warnings": [
+        "No eBay data available",
+        "BrickEconomy data stale",
+        "Insufficient sales data"
+      ]
+    }
+  }
+}

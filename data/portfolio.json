@@ -20,7 +20,9 @@
       "value": 1759.96,
       "qtyNew": 4,
       "qtyUsed": 0,
-      "growth": 6.28
+      "growth": 6.28,
+      "purchases": [],
+      "sales": []
     },
     {
       "setNumber": "10323-1",
@@ -31,7 +33,9 @@
       "value": 237.59,
       "qtyNew": 1,
       "qtyUsed": 0,
-      "growth": -2.81
+      "growth": -2.81,
+      "purchases": [],
+      "sales": []
     },
     {
       "setNumber": "10330-1",
@@ -42,7 +46,9 @@
       "value": 128.82,
       "qtyNew": 1,
       "qtyUsed": 1,
-      "growth": -19.48
+      "growth": -19.48,
+      "purchases": [],
+      "sales": []
     },
     {
       "setNumber": "10342-1",
@@ -53,7 +59,9 @@
       "value": 43.82,
       "qtyNew": 0,
       "qtyUsed": 1,
-      "growth": -8.70
+      "growth": -8.70,
+      "purchases": [],
+      "sales": []
     },
     {
       "setNumber": "10350-1",
@@ -64,7 +72,9 @@
       "value": 710.16,
       "qtyNew": 3,
       "qtyUsed": 0,
-      "growth": 2.93
+      "growth": 2.93,
+      "purchases": [],
+      "sales": []
     },
     {
       "setNumber": "10354-1",
@@ -75,7 +85,9 @@
       "value": 237.59,
       "qtyNew": 1,
       "qtyUsed": 0,
-      "growth": -12.00
+      "growth": -12.00,
+      "purchases": [],
+      "sales": []
     },
     {
       "setNumber": "21265-1",
@@ -86,7 +98,9 @@
       "value": 184.40,
       "qtyNew": 2,
       "qtyUsed": 0,
-      "growth": 4.06
+      "growth": 4.06,
+      "purchases": [],
+      "sales": []
     },
     {
       "setNumber": "21276-1",
@@ -97,7 +111,9 @@
       "value": 169.97,
       "qtyNew": 4,
       "qtyUsed": 1,
-      "growth": 39.44
+      "growth": 39.44,
+      "purchases": [],
+      "sales": []
     },
     {
       "setNumber": "21279-1",
@@ -108,7 +124,9 @@
       "value": 76.44,
       "qtyNew": 0,
       "qtyUsed": 1,
-      "growth": -15.06
+      "growth": -15.06,
+      "purchases": [],
+      "sales": []
     },
     {
       "setNumber": "21345-1",
@@ -119,7 +137,9 @@
       "value": 140.78,
       "qtyNew": 2,
       "qtyUsed": 0,
-      "growth": 23.00
+      "growth": 23.00,
+      "purchases": [],
+      "sales": []
     },
     {
       "setNumber": "21353-1",
@@ -130,7 +150,9 @@
       "value": 696.63,
       "qtyNew": 2,
       "qtyUsed": 0,
-      "growth": 5.55
+      "growth": 5.55,
+      "purchases": [],
+      "sales": []
     },
     {
       "setNumber": "30719-1",
@@ -141,7 +163,9 @@
       "value": 3.51,
       "qtyNew": 1,
       "qtyUsed": 0,
-      "growth": 251.12
+      "growth": 251.12,
+      "purchases": [],
+      "sales": []
     },
     {
       "setNumber": "31165-1",
@@ -152,7 +176,9 @@
       "value": 27.02,
       "qtyNew": 0,
       "qtyUsed": 1,
-      "growth": 2601.75
+      "growth": 2601.75,
+      "purchases": [],
+      "sales": []
     },
     {
       "setNumber": "31218-1",
@@ -163,7 +189,9 @@
       "value": 477.87,
       "qtyNew": 3,
       "qtyUsed": 0,
-      "growth": 60.65
+      "growth": 60.65,
+      "purchases": [],
+      "sales": []
     },
     {
       "setNumber": "40499-1",
@@ -174,7 +202,9 @@
       "value": 28.98,
       "qtyNew": 0,
       "qtyUsed": 1,
-      "growth": -27.49
+      "growth": -27.49,
+      "purchases": [],
+      "sales": []
     },
     {
       "setNumber": "40573-1",
@@ -185,7 +215,9 @@
       "value": 28.38,
       "qtyNew": 0,
       "qtyUsed": 1,
-      "growth": -36.93
+      "growth": -36.93,
+      "purchases": [],
+      "sales": []
     },
     {
       "setNumber": "40674-1",
@@ -196,7 +228,9 @@
       "value": 22.86,
       "qtyNew": 2,
       "qtyUsed": 0,
-      "growth": -12.00
+      "growth": -12.00,
+      "purchases": [],
+      "sales": []
     },
     {
       "setNumber": "40779-1",
@@ -207,7 +241,9 @@
       "value": 5.28,
       "qtyNew": 1,
       "qtyUsed": 0,
-      "growth": 428.00
+      "growth": 428.00,
+      "purchases": [],
+      "sales": []
     },
     {
       "setNumber": "40915-1",
@@ -218,7 +254,9 @@
       "value": 0.00,
       "qtyNew": 1,
       "qtyUsed": 0,
-      "growth": -100.00
+      "growth": -100.00,
+      "purchases": [],
+      "sales": []
     },
     {
       "setNumber": "40922-1",
@@ -229,7 +267,9 @@
       "value": 22.86,
       "qtyNew": 2,
       "qtyUsed": 0,
-      "growth": -12.00
+      "growth": -12.00,
+      "purchases": [],
+      "sales": []
     },
     {
       "setNumber": "42115-1",
@@ -240,7 +280,9 @@
       "value": 425.04,
       "qtyNew": 1,
       "qtyUsed": 0,
-      "growth": 27.52
+      "growth": 27.52,
+      "purchases": [],
+      "sales": []
     },
     {
       "setNumber": "42143-1",
@@ -251,7 +293,9 @@
       "value": 395.99,
       "qtyNew": 1,
       "qtyUsed": 0,
-      "growth": 11.26
+      "growth": 11.26,
+      "purchases": [],
+      "sales": []
     },
     {
       "setNumber": "42161-1",
@@ -262,7 +306,9 @@
       "value": 43.99,
       "qtyNew": 1,
       "qtyUsed": 0,
-      "growth": 4299.12
+      "growth": 4299.12,
+      "purchases": [],
+      "sales": []
     },
     {
       "setNumber": "42172-1",
@@ -273,7 +319,9 @@
       "value": 395.99,
       "qtyNew": 1,
       "qtyUsed": 0,
-      "growth": 12.49
+      "growth": 12.49,
+      "purchases": [],
+      "sales": []
     },
     {
       "setNumber": "42204-1",
@@ -284,7 +332,9 @@
       "value": 96.61,
       "qtyNew": 1,
       "qtyUsed": 1,
-      "growth": -5.67
+      "growth": -5.67,
+      "purchases": [],
+      "sales": []
     },
     {
       "setNumber": "42210-1",
@@ -295,7 +345,9 @@
       "value": 246.38,
       "qtyNew": 2,
       "qtyUsed": 0,
-      "growth": 10.11
+      "growth": 10.11,
+      "purchases": [],
+      "sales": []
     },
     {
       "setNumber": "43257-1",
@@ -306,7 +358,9 @@
       "value": 57.19,
       "qtyNew": 1,
       "qtyUsed": 0,
-      "growth": -12.00
+      "growth": -12.00,
+      "purchases": [],
+      "sales": []
     },
     {
       "setNumber": "71426-1",
@@ -317,7 +371,9 @@
       "value": 316.75,
       "qtyNew": 6,
       "qtyUsed": 0,
-      "growth": -4.40
+      "growth": -4.40,
+      "purchases": [],
+      "sales": []
     },
     {
       "setNumber": "71438-1",
@@ -328,7 +384,9 @@
       "value": 253.84,
       "qtyNew": 2,
       "qtyUsed": 0,
-      "growth": 22.74
+      "growth": 22.74,
+      "purchases": [],
+      "sales": []
     },
     {
       "setNumber": "72037-1",
@@ -339,7 +397,9 @@
       "value": 747.96,
       "qtyNew": 5,
       "qtyUsed": 0,
-      "growth": 22.73
+      "growth": 22.73,
+      "purchases": [],
+      "sales": []
     },
     {
       "setNumber": "72046-1",
@@ -350,7 +410,9 @@
       "value": 307.77,
       "qtyNew": 5,
       "qtyUsed": 1,
-      "growth": 13.33
+      "growth": 13.33,
+      "purchases": [],
+      "sales": []
     },
     {
       "setNumber": "75682-1",
@@ -361,7 +423,9 @@
       "value": 40.16,
       "qtyNew": 0,
       "qtyUsed": 1,
-      "growth": -26.96
+      "growth": -26.96,
+      "purchases": [],
+      "sales": []
     },
     {
       "setNumber": "76191-1",
@@ -372,7 +436,9 @@
       "value": 62.10,
       "qtyNew": 0,
       "qtyUsed": 1,
-      "growth": -25.07
+      "growth": -25.07,
+      "purchases": [],
+      "sales": []
     },
     {
       "setNumber": "76223-1",
@@ -383,7 +449,9 @@
       "value": 96.80,
       "qtyNew": 0,
       "qtyUsed": 1,
-      "growth": -9.52
+      "growth": -9.52,
+      "purchases": [],
+      "sales": []
     },
     {
       "setNumber": "76912-1",
@@ -394,7 +462,9 @@
       "value": 54.08,
       "qtyNew": 1,
       "qtyUsed": 0,
-      "growth": -34.41
+      "growth": -34.41,
+      "purchases": [],
+      "sales": []
     },
     {
       "setNumber": "76917-1",
@@ -405,7 +475,9 @@
       "value": 40.24,
       "qtyNew": 1,
       "qtyUsed": 1,
-      "growth": -2.56
+      "growth": -2.56,
+      "purchases": [],
+      "sales": []
     },
     {
       "setNumber": "76922-1",
@@ -416,7 +488,9 @@
       "value": 37.30,
       "qtyNew": 1,
       "qtyUsed": 0,
-      "growth": -12.58
+      "growth": -12.58,
+      "purchases": [],
+      "sales": []
     },
     {
       "setNumber": "76934-1",
@@ -427,7 +501,9 @@
       "value": 23.75,
       "qtyNew": 1,
       "qtyUsed": 0,
-      "growth": 6.46
+      "growth": 6.46,
+      "purchases": [],
+      "sales": []
     },
     {
       "setNumber": "77073-1",
@@ -438,7 +514,9 @@
       "value": 175.98,
       "qtyNew": 2,
       "qtyUsed": 0,
-      "growth": 44.32
+      "growth": 44.32,
+      "purchases": [],
+      "sales": []
     },
     {
       "setNumber": "77237-1",
@@ -449,7 +527,9 @@
       "value": 23.75,
       "qtyNew": 1,
       "qtyUsed": 0,
-      "growth": -12.00
+      "growth": -12.00,
+      "purchases": [],
+      "sales": []
     },
     {
       "setNumber": "77239-1",
@@ -460,7 +540,9 @@
       "value": 23.75,
       "qtyNew": 1,
       "qtyUsed": 0,
-      "growth": -12.00
+      "growth": -12.00,
+      "purchases": [],
+      "sales": []
     },
     {
       "setNumber": "77241-1",
@@ -471,7 +553,9 @@
       "value": 43.90,
       "qtyNew": 1,
       "qtyUsed": 1,
-      "growth": -18.67
+      "growth": -18.67,
+      "purchases": [],
+      "sales": []
     },
     {
       "setNumber": "77253-1",
@@ -482,7 +566,9 @@
       "value": 24.63,
       "qtyNew": 1,
       "qtyUsed": 0,
-      "growth": -12.00
+      "growth": -12.00,
+      "purchases": [],
+      "sales": []
     },
     {
       "setNumber": "77254-1",
@@ -493,7 +579,9 @@
       "value": 24.63,
       "qtyNew": 1,
       "qtyUsed": 0,
-      "growth": -12.00
+      "growth": -12.00,
+      "purchases": [],
+      "sales": []
     },
     {
       "setNumber": "77255-1",
@@ -504,7 +592,9 @@
       "value": 24.63,
       "qtyNew": 1,
       "qtyUsed": 0,
-      "growth": -12.00
+      "growth": -12.00,
+      "purchases": [],
+      "sales": []
     }
   ]
 }
