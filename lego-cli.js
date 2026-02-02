@@ -219,8 +219,44 @@ const commands = {
   serve: () => {
     const http = require('http');
     const PORT = process.env.PORT || 3456;
-    
+    const DEALS_FILE = path.join(DATA_DIR, 'deals-found.json');
+
     const server = http.createServer((req, res) => {
+      // API endpoint for deals
+      if (req.url === '/api/deals') {
+        try {
+          const dealsData = JSON.parse(fs.readFileSync(DEALS_FILE, 'utf8'));
+          // Transform deals to match the expected format for the UI
+          const deals = dealsData.deals.map((deal, index) => ({
+            id: `${deal.setId}-${index}`,
+            setNumber: deal.setId,
+            setName: deal.name,
+            marketplace: deal.source.toLowerCase(),
+            condition: deal.condition,
+            price: deal.price,
+            marketPrice: deal.targetPrice,
+            discount: deal.discount,
+            sellerName: deal.seller,
+            sellerRating: deal.sellerRating,
+            sellerLocation: deal.location,
+            shippingCost: 0,
+            url: deal.listingUrl,
+            description: `Found at ${deal.price}€ - ${deal.discount}% below target price`,
+            listedDate: deal.foundAt
+          }));
+
+          res.writeHead(200, {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
+          });
+          res.end(JSON.stringify(deals));
+        } catch (err) {
+          res.writeHead(500, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: 'Failed to load deals' }));
+        }
+        return;
+      }
+
       let filePath;
       if (req.url === '/' || req.url === '/index.html') {
         filePath = path.join(__dirname, 'public', 'index.html');
@@ -229,7 +265,7 @@ const commands = {
       } else {
         filePath = path.join(__dirname, 'public', req.url);
       }
-      
+
       const ext = path.extname(filePath);
       const contentTypes = {
         '.html': 'text/html',
@@ -237,21 +273,21 @@ const commands = {
         '.css': 'text/css',
         '.json': 'application/json'
       };
-      
+
       fs.readFile(filePath, (err, data) => {
         if (err) {
           res.writeHead(404);
           res.end('Not found');
           return;
         }
-        res.writeHead(200, { 
+        res.writeHead(200, {
           'Content-Type': contentTypes[ext] || 'text/plain',
           'Access-Control-Allow-Origin': '*'
         });
         res.end(data);
       });
     });
-    
+
     server.listen(PORT, () => {
       console.log(`🧱 LEGO Dashboard running at http://localhost:${PORT}`);
     });
