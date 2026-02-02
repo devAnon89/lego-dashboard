@@ -1,12 +1,12 @@
 {
   "metadata": {
-    "lastUpdated": "2026-02-02T00:47:50.128Z",
+    "lastUpdated": "2026-02-02T01:05:10.045Z",
     "source": "eBay EU",
     "currency": "EUR",
     "totalRetail": 9777.2,
     "totalPaid": 8265.33,
-    "totalCurrentValue": 20110.45,
-    "totalGain": 143.31,
+    "totalCurrentValue": 20115.53,
+    "totalGain": 143.37,
     "totalSets": 45,
     "totalUnits": 82
   },
@@ -17,10 +17,10 @@
       "theme": "Icons / Licensed",
       "retail": 499.99,
       "paid": 1656,
-      "value": 415.15,
+      "value": 416.42,
       "qtyNew": 4,
       "qtyUsed": 0,
-      "growth": -74.93
+      "growth": -74.85
     },
     {
       "setNumber": "10323-1",
