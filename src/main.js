@@ -10,6 +10,7 @@ let portfolio = null;
 let analysis = null;
 let priceHistory = null;
 let aiPredictions = null;
+let ebayPriceHistory = null;
 let currentTab = 'all';
 let currentFilter = '';
 let historyChart = null;
@@ -70,6 +71,13 @@ async function loadData() {
     } catch (e) {
       aiPredictions = null;
     }
+    try {
+      ebayPriceHistory = await fetch('data/ebay-price-history.json').then((r) =>
+        r.json()
+      );
+    } catch (e) {
+      ebayPriceHistory = null;
+    }
     renderDashboard();
   } catch (e) {
     document.getElementById('setsGrid').innerHTML =
@@ -105,6 +113,53 @@ function getSetPredictions(setId, analysisData) {
   }
 
   return brickEconomyPredictions;
+}
+
+// Get eBay market stats for a set
+function getEbayMarketStats(setId) {
+  if (!ebayPriceHistory) return null;
+
+  // Check soldListings first (detailed data)
+  if (ebayPriceHistory.soldListings && ebayPriceHistory.soldListings[setId]) {
+    const listing = ebayPriceHistory.soldListings[setId];
+    return {
+      marketValue: listing.statistics?.median || null,
+      min: listing.statistics?.min || null,
+      max: listing.statistics?.max || null,
+      mean: listing.statistics?.mean || null,
+      count: listing.statistics?.count || 0,
+      lastUpdate: listing.lastUpdate || null,
+      source: 'eBay Sold Listings',
+    };
+  }
+
+  // Fall back to snapshots data
+  if (ebayPriceHistory.snapshots && ebayPriceHistory.snapshots.length > 0) {
+    // Get the most recent snapshot with data for this set
+    for (let i = ebayPriceHistory.snapshots.length - 1; i >= 0; i--) {
+      const snapshot = ebayPriceHistory.snapshots[i];
+      const setData = snapshot.data?.find((d) => d.setId === setId);
+      if (setData && setData.prices && setData.prices.length > 0) {
+        // Calculate stats from raw prices (filter outliers)
+        const prices = setData.prices.filter((p) => p > 50 && p < 2000).sort((a, b) => a - b);
+        if (prices.length === 0) continue;
+
+        const median = prices[Math.floor(prices.length / 2)];
+        const mean = prices.reduce((a, b) => a + b, 0) / prices.length;
+        return {
+          marketValue: setData.marketValue || median,
+          min: prices[0],
+          max: prices[prices.length - 1],
+          mean: mean,
+          count: prices.length,
+          lastUpdate: snapshot.timestamp,
+          source: snapshot.source || 'eBay',
+        };
+      }
+    }
+  }
+
+  return null;
 }
 
 function renderDashboard() {
@@ -677,6 +732,8 @@ function showDetail(id) {
     4;
   // Merge AI predictions with existing predictions
   const predictions = getSetPredictions(id, { ...s.analysis, currentValue: s.value });
+  // Get eBay market stats
+  const ebayStats = getEbayMarketStats(id);
 
   const actionColors = {
     BUY: 'bg-green-500 text-white',
@@ -691,10 +748,105 @@ function showDetail(id) {
   };
   const growthColor = s.growth_pct >= 0 ? 'text-green-400' : 'text-red-400';
 
-  const pred1yr = predictions['1yr']?.value || s.value * 1.15;
-  const pred5yr = predictions['5yr']?.value || s.value * 1.8;
-  const growth1yr = predictions.growth1yr || 15;
-  const growth5yr = predictions.growth5yr || 80;
+  // BrickEconomy predictions (from deep-analysis.json)
+  const brickEconomyPred = s.analysis.predictions || {};
+  const bePred1yr = brickEconomyPred['1yr']?.value || s.value * 1.15;
+  const bePred5yr = brickEconomyPred['5yr']?.value || s.value * 1.8;
+  const beGrowth1yr = brickEconomyPred.growth1yr || ((bePred1yr - s.value) / s.value) * 100;
+  const beGrowth5yr = brickEconomyPred.growth5yr || ((bePred5yr - s.value) / s.value) * 100;
+
+  // AI predictions (from ai-predictions-cache.json, merged via getSetPredictions)
+  const hasAiPrediction = predictions.aiConfidence || predictions.aiReasoning;
+  const aiPred1yr = predictions['1yr']?.value || bePred1yr;
+  const aiPred5yr = predictions['5yr']?.value || bePred5yr;
+  const aiGrowth1yr = predictions.growth1yr || beGrowth1yr;
+  const aiGrowth5yr = predictions.growth5yr || beGrowth5yr;
+
+  // Build AI Prediction section HTML
+  let aiPredictionSection = '';
+  if (hasAiPrediction) {
+    const confidenceColors = {
+      high: 'bg-green-500/20 text-green-400 border-green-500/30',
+      medium: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30',
+      low: 'bg-red-500/20 text-red-400 border-red-500/30',
+    };
+    const confidenceLevel = (predictions.aiConfidence || 'medium').toLowerCase();
+    aiPredictionSection = `
+    <!-- AI Prediction Section -->
+    <div class="bg-gradient-to-br from-cyan-900/30 to-blue-900/30 rounded-xl p-4 mb-6 border border-cyan-500/20">
+      <div class="flex items-center justify-between mb-4">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">🤖</span>
+          <h3 class="font-semibold">AI Price Prediction</h3>
+          <span class="px-2 py-0.5 rounded-full text-xs border ${confidenceColors[confidenceLevel]}">${predictions.aiConfidence || 'Medium'} Confidence</span>
+        </div>
+        <span class="text-xs text-gray-400">${predictions.aiSource || 'OpenAI'}</span>
+      </div>
+      <div class="grid grid-cols-2 gap-4">
+        <div class="bg-black/20 rounded-lg p-3">
+          <div class="text-xs text-cyan-300">AI 1-Year Estimate</div>
+          <div class="text-2xl font-bold text-white">€${aiPred1yr.toFixed(0)}</div>
+          <div class="text-sm text-green-400">+${aiGrowth1yr.toFixed(1)}% projected</div>
+        </div>
+        <div class="bg-black/20 rounded-lg p-3">
+          <div class="text-xs text-blue-300">AI 5-Year Estimate</div>
+          <div class="text-2xl font-bold text-white">€${aiPred5yr.toFixed(0)}</div>
+          <div class="text-sm text-green-400">+${aiGrowth5yr.toFixed(1)}% projected</div>
+        </div>
+      </div>
+      ${predictions.aiReasoning ? `
+      <div class="mt-3 p-3 bg-black/20 rounded-lg">
+        <div class="text-xs text-cyan-400 mb-1">AI Reasoning:</div>
+        <p class="text-sm text-gray-300">${predictions.aiReasoning}</p>
+      </div>
+      ` : ''}
+      <p class="text-xs text-gray-400 mt-3">
+        AI prediction powered by ${predictions.aiSource || 'OpenAI'}.
+        ${predictions.aiCachedAt ? `Last updated: ${new Date(predictions.aiCachedAt).toLocaleDateString()}` : ''}
+      </p>
+    </div>
+    `;
+  }
+
+  // Build eBay Market Stats section HTML
+  let ebaySection = '';
+  if (ebayStats && ebayStats.count > 0) {
+    ebaySection = `
+    <!-- eBay Market Stats Section -->
+    <div class="bg-gradient-to-br from-orange-900/30 to-red-900/30 rounded-xl p-4 mb-6 border border-orange-500/20">
+      <div class="flex items-center justify-between mb-4">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">🛒</span>
+          <h3 class="font-semibold">eBay Market Data</h3>
+          <span class="px-2 py-0.5 rounded-full text-xs bg-orange-500/20 text-orange-400 border border-orange-500/30">Live Data</span>
+        </div>
+        <span class="text-xs text-gray-400">${ebayStats.count} sold listings</span>
+      </div>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <div class="bg-black/20 rounded-lg p-3">
+          <div class="text-xs text-orange-300">Market Value</div>
+          <div class="text-xl font-bold text-white">€${ebayStats.marketValue?.toFixed(0) || 'N/A'}</div>
+        </div>
+        <div class="bg-black/20 rounded-lg p-3">
+          <div class="text-xs text-orange-300">Average</div>
+          <div class="text-xl font-bold text-white">€${ebayStats.mean?.toFixed(0) || 'N/A'}</div>
+        </div>
+        <div class="bg-black/20 rounded-lg p-3">
+          <div class="text-xs text-green-300">Low</div>
+          <div class="text-xl font-bold text-green-400">€${ebayStats.min?.toFixed(0) || 'N/A'}</div>
+        </div>
+        <div class="bg-black/20 rounded-lg p-3">
+          <div class="text-xs text-red-300">High</div>
+          <div class="text-xl font-bold text-red-400">€${ebayStats.max?.toFixed(0) || 'N/A'}</div>
+        </div>
+      </div>
+      <p class="text-xs text-gray-400 mt-3">
+        ${ebayStats.source || 'eBay'} sold listings data.
+        ${ebayStats.lastUpdate ? `Last scraped: ${new Date(ebayStats.lastUpdate).toLocaleDateString()}` : ''}
+      </p>
+    </div>
+    `;
+  }
 
   const content = `
     <div class="flex justify-between items-start mb-6">
@@ -724,7 +876,11 @@ function showDetail(id) {
       </div>
     </div>
 
-    <!-- Predictions Section -->
+    ${ebaySection}
+
+    ${aiPredictionSection}
+
+    <!-- BrickEconomy Predictions Section -->
     <div class="bg-gradient-to-br from-purple-900/30 to-indigo-900/30 rounded-xl p-4 mb-6 border border-purple-500/20">
       <div class="flex items-center gap-2 mb-4">
         <span class="text-xl">🔮</span>
@@ -733,14 +889,14 @@ function showDetail(id) {
       </div>
       <div class="grid grid-cols-2 gap-4">
         <div class="bg-black/20 rounded-lg p-3">
-          <div class="text-xs text-purple-300">1-Year Estimate (Jan 2026)</div>
-          <div class="text-2xl font-bold text-white">€${pred1yr.toFixed(0)}</div>
-          <div class="text-sm text-green-400">+${growth1yr.toFixed(1)}% projected</div>
+          <div class="text-xs text-purple-300">1-Year Estimate</div>
+          <div class="text-2xl font-bold text-white">€${bePred1yr.toFixed(0)}</div>
+          <div class="text-sm text-green-400">+${beGrowth1yr.toFixed(1)}% projected</div>
         </div>
         <div class="bg-black/20 rounded-lg p-3">
-          <div class="text-xs text-indigo-300">5-Year Estimate (Jan 2030)</div>
-          <div class="text-2xl font-bold text-white">€${pred5yr.toFixed(0)}</div>
-          <div class="text-sm text-green-400">+${growth5yr.toFixed(1)}% projected</div>
+          <div class="text-xs text-indigo-300">5-Year Estimate</div>
+          <div class="text-2xl font-bold text-white">€${bePred5yr.toFixed(0)}</div>
+          <div class="text-sm text-green-400">+${beGrowth5yr.toFixed(1)}% projected</div>
         </div>
       </div>
       <p class="text-xs text-gray-400 mt-3">
@@ -756,7 +912,7 @@ function showDetail(id) {
     </div>
 
     <div class="bg-gray-800 rounded-lg p-4 mb-6">
-      <h3 class="font-semibold mb-2">🧠 AI Analysis</h3>
+      <h3 class="font-semibold mb-2">🧠 Analysis Summary</h3>
       <p class="text-gray-300">${s.analysis.thesis || 'No analysis available'}</p>
     </div>
 
