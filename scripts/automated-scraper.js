@@ -13,6 +13,10 @@
  * Usage:
  *   node scripts/automated-scraper.js
  *   node scripts/automated-scraper.js --dry-run
+ *   node scripts/automated-scraper.js --set 10316-1
+ *   node scripts/automated-scraper.js --source brickeconomy
+ *   node scripts/automated-scraper.js --source ebay --set 10316-1
+ *   node scripts/automated-scraper.js --help
  */
 
 const fs = require('fs');
@@ -28,6 +32,48 @@ const SCRAPER_LOGS_FILE = path.join(DATA_DIR, 'scraper-logs.json');
 // Parse command-line arguments
 const args = process.argv.slice(2);
 const isDryRun = args.includes('--dry-run');
+const showHelp = args.includes('--help') || args.includes('-h');
+const singleSet = args.find((a, i) => args[i-1] === '--set');
+const sourceFilter = args.find((a, i) => args[i-1] === '--source');
+
+/**
+ * Display help message
+ */
+function showHelpMessage() {
+  console.log(`
+Automated Scraper Orchestration Script
+======================================
+
+Orchestrates the complete data scraping pipeline for LEGO portfolio tracking.
+
+Usage:
+  node scripts/automated-scraper.js [options]
+
+Options:
+  --help, -h              Show this help message
+  --dry-run               Run in dry-run mode (no actual scraping)
+  --set <setId>           Scrape only a specific set (e.g., 10316-1)
+  --source <source>       Run only a specific scraper source
+                          Valid sources: brickeconomy, ebay
+
+Examples:
+  node scripts/automated-scraper.js
+      Run full pipeline for all sets
+
+  node scripts/automated-scraper.js --dry-run
+      Test run without actual scraping
+
+  node scripts/automated-scraper.js --set 10316-1
+      Scrape only set 10316-1 from all sources
+
+  node scripts/automated-scraper.js --source brickeconomy
+      Run only BrickEconomy scraper for all sets
+
+  node scripts/automated-scraper.js --source ebay --set 10316-1
+      Run only eBay scraper for set 10316-1
+  `);
+  process.exit(0);
+}
 
 /**
  * Execute a script as a child process
@@ -153,10 +199,31 @@ function getStatusString(success) {
  * Main orchestration function
  */
 async function main() {
+  // Show help if requested
+  if (showHelp) {
+    showHelpMessage();
+    return;
+  }
+
+  // Validate source filter
+  if (sourceFilter && !['brickeconomy', 'ebay'].includes(sourceFilter)) {
+    logger.error(`Invalid source: ${sourceFilter}`);
+    logger.error('Valid sources: brickeconomy, ebay');
+    process.exit(1);
+  }
+
   const startTime = Date.now();
   logger.section('Automated Scraper Pipeline');
   logger.info(`Pipeline started at ${new Date().toLocaleString()}`);
   logger.info(`Mode: ${isDryRun ? 'DRY-RUN' : 'PRODUCTION'}`);
+
+  if (singleSet) {
+    logger.info(`Target set: ${singleSet}`);
+  }
+
+  if (sourceFilter) {
+    logger.info(`Source filter: ${sourceFilter}`);
+  }
 
   if (isDryRun) {
     logger.info('Running in DRY-RUN mode - no actual scraping will occur');
@@ -249,90 +316,136 @@ async function main() {
   logger.info(`  Sets in portfolio: ${results.portfolio.setsCount}`);
 
   // Step 2: Run BrickEconomy scraper
-  logger.section('Step 2: Running BrickEconomy Scraper');
-  logger.info(`Scraping price history and predictions for ${results.portfolio.setsCount} sets...`);
-  logger.info('Source: BrickEconomy.com');
+  const shouldRunBrickEconomy = !sourceFilter || sourceFilter === 'brickeconomy';
 
-  const brickEconomyStartTime = Date.now();
-  results.brickeconomy.startTime = new Date().toISOString();
+  if (shouldRunBrickEconomy) {
+    logger.section('Step 2: Running BrickEconomy Scraper');
 
-  const brickEconomyResult = await executeScript(
-    path.join(__dirname, 'scrape-brickeconomy.js'),
-    ['--all']
-  );
+    if (singleSet) {
+      logger.info(`Scraping price history and predictions for set ${singleSet}...`);
+    } else {
+      logger.info(`Scraping price history and predictions for ${results.portfolio.setsCount} sets...`);
+    }
 
-  results.brickeconomy.endTime = new Date().toISOString();
-  results.brickeconomy.durationMs = Date.now() - brickEconomyStartTime;
-  results.brickeconomy.success = brickEconomyResult.success;
-  results.brickeconomy.exitCode = brickEconomyResult.exitCode;
-  results.brickeconomy.output = brickEconomyResult.output;
+    logger.info('Source: BrickEconomy.com');
 
-  if (brickEconomyResult.success) {
-    logger.info(`${getStatusString(true)} BrickEconomy scraper completed`);
-    logger.info(`  Duration: ${(results.brickeconomy.durationMs / 1000).toFixed(2)}s`);
+    const brickEconomyStartTime = Date.now();
+    results.brickeconomy.startTime = new Date().toISOString();
+
+    // Build arguments for scraper
+    const brickEconomyArgs = singleSet ? ['--set', singleSet] : ['--all'];
+
+    const brickEconomyResult = await executeScript(
+      path.join(__dirname, 'scrape-brickeconomy.js'),
+      brickEconomyArgs
+    );
+
+    results.brickeconomy.endTime = new Date().toISOString();
+    results.brickeconomy.durationMs = Date.now() - brickEconomyStartTime;
+    results.brickeconomy.success = brickEconomyResult.success;
+    results.brickeconomy.exitCode = brickEconomyResult.exitCode;
+    results.brickeconomy.output = brickEconomyResult.output;
+
+    if (brickEconomyResult.success) {
+      logger.info(`${getStatusString(true)} BrickEconomy scraper completed`);
+      logger.info(`  Duration: ${(results.brickeconomy.durationMs / 1000).toFixed(2)}s`);
+    } else {
+      const errorMsg = `BrickEconomy scraper failed with exit code ${brickEconomyResult.exitCode}`;
+      logger.error(`${getStatusString(false)} ${errorMsg}`);
+      logger.debug('Output:', brickEconomyResult.output);
+      results.errors.push({ step: 'brickeconomy', message: errorMsg, exitCode: brickEconomyResult.exitCode });
+    }
   } else {
-    const errorMsg = `BrickEconomy scraper failed with exit code ${brickEconomyResult.exitCode}`;
-    logger.error(`${getStatusString(false)} ${errorMsg}`);
-    logger.debug('Output:', brickEconomyResult.output);
-    results.errors.push({ step: 'brickeconomy', message: errorMsg, exitCode: brickEconomyResult.exitCode });
+    logger.section('Step 2: BrickEconomy Scraper - SKIPPED');
+    logger.info('Skipped due to source filter');
+    results.brickeconomy.success = true;
+    results.brickeconomy.skipped = true;
   }
 
   // Step 3: Run eBay scraper
-  logger.section('Step 3: Running eBay Scraper');
-  logger.info(`Scraping market values for ${results.portfolio.setsCount} sets...`);
-  logger.info('Source: eBay EU (ebay.de)');
+  const shouldRunEbay = !sourceFilter || sourceFilter === 'ebay';
 
-  const ebayStartTime = Date.now();
-  results.ebay.startTime = new Date().toISOString();
+  if (shouldRunEbay) {
+    logger.section('Step 3: Running eBay Scraper');
 
-  const ebayResult = await executeScript(
-    path.join(__dirname, 'ebay-scraper.js'),
-    ['--all']
-  );
+    if (singleSet) {
+      logger.info(`Scraping market values for set ${singleSet}...`);
+    } else {
+      logger.info(`Scraping market values for ${results.portfolio.setsCount} sets...`);
+    }
 
-  results.ebay.endTime = new Date().toISOString();
-  results.ebay.durationMs = Date.now() - ebayStartTime;
-  results.ebay.success = ebayResult.success;
-  results.ebay.exitCode = ebayResult.exitCode;
-  results.ebay.output = ebayResult.output;
+    logger.info('Source: eBay EU (ebay.de)');
 
-  if (ebayResult.success) {
-    logger.info(`${getStatusString(true)} eBay scraper completed`);
-    logger.info(`  Duration: ${(results.ebay.durationMs / 1000).toFixed(2)}s`);
+    const ebayStartTime = Date.now();
+    results.ebay.startTime = new Date().toISOString();
+
+    // Build arguments for scraper
+    const ebayArgs = singleSet ? ['--set', singleSet] : ['--all'];
+
+    const ebayResult = await executeScript(
+      path.join(__dirname, 'ebay-scraper.js'),
+      ebayArgs
+    );
+
+    results.ebay.endTime = new Date().toISOString();
+    results.ebay.durationMs = Date.now() - ebayStartTime;
+    results.ebay.success = ebayResult.success;
+    results.ebay.exitCode = ebayResult.exitCode;
+    results.ebay.output = ebayResult.output;
+
+    if (ebayResult.success) {
+      logger.info(`${getStatusString(true)} eBay scraper completed`);
+      logger.info(`  Duration: ${(results.ebay.durationMs / 1000).toFixed(2)}s`);
+    } else {
+      const errorMsg = `eBay scraper failed with exit code ${ebayResult.exitCode}`;
+      logger.error(`${getStatusString(false)} ${errorMsg}`);
+      logger.debug('Output:', ebayResult.output);
+      results.errors.push({ step: 'ebay', message: errorMsg, exitCode: ebayResult.exitCode });
+    }
   } else {
-    const errorMsg = `eBay scraper failed with exit code ${ebayResult.exitCode}`;
-    logger.error(`${getStatusString(false)} ${errorMsg}`);
-    logger.debug('Output:', ebayResult.output);
-    results.errors.push({ step: 'ebay', message: errorMsg, exitCode: ebayResult.exitCode });
+    logger.section('Step 3: eBay Scraper - SKIPPED');
+    logger.info('Skipped due to source filter');
+    results.ebay.success = true;
+    results.ebay.skipped = true;
   }
 
   // Step 4: Generate daily snapshot
-  logger.section('Step 4: Generating Daily Snapshot');
-  logger.info('Creating portfolio snapshot for historical tracking...');
-  logger.info('This will aggregate all scraped data into a daily summary');
+  // Only generate snapshot when running full pipeline (no filters)
+  const shouldGenerateSnapshot = !sourceFilter && !singleSet;
 
-  const snapshotStartTime = Date.now();
-  results.snapshot.startTime = new Date().toISOString();
+  if (shouldGenerateSnapshot) {
+    logger.section('Step 4: Generating Daily Snapshot');
+    logger.info('Creating portfolio snapshot for historical tracking...');
+    logger.info('This will aggregate all scraped data into a daily summary');
 
-  const snapshotResult = await executeScript(
-    path.join(__dirname, 'daily-snapshot.js'),
-    []
-  );
+    const snapshotStartTime = Date.now();
+    results.snapshot.startTime = new Date().toISOString();
 
-  results.snapshot.endTime = new Date().toISOString();
-  results.snapshot.durationMs = Date.now() - snapshotStartTime;
-  results.snapshot.success = snapshotResult.success;
-  results.snapshot.exitCode = snapshotResult.exitCode;
-  results.snapshot.output = snapshotResult.output;
+    const snapshotResult = await executeScript(
+      path.join(__dirname, 'daily-snapshot.js'),
+      []
+    );
 
-  if (snapshotResult.success) {
-    logger.info(`${getStatusString(true)} Daily snapshot generated`);
-    logger.info(`  Duration: ${(results.snapshot.durationMs / 1000).toFixed(2)}s`);
+    results.snapshot.endTime = new Date().toISOString();
+    results.snapshot.durationMs = Date.now() - snapshotStartTime;
+    results.snapshot.success = snapshotResult.success;
+    results.snapshot.exitCode = snapshotResult.exitCode;
+    results.snapshot.output = snapshotResult.output;
+
+    if (snapshotResult.success) {
+      logger.info(`${getStatusString(true)} Daily snapshot generated`);
+      logger.info(`  Duration: ${(results.snapshot.durationMs / 1000).toFixed(2)}s`);
+    } else {
+      const errorMsg = `Daily snapshot generation failed with exit code ${snapshotResult.exitCode}`;
+      logger.error(`${getStatusString(false)} ${errorMsg}`);
+      logger.debug('Output:', snapshotResult.output);
+      results.errors.push({ step: 'snapshot', message: errorMsg, exitCode: snapshotResult.exitCode });
+    }
   } else {
-    const errorMsg = `Daily snapshot generation failed with exit code ${snapshotResult.exitCode}`;
-    logger.error(`${getStatusString(false)} ${errorMsg}`);
-    logger.debug('Output:', snapshotResult.output);
-    results.errors.push({ step: 'snapshot', message: errorMsg, exitCode: snapshotResult.exitCode });
+    logger.section('Step 4: Daily Snapshot - SKIPPED');
+    logger.info('Skipped due to selective scraping mode');
+    results.snapshot.success = true;
+    results.snapshot.skipped = true;
   }
 
   // Calculate total duration
@@ -341,6 +454,7 @@ async function main() {
   results.durationMs = endTime - startTime;
 
   // Determine overall success
+  // Steps that were skipped are considered successful
   const overallSuccess = results.brickeconomy.success &&
                          results.ebay.success &&
                          results.snapshot.success;
