@@ -1,0 +1,35 @@
+{
+  "name": "lego-dashboard",
+  "version": "1.0.0",
+  "description": "Automated LEGO portfolio tracking with headless scraping for BrickEconomy, BrickLink, and eBay",
+  "main": "lego-cli.js",
+  "scripts": {
+    "start": "node lego-cli.js",
+    "scrape:now": "node scripts/automated-scraper.js",
+    "scrape:schedule": "node scripts/scheduler.js",
+    "scrape:dry-run": "node scripts/automated-scraper.js --dry-run",
+    "scrape:help": "node scripts/automated-scraper.js --help",
+    "snapshot": "node scripts/daily-snapshot.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "lego",
+    "portfolio",
+    "scraper",
+    "automation",
+    "investment-tracking"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "puppeteer": "^22.0.0",
+    "puppeteer-extra": "^3.3.6",
+    "puppeteer-extra-plugin-stealth": "^2.11.2",
+    "node-cron": "^3.0.3",
+    "dotenv": "^16.4.5"
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
