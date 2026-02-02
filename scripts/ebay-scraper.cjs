@@ -13,7 +13,7 @@
 const fs = require('fs');
 const path = require('path');
 const puppeteer = require('puppeteer');
-const logger = require('./logger');
+const logger = require('./logger.cjs');
 
 // Configuration from environment
 const MAX_RETRIES = parseInt(process.env.MAX_RETRIES || '3', 10);
@@ -46,6 +46,7 @@ function getEbaySearchUrl(setId, domain = 'ebay.de') {
 /**
  * Extract prices from eBay sold listings page - runs in browser context
  * Returns array of sold prices in EUR
+ * @deprecated Use extractEbayListings() for detailed metadata
  */
 function extractEbayPrices() {
   const prices = [];
@@ -88,6 +89,347 @@ function extractEbayPrices() {
   }
 
   return [...new Set(prices)];  // Remove duplicates
+}
+
+/**
+ * Parse price from text string - handles European and standard formats
+ * @param {string} text - Text containing price
+ * @returns {number|null} - Parsed price or null
+ */
+function parsePrice(text) {
+  const pricePatterns = [
+    /EUR\s*([\d.,]+)/gi,
+    /€\s*([\d.,]+)/gi,
+    /([\d.,]+)\s*€/gi,
+  ];
+
+  for (const pattern of pricePatterns) {
+    const match = pattern.exec(text);
+    if (match) {
+      let priceStr = match[1];
+      // Handle European format (1.234,56 or 123,45)
+      if (priceStr.includes(',')) {
+        priceStr = priceStr.replace(/\./g, '').replace(',', '.');
+      }
+      const price = parseFloat(priceStr);
+      if (price > 5 && price < 10000) {
+        return price;
+      }
+    }
+    pattern.lastIndex = 0; // Reset regex
+  }
+  return null;
+}
+
+/**
+ * Parse sold date from eBay date text
+ * @param {string} text - Date text like "Sold Jan 15, 2026" or "15 Jan 2026"
+ * @returns {string|null} - ISO date string or null
+ */
+function parseSoldDate(text) {
+  if (!text) return null;
+
+  // Common eBay date patterns
+  const patterns = [
+    // "Sold Jan 15, 2026" or "Verkauft 15. Jan. 2026"
+    /(?:sold|verkauft|vendu|venduto|vendido)\s+(\d{1,2})[\.\s]+(\w+)[\.\s,]+(\d{4})/i,
+    // "Jan 15, 2026"
+    /(\w+)\s+(\d{1,2}),?\s+(\d{4})/i,
+    // "15 Jan 2026" or "15. Jan. 2026"
+    /(\d{1,2})[\.\s]+(\w+)[\.\s,]+(\d{4})/i,
+    // "15-01-2026" or "15.01.2026"
+    /(\d{1,2})[-./](\d{1,2})[-./](\d{4})/,
+  ];
+
+  const monthMap = {
+    // English
+    'jan': 0, 'feb': 1, 'mar': 2, 'apr': 3, 'may': 4, 'jun': 5,
+    'jul': 6, 'aug': 7, 'sep': 8, 'oct': 9, 'nov': 10, 'dec': 11,
+    'january': 0, 'february': 1, 'march': 2, 'april': 3, 'june': 5,
+    'july': 6, 'august': 7, 'september': 8, 'october': 9, 'november': 10, 'december': 11,
+    // German
+    'januar': 0, 'februar': 1, 'märz': 2, 'april': 3, 'mai': 4, 'juni': 5,
+    'juli': 6, 'august': 7, 'okt': 9, 'dez': 11,
+    // French
+    'janvier': 0, 'février': 1, 'mars': 2, 'avril': 3, 'mai': 4, 'juin': 5,
+    'juillet': 6, 'août': 7, 'septembre': 8, 'octobre': 9, 'novembre': 10, 'décembre': 11,
+    // Italian
+    'gennaio': 0, 'febbraio': 1, 'marzo': 2, 'aprile': 3, 'maggio': 4, 'giugno': 5,
+    'luglio': 6, 'agosto': 7, 'settembre': 8, 'ottobre': 9, 'novembre': 10, 'dicembre': 11,
+    // Spanish
+    'enero': 0, 'febrero': 1, 'marzo': 2, 'abril': 3, 'mayo': 4, 'junio': 5,
+    'julio': 6, 'agosto': 7, 'septiembre': 8, 'octubre': 9, 'noviembre': 10, 'diciembre': 11,
+  };
+
+  for (const pattern of patterns) {
+    const match = pattern.exec(text);
+    if (match) {
+      let day, month, year;
+
+      // Check if first capture is numeric (day) or text (month)
+      if (/^\d+$/.test(match[1])) {
+        // Patterns like "15 Jan 2026" or "15-01-2026"
+        day = parseInt(match[1], 10);
+        const monthStr = match[2].toLowerCase().replace(/\.$/, '');
+        month = monthMap[monthStr] !== undefined ? monthMap[monthStr] : parseInt(match[2], 10) - 1;
+        year = parseInt(match[3], 10);
+      } else {
+        // Patterns like "Jan 15, 2026"
+        const monthStr = match[1].toLowerCase().replace(/\.$/, '');
+        month = monthMap[monthStr] !== undefined ? monthMap[monthStr] : 0;
+        day = parseInt(match[2], 10);
+        year = parseInt(match[3], 10);
+      }
+
+      if (day >= 1 && day <= 31 && month >= 0 && month <= 11 && year >= 2020 && year <= 2030) {
+        const date = new Date(year, month, day);
+        return date.toISOString().split('T')[0];
+      }
+    }
+  }
+
+  return null;
+}
+
+/**
+ * Detect item condition from title and listing details
+ * @param {string} title - Listing title
+ * @param {string} subtitle - Optional subtitle/condition text
+ * @returns {string} - 'new', 'used', or 'unknown'
+ */
+function detectCondition(title, subtitle = '') {
+  const combinedText = `${title} ${subtitle}`.toLowerCase();
+
+  // Indicators for NEW condition (sealed, MISB, etc.)
+  const newIndicators = [
+    'new', 'sealed', 'neu', 'neuf', 'nuevo', 'nuovo',
+    'misb', 'nisb', 'bnib', 'mint',
+    'versiegelt', 'scellé', 'sellado', 'sigillato',
+    'factory sealed', 'brand new', 'unopened'
+  ];
+
+  // Indicators for USED condition
+  const usedIndicators = [
+    'used', 'gebraucht', 'usato', 'usado', 'utilisé',
+    'opened', 'complete', 'built', 'assembled',
+    'pre-owned', 'preowned', 'second hand',
+    'without box', 'no box', 'loose'
+  ];
+
+  // Check for new indicators first (priority)
+  for (const indicator of newIndicators) {
+    if (combinedText.includes(indicator)) {
+      return 'new';
+    }
+  }
+
+  // Check for used indicators
+  for (const indicator of usedIndicators) {
+    if (combinedText.includes(indicator)) {
+      return 'used';
+    }
+  }
+
+  return 'unknown';
+}
+
+/**
+ * Detect listing type (auction vs buy-it-now)
+ * @param {Element} itemElement - The listing item DOM element
+ * @returns {string} - 'auction', 'buy_it_now', or 'unknown'
+ */
+function detectListingType(itemElement) {
+  const text = (itemElement.textContent || itemElement.innerText || '').toLowerCase();
+
+  // Check for auction indicators
+  const auctionIndicators = [
+    'bid', 'bids', 'gebot', 'gebote', 'enchère', 'offerta', 'puja',
+    'auction', 'auktion', 'vente aux enchères'
+  ];
+
+  // Check for buy-it-now indicators
+  const binIndicators = [
+    'buy it now', 'sofortkauf', 'achat immédiat', 'compralo subito', 'cómpralo ya',
+    'or best offer', 'obo', 'best offer'
+  ];
+
+  for (const indicator of binIndicators) {
+    if (text.includes(indicator)) {
+      return 'buy_it_now';
+    }
+  }
+
+  for (const indicator of auctionIndicators) {
+    if (text.includes(indicator)) {
+      return 'auction';
+    }
+  }
+
+  return 'unknown';
+}
+
+/**
+ * Extract detailed listing data from eBay sold listings page - runs in browser context
+ * Returns array of sold listing objects with metadata
+ * @returns {Array<{price: number, title: string, soldDate: string|null, condition: string, listingType: string}>}
+ */
+function extractEbayListings() {
+  const listings = [];
+
+  // Main listing container selector
+  const itemSelector = '.s-item';
+  const items = document.querySelectorAll(itemSelector);
+
+  items.forEach(item => {
+    try {
+      // Skip "Shop on eBay" or promotional items
+      const titleEl = item.querySelector('.s-item__title');
+      const title = titleEl ? (titleEl.textContent || titleEl.innerText || '').trim() : '';
+      if (!title || title.toLowerCase().includes('shop on ebay')) {
+        return;
+      }
+
+      // Extract price
+      const priceEl = item.querySelector('.s-item__price');
+      const priceText = priceEl ? (priceEl.textContent || priceEl.innerText || '') : '';
+
+      // Use inline parsePrice logic (same as defined above)
+      let price = null;
+      const pricePatterns = [
+        /EUR\s*([\d.,]+)/gi,
+        /€\s*([\d.,]+)/gi,
+        /([\d.,]+)\s*€/gi,
+      ];
+      for (const pattern of pricePatterns) {
+        const match = pattern.exec(priceText);
+        if (match) {
+          let priceStr = match[1];
+          if (priceStr.includes(',')) {
+            priceStr = priceStr.replace(/\./g, '').replace(',', '.');
+          }
+          const parsed = parseFloat(priceStr);
+          if (parsed > 5 && parsed < 10000) {
+            price = parsed;
+            break;
+          }
+        }
+        pattern.lastIndex = 0;
+      }
+
+      if (price === null) {
+        return; // Skip listings without valid price
+      }
+
+      // Extract sold date
+      const soldDateEl = item.querySelector('.s-item__title--tagblock, .s-item__ended-date, .s-item__endedDate');
+      const soldDateText = soldDateEl ? (soldDateEl.textContent || soldDateEl.innerText || '') : '';
+
+      // Inline parseSoldDate logic
+      let soldDate = null;
+      if (soldDateText) {
+        const datePatterns = [
+          /(?:sold|verkauft|vendu|venduto|vendido)\s+(\d{1,2})[\.\s]+(\w+)[\.\s,]+(\d{4})/i,
+          /(\w+)\s+(\d{1,2}),?\s+(\d{4})/i,
+          /(\d{1,2})[\.\s]+(\w+)[\.\s,]+(\d{4})/i,
+          /(\d{1,2})[-./](\d{1,2})[-./](\d{4})/,
+        ];
+        const monthMap = {
+          'jan': 0, 'feb': 1, 'mar': 2, 'apr': 3, 'may': 4, 'jun': 5,
+          'jul': 6, 'aug': 7, 'sep': 8, 'oct': 9, 'nov': 10, 'dec': 11,
+          'january': 0, 'february': 1, 'march': 2, 'april': 3, 'june': 5,
+          'july': 6, 'august': 7, 'september': 8, 'october': 9, 'november': 10, 'december': 11,
+          'januar': 0, 'februar': 1, 'märz': 2, 'mai': 4, 'juni': 5,
+          'juli': 6, 'okt': 9, 'dez': 11,
+          'janvier': 0, 'février': 1, 'mars': 2, 'avril': 3, 'juin': 5,
+          'juillet': 6, 'août': 7, 'septembre': 8, 'octobre': 9, 'novembre': 10, 'décembre': 11,
+          'gennaio': 0, 'febbraio': 1, 'marzo': 2, 'aprile': 3, 'maggio': 4, 'giugno': 5,
+          'luglio': 6, 'agosto': 7, 'settembre': 8, 'ottobre': 9, 'dicembre': 11,
+          'enero': 0, 'febrero': 1, 'abril': 3, 'mayo': 4, 'junio': 5,
+          'julio': 6, 'septiembre': 8, 'octubre': 9, 'noviembre': 10, 'diciembre': 11,
+        };
+        for (const pattern of datePatterns) {
+          const match = pattern.exec(soldDateText);
+          if (match) {
+            let day, month, year;
+            if (/^\d+$/.test(match[1])) {
+              day = parseInt(match[1], 10);
+              const monthStr = match[2].toLowerCase().replace(/\.$/, '');
+              month = monthMap[monthStr] !== undefined ? monthMap[monthStr] : parseInt(match[2], 10) - 1;
+              year = parseInt(match[3], 10);
+            } else {
+              const monthStr = match[1].toLowerCase().replace(/\.$/, '');
+              month = monthMap[monthStr] !== undefined ? monthMap[monthStr] : 0;
+              day = parseInt(match[2], 10);
+              year = parseInt(match[3], 10);
+            }
+            if (day >= 1 && day <= 31 && month >= 0 && month <= 11 && year >= 2020 && year <= 2030) {
+              const date = new Date(year, month, day);
+              soldDate = date.toISOString().split('T')[0];
+              break;
+            }
+          }
+        }
+      }
+
+      // Extract condition from title and subtitle
+      const subtitleEl = item.querySelector('.s-item__subtitle, .s-item__condition');
+      const subtitle = subtitleEl ? (subtitleEl.textContent || subtitleEl.innerText || '') : '';
+      const combinedText = `${title} ${subtitle}`.toLowerCase();
+
+      let condition = 'unknown';
+      const newIndicators = ['new', 'sealed', 'neu', 'neuf', 'nuevo', 'nuovo', 'misb', 'nisb', 'bnib', 'mint', 'versiegelt', 'scellé', 'sellado', 'sigillato', 'factory sealed', 'brand new', 'unopened'];
+      const usedIndicators = ['used', 'gebraucht', 'usato', 'usado', 'utilisé', 'opened', 'complete', 'built', 'assembled', 'pre-owned', 'preowned', 'second hand', 'without box', 'no box', 'loose'];
+
+      for (const indicator of newIndicators) {
+        if (combinedText.includes(indicator)) {
+          condition = 'new';
+          break;
+        }
+      }
+      if (condition === 'unknown') {
+        for (const indicator of usedIndicators) {
+          if (combinedText.includes(indicator)) {
+            condition = 'used';
+            break;
+          }
+        }
+      }
+
+      // Detect listing type
+      const itemText = (item.textContent || item.innerText || '').toLowerCase();
+      let listingType = 'unknown';
+      const binIndicators = ['buy it now', 'sofortkauf', 'achat immédiat', 'compralo subito', 'cómpralo ya', 'or best offer', 'obo', 'best offer'];
+      const auctionIndicators = ['bid', 'bids', 'gebot', 'gebote', 'enchère', 'offerta', 'puja', 'auction', 'auktion', 'vente aux enchères'];
+
+      for (const indicator of binIndicators) {
+        if (itemText.includes(indicator)) {
+          listingType = 'buy_it_now';
+          break;
+        }
+      }
+      if (listingType === 'unknown') {
+        for (const indicator of auctionIndicators) {
+          if (itemText.includes(indicator)) {
+            listingType = 'auction';
+            break;
+          }
+        }
+      }
+
+      listings.push({
+        price,
+        title,
+        soldDate,
+        condition,
+        listingType
+      });
+
+    } catch (err) {
+      // Skip items that fail to parse
+    }
+  });
+
+  return listings;
 }
 
 /**
@@ -184,6 +526,7 @@ async function scrapeSingleSet(setId, setData, dryRun = false, allDomains = fals
       name: setData.name,
       url,
       prices: [],
+      listings: [],
       marketValue: null,
       skipped: true
     };
@@ -191,6 +534,7 @@ async function scrapeSingleSet(setId, setData, dryRun = false, allDomains = fals
 
   let browser;
   let allPrices = [];
+  let allListings = [];
   let successfulDomains = [];
   let lastUrl = '';
 
@@ -229,11 +573,22 @@ async function scrapeSingleSet(setId, setData, dryRun = false, allDomains = fals
         // Wait for content to load
         await sleep(2000);
 
-        // Extract prices from page
-        const prices = await page.evaluate(extractEbayPrices);
-        logger.info(`Found ${prices.length} sold listings on ${domainConfig.domain}`);
+        // Extract detailed listings from page
+        const listings = await page.evaluate(extractEbayListings);
+        logger.info(`Found ${listings.length} sold listings on ${domainConfig.domain}`);
 
-        if (prices.length > 0) {
+        if (listings.length > 0) {
+          // Add domain and currency info to each listing
+          const enrichedListings = listings.map(listing => ({
+            ...listing,
+            currency: domainConfig.currency,
+            domain: domainConfig.domain,
+            scrapedAt: new Date().toISOString()
+          }));
+          allListings.push(...enrichedListings);
+
+          // Extract prices for backward compatibility
+          const prices = listings.map(l => l.price);
           allPrices.push(...prices);
           successfulDomains.push(domainConfig.name);
 
@@ -279,6 +634,7 @@ async function scrapeSingleSet(setId, setData, dryRun = false, allDomains = fals
       url: lastUrl,
       domains: successfulDomains,
       prices: allPrices,
+      listings: allListings,
       marketValue,
       timestamp: new Date().toISOString()
     };
@@ -294,6 +650,7 @@ async function scrapeSingleSet(setId, setData, dryRun = false, allDomains = fals
       url: lastUrl,
       domains: successfulDomains,
       prices: allPrices,
+      listings: allListings,
       marketValue: null,
       error: error.message
     };
@@ -438,6 +795,11 @@ async function main() {
 module.exports = {
   getEbaySearchUrl,
   extractEbayPrices,
+  extractEbayListings,
+  parsePrice,
+  parseSoldDate,
+  detectCondition,
+  detectListingType,
   calculateMarketValue,
   loadPriceHistory,
   savePriceHistory,
