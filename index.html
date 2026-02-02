@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🧱 LEGO Investment Dashboard</title>
+  <link rel="stylesheet" href="/src/styles.css">
+</head>
+<body class="min-h-screen text-white p-4 md:p-8">
+  <!-- Header -->
+  <header class="mb-8">
+    <div class="flex items-center justify-between flex-wrap gap-4">
+      <div>
+        <h1 class="text-3xl md:text-4xl font-bold">🧱 LEGO Investment Dashboard</h1>
+        <p class="text-gray-400 mt-1">AI-Powered Portfolio Analysis with BrickEconomy ML Predictions</p>
+      </div>
+      <div class="flex items-center gap-4">
+        <span class="text-sm text-gray-400" id="lastUpdated"></span>
+        <button onclick="refreshData()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg text-sm font-medium transition">🔄 Refresh</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Summary Cards -->
+  <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8" id="summaryCards">
+    <div class="card rounded-xl p-4">
+      <div class="text-gray-400 text-sm">Total Value</div>
+      <div class="text-2xl font-bold text-white" id="totalValue">-</div>
+      <div class="text-sm text-gray-500" id="totalPaid"></div>
+    </div>
+    <div class="card rounded-xl p-4">
+      <div class="text-gray-400 text-sm">Total Gain/Loss</div>
+      <div class="text-2xl font-bold" id="totalGain">-</div>
+      <div class="text-sm" id="totalGainPct"></div>
+    </div>
+    <div class="card rounded-xl p-4">
+      <div class="text-gray-400 text-sm">Total Sets</div>
+      <div class="text-2xl font-bold text-white" id="totalSets">-</div>
+      <div class="text-sm text-gray-500" id="totalUnits"></div>
+    </div>
+    <div class="card rounded-xl p-4">
+      <div class="text-gray-400 text-sm">Avg Score</div>
+      <div class="text-2xl font-bold text-blue-400" id="avgScore">-</div>
+      <div class="text-sm text-gray-500">out of 10</div>
+    </div>
+    <div class="card rounded-xl p-4 glow-purple">
+      <div class="text-gray-400 text-sm flex items-center gap-1">
+        🔮 1yr Forecast
+        <span class="text-xs text-purple-400">(ML)</span>
+      </div>
+      <div class="text-2xl font-bold text-purple-400" id="forecast1yr">-</div>
+      <div class="text-sm text-purple-300" id="forecast1yrGrowth"></div>
+    </div>
+  </div>
+
+  <!-- Portfolio History Chart -->
+  <div class="card rounded-xl p-4 mb-8">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-lg font-semibold flex items-center gap-2">📈 Portfolio Value History</h3>
+      <div class="flex items-center gap-2">
+        <span class="text-xs text-gray-400">Based on price history from BrickEconomy</span>
+        <select id="historyRange" class="bg-gray-800 border border-gray-700 rounded px-2 py-1 text-sm" onchange="updateHistoryChart()">
+          <option value="6">6 Months</option>
+          <option value="12" selected>1 Year</option>
+          <option value="24">2 Years</option>
+          <option value="all">All Time</option>
+        </select>
+      </div>
+    </div>
+    <div class="h-64">
+      <canvas id="historyChart"></canvas>
+    </div>
+  </div>
+
+  <!-- Future Projections Section -->
+  <div class="card rounded-xl p-4 mb-8">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-lg font-semibold flex items-center gap-2">🔮 Future Projections</h3>
+      <span class="prediction-badge px-3 py-1 rounded-full text-xs font-medium">Powered by BrickEconomy ML</span>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="bg-gradient-to-br from-purple-900/30 to-indigo-900/30 rounded-xl p-4 border border-purple-500/20">
+        <div class="flex items-center gap-2 mb-3">
+          <span class="text-purple-400">📅</span>
+          <span class="text-sm font-medium text-purple-300">1-Year Projection (Jan 2026)</span>
+        </div>
+        <div class="text-3xl font-bold text-white mb-2" id="projection1yr">-</div>
+        <div class="text-sm" id="projection1yrChange">-</div>
+        <div class="mt-3 text-xs text-gray-400">
+          Based on BrickEconomy's machine learning model trained on historical LEGO market data
+        </div>
+      </div>
+      <div class="bg-gradient-to-br from-indigo-900/30 to-blue-900/30 rounded-xl p-4 border border-indigo-500/20">
+        <div class="flex items-center gap-2 mb-3">
+          <span class="text-indigo-400">📅</span>
+          <span class="text-sm font-medium text-indigo-300">5-Year Projection (Jan 2030)</span>
+        </div>
+        <div class="text-3xl font-bold text-white mb-2" id="projection5yr">-</div>
+        <div class="text-sm" id="projection5yrChange">-</div>
+        <div class="mt-3 text-xs text-gray-400">
+          Long-term estimate based on historical appreciation patterns for retired sets
+        </div>
+      </div>
+    </div>
+    <div class="mt-4 p-3 bg-yellow-500/10 border border-yellow-500/20 rounded-lg">
+      <p class="text-xs text-yellow-300">
+        ⚠️ <strong>Disclaimer:</strong> Predictions are generated by BrickEconomy's ML model and are estimates only.
+        Actual future values may vary significantly based on market conditions, rarity, and collector demand.
+      </p>
+    </div>
+  </div>
+
+  <!-- Top Projected Gains -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+    <div class="card rounded-xl p-4">
+      <h3 class="text-lg font-semibold mb-4 flex items-center gap-2">🚀 Best 1yr Projected Growth</h3>
+      <div id="topProjected" class="space-y-3"></div>
+    </div>
+    <div class="card rounded-xl p-4">
+      <h3 class="text-lg font-semibold mb-4 flex items-center gap-2">⚠️ Lowest 1yr Projected Growth</h3>
+      <div id="bottomProjected" class="space-y-3"></div>
+    </div>
+  </div>
+
+  <!-- Action Summary -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+    <div class="card rounded-xl p-4 glow-green cursor-pointer hover:scale-[1.02] transition" onclick="filterByAction('BUY')">
+      <div class="flex items-center justify-between">
+        <div>
+          <div class="text-green-400 text-sm font-medium">🟢 BUY</div>
+          <div class="text-3xl font-bold text-green-400" id="buyCount">-</div>
+        </div>
+        <div class="text-5xl opacity-30">📈</div>
+      </div>
+      <div class="text-sm text-gray-400 mt-2" id="buyThesis"></div>
+    </div>
+    <div class="card rounded-xl p-4 glow-yellow cursor-pointer hover:scale-[1.02] transition" onclick="filterByAction('HOLD')">
+      <div class="flex items-center justify-between">
+        <div>
+          <div class="text-yellow-400 text-sm font-medium">⏳ HOLD</div>
+          <div class="text-3xl font-bold text-yellow-400" id="holdCount">-</div>
+        </div>
+        <div class="text-5xl opacity-30">⏸️</div>
+      </div>
+      <div class="text-sm text-gray-400 mt-2" id="holdThesis"></div>
+    </div>
+    <div class="card rounded-xl p-4 glow-red cursor-pointer hover:scale-[1.02] transition" onclick="filterByAction('SELL')">
+      <div class="flex items-center justify-between">
+        <div>
+          <div class="text-red-400 text-sm font-medium">🔴 SELL</div>
+          <div class="text-3xl font-bold text-red-400" id="sellCount">-</div>
+        </div>
+        <div class="text-5xl opacity-30">📉</div>
+      </div>
+      <div class="text-sm text-gray-400 mt-2" id="sellThesis"></div>
+    </div>
+  </div>
+
+  <!-- Top & Bottom Performers -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+    <div class="card rounded-xl p-4">
+      <h3 class="text-lg font-semibold mb-4 flex items-center gap-2">🏆 Top 5 Investment Scores</h3>
+      <div id="topPerformers" class="space-y-3"></div>
+    </div>
+    <div class="card rounded-xl p-4">
+      <h3 class="text-lg font-semibold mb-4 flex items-center gap-2">⚠️ Underperformers</h3>
+      <div id="bottomPerformers" class="space-y-3"></div>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="flex gap-6 border-b border-gray-700 mb-6">
+    <button class="pb-2 tab-active" data-tab="all" onclick="switchTab('all')">All Sets</button>
+    <button class="pb-2 text-gray-400 hover:text-white" data-tab="buy" onclick="switchTab('buy')">Buy</button>
+    <button class="pb-2 text-gray-400 hover:text-white" data-tab="hold" onclick="switchTab('hold')">Hold</button>
+    <button class="pb-2 text-gray-400 hover:text-white" data-tab="sell" onclick="switchTab('sell')">Sell</button>
+  </div>
+
+  <!-- Search & Filter -->
+  <div class="flex flex-wrap gap-4 mb-6">
+    <input type="text" id="searchInput" placeholder="🔍 Search sets..." class="bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 flex-1 min-w-[200px]" oninput="filterSets()">
+    <select id="themeFilter" class="bg-gray-800 border border-gray-700 rounded-lg px-4 py-2" onchange="filterSets()">
+      <option value="">All Themes</option>
+    </select>
+    <select id="sortBy" class="bg-gray-800 border border-gray-700 rounded-lg px-4 py-2" onchange="filterSets()">
+      <option value="score">Sort by Score</option>
+      <option value="growth">Sort by Growth</option>
+      <option value="projected">Sort by Projected Growth</option>
+      <option value="value">Sort by Value</option>
+      <option value="name">Sort by Name</option>
+    </select>
+  </div>
+
+  <!-- Sets Grid -->
+  <div id="setsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+
+  <!-- Set Detail Modal -->
+  <div id="modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
+    <div class="card rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto">
+      <div class="p-6" id="modalContent"></div>
+    </div>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
