@@ -14,7 +14,27 @@ const PURCHASES_FILE = path.join(DATA_DIR, 'purchases.json');
 
 // Load data
 function loadPortfolio() {
-  return JSON.parse(fs.readFileSync(PORTFOLIO_FILE, 'utf8'));
+  const data = JSON.parse(fs.readFileSync(PORTFOLIO_FILE, 'utf8'));
+
+  // Transform array format to object format for backward compatibility
+  if (Array.isArray(data.sets)) {
+    const setsObj = {};
+    data.sets.forEach(set => {
+      setsObj[set.setNumber] = {
+        name: set.name,
+        theme: set.theme,
+        retail: set.retail,
+        paid: set.paid,
+        value: set.value,
+        qty_new: set.qtyNew,
+        qty_used: set.qtyUsed,
+        growth_pct: set.growth
+      };
+    });
+    data.sets = setsObj;
+  }
+
+  return data;
 }
 
 function loadAnalysis() {
@@ -47,6 +67,25 @@ function parseFlags(args) {
     }
   }
   return flags;
+}
+
+function calculateCostBasis(setId) {
+  const data = loadPurchases();
+
+  // Filter purchases for this set (handle both with and without -1 suffix)
+  const setPurchases = data.purchases.filter(p =>
+    p.setId === setId || p.setId === setId + '-1' || p.setId === setId.replace('-1', '')
+  );
+
+  if (setPurchases.length === 0) {
+    return null;
+  }
+
+  // Calculate weighted average: sum(price * qty) / sum(qty)
+  const totalCost = setPurchases.reduce((sum, p) => sum + (p.price * p.qty), 0);
+  const totalQty = setPurchases.reduce((sum, p) => sum + p.qty, 0);
+
+  return totalQty > 0 ? totalCost / totalQty : null;
 }
 
 // Commands
@@ -87,30 +126,37 @@ const commands = {
       console.log('Usage: lego analyze <set_id>');
       return;
     }
-    
+
     const portfolio = loadPortfolio();
     const analysis = loadAnalysis();
-    
+
     const set = portfolio.sets[setId] || portfolio.sets[setId + '-1'];
     const aiAnalysis = analysis[setId] || analysis[setId + '-1'];
-    
+
     if (!set) {
       console.log(`❌ Set ${setId} not found in portfolio`);
       return;
     }
-    
+
     const qty = (set.qty_new || 0) + (set.qty_used || 0);
     const totalValue = (set.value || 0) * qty;
     const totalPaid = (set.paid || 0) * qty;
     const gain = totalValue - totalPaid;
-    
+
+    // Calculate cost basis from purchase history
+    const actualSetId = portfolio.sets[setId] ? setId : setId + '-1';
+    const costBasis = calculateCostBasis(actualSetId);
+
     console.log(`\n🧱 ${set.name}`);
     console.log('═'.repeat(50));
     console.log(`Theme: ${set.theme}`);
     console.log(`Retail: €${set.retail} | Paid: €${set.paid} | Value: €${set.value}`);
+    if (costBasis !== null) {
+      console.log(`Cost Basis: €${costBasis.toFixed(2)} (weighted average from purchase history)`);
+    }
     console.log(`Qty: ${set.qty_new || 0} new, ${set.qty_used || 0} used`);
     console.log(`P&L: €${gain.toFixed(2)} (${set.growth_pct?.toFixed(1) || 0}%)`);
-    
+
     if (aiAnalysis) {
       console.log('─'.repeat(50));
       console.log('🤖 AI ANALYSIS');
