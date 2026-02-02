@@ -6,9 +6,26 @@
   <title>🧱 LEGO Investment Dashboard</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1/dist/chartjs-plugin-zoom.min.js"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-    body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%); }
+
+    /* Prevent horizontal scrolling - CRITICAL */
+    * {
+      box-sizing: border-box;
+    }
+    html, body {
+      overflow-x: hidden;
+      max-width: 100vw;
+      position: relative;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
     .card { background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); }
     .glow-green { box-shadow: 0 0 20px rgba(34, 197, 94, 0.3); }
     .glow-red { box-shadow: 0 0 20px rgba(239, 68, 68, 0.3); }
@@ -20,20 +37,523 @@
     ::-webkit-scrollbar { width: 8px; }
     ::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); }
     ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 4px; }
+
+    /* Mobile Navigation Styles */
+    .mobile-menu-btn { display: none; }
+    .mobile-nav {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 280px;
+      height: 100vh;
+      background: rgba(26, 26, 46, 0.98);
+      backdrop-filter: blur(20px);
+      border-left: 1px solid rgba(255,255,255,0.1);
+      transition: right 0.3s ease-in-out;
+      z-index: 1000;
+      padding: 20px;
+      overflow-y: auto;
+    }
+    .mobile-nav.active { right: 0; }
+    .mobile-nav-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: rgba(0,0,0,0.5);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+      z-index: 999;
+    }
+    .mobile-nav-backdrop.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* Mobile Summary Cards Optimization */
+    @media (max-width: 768px) {
+      .mobile-menu-btn { display: flex; }
+      .desktop-nav { display: none; }
+
+      /* Summary cards mobile layout */
+      #summaryCards {
+        gap: 0.75rem; /* Reduce gap on mobile */
+      }
+
+      #summaryCards .card {
+        padding: 0.75rem; /* Reduce padding from 1rem to 0.75rem */
+        min-height: 90px; /* Ensure consistent card height */
+      }
+
+      #summaryCards .text-sm {
+        font-size: 0.75rem; /* 12px - slightly smaller labels */
+        line-height: 1.2;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      #summaryCards .text-2xl {
+        font-size: 1.25rem; /* 20px - reduced from 24px for mobile */
+        line-height: 1.3;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      #summaryCards .flex.items-center {
+        flex-wrap: wrap;
+      }
+    }
+
+    /* Extra small screens (375px and below) */
+    @media (max-width: 425px) {
+      #summaryCards {
+        gap: 0.5rem; /* Further reduce gap */
+      }
+
+      #summaryCards .card {
+        padding: 0.625rem; /* 10px padding for very small screens */
+      }
+
+      #summaryCards .text-2xl {
+        font-size: 1.125rem; /* 18px - further reduced but still readable */
+      }
+
+      #summaryCards .text-sm {
+        font-size: 0.75rem; /* 12px - keeping readable on smallest screens */
+      }
+    }
+
+    /* Chart mobile responsiveness */
+    @media (max-width: 768px) {
+      /* Adjust chart container heights for mobile */
+      .chart-container {
+        height: 250px !important; /* Slightly reduced from desktop */
+      }
+
+      /* Make chart controls more touch-friendly */
+      #historyRange {
+        padding: 0.5rem;
+        font-size: 0.875rem;
+      }
+
+      /* Hide some chart labels on very small screens */
+      @media (max-width: 425px) {
+        .chart-container {
+          height: 220px !important;
+        }
+      }
+    }
+
+    /* Mobile Tabs with horizontal scroll */
+    .tabs-container {
+      overflow-x: auto;
+      overflow-y: hidden;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255,255,255,0.2) transparent;
+    }
+
+    .tabs-container::-webkit-scrollbar {
+      height: 3px;
+    }
+
+    .tabs-container::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .tabs-container::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,0.2);
+      border-radius: 2px;
+    }
+
+    @media (max-width: 768px) {
+      .tabs-container {
+        margin-left: -1rem;
+        margin-right: -1rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+
+      .tabs-wrapper {
+        display: inline-flex;
+        min-width: 100%;
+      }
+
+      .tabs-wrapper button {
+        flex-shrink: 0;
+        min-width: fit-content;
+        padding: 0.75rem 1.25rem; /* min 44px touch target */
+        font-size: 0.875rem;
+        white-space: nowrap;
+      }
+    }
+
+    @media (min-width: 769px) {
+      .tabs-wrapper {
+        display: flex;
+        width: 100%;
+      }
+    }
+
+    /* Mobile Modal Optimization */
+    @media (max-width: 768px) {
+      /* Full screen modal on mobile */
+      #modal {
+        padding: 0;
+        align-items: flex-start;
+      }
+
+      #modal > .card {
+        max-width: 100%;
+        max-height: 100vh;
+        height: 100vh;
+        border-radius: 0;
+        margin: 0;
+      }
+
+      #modal .p-6 {
+        padding: 1rem; /* Reduce padding from 1.5rem to 1rem */
+      }
+
+      /* Ensure close button is easily tappable (44px min) */
+      #modal button[onclick="closeModal()"] {
+        min-width: 44px;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem; /* Larger X */
+      }
+
+      /* Stack stats grid to single column on mobile */
+      #modalContent .grid.grid-cols-2.md\\:grid-cols-4 {
+        grid-template-columns: repeat(1, minmax(0, 1fr));
+        gap: 0.75rem;
+      }
+
+      /* Optimize stat cards for mobile */
+      #modalContent .bg-gray-800.rounded-lg.p-3 {
+        padding: 0.75rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      #modalContent .bg-gray-800.rounded-lg.p-3 .text-xs {
+        font-size: 0.75rem;
+        margin-bottom: 0;
+      }
+
+      #modalContent .bg-gray-800.rounded-lg.p-3 .text-xl {
+        font-size: 1.125rem; /* Slightly smaller for mobile */
+      }
+
+      /* Optimize predictions section for mobile */
+      #modalContent .grid.grid-cols-2.gap-4 {
+        gap: 0.75rem;
+      }
+
+      /* Make action badges wrap properly */
+      #modalContent .flex.gap-3 {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+
+      #modalContent .flex.gap-3 > span {
+        font-size: 0.875rem;
+        padding: 0.5rem 0.75rem;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+      }
+
+      /* Optimize title section */
+      #modalContent h2.text-2xl {
+        font-size: 1.25rem;
+        line-height: 1.4;
+      }
+
+      #modalContent .text-gray-400 {
+        font-size: 0.875rem;
+      }
+    }
+
+    /* Extra small screens optimization */
+    @media (max-width: 425px) {
+      #modal .p-6 {
+        padding: 0.75rem;
+      }
+
+      #modalContent h2.text-2xl {
+        font-size: 1.125rem;
+      }
+    }
+
+    /* Touch-Friendly Tap Targets - Minimum 44px */
+    @media (max-width: 768px) {
+      /* All buttons minimum 44px */
+      button {
+        min-height: 44px;
+        min-width: 44px;
+      }
+
+      /* Input fields and dropdowns - comfortable tap targets */
+      input[type="text"],
+      select {
+        min-height: 44px;
+        padding: 0.625rem 1rem; /* 10px 16px */
+        font-size: 1rem; /* 16px to prevent zoom on iOS */
+      }
+
+      /* Mobile menu buttons */
+      .mobile-menu-btn {
+        min-width: 44px;
+        min-height: 44px;
+        padding: 0.625rem; /* 10px */
+      }
+
+      .mobile-nav button {
+        min-height: 44px;
+        padding: 0.75rem 1rem;
+      }
+
+      /* Desktop nav buttons on mobile */
+      .desktop-nav button {
+        min-height: 44px;
+        padding: 0.625rem 1rem;
+      }
+
+      /* Tab buttons - already handled but ensuring consistency */
+      .tabs-wrapper button {
+        min-height: 44px;
+        padding: 0.75rem 1.25rem;
+      }
+
+      /* Action summary cards - clickable with good touch target */
+      .card.cursor-pointer {
+        min-height: 100px; /* Ensure adequate tap area */
+        padding: 1rem;
+      }
+
+      /* Set cards in grid - adequate tap targets */
+      #setsGrid .card {
+        min-height: 180px; /* Ensure card is large enough */
+        padding: 1rem;
+      }
+
+      /* Performer cards - rendered dynamically but styled here */
+      .bg-gray-800\/50.cursor-pointer {
+        min-height: 60px; /* Comfortable tap target */
+        padding: 0.75rem;
+      }
+
+      /* Search input specific */
+      #searchInput {
+        min-height: 44px;
+      }
+
+      /* Select dropdowns */
+      #themeFilter,
+      #sortBy,
+      #historyRange {
+        min-height: 44px;
+      }
+
+      /* Summary cards - ensure they're tappable if needed */
+      #summaryCards .card {
+        min-height: 90px;
+        padding: 0.75rem;
+      }
+    }
+
+    /* Extra touch-friendly adjustments for very small screens */
+    @media (max-width: 425px) {
+      /* Maintain 44px even on smallest screens */
+      button {
+        min-height: 44px;
+        padding: 0.625rem 1rem;
+      }
+
+      input[type="text"],
+      select {
+        min-height: 44px;
+        font-size: 1rem; /* Prevent zoom */
+      }
+
+      /* Slightly reduce card padding but keep tap target size */
+      #setsGrid .card {
+        padding: 0.875rem;
+        min-height: 180px;
+      }
+    }
+
+    /* Horizontal Scroll Prevention - Additional Safeguards */
+    @media (max-width: 768px) {
+      /* Ensure body padding doesn't cause overflow */
+      body {
+        padding-left: 0.75rem; /* Reduce from 1rem */
+        padding-right: 0.75rem;
+      }
+
+      /* Prevent text overflow */
+      h1, h2, h3, p, span, div {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+      }
+
+      /* Ensure grid containers don't overflow */
+      .grid {
+        max-width: 100%;
+      }
+
+      /* Fix tabs negative margin containment */
+      .tabs-container {
+        max-width: 100vw;
+        box-sizing: border-box;
+      }
+
+      /* Ensure cards don't overflow */
+      .card {
+        max-width: 100%;
+        box-sizing: border-box;
+      }
+
+      /* Ensure header doesn't overflow */
+      header {
+        max-width: 100%;
+      }
+
+      header h1 {
+        font-size: 1.5rem; /* Reduce from 3xl on very small screens */
+        line-height: 1.3;
+      }
+
+      header p {
+        font-size: 0.875rem;
+        line-height: 1.4;
+      }
+    }
+
+    @media (max-width: 425px) {
+      /* Further reduce body padding on smallest screens */
+      body {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+        padding-top: 0.75rem;
+        padding-bottom: 0.75rem;
+      }
+
+      /* Reduce header margins */
+      header {
+        margin-bottom: 1.5rem; /* Reduce from 2rem */
+      }
+
+      header h1 {
+        font-size: 1.25rem; /* 20px - smaller for 375px screens */
+      }
+
+      header p {
+        font-size: 0.75rem;
+      }
+
+      /* Reduce gaps between sections */
+      .mb-8 {
+        margin-bottom: 1.5rem !important;
+      }
+
+      .mb-6 {
+        margin-bottom: 1rem !important;
+      }
+
+      /* Ensure all grids have proper spacing */
+      .gap-4 {
+        gap: 0.5rem !important;
+      }
+
+      /* Reduce card padding to minimum */
+      .card.rounded-xl.p-4:not(#summaryCards .card) {
+        padding: 0.75rem !important;
+      }
+
+      /* Ensure long URLs or text don't overflow */
+      .text-gray-400, .text-sm, .text-xs {
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+
+    @media (max-width: 375px) {
+      /* Extra precautions for 375px and below */
+      body {
+        padding: 0.5rem;
+      }
+
+      /* Ensure no element exceeds viewport */
+      * {
+        max-width: 100vw;
+      }
+
+      .tabs-container {
+        margin-left: -0.5rem;
+        margin-right: -0.5rem;
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+      }
+    }
   </style>
 </head>
 <body class="min-h-screen text-white p-4 md:p-8">
+  <!-- Mobile Navigation Backdrop -->
+  <div class="mobile-nav-backdrop" id="mobileNavBackdrop" onclick="toggleMobileNav()"></div>
+
+  <!-- Mobile Navigation Drawer -->
+  <nav class="mobile-nav" id="mobileNav">
+    <div class="flex items-center justify-between mb-6">
+      <h2 class="text-xl font-bold">Menu</h2>
+      <button onclick="toggleMobileNav()" class="text-gray-400 hover:text-white p-2">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+    <div class="space-y-4">
+      <button onclick="refreshData(); toggleMobileNav();" class="w-full px-4 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg text-sm font-medium transition flex items-center gap-2">
+        <span>🔄</span>
+        <span>Refresh Data</span>
+      </button>
+      <div class="border-t border-gray-700 pt-4">
+        <p class="text-xs text-gray-400 mb-2">Quick Actions</p>
+        <button onclick="switchTab('buy'); toggleMobileNav();" class="w-full px-4 py-2 text-left text-sm hover:bg-white/5 rounded transition">🟢 View Buy Recommendations</button>
+        <button onclick="switchTab('hold'); toggleMobileNav();" class="w-full px-4 py-2 text-left text-sm hover:bg-white/5 rounded transition">⏳ View Hold Positions</button>
+        <button onclick="switchTab('sell'); toggleMobileNav();" class="w-full px-4 py-2 text-left text-sm hover:bg-white/5 rounded transition">🔴 View Sell Candidates</button>
+      </div>
+    </div>
+  </nav>
+
   <!-- Header -->
   <header class="mb-8">
     <div class="flex items-center justify-between flex-wrap gap-4">
-      <div>
+      <div class="flex-1">
         <h1 class="text-3xl md:text-4xl font-bold">🧱 LEGO Investment Dashboard</h1>
         <p class="text-gray-400 mt-1">AI-Powered Portfolio Analysis with BrickEconomy ML Predictions</p>
       </div>
       <div class="flex items-center gap-4">
-        <a href="deals.html" class="px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg text-sm font-medium transition">🎯 Deals</a>
-        <span class="text-sm text-gray-400" id="lastUpdated"></span>
-        <button onclick="refreshData()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg text-sm font-medium transition">🔄 Refresh</button>
+<!-- Desktop Navigation -->
+        <div class="desktop-nav flex items-center gap-4">
+          <a href="deals.html" class="px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg text-sm font-medium transition">🎯 Deals</a>
+          <span class="text-sm text-gray-400" id="lastUpdated"></span>
+          <button onclick="refreshData()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg text-sm font-medium transition">🔄 Refresh</button>
+        </div>
+        <!-- Mobile Menu Button -->
+        <button onclick="toggleMobileNav()" class="mobile-menu-btn items-center justify-center p-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
       </div>
     </div>
   </header>
@@ -77,11 +597,11 @@
 
   <!-- Portfolio History Chart -->
   <div class="card rounded-xl p-4 mb-8">
-    <div class="flex items-center justify-between mb-4">
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-2 mb-4">
       <h3 class="text-lg font-semibold flex items-center gap-2">📈 Portfolio Value History</h3>
-      <div class="flex items-center gap-2">
-        <span class="text-xs text-gray-400">Based on price history from BrickEconomy</span>
-        <select id="historyRange" class="bg-gray-800 border border-gray-700 rounded px-2 py-1 text-sm" onchange="updateHistoryChart()">
+      <div class="flex flex-col md:flex-row items-start md:items-center gap-2">
+        <span class="text-xs text-gray-400 hidden md:inline">Based on price history from BrickEconomy</span>
+        <select id="historyRange" class="bg-gray-800 border border-gray-700 rounded px-2 py-1 text-sm w-full md:w-auto" onchange="updateHistoryChart()">
           <option value="6">6 Months</option>
           <option value="12" selected>1 Year</option>
           <option value="24">2 Years</option>
@@ -98,7 +618,8 @@
         </select>
       </div>
     </div>
-    <div class="h-64">
+    <div class="text-xs text-gray-400 mb-2 md:hidden">💡 Pinch to zoom • Swipe to pan</div>
+    <div class="h-64 chart-container">
       <canvas id="historyChart"></canvas>
     </div>
   </div>
@@ -200,11 +721,13 @@
   </div>
 
   <!-- Tabs -->
-  <div class="flex gap-6 border-b border-gray-700 mb-6">
-    <button class="pb-2 tab-active" data-tab="all" onclick="switchTab('all')">All Sets</button>
-    <button class="pb-2 text-gray-400 hover:text-white" data-tab="buy" onclick="switchTab('buy')">Buy</button>
-    <button class="pb-2 text-gray-400 hover:text-white" data-tab="hold" onclick="switchTab('hold')">Hold</button>
-    <button class="pb-2 text-gray-400 hover:text-white" data-tab="sell" onclick="switchTab('sell')">Sell</button>
+  <div class="tabs-container border-b border-gray-700 mb-6">
+    <div class="tabs-wrapper gap-6">
+      <button class="pb-2 tab-active" data-tab="all" onclick="switchTab('all')">All Sets</button>
+      <button class="pb-2 text-gray-400 hover:text-white" data-tab="buy" onclick="switchTab('buy')">Buy</button>
+      <button class="pb-2 text-gray-400 hover:text-white" data-tab="hold" onclick="switchTab('hold')">Hold</button>
+      <button class="pb-2 text-gray-400 hover:text-white" data-tab="sell" onclick="switchTab('sell')">Sell</button>
+    </div>
   </div>
 
   <!-- Search & Filter -->
@@ -241,6 +764,14 @@
     let currentFilter = '';
     let historyChart = null;
     let selectedBenchmarkTheme = null;
+
+    // Mobile navigation toggle
+    function toggleMobileNav() {
+      const nav = document.getElementById('mobileNav');
+      const backdrop = document.getElementById('mobileNavBackdrop');
+      nav.classList.toggle('active');
+      backdrop.classList.toggle('active');
+    }
 
     // Transform new data format to expected format
     function transformPortfolio(data) {
@@ -551,6 +1082,10 @@
         options: {
           responsive: true,
           maintainAspectRatio: false,
+          interaction: {
+            mode: 'nearest',
+            intersect: false
+          },
           plugins: {
             legend: {
               display: benchmarkType !== 'none',
@@ -560,8 +1095,38 @@
               }
             },
             tooltip: {
+              enabled: true,
+              mode: 'index',
+              intersect: false,
+              padding: window.innerWidth < 768 ? 12 : 8,
+              titleFont: {
+                size: window.innerWidth < 768 ? 14 : 12
+              },
+              bodyFont: {
+                size: window.innerWidth < 768 ? 13 : 11
+              },
               callbacks: {
                 label: (ctx) => ctx.dataset.label + ': €' + ctx.raw.toLocaleString('de-DE', {minimumFractionDigits: 2})
+              }
+            },
+            zoom: {
+              pan: {
+                enabled: true,
+                mode: 'x',
+                modifierKey: null
+              },
+              zoom: {
+                wheel: {
+                  enabled: true,
+                  speed: 0.1
+                },
+                pinch: {
+                  enabled: true
+                },
+                mode: 'x'
+              },
+              limits: {
+                x: { min: 'original', max: 'original' }
               }
             }
           },
@@ -570,12 +1135,22 @@
               grid: { color: 'rgba(255,255,255,0.05)' },
               ticks: {
                 color: '#9ca3af',
+                font: {
+                  size: window.innerWidth < 768 ? 10 : 11
+                },
                 callback: (v) => '€' + v.toLocaleString()
               }
             },
             x: {
               grid: { display: false },
-              ticks: { color: '#9ca3af' }
+              ticks: {
+                color: '#9ca3af',
+                font: {
+                  size: window.innerWidth < 768 ? 10 : 11
+                },
+                maxRotation: window.innerWidth < 768 ? 45 : 0,
+                minRotation: window.innerWidth < 768 ? 45 : 0
+              }
             }
           }
         }
