@@ -12,7 +12,7 @@
 const fs = require('fs');
 const path = require('path');
 const puppeteer = require('puppeteer');
-const logger = require('./logger');
+const logger = require('./logger.cjs');
 
 // Configuration from environment
 const MAX_RETRIES = parseInt(process.env.MAX_RETRIES || '3', 10);
@@ -130,17 +130,55 @@ function extractSetDataFromPage() {
     });
   }
 
-  // Get current value from the "Today" line
+  // Get current value - try multiple patterns (page structure varies)
   const todayText = document.body.innerText;
-  const todayMatch = todayText.match(/Today €([\d,]+(?:\.\d+)?)/);
-  if (todayMatch) {
-    data.currentValue = parseFloat(todayMatch[1].replace(',', '.'));
+  const valuePatterns = [
+    /Market price\s*€([\d,.]+)/,
+    /Today\s*€([\d,.]+)/,
+    /Current.*?€([\d,.]+)/i
+  ];
+  for (const pattern of valuePatterns) {
+    const match = todayText.match(pattern);
+    if (match) {
+      data.currentValue = parseFloat(match[1].replace(',', '.'));
+      break;
+    }
+  }
+
+  // Extract predictions from "Set Predictions" section
+  const predMatches = {
+    '1yr': todayText.match(/1 year retired\s*€([\d,.]+)/),
+    '5yr': todayText.match(/5 years retired\s*€([\d,.]+)\s*[-–]\s*€([\d,.]+)/)
+  };
+  if (predMatches['1yr'] && !data.predictions['1yr']) {
+    data.predictions['1yr'] = { value: parseFloat(predMatches['1yr'][1].replace(',', '.')), source: 'prediction-section' };
+  }
+  if (predMatches['5yr'] && !data.predictions['5yr']) {
+    const low = parseFloat(predMatches['5yr'][1].replace(',', '.'));
+    const high = parseFloat(predMatches['5yr'][2].replace(',', '.'));
+    data.predictions['5yr'] = { value: (low + high) / 2, low, high, source: 'prediction-section' };
+  }
+
+  // Extract retirement info
+  const retireMatch = todayText.match(/Retirement\s*(?:risk\.)?\s*([\w\s]+?\d{4})\s*([\d.]+)%/);
+  if (retireMatch) {
+    data.predictions.retirement = { estimated: retireMatch[1].trim(), confidence: parseFloat(retireMatch[2]) };
+  }
+  const annualGrowthMatch = todayText.match(/Annual growth\s*\+([\d.]+)%\s*\(first year\)/);
+  if (annualGrowthMatch) {
+    data.predictions.annualGrowth = parseFloat(annualGrowthMatch[1]);
   }
 
   // Get set info
   const h1 = document.querySelector('h1');
   if (h1) {
     data.setInfo.name = h1.textContent.replace(/^\d+\s+LEGO\s+\w+\s+/, '');
+  }
+
+  // Extract retail price
+  const retailMatch = todayText.match(/Retail price\s*€([\d,.]+)/);
+  if (retailMatch) {
+    data.setInfo.retailPrice = parseFloat(retailMatch[1].replace(',', '.'));
   }
 
   return data;
@@ -239,6 +277,7 @@ async function scrapeSet(setId, options = {}) {
     try {
       const page = await browser.newPage();
       await page.setViewport({ width: 1920, height: 1080 });
+      await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36');
 
       logger.debug(`Navigating to ${url}`);
       await page.goto(url, { waitUntil: 'networkidle2', timeout: 30000 });

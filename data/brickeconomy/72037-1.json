@@ -1,0 +1,84 @@
+{
+  "priceHistory": [
+    {
+      "date": "2025-03-01",
+      "newValue": 300.79,
+      "usedValue": 312.36
+    },
+    {
+      "date": "2025-03-31",
+      "newValue": 294.41,
+      "usedValue": 313.67
+    },
+    {
+      "date": "2025-04-30",
+      "newValue": 284.68,
+      "usedValue": 295.63
+    },
+    {
+      "date": "2025-05-31",
+      "newValue": 228.77,
+      "usedValue": 243.73
+    },
+    {
+      "date": "2025-06-30",
+      "newValue": 198.48,
+      "usedValue": 206.11
+    },
+    {
+      "date": "2025-07-31",
+      "newValue": 199.84,
+      "usedValue": 212.91
+    },
+    {
+      "date": "2025-08-31",
+      "newValue": 193.15,
+      "usedValue": 200.58
+    },
+    {
+      "date": "2025-09-30",
+      "newValue": 196.22,
+      "usedValue": 212.42
+    },
+    {
+      "date": "2025-11-01",
+      "newValue": 189.36,
+      "usedValue": 196.64
+    },
+    {
+      "date": "2025-12-01",
+      "newValue": 188.25,
+      "usedValue": 200.56
+    },
+    {
+      "date": "2026-01-01",
+      "newValue": 181.97,
+      "usedValue": 188.97
+    }
+  ],
+  "predictions": {
+    "1yr": {
+      "value": 204.62,
+      "source": "prediction-section"
+    },
+    "5yr": {
+      "value": 231.5,
+      "low": 220,
+      "high": 243,
+      "source": "prediction-section"
+    },
+    "retirement": {
+      "estimated": "End of 2028",
+      "confidence": 73.6
+    },
+    "annualGrowth": 10.12
+  },
+  "currentValue": 146.99,
+  "setInfo": {
+    "name": "Mario Mario Kart - Mario & Standard Kart",
+    "retailPrice": 169.99
+  },
+  "setId": "72037-1",
+  "url": "https://www.brickeconomy.com/set/72037-1/lego-super-mario-mario-kart-mario-standard-kart",
+  "scrapedAt": "2026-02-02T19:42:41.795Z"
+}

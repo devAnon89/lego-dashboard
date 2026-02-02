@@ -1,0 +1,28 @@
+{
+  "priceHistory": [],
+  "predictions": {
+    "1yr": {
+      "value": 72.27,
+      "source": "prediction-section"
+    },
+    "5yr": {
+      "value": 82.5,
+      "low": 81,
+      "high": 84,
+      "source": "prediction-section"
+    },
+    "retirement": {
+      "estimated": "Mid 2029",
+      "confidence": 80.7
+    },
+    "annualGrowth": 10.12
+  },
+  "currentValue": 45.75,
+  "setInfo": {
+    "name": "Mario Game Boy",
+    "retailPrice": 59.99
+  },
+  "setId": "72046-1",
+  "url": "https://www.brickeconomy.com/set/72046-1/lego-super-mario-game-boy",
+  "scrapedAt": "2026-02-02T19:42:44.543Z"
+}

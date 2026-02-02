@@ -1,0 +1,119 @@
+{
+  "priceHistory": [
+    {
+      "date": "2024-07-31",
+      "newValue": 29.1,
+      "usedValue": 31.01
+    },
+    {
+      "date": "2024-08-31",
+      "newValue": 30.46,
+      "usedValue": 31.64
+    },
+    {
+      "date": "2024-09-30",
+      "newValue": 34.02,
+      "usedValue": 36.82
+    },
+    {
+      "date": "2024-11-01",
+      "newValue": 29.39,
+      "usedValue": 30.52
+    },
+    {
+      "date": "2024-12-01",
+      "newValue": 35.24,
+      "usedValue": 37.54
+    },
+    {
+      "date": "2025-01-01",
+      "newValue": 33.66,
+      "usedValue": 34.96
+    },
+    {
+      "date": "2025-02-01",
+      "newValue": 32.34,
+      "usedValue": 34.46
+    },
+    {
+      "date": "2025-03-01",
+      "newValue": 29.09,
+      "usedValue": 30.21
+    },
+    {
+      "date": "2025-03-31",
+      "newValue": 27.55,
+      "usedValue": 29.35
+    },
+    {
+      "date": "2025-04-30",
+      "newValue": 28.95,
+      "usedValue": 30.07
+    },
+    {
+      "date": "2025-05-31",
+      "newValue": 29.08,
+      "usedValue": 30.98
+    },
+    {
+      "date": "2025-06-30",
+      "newValue": 28.99,
+      "usedValue": 30.1
+    },
+    {
+      "date": "2025-07-31",
+      "newValue": 27.87,
+      "usedValue": 29.69
+    },
+    {
+      "date": "2025-08-31",
+      "newValue": 25.4,
+      "usedValue": 26.38
+    },
+    {
+      "date": "2025-09-30",
+      "newValue": 27.71,
+      "usedValue": 30
+    },
+    {
+      "date": "2025-11-01",
+      "newValue": 26.48,
+      "usedValue": 27.5
+    },
+    {
+      "date": "2025-12-01",
+      "newValue": 29.11,
+      "usedValue": 31.01
+    },
+    {
+      "date": "2026-01-01",
+      "newValue": 28.01,
+      "usedValue": 29.08
+    }
+  ],
+  "predictions": {
+    "1yr": {
+      "value": 32.43,
+      "source": "prediction-section"
+    },
+    "5yr": {
+      "value": 34,
+      "low": 32,
+      "high": 36,
+      "source": "prediction-section"
+    },
+    "retirement": {
+      "estimated": "Mid 2026",
+      "confidence": 90.8
+    },
+    "annualGrowth": 6.51
+  },
+  "currentValue": 22,
+  "setInfo": {
+    "name": "Champions Ferrari F40 Supercar",
+    "retailPrice": 26.99
+  },
+  "setId": "76934-1",
+  "url": "https://www.brickeconomy.com/set/76934-1/lego-speed-champions-ferrari-f40",
+  "scrapedAt": "2026-02-02T19:43:14.921Z"
+}

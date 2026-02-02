@@ -1,0 +1,259 @@
+{
+  "priceHistory": [
+    {
+      "date": "2022-04-30",
+      "newValue": 547.83,
+      "usedValue": 568.9
+    },
+    {
+      "date": "2022-05-31",
+      "newValue": 516.96,
+      "usedValue": 550.78
+    },
+    {
+      "date": "2022-06-30",
+      "newValue": 491.14,
+      "usedValue": 510.03
+    },
+    {
+      "date": "2022-07-31",
+      "newValue": 519.9,
+      "usedValue": 553.91
+    },
+    {
+      "date": "2022-08-31",
+      "newValue": 499.1,
+      "usedValue": 518.3
+    },
+    {
+      "date": "2022-09-30",
+      "newValue": 513.69,
+      "usedValue": 556.1
+    },
+    {
+      "date": "2022-11-01",
+      "newValue": 475.65,
+      "usedValue": 493.94
+    },
+    {
+      "date": "2022-12-01",
+      "newValue": 482.58,
+      "usedValue": 514.15
+    },
+    {
+      "date": "2023-01-01",
+      "newValue": 435.51,
+      "usedValue": 452.26
+    },
+    {
+      "date": "2023-02-01",
+      "newValue": 490.18,
+      "usedValue": 522.24
+    },
+    {
+      "date": "2023-03-01",
+      "newValue": 473.68,
+      "usedValue": 491.9
+    },
+    {
+      "date": "2023-03-31",
+      "newValue": 472.76,
+      "usedValue": 503.69
+    },
+    {
+      "date": "2023-04-30",
+      "newValue": 466.98,
+      "usedValue": 484.94
+    },
+    {
+      "date": "2023-05-31",
+      "newValue": 473.07,
+      "usedValue": 504.02
+    },
+    {
+      "date": "2023-06-30",
+      "newValue": 466.39,
+      "usedValue": 484.33
+    },
+    {
+      "date": "2023-07-31",
+      "newValue": 478.88,
+      "usedValue": 510.21
+    },
+    {
+      "date": "2023-08-31",
+      "newValue": 464.34,
+      "usedValue": 482.2
+    },
+    {
+      "date": "2023-09-30",
+      "newValue": 484.42,
+      "usedValue": 524.41
+    },
+    {
+      "date": "2023-11-01",
+      "newValue": 464.46,
+      "usedValue": 482.33
+    },
+    {
+      "date": "2023-12-01",
+      "newValue": 491.12,
+      "usedValue": 523.25
+    },
+    {
+      "date": "2024-01-01",
+      "newValue": 462.83,
+      "usedValue": 480.63
+    },
+    {
+      "date": "2024-02-01",
+      "newValue": 502.69,
+      "usedValue": 535.57
+    },
+    {
+      "date": "2024-03-01",
+      "newValue": 468,
+      "usedValue": 486
+    },
+    {
+      "date": "2024-03-31",
+      "newValue": 481.06,
+      "usedValue": 512.53
+    },
+    {
+      "date": "2024-04-30",
+      "newValue": 446.99,
+      "usedValue": 464.19
+    },
+    {
+      "date": "2024-05-31",
+      "newValue": 471.59,
+      "usedValue": 502.45
+    },
+    {
+      "date": "2024-06-30",
+      "newValue": 428.43,
+      "usedValue": 444.91
+    },
+    {
+      "date": "2024-07-31",
+      "newValue": 454.41,
+      "usedValue": 484.14
+    },
+    {
+      "date": "2024-08-31",
+      "newValue": 441.99,
+      "usedValue": 458.99
+    },
+    {
+      "date": "2024-09-30",
+      "newValue": 450.62,
+      "usedValue": 487.83
+    },
+    {
+      "date": "2024-11-01",
+      "newValue": 442.98,
+      "usedValue": 460.02
+    },
+    {
+      "date": "2024-12-01",
+      "newValue": 486.69,
+      "usedValue": 518.53
+    },
+    {
+      "date": "2025-01-01",
+      "newValue": 453.8,
+      "usedValue": 471.25
+    },
+    {
+      "date": "2025-02-01",
+      "newValue": 468.05,
+      "usedValue": 498.67
+    },
+    {
+      "date": "2025-03-01",
+      "newValue": 464.98,
+      "usedValue": 482.86
+    },
+    {
+      "date": "2025-03-31",
+      "newValue": 388.43,
+      "usedValue": 413.84
+    },
+    {
+      "date": "2025-04-30",
+      "newValue": 437.69,
+      "usedValue": 454.52
+    },
+    {
+      "date": "2025-05-31",
+      "newValue": 440.08,
+      "usedValue": 468.87
+    },
+    {
+      "date": "2025-06-30",
+      "newValue": 400.96,
+      "usedValue": 416.38
+    },
+    {
+      "date": "2025-07-31",
+      "newValue": 406.98,
+      "usedValue": 433.61
+    },
+    {
+      "date": "2025-08-31",
+      "newValue": 395.25,
+      "usedValue": 410.46
+    },
+    {
+      "date": "2025-09-30",
+      "newValue": 432.37,
+      "usedValue": 468.07
+    },
+    {
+      "date": "2025-11-01",
+      "newValue": 404.72,
+      "usedValue": 420.29
+    },
+    {
+      "date": "2025-12-01",
+      "newValue": 409.95,
+      "usedValue": 436.77
+    },
+    {
+      "date": "2026-01-01",
+      "newValue": 411.39,
+      "usedValue": 427.21
+    },
+    {
+      "date": "2026-02-01",
+      "newValue": 443.59,
+      "usedValue": 472.61
+    }
+  ],
+  "predictions": {
+    "1yr": {
+      "value": 486.66,
+      "source": "prediction-section"
+    },
+    "5yr": {
+      "value": 468.5,
+      "low": 459,
+      "high": 478,
+      "source": "prediction-section"
+    },
+    "retirement": {
+      "estimated": "Mid 2026",
+      "confidence": 89.9
+    },
+    "annualGrowth": 3.54
+  },
+  "currentValue": 370.04,
+  "setInfo": {
+    "name": "Ferrari Daytona SP3",
+    "retailPrice": 449.99
+  },
+  "setId": "42143-1",
+  "url": "https://www.brickeconomy.com/set/42143-1/lego-technic-ferrari-daytona-sp3",
+  "scrapedAt": "2026-02-02T19:42:22.492Z"
+}

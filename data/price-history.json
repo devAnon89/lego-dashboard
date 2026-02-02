@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "lastUpdated": "2026-02-02T00:36:15.733Z",
+    "lastUpdated": "2026-02-02T19:43:57.082Z",
     "source": "BrickEconomy",
     "currency": "EUR",
     "note": "Prices scraped from BrickEconomy. Future dates (post-Jan 2025) are ML-based predictions."
@@ -8,8 +8,43 @@
   "sets": {
     "42115-1": {
       "name": "Lamborghini Sián FKP 37",
-      "currentValue": 425.04,
+      "currentValue": 425.57,
       "priceHistory": [
+        {
+          "date": "2020-06-30",
+          "newValue": 421.29,
+          "usedValue": 421.29
+        },
+        {
+          "date": "2020-07-31",
+          "newValue": 408.48,
+          "usedValue": 408.48
+        },
+        {
+          "date": "2020-08-31",
+          "newValue": 365.54,
+          "usedValue": 365.54
+        },
+        {
+          "date": "2020-09-30",
+          "newValue": 380.34,
+          "usedValue": 380.34
+        },
+        {
+          "date": "2020-11-01",
+          "newValue": 335.34,
+          "usedValue": 335.34
+        },
+        {
+          "date": "2020-12-01",
+          "newValue": 355.33,
+          "usedValue": 355.33
+        },
+        {
+          "date": "2021-01-01",
+          "newValue": 418.3,
+          "usedValue": 445.66
+        },
         {
           "date": "2021-02-01",
           "newValue": 387.94,
@@ -21,37 +56,37 @@
           "usedValue": 433.11
         },
         {
-          "date": "2021-04-01",
+          "date": "2021-03-31",
           "newValue": 449.61,
           "usedValue": 490.49
         },
         {
-          "date": "2021-05-01",
+          "date": "2021-04-30",
           "newValue": 416.23,
           "usedValue": 443.46
         },
         {
-          "date": "2021-06-01",
+          "date": "2021-05-31",
           "newValue": 429.14,
           "usedValue": 468.15
         },
         {
-          "date": "2021-07-01",
+          "date": "2021-06-30",
           "newValue": 336.62,
           "usedValue": 358.64
         },
         {
-          "date": "2021-08-01",
+          "date": "2021-07-31",
           "newValue": 371.05,
           "usedValue": 404.78
         },
         {
-          "date": "2021-09-01",
+          "date": "2021-08-31",
           "newValue": 349.29,
           "usedValue": 372.14
         },
         {
-          "date": "2021-10-01",
+          "date": "2021-09-30",
           "newValue": 375.19,
           "usedValue": 409.29
         },
@@ -81,37 +116,37 @@
           "usedValue": 408.35
         },
         {
-          "date": "2022-04-01",
+          "date": "2022-03-31",
           "newValue": 386,
           "usedValue": 421.09
         },
         {
-          "date": "2022-05-01",
+          "date": "2022-04-30",
           "newValue": 391.56,
           "usedValue": 417.17
         },
         {
-          "date": "2022-06-01",
+          "date": "2022-05-31",
           "newValue": 444.84,
           "usedValue": 485.28
         },
         {
-          "date": "2022-07-01",
+          "date": "2022-06-30",
           "newValue": 351.68,
           "usedValue": 374.69
         },
         {
-          "date": "2022-08-01",
+          "date": "2022-07-31",
           "newValue": 441.16,
           "usedValue": 481.27
         },
         {
-          "date": "2022-09-01",
+          "date": "2022-08-31",
           "newValue": 382.25,
           "usedValue": 407.26
         },
         {
-          "date": "2022-10-01",
+          "date": "2022-09-30",
           "newValue": 402.97,
           "usedValue": 439.61
         },
@@ -141,37 +176,37 @@
           "usedValue": 431.36
         },
         {
-          "date": "2023-04-01",
+          "date": "2023-03-31",
           "newValue": 353.53,
           "usedValue": 385.67
         },
         {
-          "date": "2023-05-01",
+          "date": "2023-04-30",
           "newValue": 391.16,
           "usedValue": 416.75
         },
         {
-          "date": "2023-06-01",
+          "date": "2023-05-31",
           "newValue": 365.76,
           "usedValue": 399.01
         },
         {
-          "date": "2023-07-01",
+          "date": "2023-06-30",
           "newValue": 387.37,
           "usedValue": 412.71
         },
         {
-          "date": "2023-08-01",
+          "date": "2023-07-31",
           "newValue": 428.17,
           "usedValue": 467.1
         },
         {
-          "date": "2023-09-01",
+          "date": "2023-08-31",
           "newValue": 388.04,
           "usedValue": 413.43
         },
         {
-          "date": "2023-10-01",
+          "date": "2023-09-30",
           "newValue": 430.01,
           "usedValue": 469.1
         },
@@ -201,37 +236,37 @@
           "usedValue": 401
         },
         {
-          "date": "2024-04-01",
+          "date": "2024-03-31",
           "newValue": 384.69,
           "usedValue": 419.66
         },
         {
-          "date": "2024-05-01",
+          "date": "2024-04-30",
           "newValue": 348.83,
           "usedValue": 371.65
         },
         {
-          "date": "2024-06-01",
+          "date": "2024-05-31",
           "newValue": 407.32,
           "usedValue": 444.35
         },
         {
-          "date": "2024-07-01",
+          "date": "2024-06-30",
           "newValue": 428.22,
           "usedValue": 456.23
         },
         {
-          "date": "2024-08-01",
+          "date": "2024-07-31",
           "newValue": 407.34,
           "usedValue": 444.38
         },
         {
-          "date": "2024-09-01",
+          "date": "2024-08-31",
           "newValue": 417.6,
           "usedValue": 444.92
         },
         {
-          "date": "2024-10-01",
+          "date": "2024-09-30",
           "newValue": 418.65,
           "usedValue": 456.71
         },
@@ -249,24 +284,78 @@
           "date": "2025-01-01",
           "newValue": 432.61,
           "usedValue": 460.91
+        },
+        {
+          "date": "2025-02-01",
+          "newValue": 406.56,
+          "usedValue": 443.51
+        },
+        {
+          "date": "2025-03-01",
+          "newValue": 412.09,
+          "usedValue": 439.04
+        },
+        {
+          "date": "2025-03-31",
+          "newValue": 402.78,
+          "usedValue": 439.4
+        },
+        {
+          "date": "2025-04-30",
+          "newValue": 384.45,
+          "usedValue": 409.6
+        },
+        {
+          "date": "2025-05-31",
+          "newValue": 400.29,
+          "usedValue": 436.68
+        },
+        {
+          "date": "2025-06-30",
+          "newValue": 411.28,
+          "usedValue": 438.19
+        },
+        {
+          "date": "2025-07-31",
+          "newValue": 409.12,
+          "usedValue": 446.32
+        },
+        {
+          "date": "2025-08-31",
+          "newValue": 363.23,
+          "usedValue": 386.99
+        },
+        {
+          "date": "2025-09-30",
+          "newValue": 379.63,
+          "usedValue": 414.14
+        },
+        {
+          "date": "2025-11-01",
+          "newValue": 387.48,
+          "usedValue": 412.83
+        },
+        {
+          "date": "2025-12-01",
+          "newValue": 458.59,
+          "usedValue": 500.28
+        },
+        {
+          "date": "2026-01-01",
+          "newValue": 491.04,
+          "usedValue": 523.17
+        },
+        {
+          "date": "2026-02-01",
+          "newValue": 496.67,
+          "usedValue": 541.83
         }
       ],
-      "predictions": {
-        "1yr": {
-          "date": "2026-01-01",
-          "value": 494.36,
-          "source": "BrickEconomy ML"
-        },
-        "5yr": {
-          "date": "2030-01-01",
-          "value": 650,
-          "source": "BrickEconomy ML estimate"
-        }
-      }
+      "predictions": {}
     },
     "10316-1": {
-      "name": "The Lord of the Rings Rivendell",
-      "currentValue": 439.99,
+      "name": "Lord of the Rings Rivendell",
+      "currentValue": 428.27,
       "priceHistory": [
         {
           "date": "2023-02-01",
@@ -277,52 +366,232 @@
           "date": "2023-03-01",
           "newValue": 657.49,
           "usedValue": 682.78
+        },
+        {
+          "date": "2023-03-31",
+          "newValue": 642.94,
+          "usedValue": 685
+        },
+        {
+          "date": "2023-04-30",
+          "newValue": 594.9,
+          "usedValue": 617.78
+        },
+        {
+          "date": "2023-05-31",
+          "newValue": 608.87,
+          "usedValue": 648.7
+        },
+        {
+          "date": "2023-06-30",
+          "newValue": 607.68,
+          "usedValue": 631.06
+        },
+        {
+          "date": "2023-07-31",
+          "newValue": 612.69,
+          "usedValue": 652.77
+        },
+        {
+          "date": "2023-08-31",
+          "newValue": 594.05,
+          "usedValue": 616.9
+        },
+        {
+          "date": "2023-09-30",
+          "newValue": 633.94,
+          "usedValue": 686.28
+        },
+        {
+          "date": "2023-11-01",
+          "newValue": 602.05,
+          "usedValue": 625.2
+        },
+        {
+          "date": "2023-12-01",
+          "newValue": 538.95,
+          "usedValue": 574.21
+        },
+        {
+          "date": "2024-01-01",
+          "newValue": 596.45,
+          "usedValue": 619.39
+        },
+        {
+          "date": "2024-02-01",
+          "newValue": 594.5,
+          "usedValue": 633.39
+        },
+        {
+          "date": "2024-03-01",
+          "newValue": 560.78,
+          "usedValue": 582.35
+        },
+        {
+          "date": "2024-03-31",
+          "newValue": 568.16,
+          "usedValue": 605.33
+        },
+        {
+          "date": "2024-04-30",
+          "newValue": 573.62,
+          "usedValue": 595.68
+        },
+        {
+          "date": "2024-05-31",
+          "newValue": 564.63,
+          "usedValue": 601.57
+        },
+        {
+          "date": "2024-06-30",
+          "newValue": 605.79,
+          "usedValue": 629.09
+        },
+        {
+          "date": "2024-07-31",
+          "newValue": 578.38,
+          "usedValue": 616.22
+        },
+        {
+          "date": "2024-08-31",
+          "newValue": 550.61,
+          "usedValue": 571.79
+        },
+        {
+          "date": "2024-09-30",
+          "newValue": 671.48,
+          "usedValue": 726.92
+        },
+        {
+          "date": "2024-11-01",
+          "newValue": 590.07,
+          "usedValue": 612.76
+        },
+        {
+          "date": "2024-12-01",
+          "newValue": 631.77,
+          "usedValue": 673.1
+        },
+        {
+          "date": "2025-01-01",
+          "newValue": 587.19,
+          "usedValue": 609.78
+        },
+        {
+          "date": "2025-02-01",
+          "newValue": 618.74,
+          "usedValue": 659.22
+        },
+        {
+          "date": "2025-03-01",
+          "newValue": 528.61,
+          "usedValue": 548.95
+        },
+        {
+          "date": "2025-03-31",
+          "newValue": 469.5,
+          "usedValue": 500.21
+        },
+        {
+          "date": "2025-04-30",
+          "newValue": 536.31,
+          "usedValue": 556.94
+        },
+        {
+          "date": "2025-05-31",
+          "newValue": 491.56,
+          "usedValue": 523.72
+        },
+        {
+          "date": "2025-06-30",
+          "newValue": 503.18,
+          "usedValue": 522.53
+        },
+        {
+          "date": "2025-07-31",
+          "newValue": 497.78,
+          "usedValue": 530.34
+        },
+        {
+          "date": "2025-08-31",
+          "newValue": 462.22,
+          "usedValue": 480
+        },
+        {
+          "date": "2025-09-30",
+          "newValue": 496.51,
+          "usedValue": 537.51
+        },
+        {
+          "date": "2025-11-01",
+          "newValue": 491.49,
+          "usedValue": 510.39
+        },
+        {
+          "date": "2025-12-01",
+          "newValue": 516.82,
+          "usedValue": 550.63
+        },
+        {
+          "date": "2026-01-01",
+          "newValue": 506.4,
+          "usedValue": 525.88
+        },
+        {
+          "date": "2026-02-01",
+          "newValue": 495.57,
+          "usedValue": 527.99
         }
       ],
       "predictions": {
         "1yr": {
-          "date": "2026-01-01",
-          "value": 506.4,
-          "source": "BrickEconomy ML"
+          "value": 585.11,
+          "source": "prediction-section"
         },
         "5yr": {
-          "date": "2030-01-01",
-          "value": 700,
-          "source": "BrickEconomy ML estimate"
-        }
+          "value": 588,
+          "low": 576,
+          "high": 600,
+          "source": "prediction-section"
+        },
+        "retirement": {
+          "estimated": "Mid 2026",
+          "confidence": 72.7
+        },
+        "annualGrowth": 4.74
       }
     },
     "42143-1": {
       "name": "Ferrari Daytona SP3",
-      "currentValue": 395.99,
+      "currentValue": 370.04,
       "priceHistory": [
         {
-          "date": "2022-05-01",
+          "date": "2022-04-30",
           "newValue": 547.83,
           "usedValue": 568.9
         },
         {
-          "date": "2022-06-01",
+          "date": "2022-05-31",
           "newValue": 516.96,
           "usedValue": 550.78
         },
         {
-          "date": "2022-07-01",
+          "date": "2022-06-30",
           "newValue": 491.14,
           "usedValue": 510.03
         },
         {
-          "date": "2022-08-01",
+          "date": "2022-07-31",
           "newValue": 519.9,
           "usedValue": 553.91
         },
         {
-          "date": "2022-09-01",
+          "date": "2022-08-31",
           "newValue": 499.1,
           "usedValue": 518.3
         },
         {
-          "date": "2022-10-01",
+          "date": "2022-09-30",
           "newValue": 513.69,
           "usedValue": 556.1
         },
@@ -352,37 +621,37 @@
           "usedValue": 491.9
         },
         {
-          "date": "2023-04-01",
+          "date": "2023-03-31",
           "newValue": 472.76,
           "usedValue": 503.69
         },
         {
-          "date": "2023-05-01",
+          "date": "2023-04-30",
           "newValue": 466.98,
           "usedValue": 484.94
         },
         {
-          "date": "2023-06-01",
+          "date": "2023-05-31",
           "newValue": 473.07,
           "usedValue": 504.02
         },
         {
-          "date": "2023-07-01",
+          "date": "2023-06-30",
           "newValue": 466.39,
           "usedValue": 484.33
         },
         {
-          "date": "2023-08-01",
+          "date": "2023-07-31",
           "newValue": 478.88,
           "usedValue": 510.21
         },
         {
-          "date": "2023-09-01",
+          "date": "2023-08-31",
           "newValue": 464.34,
           "usedValue": 482.2
         },
         {
-          "date": "2023-10-01",
+          "date": "2023-09-30",
           "newValue": 484.42,
           "usedValue": 524.41
         },
@@ -412,37 +681,37 @@
           "usedValue": 486
         },
         {
-          "date": "2024-04-01",
+          "date": "2024-03-31",
           "newValue": 481.06,
           "usedValue": 512.53
         },
         {
-          "date": "2024-05-01",
+          "date": "2024-04-30",
           "newValue": 446.99,
           "usedValue": 464.19
         },
         {
-          "date": "2024-06-01",
+          "date": "2024-05-31",
           "newValue": 471.59,
           "usedValue": 502.45
         },
         {
-          "date": "2024-07-01",
+          "date": "2024-06-30",
           "newValue": 428.43,
           "usedValue": 444.91
         },
         {
-          "date": "2024-08-01",
+          "date": "2024-07-31",
           "newValue": 454.41,
           "usedValue": 484.14
         },
         {
-          "date": "2024-09-01",
+          "date": "2024-08-31",
           "newValue": 441.99,
           "usedValue": 458.99
         },
         {
-          "date": "2024-10-01",
+          "date": "2024-09-30",
           "newValue": 450.62,
           "usedValue": 487.83
         },
@@ -460,37 +729,107 @@
           "date": "2025-01-01",
           "newValue": 453.8,
           "usedValue": 471.25
+        },
+        {
+          "date": "2025-02-01",
+          "newValue": 468.05,
+          "usedValue": 498.67
+        },
+        {
+          "date": "2025-03-01",
+          "newValue": 464.98,
+          "usedValue": 482.86
+        },
+        {
+          "date": "2025-03-31",
+          "newValue": 388.43,
+          "usedValue": 413.84
+        },
+        {
+          "date": "2025-04-30",
+          "newValue": 437.69,
+          "usedValue": 454.52
+        },
+        {
+          "date": "2025-05-31",
+          "newValue": 440.08,
+          "usedValue": 468.87
+        },
+        {
+          "date": "2025-06-30",
+          "newValue": 400.96,
+          "usedValue": 416.38
+        },
+        {
+          "date": "2025-07-31",
+          "newValue": 406.98,
+          "usedValue": 433.61
+        },
+        {
+          "date": "2025-08-31",
+          "newValue": 395.25,
+          "usedValue": 410.46
+        },
+        {
+          "date": "2025-09-30",
+          "newValue": 432.37,
+          "usedValue": 468.07
+        },
+        {
+          "date": "2025-11-01",
+          "newValue": 404.72,
+          "usedValue": 420.29
+        },
+        {
+          "date": "2025-12-01",
+          "newValue": 409.95,
+          "usedValue": 436.77
+        },
+        {
+          "date": "2026-01-01",
+          "newValue": 411.39,
+          "usedValue": 427.21
+        },
+        {
+          "date": "2026-02-01",
+          "newValue": 443.59,
+          "usedValue": 472.61
         }
       ],
       "predictions": {
         "1yr": {
-          "date": "2026-01-01",
-          "value": 412.91,
-          "source": "BrickEconomy ML"
+          "value": 486.66,
+          "source": "prediction-section"
         },
         "5yr": {
-          "date": "2030-01-01",
-          "value": 550,
-          "source": "BrickEconomy ML estimate"
-        }
+          "value": 468.5,
+          "low": 459,
+          "high": 478,
+          "source": "prediction-section"
+        },
+        "retirement": {
+          "estimated": "Mid 2026",
+          "confidence": 89.9
+        },
+        "annualGrowth": 3.54
       }
     },
     "77073-1": {
       "name": "Battle Bus",
-      "currentValue": 87.99,
+      "currentValue": 79.38,
       "priceHistory": [
         {
-          "date": "2024-08-01",
+          "date": "2024-07-31",
           "newValue": 176.91,
           "usedValue": 188.49
         },
         {
-          "date": "2024-09-01",
+          "date": "2024-08-31",
           "newValue": 161.8,
           "usedValue": 168.02
         },
         {
-          "date": "2024-10-01",
+          "date": "2024-09-30",
           "newValue": 152.82,
           "usedValue": 165.44
         },
@@ -506,26 +845,87 @@
         },
         {
           "date": "2025-01-01",
-          "newValue": 186.3,
-          "usedValue": 193.47
+          "newValue": 185.62,
+          "usedValue": 192.76
+        },
+        {
+          "date": "2025-02-01",
+          "newValue": 164.87,
+          "usedValue": 175.65
+        },
+        {
+          "date": "2025-03-01",
+          "newValue": 144.18,
+          "usedValue": 149.73
+        },
+        {
+          "date": "2025-03-31",
+          "newValue": 110.53,
+          "usedValue": 117.76
+        },
+        {
+          "date": "2025-04-30",
+          "newValue": 117.73,
+          "usedValue": 122.26
+        },
+        {
+          "date": "2025-05-31",
+          "newValue": 114.71,
+          "usedValue": 122.22
+        },
+        {
+          "date": "2025-06-30",
+          "newValue": 110.01,
+          "usedValue": 114.24
+        },
+        {
+          "date": "2025-07-31",
+          "newValue": 115.67,
+          "usedValue": 123.24
+        },
+        {
+          "date": "2025-08-31",
+          "newValue": 109.23,
+          "usedValue": 113.43
+        },
+        {
+          "date": "2025-09-30",
+          "newValue": 106.06,
+          "usedValue": 114.82
+        },
+        {
+          "date": "2025-11-01",
+          "newValue": 104.7,
+          "usedValue": 108.73
+        },
+        {
+          "date": "2025-12-01",
+          "newValue": 107.42,
+          "usedValue": 114.45
+        },
+        {
+          "date": "2026-01-01",
+          "newValue": 92.51,
+          "usedValue": 96.07
         }
       ],
       "predictions": {
         "1yr": {
-          "date": "2026-01-01",
-          "value": 90.85,
-          "source": "BrickEconomy ML"
+          "value": 116.52,
+          "source": "prediction-section"
         },
         "5yr": {
-          "date": "2030-01-01",
-          "value": 200,
-          "source": "BrickEconomy ML estimate"
-        }
+          "value": 125.5,
+          "low": 123,
+          "high": 128,
+          "source": "prediction-section"
+        },
+        "annualGrowth": 8.27
       }
     },
     "72037-1": {
-      "name": "Mario Kart - Mario & Standard Kart",
-      "currentValue": 149.59,
+      "name": "Mario Mario Kart - Mario & Standard Kart",
+      "currentValue": 146.99,
       "priceHistory": [
         {
           "date": "2025-03-01",
@@ -533,42 +933,2173 @@
           "usedValue": 312.36
         },
         {
-          "date": "2025-04-01",
+          "date": "2025-03-31",
           "newValue": 294.41,
           "usedValue": 313.67
         },
         {
-          "date": "2025-05-01",
+          "date": "2025-04-30",
           "newValue": 284.68,
           "usedValue": 295.63
         },
         {
-          "date": "2025-06-01",
+          "date": "2025-05-31",
           "newValue": 228.77,
           "usedValue": 243.73
         },
         {
-          "date": "2025-07-01",
+          "date": "2025-06-30",
           "newValue": 198.48,
           "usedValue": 206.11
         },
         {
-          "date": "2025-01-01",
+          "date": "2025-07-31",
           "newValue": 199.84,
           "usedValue": 212.91
+        },
+        {
+          "date": "2025-08-31",
+          "newValue": 193.15,
+          "usedValue": 200.58
+        },
+        {
+          "date": "2025-09-30",
+          "newValue": 196.22,
+          "usedValue": 212.42
+        },
+        {
+          "date": "2025-11-01",
+          "newValue": 189.36,
+          "usedValue": 196.64
+        },
+        {
+          "date": "2025-12-01",
+          "newValue": 188.25,
+          "usedValue": 200.56
+        },
+        {
+          "date": "2026-01-01",
+          "newValue": 181.97,
+          "usedValue": 188.97
         }
       ],
       "predictions": {
         "1yr": {
-          "date": "2026-01-01",
-          "value": 182.19,
-          "source": "BrickEconomy ML"
+          "value": 204.62,
+          "source": "prediction-section"
         },
         "5yr": {
-          "date": "2030-01-01",
-          "value": 350,
-          "source": "BrickEconomy ML estimate"
+          "value": 231.5,
+          "low": 220,
+          "high": 243,
+          "source": "prediction-section"
+        },
+        "retirement": {
+          "estimated": "End of 2028",
+          "confidence": 73.6
+        },
+        "annualGrowth": 10.12
+      }
+    },
+    "10330-1": {
+      "name": "MP4/4 & Ayrton Senna",
+      "currentValue": 59.89,
+      "priceHistory": [
+        {
+          "date": "2024-02-01",
+          "newValue": 128.15,
+          "usedValue": 136.54
+        },
+        {
+          "date": "2024-03-01",
+          "newValue": 105.73,
+          "usedValue": 109.79
+        },
+        {
+          "date": "2024-03-31",
+          "newValue": 97.21,
+          "usedValue": 103.57
+        },
+        {
+          "date": "2024-04-30",
+          "newValue": 97.4,
+          "usedValue": 101.15
+        },
+        {
+          "date": "2024-05-31",
+          "newValue": 99.47,
+          "usedValue": 105.98
+        },
+        {
+          "date": "2024-06-30",
+          "newValue": 92.58,
+          "usedValue": 96.14
+        },
+        {
+          "date": "2024-07-31",
+          "newValue": 90.83,
+          "usedValue": 96.78
+        },
+        {
+          "date": "2024-08-31",
+          "newValue": 88.46,
+          "usedValue": 91.86
+        },
+        {
+          "date": "2024-09-30",
+          "newValue": 93.98,
+          "usedValue": 101.74
+        },
+        {
+          "date": "2024-11-01",
+          "newValue": 86.97,
+          "usedValue": 90.32
+        },
+        {
+          "date": "2024-12-01",
+          "newValue": 95.39,
+          "usedValue": 101.64
+        },
+        {
+          "date": "2025-01-01",
+          "newValue": 87.05,
+          "usedValue": 90.4
+        },
+        {
+          "date": "2025-02-01",
+          "newValue": 85.25,
+          "usedValue": 90.82
+        },
+        {
+          "date": "2025-03-01",
+          "newValue": 76.04,
+          "usedValue": 78.96
+        },
+        {
+          "date": "2025-03-31",
+          "newValue": 63.12,
+          "usedValue": 67.25
+        },
+        {
+          "date": "2025-04-30",
+          "newValue": 62.12,
+          "usedValue": 64.51
+        },
+        {
+          "date": "2025-05-31",
+          "newValue": 65.83,
+          "usedValue": 70.13
+        },
+        {
+          "date": "2025-06-30",
+          "newValue": 65.59,
+          "usedValue": 68.11
+        },
+        {
+          "date": "2025-07-31",
+          "newValue": 66.94,
+          "usedValue": 71.32
+        },
+        {
+          "date": "2025-08-31",
+          "newValue": 62.95,
+          "usedValue": 65.37
+        },
+        {
+          "date": "2025-09-30",
+          "newValue": 69.32,
+          "usedValue": 75.04
+        },
+        {
+          "date": "2025-11-01",
+          "newValue": 70.93,
+          "usedValue": 73.66
+        },
+        {
+          "date": "2025-12-01",
+          "newValue": 71.82,
+          "usedValue": 76.51
+        },
+        {
+          "date": "2026-01-01",
+          "newValue": 68.68,
+          "usedValue": 71.32
         }
+      ],
+      "predictions": {
+        "1yr": {
+          "value": 96.39,
+          "source": "prediction-section"
+        },
+        "5yr": {
+          "value": 103,
+          "low": 101,
+          "high": 105,
+          "source": "prediction-section"
+        },
+        "retirement": {
+          "estimated": "Early to mid 2027",
+          "confidence": 80.7
+        },
+        "annualGrowth": 6.84
+      }
+    },
+    "10342-1": {
+      "name": "Pretty Pink Flower Bouquet",
+      "currentValue": 47.28,
+      "priceHistory": [
+        {
+          "date": "2024-12-01",
+          "newValue": 83.55,
+          "usedValue": 89.01
+        },
+        {
+          "date": "2025-01-01",
+          "newValue": 69.88,
+          "usedValue": 72.57
+        },
+        {
+          "date": "2025-02-01",
+          "newValue": 68.62,
+          "usedValue": 73.11
+        },
+        {
+          "date": "2025-03-01",
+          "newValue": 64.47,
+          "usedValue": 66.95
+        },
+        {
+          "date": "2025-03-31",
+          "newValue": 58.33,
+          "usedValue": 62.14
+        },
+        {
+          "date": "2025-04-30",
+          "newValue": 59.62,
+          "usedValue": 61.92
+        },
+        {
+          "date": "2025-05-31",
+          "newValue": 54.67,
+          "usedValue": 58.25
+        },
+        {
+          "date": "2025-06-30",
+          "newValue": 54.67,
+          "usedValue": 56.78
+        },
+        {
+          "date": "2025-07-31",
+          "newValue": 56.36,
+          "usedValue": 60.04
+        },
+        {
+          "date": "2025-08-31",
+          "newValue": 54.64,
+          "usedValue": 56.74
+        },
+        {
+          "date": "2025-09-30",
+          "newValue": 60.31,
+          "usedValue": 65.29
+        },
+        {
+          "date": "2025-11-01",
+          "newValue": 59.87,
+          "usedValue": 62.17
+        },
+        {
+          "date": "2025-12-01",
+          "newValue": 61.72,
+          "usedValue": 65.76
+        },
+        {
+          "date": "2026-01-01",
+          "newValue": 59.36,
+          "usedValue": 61.64
+        }
+      ],
+      "predictions": {
+        "1yr": {
+          "value": 68.18,
+          "source": "prediction-section"
+        },
+        "5yr": {
+          "value": 69.5,
+          "low": 68,
+          "high": 71,
+          "source": "prediction-section"
+        },
+        "annualGrowth": 5.9
+      }
+    },
+    "21276-1": {
+      "name": "The Creeper",
+      "currentValue": 32.68,
+      "priceHistory": [],
+      "predictions": {
+        "1yr": {
+          "value": 44.97,
+          "source": "prediction-section"
+        },
+        "5yr": {
+          "value": 45,
+          "low": 43,
+          "high": 47,
+          "source": "prediction-section"
+        },
+        "retirement": {
+          "estimated": "Mid 2027",
+          "confidence": 77
+        },
+        "annualGrowth": 5.51
+      }
+    },
+    "21279-1": {
+      "name": "The Enderman Tower",
+      "currentValue": 83.3,
+      "priceHistory": [],
+      "predictions": {
+        "1yr": {
+          "value": 112.46,
+          "source": "prediction-section"
+        },
+        "5yr": {
+          "value": 113.5,
+          "low": 111,
+          "high": 116,
+          "source": "prediction-section"
+        },
+        "retirement": {
+          "estimated": "Mid 2027",
+          "confidence": 80
+        },
+        "annualGrowth": 5.51
+      }
+    },
+    "21345-1": {
+      "name": "Polaroid Camera",
+      "currentValue": 59.87,
+      "priceHistory": [
+        {
+          "date": "2024-01-01",
+          "newValue": 93.51,
+          "usedValue": 97.1
+        },
+        {
+          "date": "2024-02-01",
+          "newValue": 89.41,
+          "usedValue": 95.26
+        },
+        {
+          "date": "2024-03-01",
+          "newValue": 86.18,
+          "usedValue": 89.5
+        },
+        {
+          "date": "2024-03-31",
+          "newValue": 86.12,
+          "usedValue": 91.75
+        },
+        {
+          "date": "2024-04-30",
+          "newValue": 81.45,
+          "usedValue": 84.58
+        },
+        {
+          "date": "2024-05-31",
+          "newValue": 80.98,
+          "usedValue": 86.27
+        },
+        {
+          "date": "2024-06-30",
+          "newValue": 78.88,
+          "usedValue": 81.92
+        },
+        {
+          "date": "2024-07-31",
+          "newValue": 83.02,
+          "usedValue": 88.45
+        },
+        {
+          "date": "2024-08-31",
+          "newValue": 82.52,
+          "usedValue": 85.69
+        },
+        {
+          "date": "2024-09-30",
+          "newValue": 89.99,
+          "usedValue": 97.42
+        },
+        {
+          "date": "2024-11-01",
+          "newValue": 73.84,
+          "usedValue": 76.68
+        },
+        {
+          "date": "2024-12-01",
+          "newValue": 91.07,
+          "usedValue": 97.03
+        },
+        {
+          "date": "2025-01-01",
+          "newValue": 84,
+          "usedValue": 87.23
+        },
+        {
+          "date": "2025-02-01",
+          "newValue": 84.95,
+          "usedValue": 90.51
+        },
+        {
+          "date": "2025-03-01",
+          "newValue": 75.87,
+          "usedValue": 78.79
+        },
+        {
+          "date": "2025-03-31",
+          "newValue": 69.57,
+          "usedValue": 74.12
+        },
+        {
+          "date": "2025-04-30",
+          "newValue": 75.54,
+          "usedValue": 78.44
+        },
+        {
+          "date": "2025-05-31",
+          "newValue": 77.77,
+          "usedValue": 82.86
+        },
+        {
+          "date": "2025-06-30",
+          "newValue": 73.27,
+          "usedValue": 76.09
+        },
+        {
+          "date": "2025-07-31",
+          "newValue": 75.15,
+          "usedValue": 80.06
+        },
+        {
+          "date": "2025-08-31",
+          "newValue": 75.11,
+          "usedValue": 78
+        },
+        {
+          "date": "2025-09-30",
+          "newValue": 79.69,
+          "usedValue": 86.27
+        },
+        {
+          "date": "2025-11-01",
+          "newValue": 84.37,
+          "usedValue": 87.62
+        },
+        {
+          "date": "2025-12-01",
+          "newValue": 85.74,
+          "usedValue": 91.35
+        },
+        {
+          "date": "2026-01-01",
+          "newValue": 73.2,
+          "usedValue": 76.02
+        }
+      ],
+      "predictions": {
+        "1yr": {
+          "value": 94.55,
+          "source": "prediction-section"
+        },
+        "5yr": {
+          "value": 96,
+          "low": 94,
+          "high": 98,
+          "source": "prediction-section"
+        },
+        "retirement": {
+          "estimated": "Mid 2026",
+          "confidence": 78.3
+        },
+        "annualGrowth": 5.21
+      }
+    },
+    "31165-1": {
+      "name": "3 in 1 Wild Animals Panda Family",
+      "currentValue": 30.32,
+      "priceHistory": [
+        {
+          "date": "2024-12-01",
+          "newValue": 77.28,
+          "usedValue": 82.34
+        },
+        {
+          "date": "2025-01-01",
+          "newValue": 41.65,
+          "usedValue": 43.25
+        },
+        {
+          "date": "2025-02-01",
+          "newValue": 41.85,
+          "usedValue": 44.59
+        },
+        {
+          "date": "2025-03-01",
+          "newValue": 42.96,
+          "usedValue": 44.61
+        },
+        {
+          "date": "2025-03-31",
+          "newValue": 40.96,
+          "usedValue": 43.64
+        },
+        {
+          "date": "2025-04-30",
+          "newValue": 38.59,
+          "usedValue": 40.08
+        },
+        {
+          "date": "2025-05-31",
+          "newValue": 39.81,
+          "usedValue": 42.42
+        },
+        {
+          "date": "2025-06-30",
+          "newValue": 41.57,
+          "usedValue": 43.17
+        },
+        {
+          "date": "2025-07-31",
+          "newValue": 40.69,
+          "usedValue": 43.35
+        },
+        {
+          "date": "2025-08-31",
+          "newValue": 34,
+          "usedValue": 35.31
+        },
+        {
+          "date": "2025-09-30",
+          "newValue": 40.2,
+          "usedValue": 43.52
+        },
+        {
+          "date": "2025-11-01",
+          "newValue": 38.8,
+          "usedValue": 40.29
+        },
+        {
+          "date": "2025-12-01",
+          "newValue": 38.57,
+          "usedValue": 41.09
+        },
+        {
+          "date": "2026-01-01",
+          "newValue": 37.78,
+          "usedValue": 39.23
+        }
+      ],
+      "predictions": {
+        "1yr": {
+          "value": 43.49,
+          "source": "prediction-section"
+        },
+        "5yr": {
+          "value": 38.5,
+          "low": 37,
+          "high": 40,
+          "source": "prediction-section"
+        },
+        "retirement": {
+          "estimated": "End of 2026",
+          "confidence": 71.7
+        },
+        "annualGrowth": 3.71
+      }
+    },
+    "31218-1": {
+      "name": "Japanese Cherry Blossom Landscape",
+      "currentValue": 132.18,
+      "priceHistory": [],
+      "predictions": {
+        "1yr": {
+          "value": 148.84,
+          "source": "prediction-section"
+        },
+        "5yr": {
+          "value": 186.5,
+          "low": 183,
+          "high": 190,
+          "source": "prediction-section"
+        },
+        "annualGrowth": 8
+      }
+    },
+    "40499-1": {
+      "name": "Santa's Sleigh",
+      "currentValue": 34.67,
+      "priceHistory": [
+        {
+          "date": "2025-03-01",
+          "newValue": 39.19,
+          "usedValue": 41.75
+        },
+        {
+          "date": "2025-03-31",
+          "newValue": 38.82,
+          "usedValue": 42.35
+        },
+        {
+          "date": "2025-04-30",
+          "newValue": 37.43,
+          "usedValue": 39.88
+        },
+        {
+          "date": "2025-05-31",
+          "newValue": 35.81,
+          "usedValue": 39.07
+        },
+        {
+          "date": "2025-06-30",
+          "newValue": 35.01,
+          "usedValue": 37.3
+        },
+        {
+          "date": "2025-07-31",
+          "newValue": 40.41,
+          "usedValue": 44.08
+        },
+        {
+          "date": "2025-08-31",
+          "newValue": 39.5,
+          "usedValue": 42.09
+        },
+        {
+          "date": "2025-09-30",
+          "newValue": 38.4,
+          "usedValue": 41.89
+        },
+        {
+          "date": "2025-11-01",
+          "newValue": 37.91,
+          "usedValue": 40.39
+        },
+        {
+          "date": "2025-12-01",
+          "newValue": 38.72,
+          "usedValue": 42.24
+        },
+        {
+          "date": "2026-01-01",
+          "newValue": 36.8,
+          "usedValue": 39.2
+        },
+        {
+          "date": "2026-02-01",
+          "newValue": 41.59,
+          "usedValue": 45.37
+        }
+      ],
+      "predictions": {}
+    },
+    "40573-1": {
+      "name": "Tree",
+      "currentValue": 34.46,
+      "priceHistory": [],
+      "predictions": {}
+    },
+    "40674-1": {
+      "name": "Disney Stitch",
+      "currentValue": 11.28,
+      "priceHistory": [
+        {
+          "date": "2024-01-01",
+          "newValue": 9.92,
+          "usedValue": 10.3
+        },
+        {
+          "date": "2024-02-01",
+          "newValue": 16.6,
+          "usedValue": 17.68
+        },
+        {
+          "date": "2024-03-01",
+          "newValue": 16.2,
+          "usedValue": 16.82
+        },
+        {
+          "date": "2024-03-31",
+          "newValue": 16.12,
+          "usedValue": 17.18
+        },
+        {
+          "date": "2024-04-30",
+          "newValue": 16.6,
+          "usedValue": 17.23
+        },
+        {
+          "date": "2024-05-31",
+          "newValue": 16.52,
+          "usedValue": 17.6
+        },
+        {
+          "date": "2024-06-30",
+          "newValue": 15.41,
+          "usedValue": 16
+        },
+        {
+          "date": "2024-07-31",
+          "newValue": 15.76,
+          "usedValue": 16.79
+        },
+        {
+          "date": "2024-08-31",
+          "newValue": 15.16,
+          "usedValue": 15.75
+        },
+        {
+          "date": "2024-09-30",
+          "newValue": 15.73,
+          "usedValue": 17.03
+        },
+        {
+          "date": "2024-11-01",
+          "newValue": 14.94,
+          "usedValue": 15.52
+        },
+        {
+          "date": "2024-12-01",
+          "newValue": 17.33,
+          "usedValue": 18.47
+        },
+        {
+          "date": "2025-01-01",
+          "newValue": 14.81,
+          "usedValue": 15.38
+        },
+        {
+          "date": "2025-02-01",
+          "newValue": 15.4,
+          "usedValue": 16.4
+        },
+        {
+          "date": "2025-03-01",
+          "newValue": 14.39,
+          "usedValue": 14.95
+        },
+        {
+          "date": "2025-03-31",
+          "newValue": 15.89,
+          "usedValue": 16.93
+        },
+        {
+          "date": "2025-04-30",
+          "newValue": 14.94,
+          "usedValue": 15.51
+        },
+        {
+          "date": "2025-05-31",
+          "newValue": 15.57,
+          "usedValue": 16.59
+        },
+        {
+          "date": "2025-06-30",
+          "newValue": 14.74,
+          "usedValue": 15.31
+        },
+        {
+          "date": "2025-07-31",
+          "newValue": 14.97,
+          "usedValue": 15.95
+        },
+        {
+          "date": "2025-08-31",
+          "newValue": 14.9,
+          "usedValue": 15.48
+        },
+        {
+          "date": "2025-09-30",
+          "newValue": 15.91,
+          "usedValue": 17.22
+        },
+        {
+          "date": "2025-11-01",
+          "newValue": 15.03,
+          "usedValue": 15.61
+        },
+        {
+          "date": "2025-12-01",
+          "newValue": 14.38,
+          "usedValue": 15.32
+        },
+        {
+          "date": "2026-01-01",
+          "newValue": 14.23,
+          "usedValue": 14.78
+        }
+      ],
+      "predictions": {
+        "1yr": {
+          "value": 16.95,
+          "source": "prediction-section"
+        },
+        "5yr": {
+          "value": 19.5,
+          "low": 19,
+          "high": 20,
+          "source": "prediction-section"
+        },
+        "retirement": {
+          "estimated": "Mid 2026",
+          "confidence": 82.3
+        },
+        "annualGrowth": 10.22
+      }
+    },
+    "40779-1": {
+      "name": "of the Horse",
+      "currentValue": 4.4,
+      "priceHistory": [],
+      "predictions": {}
+    },
+    "40922-1": {
+      "name": "Disney Lilo & Stitch Angel",
+      "currentValue": 104,
+      "priceHistory": [],
+      "predictions": {
+        "1yr": {
+          "value": 16.92,
+          "source": "prediction-section"
+        },
+        "5yr": {
+          "value": 19,
+          "low": 18,
+          "high": 20,
+          "source": "prediction-section"
+        },
+        "annualGrowth": 10.22
+      }
+    },
+    "42161-1": {
+      "name": "Lamborghini Huracán Tecnica",
+      "currentValue": 38.26,
+      "priceHistory": [
+        {
+          "date": "2023-05-31",
+          "newValue": 47.07,
+          "usedValue": 50.15
+        },
+        {
+          "date": "2023-06-30",
+          "newValue": 45.75,
+          "usedValue": 47.51
+        },
+        {
+          "date": "2023-07-31",
+          "newValue": 65.47,
+          "usedValue": 69.75
+        },
+        {
+          "date": "2023-08-31",
+          "newValue": 60.95,
+          "usedValue": 63.29
+        },
+        {
+          "date": "2023-09-30",
+          "newValue": 61.46,
+          "usedValue": 66.54
+        },
+        {
+          "date": "2023-11-01",
+          "newValue": 53.57,
+          "usedValue": 55.64
+        },
+        {
+          "date": "2023-12-01",
+          "newValue": 55.92,
+          "usedValue": 59.58
+        },
+        {
+          "date": "2024-01-01",
+          "newValue": 58.65,
+          "usedValue": 60.91
+        },
+        {
+          "date": "2024-02-01",
+          "newValue": 57.6,
+          "usedValue": 61.37
+        },
+        {
+          "date": "2024-03-01",
+          "newValue": 50.27,
+          "usedValue": 52.2
+        },
+        {
+          "date": "2024-03-31",
+          "newValue": 48.84,
+          "usedValue": 52.04
+        },
+        {
+          "date": "2024-04-30",
+          "newValue": 50.42,
+          "usedValue": 52.36
+        },
+        {
+          "date": "2024-05-31",
+          "newValue": 51.76,
+          "usedValue": 55.14
+        },
+        {
+          "date": "2024-06-30",
+          "newValue": 52.95,
+          "usedValue": 54.98
+        },
+        {
+          "date": "2024-07-31",
+          "newValue": 54.56,
+          "usedValue": 58.13
+        },
+        {
+          "date": "2024-08-31",
+          "newValue": 56.07,
+          "usedValue": 58.23
+        },
+        {
+          "date": "2024-09-30",
+          "newValue": 57.44,
+          "usedValue": 62.18
+        },
+        {
+          "date": "2024-11-01",
+          "newValue": 52.66,
+          "usedValue": 54.69
+        },
+        {
+          "date": "2024-12-01",
+          "newValue": 57.18,
+          "usedValue": 60.92
+        },
+        {
+          "date": "2025-01-01",
+          "newValue": 54.31,
+          "usedValue": 56.39
+        },
+        {
+          "date": "2025-02-01",
+          "newValue": 56.69,
+          "usedValue": 60.4
+        },
+        {
+          "date": "2025-03-01",
+          "newValue": 51.94,
+          "usedValue": 53.94
+        },
+        {
+          "date": "2025-03-31",
+          "newValue": 49.28,
+          "usedValue": 52.5
+        },
+        {
+          "date": "2025-04-30",
+          "newValue": 54.3,
+          "usedValue": 56.39
+        },
+        {
+          "date": "2025-05-31",
+          "newValue": 52.3,
+          "usedValue": 55.73
+        },
+        {
+          "date": "2025-06-30",
+          "newValue": 53.1,
+          "usedValue": 55.14
+        },
+        {
+          "date": "2025-07-31",
+          "newValue": 49.95,
+          "usedValue": 53.22
+        },
+        {
+          "date": "2025-08-31",
+          "newValue": 47.38,
+          "usedValue": 49.2
+        },
+        {
+          "date": "2025-09-30",
+          "newValue": 53.38,
+          "usedValue": 57.79
+        },
+        {
+          "date": "2025-11-01",
+          "newValue": 54.05,
+          "usedValue": 56.13
+        },
+        {
+          "date": "2025-12-01",
+          "newValue": 57.37,
+          "usedValue": 61.12
+        },
+        {
+          "date": "2026-01-01",
+          "newValue": 47.43,
+          "usedValue": 49.26
+        },
+        {
+          "date": "2026-02-01",
+          "newValue": 52.32,
+          "usedValue": 55.74
+        }
+      ],
+      "predictions": {
+        "1yr": {
+          "value": 56.76,
+          "source": "prediction-section"
+        },
+        "5yr": {
+          "value": 51,
+          "low": 50,
+          "high": 52,
+          "source": "prediction-section"
+        },
+        "retirement": {
+          "estimated": "Mid 2026",
+          "confidence": 82.5
+        },
+        "annualGrowth": 3.2
+      }
+    },
+    "42172-1": {
+      "name": "McLaren P1",
+      "currentValue": 364.41,
+      "priceHistory": [
+        {
+          "date": "2024-06-30",
+          "newValue": 570.17,
+          "usedValue": 592.1
+        },
+        {
+          "date": "2024-07-31",
+          "newValue": 589.47,
+          "usedValue": 628.03
+        },
+        {
+          "date": "2024-08-31",
+          "newValue": 552.16,
+          "usedValue": 573.39
+        },
+        {
+          "date": "2024-09-30",
+          "newValue": 588.31,
+          "usedValue": 636.88
+        },
+        {
+          "date": "2024-11-01",
+          "newValue": 521.48,
+          "usedValue": 541.53
+        },
+        {
+          "date": "2024-12-01",
+          "newValue": 548.99,
+          "usedValue": 584.9
+        },
+        {
+          "date": "2025-01-01",
+          "newValue": 506.74,
+          "usedValue": 526.23
+        },
+        {
+          "date": "2025-02-01",
+          "newValue": 514.21,
+          "usedValue": 547.85
+        },
+        {
+          "date": "2025-03-01",
+          "newValue": 453.07,
+          "usedValue": 470.5
+        },
+        {
+          "date": "2025-03-31",
+          "newValue": 404.56,
+          "usedValue": 431.03
+        },
+        {
+          "date": "2025-04-30",
+          "newValue": 455.84,
+          "usedValue": 473.38
+        },
+        {
+          "date": "2025-05-31",
+          "newValue": 473.96,
+          "usedValue": 504.96
+        },
+        {
+          "date": "2025-06-30",
+          "newValue": 454.08,
+          "usedValue": 471.54
+        },
+        {
+          "date": "2025-07-31",
+          "newValue": 473.91,
+          "usedValue": 504.91
+        },
+        {
+          "date": "2025-08-31",
+          "newValue": 438.16,
+          "usedValue": 455.01
+        },
+        {
+          "date": "2025-09-30",
+          "newValue": 476.29,
+          "usedValue": 515.62
+        },
+        {
+          "date": "2025-11-01",
+          "newValue": 438.49,
+          "usedValue": 455.36
+        },
+        {
+          "date": "2025-12-01",
+          "newValue": 472.73,
+          "usedValue": 503.66
+        },
+        {
+          "date": "2026-01-01",
+          "newValue": 420.46,
+          "usedValue": 436.64
+        }
+      ],
+      "predictions": {
+        "1yr": {
+          "value": 482.95,
+          "source": "prediction-section"
+        },
+        "5yr": {
+          "value": 461,
+          "low": 452,
+          "high": 470,
+          "source": "prediction-section"
+        },
+        "retirement": {
+          "estimated": "End of 2026",
+          "confidence": 80.9
+        },
+        "annualGrowth": 3.2
+      }
+    },
+    "42204-1": {
+      "name": "Fast & Furious Toyota Supra MK4",
+      "currentValue": 44.09,
+      "priceHistory": [
+        {
+          "date": "2025-02-01",
+          "newValue": 98.37,
+          "usedValue": 104.8
+        },
+        {
+          "date": "2025-03-01",
+          "newValue": 84.2,
+          "usedValue": 87.44
+        },
+        {
+          "date": "2025-03-31",
+          "newValue": 80.81,
+          "usedValue": 86.1
+        },
+        {
+          "date": "2025-04-30",
+          "newValue": 72.32,
+          "usedValue": 75.1
+        },
+        {
+          "date": "2025-05-31",
+          "newValue": 70.44,
+          "usedValue": 75.04
+        },
+        {
+          "date": "2025-06-30",
+          "newValue": 60.42,
+          "usedValue": 62.75
+        },
+        {
+          "date": "2025-07-31",
+          "newValue": 63,
+          "usedValue": 67.13
+        },
+        {
+          "date": "2025-08-31",
+          "newValue": 55.86,
+          "usedValue": 58.01
+        },
+        {
+          "date": "2025-09-30",
+          "newValue": 58.75,
+          "usedValue": 63.6
+        },
+        {
+          "date": "2025-11-01",
+          "newValue": 55.72,
+          "usedValue": 57.87
+        },
+        {
+          "date": "2025-12-01",
+          "newValue": 56.73,
+          "usedValue": 60.44
+        },
+        {
+          "date": "2026-01-01",
+          "newValue": 54.03,
+          "usedValue": 56.1
+        }
+      ],
+      "predictions": {
+        "1yr": {
+          "value": 64.85,
+          "source": "prediction-section"
+        },
+        "5yr": {
+          "value": 62.5,
+          "low": 61,
+          "high": 64,
+          "source": "prediction-section"
+        },
+        "retirement": {
+          "estimated": "End of 2026",
+          "confidence": 72.8
+        },
+        "annualGrowth": 3.54
+      }
+    },
+    "42210-1": {
+      "name": "2 Fast 2 Furious Nissan Skyline GT-R (R34) Car",
+      "currentValue": 106.42,
+      "priceHistory": [],
+      "predictions": {
+        "1yr": {
+          "value": 149.71,
+          "source": "prediction-section"
+        },
+        "5yr": {
+          "value": 143,
+          "low": 140,
+          "high": 146,
+          "source": "prediction-section"
+        },
+        "retirement": {
+          "estimated": "End of 2027",
+          "confidence": 76.2
+        },
+        "annualGrowth": 3.2
+      }
+    },
+    "43257-1": {
+      "name": "Lilo and Stitch Angel",
+      "currentValue": 51.02,
+      "priceHistory": [],
+      "predictions": {
+        "1yr": {
+          "value": 71.81,
+          "source": "prediction-section"
+        },
+        "5yr": {
+          "value": 70.5,
+          "low": 67,
+          "high": 74,
+          "source": "prediction-section"
+        },
+        "annualGrowth": 4.61
+      }
+    },
+    "71438-1": {
+      "name": "Mario World Mario & Yoshi",
+      "currentValue": 122.97,
+      "priceHistory": [
+        {
+          "date": "2024-07-31",
+          "newValue": 229.88,
+          "usedValue": 244.92
+        },
+        {
+          "date": "2024-08-31",
+          "newValue": 222.13,
+          "usedValue": 230.67
+        },
+        {
+          "date": "2024-09-30",
+          "newValue": 206.64,
+          "usedValue": 223.7
+        },
+        {
+          "date": "2024-11-01",
+          "newValue": 192.8,
+          "usedValue": 200.21
+        },
+        {
+          "date": "2024-12-01",
+          "newValue": 192.47,
+          "usedValue": 205.07
+        },
+        {
+          "date": "2025-01-01",
+          "newValue": 183.75,
+          "usedValue": 190.82
+        },
+        {
+          "date": "2025-02-01",
+          "newValue": 180.43,
+          "usedValue": 192.23
+        },
+        {
+          "date": "2025-03-01",
+          "newValue": 171.34,
+          "usedValue": 177.93
+        },
+        {
+          "date": "2025-03-31",
+          "newValue": 147.31,
+          "usedValue": 156.95
+        },
+        {
+          "date": "2025-04-30",
+          "newValue": 163.66,
+          "usedValue": 169.95
+        },
+        {
+          "date": "2025-05-31",
+          "newValue": 172.86,
+          "usedValue": 184.17
+        },
+        {
+          "date": "2025-06-30",
+          "newValue": 165.58,
+          "usedValue": 171.95
+        },
+        {
+          "date": "2025-07-31",
+          "newValue": 170.18,
+          "usedValue": 181.31
+        },
+        {
+          "date": "2025-08-31",
+          "newValue": 159.39,
+          "usedValue": 165.52
+        },
+        {
+          "date": "2025-09-30",
+          "newValue": 155.49,
+          "usedValue": 168.33
+        },
+        {
+          "date": "2025-11-01",
+          "newValue": 145.57,
+          "usedValue": 151.17
+        },
+        {
+          "date": "2025-12-01",
+          "newValue": 154.4,
+          "usedValue": 164.5
+        },
+        {
+          "date": "2026-01-01",
+          "newValue": 151.28,
+          "usedValue": 157.09
+        }
+      ],
+      "predictions": {
+        "1yr": {
+          "value": 161.25,
+          "source": "prediction-section"
+        },
+        "5yr": {
+          "value": 184.5,
+          "low": 181,
+          "high": 188,
+          "source": "prediction-section"
+        },
+        "retirement": {
+          "estimated": "Mid 2026",
+          "confidence": 95.9
+        },
+        "annualGrowth": 10.12
+      }
+    },
+    "72046-1": {
+      "name": "Mario Game Boy",
+      "currentValue": 45.75,
+      "priceHistory": [],
+      "predictions": {
+        "1yr": {
+          "value": 72.27,
+          "source": "prediction-section"
+        },
+        "5yr": {
+          "value": 82.5,
+          "low": 81,
+          "high": 84,
+          "source": "prediction-section"
+        },
+        "retirement": {
+          "estimated": "Mid 2029",
+          "confidence": 80.7
+        },
+        "annualGrowth": 10.12
+      }
+    },
+    "76191-1": {
+      "name": "Infinity War Infinity Gauntlet",
+      "currentValue": 74.8,
+      "priceHistory": [
+        {
+          "date": "2021-08-31",
+          "newValue": 81.57,
+          "usedValue": 81.57
+        },
+        {
+          "date": "2021-09-30",
+          "newValue": 80.56,
+          "usedValue": 80.56
+        },
+        {
+          "date": "2021-11-01",
+          "newValue": 81.06,
+          "usedValue": 81.06
+        },
+        {
+          "date": "2021-12-01",
+          "newValue": 74.87,
+          "usedValue": 74.87
+        },
+        {
+          "date": "2022-01-01",
+          "newValue": 74.77,
+          "usedValue": 79.66
+        },
+        {
+          "date": "2022-02-01",
+          "newValue": 66.73,
+          "usedValue": 72.79
+        },
+        {
+          "date": "2022-03-01",
+          "newValue": 72.46,
+          "usedValue": 77.2
+        },
+        {
+          "date": "2022-03-31",
+          "newValue": 74.35,
+          "usedValue": 81.11
+        },
+        {
+          "date": "2022-04-30",
+          "newValue": 71.88,
+          "usedValue": 76.59
+        },
+        {
+          "date": "2022-05-31",
+          "newValue": 73.76,
+          "usedValue": 80.47
+        },
+        {
+          "date": "2022-06-30",
+          "newValue": 74.9,
+          "usedValue": 79.8
+        },
+        {
+          "date": "2022-07-31",
+          "newValue": 78.24,
+          "usedValue": 85.35
+        },
+        {
+          "date": "2022-08-31",
+          "newValue": 79.3,
+          "usedValue": 84.48
+        },
+        {
+          "date": "2022-09-30",
+          "newValue": 78.61,
+          "usedValue": 85.75
+        },
+        {
+          "date": "2022-11-01",
+          "newValue": 81.63,
+          "usedValue": 86.97
+        },
+        {
+          "date": "2022-12-01",
+          "newValue": 73.29,
+          "usedValue": 79.95
+        },
+        {
+          "date": "2023-01-01",
+          "newValue": 69.45,
+          "usedValue": 74
+        },
+        {
+          "date": "2023-02-01",
+          "newValue": 78.49,
+          "usedValue": 85.63
+        },
+        {
+          "date": "2023-03-01",
+          "newValue": 72.09,
+          "usedValue": 76.81
+        },
+        {
+          "date": "2023-03-31",
+          "newValue": 75.07,
+          "usedValue": 81.89
+        },
+        {
+          "date": "2023-04-30",
+          "newValue": 78.68,
+          "usedValue": 83.83
+        },
+        {
+          "date": "2023-05-31",
+          "newValue": 73.06,
+          "usedValue": 79.7
+        },
+        {
+          "date": "2023-06-30",
+          "newValue": 76.1,
+          "usedValue": 81.07
+        },
+        {
+          "date": "2023-07-31",
+          "newValue": 79.31,
+          "usedValue": 86.52
+        },
+        {
+          "date": "2023-08-31",
+          "newValue": 77.65,
+          "usedValue": 82.73
+        },
+        {
+          "date": "2023-09-30",
+          "newValue": 66.11,
+          "usedValue": 72.12
+        },
+        {
+          "date": "2023-11-01",
+          "newValue": 67.69,
+          "usedValue": 72.12
+        },
+        {
+          "date": "2023-12-01",
+          "newValue": 86.99,
+          "usedValue": 94.9
+        },
+        {
+          "date": "2024-01-01",
+          "newValue": 80.47,
+          "usedValue": 85.73
+        },
+        {
+          "date": "2024-02-01",
+          "newValue": 81.11,
+          "usedValue": 88.49
+        },
+        {
+          "date": "2024-03-01",
+          "newValue": 74.51,
+          "usedValue": 79.38
+        },
+        {
+          "date": "2024-03-31",
+          "newValue": 79.56,
+          "usedValue": 86.8
+        },
+        {
+          "date": "2024-04-30",
+          "newValue": 60.42,
+          "usedValue": 64.37
+        },
+        {
+          "date": "2024-05-31",
+          "newValue": 72.55,
+          "usedValue": 79.14
+        },
+        {
+          "date": "2024-06-30",
+          "newValue": 82.72,
+          "usedValue": 88.14
+        },
+        {
+          "date": "2024-07-31",
+          "newValue": 74.51,
+          "usedValue": 81.29
+        },
+        {
+          "date": "2024-08-31",
+          "newValue": 77.45,
+          "usedValue": 82.52
+        },
+        {
+          "date": "2024-09-30",
+          "newValue": 82.89,
+          "usedValue": 90.43
+        },
+        {
+          "date": "2024-11-01",
+          "newValue": 74.18,
+          "usedValue": 79.03
+        },
+        {
+          "date": "2024-12-01",
+          "newValue": 74.71,
+          "usedValue": 81.5
+        },
+        {
+          "date": "2025-01-01",
+          "newValue": 75.18,
+          "usedValue": 80.1
+        },
+        {
+          "date": "2025-02-01",
+          "newValue": 80.37,
+          "usedValue": 87.68
+        },
+        {
+          "date": "2025-03-01",
+          "newValue": 69.6,
+          "usedValue": 74.15
+        },
+        {
+          "date": "2025-03-31",
+          "newValue": 67.27,
+          "usedValue": 73.39
+        },
+        {
+          "date": "2025-04-30",
+          "newValue": 72.55,
+          "usedValue": 77.29
+        },
+        {
+          "date": "2025-05-31",
+          "newValue": 67.13,
+          "usedValue": 73.23
+        },
+        {
+          "date": "2025-06-30",
+          "newValue": 65.28,
+          "usedValue": 69.55
+        },
+        {
+          "date": "2025-07-31",
+          "newValue": 64.28,
+          "usedValue": 70.13
+        },
+        {
+          "date": "2025-08-31",
+          "newValue": 73.52,
+          "usedValue": 78.33
+        },
+        {
+          "date": "2025-09-30",
+          "newValue": 68.4,
+          "usedValue": 74.61
+        },
+        {
+          "date": "2025-11-01",
+          "newValue": 69.61,
+          "usedValue": 74.17
+        },
+        {
+          "date": "2025-12-01",
+          "newValue": 71.86,
+          "usedValue": 78.39
+        },
+        {
+          "date": "2026-01-01",
+          "newValue": 84.92,
+          "usedValue": 90.47
+        },
+        {
+          "date": "2026-02-01",
+          "newValue": 96.12,
+          "usedValue": 104.86
+        }
+      ],
+      "predictions": {}
+    },
+    "76223-1": {
+      "name": "Gauntlet",
+      "currentValue": 123.19,
+      "priceHistory": [],
+      "predictions": {}
+    },
+    "76912-1": {
+      "name": "Champions Fast & Furious 1970 Dodge Charger R/T",
+      "currentValue": 52.76,
+      "priceHistory": [],
+      "predictions": {}
+    },
+    "76917-1": {
+      "name": "Champions Nissan Skyline GT-R",
+      "currentValue": 20.85,
+      "priceHistory": [
+        {
+          "date": "2022-12-01",
+          "newValue": 23.53,
+          "usedValue": 25.07
+        },
+        {
+          "date": "2023-01-01",
+          "newValue": 36.9,
+          "usedValue": 38.31
+        },
+        {
+          "date": "2023-02-01",
+          "newValue": 40.77,
+          "usedValue": 43.44
+        },
+        {
+          "date": "2023-03-01",
+          "newValue": 38.89,
+          "usedValue": 40.39
+        },
+        {
+          "date": "2023-03-31",
+          "newValue": 39.41,
+          "usedValue": 41.99
+        },
+        {
+          "date": "2023-04-30",
+          "newValue": 36.74,
+          "usedValue": 38.15
+        },
+        {
+          "date": "2023-05-31",
+          "newValue": 35.73,
+          "usedValue": 38.07
+        },
+        {
+          "date": "2023-06-30",
+          "newValue": 37.28,
+          "usedValue": 38.71
+        },
+        {
+          "date": "2023-07-31",
+          "newValue": 34.97,
+          "usedValue": 37.26
+        },
+        {
+          "date": "2023-08-31",
+          "newValue": 34.1,
+          "usedValue": 35.41
+        },
+        {
+          "date": "2023-09-30",
+          "newValue": 37.13,
+          "usedValue": 40.2
+        },
+        {
+          "date": "2023-11-01",
+          "newValue": 33.26,
+          "usedValue": 34.54
+        },
+        {
+          "date": "2023-12-01",
+          "newValue": 36.43,
+          "usedValue": 38.81
+        },
+        {
+          "date": "2024-01-01",
+          "newValue": 33.79,
+          "usedValue": 35.09
+        },
+        {
+          "date": "2024-02-01",
+          "newValue": 34.74,
+          "usedValue": 37.01
+        },
+        {
+          "date": "2024-03-01",
+          "newValue": 32.43,
+          "usedValue": 33.67
+        },
+        {
+          "date": "2024-03-31",
+          "newValue": 34.09,
+          "usedValue": 36.32
+        },
+        {
+          "date": "2024-04-30",
+          "newValue": 31.97,
+          "usedValue": 33.2
+        },
+        {
+          "date": "2024-05-31",
+          "newValue": 34.43,
+          "usedValue": 36.68
+        },
+        {
+          "date": "2024-06-30",
+          "newValue": 30.71,
+          "usedValue": 31.9
+        },
+        {
+          "date": "2024-07-31",
+          "newValue": 32.58,
+          "usedValue": 34.71
+        },
+        {
+          "date": "2024-08-31",
+          "newValue": 31.01,
+          "usedValue": 32.2
+        },
+        {
+          "date": "2024-09-30",
+          "newValue": 30.86,
+          "usedValue": 33.41
+        },
+        {
+          "date": "2024-11-01",
+          "newValue": 31.58,
+          "usedValue": 32.8
+        },
+        {
+          "date": "2024-12-01",
+          "newValue": 32.78,
+          "usedValue": 34.93
+        },
+        {
+          "date": "2025-01-01",
+          "newValue": 30.9,
+          "usedValue": 32.09
+        },
+        {
+          "date": "2025-02-01",
+          "newValue": 29.7,
+          "usedValue": 31.64
+        },
+        {
+          "date": "2025-03-01",
+          "newValue": 25.26,
+          "usedValue": 26.23
+        },
+        {
+          "date": "2025-03-31",
+          "newValue": 21.29,
+          "usedValue": 22.69
+        },
+        {
+          "date": "2025-04-30",
+          "newValue": 23.23,
+          "usedValue": 24.13
+        },
+        {
+          "date": "2025-05-31",
+          "newValue": 22.93,
+          "usedValue": 24.43
+        },
+        {
+          "date": "2025-06-30",
+          "newValue": 23.5,
+          "usedValue": 24.41
+        },
+        {
+          "date": "2025-07-31",
+          "newValue": 23.1,
+          "usedValue": 24.61
+        },
+        {
+          "date": "2025-08-31",
+          "newValue": 23.24,
+          "usedValue": 24.13
+        },
+        {
+          "date": "2025-09-30",
+          "newValue": 24.11,
+          "usedValue": 26.1
+        },
+        {
+          "date": "2025-11-01",
+          "newValue": 25.19,
+          "usedValue": 26.16
+        },
+        {
+          "date": "2025-12-01",
+          "newValue": 26.07,
+          "usedValue": 27.78
+        },
+        {
+          "date": "2026-01-01",
+          "newValue": 27.53,
+          "usedValue": 28.59
+        },
+        {
+          "date": "2026-02-01",
+          "newValue": 24.19,
+          "usedValue": 25.77
+        }
+      ],
+      "predictions": {
+        "1yr": {
+          "value": 29.47,
+          "source": "prediction-section"
+        },
+        "5yr": {
+          "value": 30.5,
+          "low": 29,
+          "high": 32,
+          "source": "prediction-section"
+        },
+        "retirement": {
+          "estimated": "June 2026",
+          "confidence": 90
+        },
+        "annualGrowth": 6.15
+      }
+    },
+    "76922-1": {
+      "name": "Champions BMW M4 GT3 & BMW M Hybrid V8",
+      "currentValue": 36.77,
+      "priceHistory": [],
+      "predictions": {}
+    },
+    "76934-1": {
+      "name": "Champions Ferrari F40 Supercar",
+      "currentValue": 22,
+      "priceHistory": [
+        {
+          "date": "2024-07-31",
+          "newValue": 29.1,
+          "usedValue": 31.01
+        },
+        {
+          "date": "2024-08-31",
+          "newValue": 30.46,
+          "usedValue": 31.64
+        },
+        {
+          "date": "2024-09-30",
+          "newValue": 34.02,
+          "usedValue": 36.82
+        },
+        {
+          "date": "2024-11-01",
+          "newValue": 29.39,
+          "usedValue": 30.52
+        },
+        {
+          "date": "2024-12-01",
+          "newValue": 35.24,
+          "usedValue": 37.54
+        },
+        {
+          "date": "2025-01-01",
+          "newValue": 33.66,
+          "usedValue": 34.96
+        },
+        {
+          "date": "2025-02-01",
+          "newValue": 32.34,
+          "usedValue": 34.46
+        },
+        {
+          "date": "2025-03-01",
+          "newValue": 29.09,
+          "usedValue": 30.21
+        },
+        {
+          "date": "2025-03-31",
+          "newValue": 27.55,
+          "usedValue": 29.35
+        },
+        {
+          "date": "2025-04-30",
+          "newValue": 28.95,
+          "usedValue": 30.07
+        },
+        {
+          "date": "2025-05-31",
+          "newValue": 29.08,
+          "usedValue": 30.98
+        },
+        {
+          "date": "2025-06-30",
+          "newValue": 28.99,
+          "usedValue": 30.1
+        },
+        {
+          "date": "2025-07-31",
+          "newValue": 27.87,
+          "usedValue": 29.69
+        },
+        {
+          "date": "2025-08-31",
+          "newValue": 25.4,
+          "usedValue": 26.38
+        },
+        {
+          "date": "2025-09-30",
+          "newValue": 27.71,
+          "usedValue": 30
+        },
+        {
+          "date": "2025-11-01",
+          "newValue": 26.48,
+          "usedValue": 27.5
+        },
+        {
+          "date": "2025-12-01",
+          "newValue": 29.11,
+          "usedValue": 31.01
+        },
+        {
+          "date": "2026-01-01",
+          "newValue": 28.01,
+          "usedValue": 29.08
+        }
+      ],
+      "predictions": {
+        "1yr": {
+          "value": 32.43,
+          "source": "prediction-section"
+        },
+        "5yr": {
+          "value": 34,
+          "low": 32,
+          "high": 36,
+          "source": "prediction-section"
+        },
+        "retirement": {
+          "estimated": "Mid 2026",
+          "confidence": 90.8
+        },
+        "annualGrowth": 6.51
+      }
+    },
+    "77239-1": {
+      "name": "Champions Porsche 911 GT3 RS Super Car",
+      "currentValue": 221,
+      "priceHistory": [],
+      "predictions": {
+        "1yr": {
+          "value": 34.58,
+          "source": "prediction-section"
+        },
+        "5yr": {
+          "value": 39,
+          "low": 37,
+          "high": 41,
+          "source": "prediction-section"
+        },
+        "retirement": {
+          "estimated": "Mid 2027",
+          "confidence": 73.2
+        },
+        "annualGrowth": 9.31
+      }
+    },
+    "77241-1": {
+      "name": "Champions 2 Fast 2 Furious Honda S2000",
+      "currentValue": 25.39,
+      "priceHistory": [
+        {
+          "date": "2025-03-31",
+          "newValue": 56.31,
+          "usedValue": 59.99
+        },
+        {
+          "date": "2025-04-30",
+          "newValue": 45.2,
+          "usedValue": 46.94
+        },
+        {
+          "date": "2025-05-31",
+          "newValue": 44.07,
+          "usedValue": 46.95
+        },
+        {
+          "date": "2025-06-30",
+          "newValue": 42.62,
+          "usedValue": 44.26
+        },
+        {
+          "date": "2025-07-31",
+          "newValue": 42.7,
+          "usedValue": 45.49
+        },
+        {
+          "date": "2025-08-31",
+          "newValue": 40.68,
+          "usedValue": 42.25
+        },
+        {
+          "date": "2025-09-30",
+          "newValue": 41.17,
+          "usedValue": 44.57
+        },
+        {
+          "date": "2025-11-01",
+          "newValue": 38.38,
+          "usedValue": 39.85
+        },
+        {
+          "date": "2025-12-01",
+          "newValue": 40.1,
+          "usedValue": 42.72
+        },
+        {
+          "date": "2026-01-01",
+          "newValue": 36.35,
+          "usedValue": 37.75
+        }
+      ],
+      "predictions": {
+        "1yr": {
+          "value": 32.01,
+          "source": "prediction-section"
+        },
+        "5yr": {
+          "value": 33.5,
+          "low": 33,
+          "high": 34,
+          "source": "prediction-section"
+        },
+        "retirement": {
+          "estimated": "Mid 2027",
+          "confidence": 72.7
+        },
+        "annualGrowth": 6.17
+      }
+    },
+    "77253-1": {
+      "name": "Champions Bugatti Vision GT Hyper Sports Car",
+      "currentValue": 93,
+      "priceHistory": [],
+      "predictions": {
+        "1yr": {
+          "value": 32.73,
+          "source": "prediction-section"
+        },
+        "5yr": {
+          "value": 33,
+          "low": 32,
+          "high": 34,
+          "source": "prediction-section"
+        },
+        "annualGrowth": 4.74
+      }
+    },
+    "77254-1": {
+      "name": "Champions Ferrari SF90 XX Stradale Sports Car",
+      "currentValue": 277,
+      "priceHistory": [],
+      "predictions": {
+        "1yr": {
+          "value": 33.58,
+          "source": "prediction-section"
+        },
+        "5yr": {
+          "value": 35,
+          "low": 33,
+          "high": 37,
+          "source": "prediction-section"
+        },
+        "annualGrowth": 6.51
       }
     }
   }

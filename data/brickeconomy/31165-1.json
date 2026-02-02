@@ -1,0 +1,99 @@
+{
+  "priceHistory": [
+    {
+      "date": "2024-12-01",
+      "newValue": 77.28,
+      "usedValue": 82.34
+    },
+    {
+      "date": "2025-01-01",
+      "newValue": 41.65,
+      "usedValue": 43.25
+    },
+    {
+      "date": "2025-02-01",
+      "newValue": 41.85,
+      "usedValue": 44.59
+    },
+    {
+      "date": "2025-03-01",
+      "newValue": 42.96,
+      "usedValue": 44.61
+    },
+    {
+      "date": "2025-03-31",
+      "newValue": 40.96,
+      "usedValue": 43.64
+    },
+    {
+      "date": "2025-04-30",
+      "newValue": 38.59,
+      "usedValue": 40.08
+    },
+    {
+      "date": "2025-05-31",
+      "newValue": 39.81,
+      "usedValue": 42.42
+    },
+    {
+      "date": "2025-06-30",
+      "newValue": 41.57,
+      "usedValue": 43.17
+    },
+    {
+      "date": "2025-07-31",
+      "newValue": 40.69,
+      "usedValue": 43.35
+    },
+    {
+      "date": "2025-08-31",
+      "newValue": 34,
+      "usedValue": 35.31
+    },
+    {
+      "date": "2025-09-30",
+      "newValue": 40.2,
+      "usedValue": 43.52
+    },
+    {
+      "date": "2025-11-01",
+      "newValue": 38.8,
+      "usedValue": 40.29
+    },
+    {
+      "date": "2025-12-01",
+      "newValue": 38.57,
+      "usedValue": 41.09
+    },
+    {
+      "date": "2026-01-01",
+      "newValue": 37.78,
+      "usedValue": 39.23
+    }
+  ],
+  "predictions": {
+    "1yr": {
+      "value": 43.49,
+      "source": "prediction-section"
+    },
+    "5yr": {
+      "value": 38.5,
+      "low": 37,
+      "high": 40,
+      "source": "prediction-section"
+    },
+    "retirement": {
+      "estimated": "End of 2026",
+      "confidence": 71.7
+    },
+    "annualGrowth": 3.71
+  },
+  "currentValue": 30.32,
+  "setInfo": {
+    "name": "3 in 1 Wild Animals Panda Family",
+    "retailPrice": 39.99
+  },
+  "setId": "31165-1",
+  "url": "https://www.brickeconomy.com/set/31165-1/lego-creator-3-in-1-wild-animals-panda-family",
+  "scrapedAt": "2026-02-02T17:40:52.537Z"
+}

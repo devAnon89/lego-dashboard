@@ -1,0 +1,28 @@
+{
+  "priceHistory": [],
+  "predictions": {
+    "1yr": {
+      "value": 112.46,
+      "source": "prediction-section"
+    },
+    "5yr": {
+      "value": 113.5,
+      "low": 111,
+      "high": 116,
+      "source": "prediction-section"
+    },
+    "retirement": {
+      "estimated": "Mid 2027",
+      "confidence": 80
+    },
+    "annualGrowth": 5.51
+  },
+  "currentValue": 83.3,
+  "setInfo": {
+    "name": "The Enderman Tower",
+    "retailPrice": 99.99
+  },
+  "setId": "21279-1",
+  "url": "https://www.brickeconomy.com/set/21279-1/lego-minecraft-the-enderman-tower",
+  "scrapedAt": "2026-02-02T19:41:32.055Z"
+}

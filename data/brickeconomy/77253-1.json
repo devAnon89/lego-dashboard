@@ -1,0 +1,24 @@
+{
+  "priceHistory": [],
+  "predictions": {
+    "1yr": {
+      "value": 32.73,
+      "source": "prediction-section"
+    },
+    "5yr": {
+      "value": 33,
+      "low": 32,
+      "high": 34,
+      "source": "prediction-section"
+    },
+    "annualGrowth": 4.74
+  },
+  "currentValue": 93,
+  "setInfo": {
+    "name": "Champions Bugatti Vision GT Hyper Sports Car",
+    "retailPrice": 27.99
+  },
+  "setId": "77253-1",
+  "url": "https://www.brickeconomy.com/set/77253-1/lego-speed-champions-bugatti-vision-gt",
+  "scrapedAt": "2026-02-02T19:43:39.441Z"
+}

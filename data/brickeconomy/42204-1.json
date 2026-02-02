@@ -1,0 +1,89 @@
+{
+  "priceHistory": [
+    {
+      "date": "2025-02-01",
+      "newValue": 98.37,
+      "usedValue": 104.8
+    },
+    {
+      "date": "2025-03-01",
+      "newValue": 84.2,
+      "usedValue": 87.44
+    },
+    {
+      "date": "2025-03-31",
+      "newValue": 80.81,
+      "usedValue": 86.1
+    },
+    {
+      "date": "2025-04-30",
+      "newValue": 72.32,
+      "usedValue": 75.1
+    },
+    {
+      "date": "2025-05-31",
+      "newValue": 70.44,
+      "usedValue": 75.04
+    },
+    {
+      "date": "2025-06-30",
+      "newValue": 60.42,
+      "usedValue": 62.75
+    },
+    {
+      "date": "2025-07-31",
+      "newValue": 63,
+      "usedValue": 67.13
+    },
+    {
+      "date": "2025-08-31",
+      "newValue": 55.86,
+      "usedValue": 58.01
+    },
+    {
+      "date": "2025-09-30",
+      "newValue": 58.75,
+      "usedValue": 63.6
+    },
+    {
+      "date": "2025-11-01",
+      "newValue": 55.72,
+      "usedValue": 57.87
+    },
+    {
+      "date": "2025-12-01",
+      "newValue": 56.73,
+      "usedValue": 60.44
+    },
+    {
+      "date": "2026-01-01",
+      "newValue": 54.03,
+      "usedValue": 56.1
+    }
+  ],
+  "predictions": {
+    "1yr": {
+      "value": 64.85,
+      "source": "prediction-section"
+    },
+    "5yr": {
+      "value": 62.5,
+      "low": 61,
+      "high": 64,
+      "source": "prediction-section"
+    },
+    "retirement": {
+      "estimated": "End of 2026",
+      "confidence": 72.8
+    },
+    "annualGrowth": 3.54
+  },
+  "currentValue": 44.09,
+  "setInfo": {
+    "name": "Fast & Furious Toyota Supra MK4",
+    "retailPrice": 59.99
+  },
+  "setId": "42204-1",
+  "url": "https://www.brickeconomy.com/set/42204-1/lego-fast-furious-toyota-supra-mk4",
+  "scrapedAt": "2026-02-02T19:42:30.955Z"
+}

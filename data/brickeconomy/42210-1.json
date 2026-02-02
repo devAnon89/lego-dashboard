@@ -1,0 +1,28 @@
+{
+  "priceHistory": [],
+  "predictions": {
+    "1yr": {
+      "value": 149.71,
+      "source": "prediction-section"
+    },
+    "5yr": {
+      "value": 143,
+      "low": 140,
+      "high": 146,
+      "source": "prediction-section"
+    },
+    "retirement": {
+      "estimated": "End of 2027",
+      "confidence": 76.2
+    },
+    "annualGrowth": 3.2
+  },
+  "currentValue": 106.42,
+  "setInfo": {
+    "name": "2 Fast 2 Furious Nissan Skyline GT-R (R34) Car",
+    "retailPrice": 139.99
+  },
+  "setId": "42210-1",
+  "url": "https://www.brickeconomy.com/set/42210-1/lego-technic-2-fast-2-furious-nissan-skyline-gt-r-r34",
+  "scrapedAt": "2026-02-02T19:42:33.572Z"
+}

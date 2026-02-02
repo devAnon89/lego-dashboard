@@ -1,0 +1,95 @@
+{
+  "priceHistory": [
+    {
+      "date": "2024-12-01",
+      "newValue": 83.55,
+      "usedValue": 89.01
+    },
+    {
+      "date": "2025-01-01",
+      "newValue": 69.88,
+      "usedValue": 72.57
+    },
+    {
+      "date": "2025-02-01",
+      "newValue": 68.62,
+      "usedValue": 73.11
+    },
+    {
+      "date": "2025-03-01",
+      "newValue": 64.47,
+      "usedValue": 66.95
+    },
+    {
+      "date": "2025-03-31",
+      "newValue": 58.33,
+      "usedValue": 62.14
+    },
+    {
+      "date": "2025-04-30",
+      "newValue": 59.62,
+      "usedValue": 61.92
+    },
+    {
+      "date": "2025-05-31",
+      "newValue": 54.67,
+      "usedValue": 58.25
+    },
+    {
+      "date": "2025-06-30",
+      "newValue": 54.67,
+      "usedValue": 56.78
+    },
+    {
+      "date": "2025-07-31",
+      "newValue": 56.36,
+      "usedValue": 60.04
+    },
+    {
+      "date": "2025-08-31",
+      "newValue": 54.64,
+      "usedValue": 56.74
+    },
+    {
+      "date": "2025-09-30",
+      "newValue": 60.31,
+      "usedValue": 65.29
+    },
+    {
+      "date": "2025-11-01",
+      "newValue": 59.87,
+      "usedValue": 62.17
+    },
+    {
+      "date": "2025-12-01",
+      "newValue": 61.72,
+      "usedValue": 65.76
+    },
+    {
+      "date": "2026-01-01",
+      "newValue": 59.36,
+      "usedValue": 61.64
+    }
+  ],
+  "predictions": {
+    "1yr": {
+      "value": 68.18,
+      "source": "prediction-section"
+    },
+    "5yr": {
+      "value": 69.5,
+      "low": 68,
+      "high": 71,
+      "source": "prediction-section"
+    },
+    "annualGrowth": 5.9
+  },
+  "currentValue": 47.28,
+  "setInfo": {
+    "name": "Pretty Pink Flower Bouquet",
+    "retailPrice": 59.99
+  },
+  "setId": "10342-1",
+  "url": "https://www.brickeconomy.com/set/10342-1/lego-botanical-collection-pretty-pink-flower-bouquet",
+  "scrapedAt": "2026-02-02T19:41:26.698Z"
+}

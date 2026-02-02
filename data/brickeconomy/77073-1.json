@@ -1,0 +1,115 @@
+{
+  "priceHistory": [
+    {
+      "date": "2024-07-31",
+      "newValue": 176.91,
+      "usedValue": 188.49
+    },
+    {
+      "date": "2024-08-31",
+      "newValue": 161.8,
+      "usedValue": 168.02
+    },
+    {
+      "date": "2024-09-30",
+      "newValue": 152.82,
+      "usedValue": 165.44
+    },
+    {
+      "date": "2024-11-01",
+      "newValue": 149.88,
+      "usedValue": 155.64
+    },
+    {
+      "date": "2024-12-01",
+      "newValue": 184.73,
+      "usedValue": 196.81
+    },
+    {
+      "date": "2025-01-01",
+      "newValue": 185.62,
+      "usedValue": 192.76
+    },
+    {
+      "date": "2025-02-01",
+      "newValue": 164.87,
+      "usedValue": 175.65
+    },
+    {
+      "date": "2025-03-01",
+      "newValue": 144.18,
+      "usedValue": 149.73
+    },
+    {
+      "date": "2025-03-31",
+      "newValue": 110.53,
+      "usedValue": 117.76
+    },
+    {
+      "date": "2025-04-30",
+      "newValue": 117.73,
+      "usedValue": 122.26
+    },
+    {
+      "date": "2025-05-31",
+      "newValue": 114.71,
+      "usedValue": 122.22
+    },
+    {
+      "date": "2025-06-30",
+      "newValue": 110.01,
+      "usedValue": 114.24
+    },
+    {
+      "date": "2025-07-31",
+      "newValue": 115.67,
+      "usedValue": 123.24
+    },
+    {
+      "date": "2025-08-31",
+      "newValue": 109.23,
+      "usedValue": 113.43
+    },
+    {
+      "date": "2025-09-30",
+      "newValue": 106.06,
+      "usedValue": 114.82
+    },
+    {
+      "date": "2025-11-01",
+      "newValue": 104.7,
+      "usedValue": 108.73
+    },
+    {
+      "date": "2025-12-01",
+      "newValue": 107.42,
+      "usedValue": 114.45
+    },
+    {
+      "date": "2026-01-01",
+      "newValue": 92.51,
+      "usedValue": 96.07
+    }
+  ],
+  "predictions": {
+    "1yr": {
+      "value": 116.52,
+      "source": "prediction-section"
+    },
+    "5yr": {
+      "value": 125.5,
+      "low": 123,
+      "high": 128,
+      "source": "prediction-section"
+    },
+    "annualGrowth": 8.27
+  },
+  "currentValue": 79.38,
+  "setInfo": {
+    "name": "Battle Bus",
+    "retailPrice": 99.99
+  },
+  "setId": "77073-1",
+  "url": "https://www.brickeconomy.com/set/77073-1/lego-fortnite-battle-bus",
+  "scrapedAt": "2026-02-02T19:43:17.659Z"
+}
