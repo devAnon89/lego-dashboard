@@ -16,6 +16,7 @@ let themePerformance = null;
 let monteCarloResults = null;
 let retirementPredictions = null;
 let buyTiming = null;
+let ensembleResults = null;
 let currentTab = 'all';
 let currentFilter = '';
 let historyChart = null;
@@ -108,6 +109,11 @@ async function loadData() {
       buyTiming = await fetch('data/buy-timing.json').then((r) => r.json());
     } catch (e) {
       buyTiming = null;
+    }
+    try {
+      ensembleResults = await fetch('data/ensemble-simulation-results.json').then((r) => r.json());
+    } catch (e) {
+      ensembleResults = null;
     }
     renderDashboard();
   } catch (e) {
@@ -572,20 +578,117 @@ function renderAIPredictionSummary(sets) {
   }
 }
 
-// Render Advanced Analytics Section (Monte Carlo, Theme Performance)
+// Render Advanced Analytics Section (Monte Carlo, Theme Performance, Ensemble)
 function renderAdvancedAnalytics() {
   const container = document.getElementById('advancedAnalytics');
   if (!container) return;
 
   let html = '';
 
-  // Monte Carlo Results
+  // Ensemble Simulation Results (unified model - show first as primary)
+  if (ensembleResults && ensembleResults.portfolioResults) {
+    const pr = ensembleResults.portfolioResults;
+    const stats = pr.projectedValue;
+    const yearly = ensembleResults.yearlyProjections || [];
+    const models = ensembleResults.modelComparison || {};
+    const rec = ensembleResults.recommendations || {};
+
+    html += `
+      <div class="card rounded-xl p-4 mb-4 border border-cyan-500/30 bg-gradient-to-br from-cyan-900/20 to-blue-900/20">
+        <h3 class="text-lg font-semibold mb-3 flex items-center gap-2">
+          <span class="text-2xl">🎯</span> Unified Ensemble Prediction
+          <span class="text-xs bg-cyan-500/20 text-cyan-400 px-2 py-0.5 rounded-full">6 Models Combined</span>
+        </h3>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+          <div class="bg-gray-800/80 rounded-lg p-3">
+            <div class="text-xs text-gray-400">Current Value</div>
+            <div class="text-lg font-bold">€${pr.currentValue.toLocaleString('de-DE')}</div>
+          </div>
+          <div class="bg-gray-800/80 rounded-lg p-3">
+            <div class="text-xs text-cyan-400">5yr Median</div>
+            <div class="text-lg font-bold text-cyan-300">€${stats.median.toFixed(0).toLocaleString()}</div>
+            <div class="text-sm ${stats.growth.medianPct >= 0 ? 'text-green-400' : 'text-red-400'}">
+              ${stats.growth.medianPct >= 0 ? '+' : ''}${stats.growth.medianPct.toFixed(1)}%
+            </div>
+          </div>
+          <div class="bg-gray-800/80 rounded-lg p-3">
+            <div class="text-xs text-gray-400">80% CI Range</div>
+            <div class="text-md font-bold">€${stats.percentiles.p10.toFixed(0)} - €${stats.percentiles.p90.toFixed(0)}</div>
+          </div>
+          <div class="bg-gray-800/80 rounded-lg p-3">
+            <div class="text-xs text-gray-400">Loss Probability</div>
+            <div class="text-lg font-bold ${stats.risk.probLoss < 5 ? 'text-green-400' : stats.risk.probLoss < 15 ? 'text-yellow-400' : 'text-red-400'}">
+              ${stats.risk.probLoss.toFixed(2)}%
+            </div>
+          </div>
+        </div>
+
+        <!-- Yearly Projections -->
+        <div class="mb-4">
+          <div class="text-xs text-gray-400 mb-2">Yearly Projections</div>
+          <div class="flex gap-2">
+            ${yearly.map(y => {
+              const color = y.growth >= 0 ? 'text-green-400' : 'text-red-400';
+              return `
+                <div class="flex-1 bg-gray-700/50 rounded-lg p-2 text-center">
+                  <div class="text-xs text-gray-400">${y.year}yr</div>
+                  <div class="text-sm font-bold">€${y.median.toFixed(0)}</div>
+                  <div class="${color} text-xs">${y.growth >= 0 ? '+' : ''}${y.growth.toFixed(1)}%</div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        </div>
+
+        <!-- Model Comparison -->
+        <div class="mb-4">
+          <div class="text-xs text-gray-400 mb-2">Individual Model Results</div>
+          <div class="grid grid-cols-3 md:grid-cols-6 gap-2">
+            ${Object.entries(models).map(([name, m]) => {
+              const color = m.growth.medianPct >= 0 ? 'text-green-400' : 'text-red-400';
+              return `
+                <div class="bg-gray-700/30 rounded p-2 text-center">
+                  <div class="text-xs text-gray-500 truncate">${name}</div>
+                  <div class="${color} text-sm font-bold">${m.growth.medianPct >= 0 ? '+' : ''}${m.growth.medianPct.toFixed(0)}%</div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        </div>
+
+        <!-- Risk/Return Summary -->
+        <div class="flex justify-between items-center p-3 bg-gray-800/50 rounded-lg">
+          <div>
+            <span class="text-xs text-gray-400">Risk Level: </span>
+            <span class="font-bold ${rec.riskLevel === 'LOW' ? 'text-green-400' : rec.riskLevel === 'MODERATE' ? 'text-yellow-400' : 'text-red-400'}">
+              ${rec.riskLevel || 'N/A'}
+            </span>
+          </div>
+          <div>
+            <span class="text-xs text-gray-400">Expected Return: </span>
+            <span class="font-bold ${rec.returnLevel === 'EXCELLENT' || rec.returnLevel === 'GOOD' ? 'text-green-400' : 'text-yellow-400'}">
+              ${rec.returnLevel || 'N/A'}
+            </span>
+          </div>
+          <div>
+            <span class="text-xs text-gray-400">Prob 2x: </span>
+            <span class="font-bold text-purple-400">${stats.risk.probDouble.toFixed(1)}%</span>
+          </div>
+        </div>
+
+        <div class="text-xs text-gray-400 mt-3">${rec.summary || 'Ensemble combines Monte Carlo, Scenario Analysis, Stress Testing, Bootstrap, GARCH, and Bayesian models'}</div>
+      </div>
+    `;
+  }
+
+  // Monte Carlo Results (keep as secondary)
   if (monteCarloResults) {
     const mc = monteCarloResults.projections;
     html += `
       <div class="card rounded-xl p-4 mb-4">
         <h3 class="text-lg font-semibold mb-3 flex items-center gap-2">
-          <span class="text-2xl">📊</span> Portfolio Projections (Monte Carlo)
+          <span class="text-2xl">📊</span> Enhanced Monte Carlo
+          <span class="text-xs bg-purple-500/20 text-purple-400 px-2 py-0.5 rounded-full">Student-t + Jump Diffusion</span>
         </h3>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
           ${['1yr', '3yr', '5yr', '10yr'].map(period => {
