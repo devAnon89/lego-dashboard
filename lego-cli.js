@@ -227,6 +227,54 @@ const commands = {
     console.log('✅ Purchase recorded successfully');
   },
 
+  purchases: (setId) => {
+    if (!setId) {
+      console.log('Usage: lego purchases <set_id>');
+      return;
+    }
+
+    const portfolio = loadPortfolio();
+    const data = loadPurchases();
+
+    // Get set name for display
+    const set = portfolio.sets[setId] || portfolio.sets[setId + '-1'];
+    const setName = set ? set.name : setId;
+
+    // Filter purchases for this set
+    const setPurchases = data.purchases.filter(p => p.setId === setId || p.setId === setId + '-1');
+
+    if (setPurchases.length === 0) {
+      console.log(`\n📦 ${setName}`);
+      console.log('═'.repeat(50));
+      console.log('No purchases recorded for this set.');
+      console.log('═'.repeat(50));
+      return;
+    }
+
+    // Sort by date (newest first)
+    setPurchases.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+    // Calculate totals
+    const totalQty = setPurchases.reduce((sum, p) => sum + p.qty, 0);
+    const totalSpent = setPurchases.reduce((sum, p) => sum + (p.price * p.qty), 0);
+    const avgPrice = totalSpent / totalQty;
+
+    console.log(`\n📦 ${setName}`);
+    console.log('═'.repeat(50));
+    console.log(`Total Purchases: ${setPurchases.length} | Total Qty: ${totalQty} | Total Spent: €${totalSpent.toFixed(2)}`);
+    console.log(`Average Price: €${avgPrice.toFixed(2)}`);
+    console.log('─'.repeat(50));
+
+    setPurchases.forEach(p => {
+      console.log(`${p.date} | €${p.price.toFixed(2)} × ${p.qty} = €${(p.price * p.qty).toFixed(2)} | ${p.condition} | ${p.seller}`);
+      if (p.notes) {
+        console.log(`  Notes: ${p.notes}`);
+      }
+    });
+
+    console.log('═'.repeat(50));
+  },
+
   refresh: async () => {
     console.log('🔄 Running AI analysis...');
     const { execSync } = require('child_process');
@@ -288,6 +336,7 @@ Commands:
   recommendations   AI-powered buy/sell/hold advice
   themes            Portfolio breakdown by theme
   add-purchase      Record a new purchase
+  purchases         View purchase history for a set
   refresh           Re-run AI analysis on all sets
   serve             Start dashboard web server
   help              Show this help
@@ -297,6 +346,7 @@ Examples:
   node lego-cli.js analyze 75192
   node lego-cli.js recommendations
   node lego-cli.js add-purchase 10316-1 --date 2024-01-15 --price 414 --qty 1 --seller 'BrickLink' --condition 'New'
+  node lego-cli.js purchases 10316-1
     `);
   }
 };
