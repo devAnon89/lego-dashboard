@@ -1,0 +1,542 @@
+{
+  "metadata": {
+    "generatedAt": "2026-02-02T22:56:03.050Z",
+    "simulations": 5000,
+    "currentPortfolioValue": 12974.699999999995,
+    "setCount": 54
+  },
+  "projections": {
+    "1yr": {
+      "years": 1,
+      "simulations": 5000,
+      "currentValue": 12974.699999999995,
+      "projections": {
+        "mean": 12913.26,
+        "median": 12901.19,
+        "p5": 11598.38,
+        "p10": 11887.05,
+        "p25": 12379.89,
+        "p75": 13454.46,
+        "p90": 13956.56,
+        "p95": 14228.63,
+        "min": 9943.59,
+        "max": 15751.03
+      },
+      "growth": {
+        "mean": -0.47,
+        "median": -0.57,
+        "bearCase": -8.38,
+        "bullCase": 7.57
+      },
+      "confidenceIntervals": {
+        "80%": {
+          "low": 11887.05,
+          "high": 13956.56
+        },
+        "90%": {
+          "low": 11598.38,
+          "high": 14228.63
+        },
+        "95%": {
+          "low": 11330.01,
+          "high": 14506.54
+        }
+      }
+    },
+    "3yr": {
+      "years": 3,
+      "simulations": 5000,
+      "currentValue": 12974.699999999995,
+      "projections": {
+        "mean": 12956.47,
+        "median": 12893.12,
+        "p5": 10784.98,
+        "p10": 11241.97,
+        "p25": 12009.75,
+        "p75": 13826.28,
+        "p90": 14785.7,
+        "p95": 15280.57,
+        "min": 8942.15,
+        "max": 17818.92
+      },
+      "growth": {
+        "mean": -0.14,
+        "median": -0.63,
+        "bearCase": -13.35,
+        "bullCase": 13.96
+      },
+      "confidenceIntervals": {
+        "80%": {
+          "low": 11241.97,
+          "high": 14785.7
+        },
+        "90%": {
+          "low": 10784.98,
+          "high": 15280.57
+        },
+        "95%": {
+          "low": 10456.54,
+          "high": 15813.11
+        }
+      }
+    },
+    "5yr": {
+      "years": 5,
+      "simulations": 5000,
+      "currentValue": 12974.699999999995,
+      "projections": {
+        "mean": 13288.97,
+        "median": 13157.64,
+        "p5": 10514.24,
+        "p10": 10981.95,
+        "p25": 11956.05,
+        "p75": 14473.81,
+        "p90": 15729.28,
+        "p95": 16564.77,
+        "min": 7859.15,
+        "max": 22663.06
+      },
+      "growth": {
+        "mean": 2.42,
+        "median": 1.41,
+        "bearCase": -15.36,
+        "bullCase": 21.23
+      },
+      "confidenceIntervals": {
+        "80%": {
+          "low": 10981.95,
+          "high": 15729.28
+        },
+        "90%": {
+          "low": 10514.24,
+          "high": 16564.77
+        },
+        "95%": {
+          "low": 10062.69,
+          "high": 17284
+        }
+      }
+    },
+    "10yr": {
+      "years": 10,
+      "simulations": 5000,
+      "currentValue": 12974.699999999995,
+      "projections": {
+        "mean": 15245.99,
+        "median": 14853.68,
+        "p5": 10764.96,
+        "p10": 11498.73,
+        "p25": 12956.79,
+        "p75": 17146.74,
+        "p90": 19413.21,
+        "p95": 20829.47,
+        "min": 7788.83,
+        "max": 38109.38
+      },
+      "growth": {
+        "mean": 17.51,
+        "median": 14.48,
+        "bearCase": -11.38,
+        "bullCase": 49.62
+      },
+      "confidenceIntervals": {
+        "80%": {
+          "low": 11498.73,
+          "high": 19413.21
+        },
+        "90%": {
+          "low": 10764.96,
+          "high": 20829.47
+        },
+        "95%": {
+          "low": 10065.97,
+          "high": 22431.05
+        }
+      }
+    }
+  },
+  "riskMetrics": {
+    "probabilityOfLoss5yr": 25,
+    "highVolatilitySets": []
+  },
+  "setParameters": [
+    {
+      "setNumber": "42115-1",
+      "name": "Lamborghini Sián FKP 37",
+      "currentValue": 425.57,
+      "expectedAnnualGrowth": 7.86,
+      "annualVolatility": 25
+    },
+    {
+      "setNumber": "76191-1",
+      "name": "Infinity Gauntlet",
+      "currentValue": 62.08,
+      "expectedAnnualGrowth": 20.81,
+      "annualVolatility": 25
+    },
+    {
+      "setNumber": "40499-1",
+      "name": "Santa's Sleigh",
+      "currentValue": 28.78,
+      "expectedAnnualGrowth": 9.45,
+      "annualVolatility": 25
+    },
+    {
+      "setNumber": "42143-1",
+      "name": "Ferrari Daytona SP3",
+      "currentValue": 395.99,
+      "expectedAnnualGrowth": 8.59,
+      "annualVolatility": 25
+    },
+    {
+      "setNumber": "76223-1",
+      "name": "Nano Gauntlet",
+      "currentValue": 102.25,
+      "expectedAnnualGrowth": -4.65,
+      "annualVolatility": 25
+    },
+    {
+      "setNumber": "76912-1",
+      "name": "Fast & Furious 1970 Dodge Charger R/T",
+      "currentValue": 52.76,
+      "expectedAnnualGrowth": -9.02,
+      "annualVolatility": 25
+    },
+    {
+      "setNumber": "40573-1",
+      "name": "Christmas Tree",
+      "currentValue": 28.6,
+      "expectedAnnualGrowth": 6.64,
+      "annualVolatility": 25
+    },
+    {
+      "setNumber": "76917-1",
+      "name": "Nissan Skyline GT-R",
+      "currentValue": 40.24,
+      "expectedAnnualGrowth": -4.32,
+      "annualVolatility": 25
+    },
+    {
+      "setNumber": "10316-1",
+      "name": "The Lord of the Rings Rivendell",
+      "currentValue": 1759.96,
+      "expectedAnnualGrowth": -6.25,
+      "annualVolatility": 25
+    },
+    {
+      "setNumber": "10323-1",
+      "name": "PAC-MAN Arcade",
+      "currentValue": 475.18,
+      "expectedAnnualGrowth": -7.4,
+      "annualVolatility": 25
+    },
+    {
+      "setNumber": "42161-1",
+      "name": "Lamborghini Huracán Tecnica",
+      "currentValue": 43.99,
+      "expectedAnnualGrowth": -4.52,
+      "annualVolatility": 25
+    },
+    {
+      "setNumber": "71426-1",
+      "name": "Piranha Plant",
+      "currentValue": 316.75,
+      "expectedAnnualGrowth": -4.34,
+      "annualVolatility": 25
+    },
+    {
+      "setNumber": "76922-1",
+      "name": "BMW M4 GT3 & BMW M Hybrid V8",
+      "currentValue": 36.77,
+      "expectedAnnualGrowth": -6.17,
+      "annualVolatility": 25
+    },
+    {
+      "setNumber": "21345-1",
+      "name": "Polaroid Camera",
+      "currentValue": 211.17,
+      "expectedAnnualGrowth": -10.03,
+      "annualVolatility": 25
+    },
+    {
+      "setNumber": "76269-1",
+      "name": "Avengers Tower",
+      "currentValue": 514.06,
+      "expectedAnnualGrowth": 3,
+      "annualVolatility": 25
+    },
+    {
+      "setNumber": "21348-1",
+      "name": "Dungeons & Dragons Red Dragon's Tale",
+      "currentValue": 316.79,
+      "expectedAnnualGrowth": 3.62,
+      "annualVolatility": 25
+    },
+    {
+      "setNumber": "40674-1",
+      "name": "Stitch",
+      "currentValue": 22.86,
+      "expectedAnnualGrowth": -1.01,
+      "annualVolatility": 25
+    },
+    {
+      "setNumber": "10333-1",
+      "name": "The Lord of the Rings Barad-Dur",
+      "currentValue": 1214.37,
+      "expectedAnnualGrowth": 0.7,
+      "annualVolatility": 25
+    },
+    {
+      "setNumber": "10330-1",
+      "name": "McLaren MP4/4 & Ayrton Senna",
+      "currentValue": 128.82,
+      "expectedAnnualGrowth": -9.56,
+      "annualVolatility": 25
+    },
+    {
+      "setNumber": "31212-1",
+      "name": "The Milky Way Galaxy",
+      "currentValue": 501.6,
+      "expectedAnnualGrowth": 5,
+      "annualVolatility": 25
+    },
+    {
+      "setNumber": "43247-1",
+      "name": "Young Simba the Lion King",
+      "currentValue": 114.39,
+      "expectedAnnualGrowth": -3.84,
+      "annualVolatility": 25
+    },
+    {
+      "setNumber": "42173-1",
+      "name": "Koenigsegg Jesko Absolut Grey Hypercar",
+      "currentValue": 43.99,
+      "expectedAnnualGrowth": -4.52,
+      "annualVolatility": 25
+    },
+    {
+      "setNumber": "21265-1",
+      "name": "The Crafting Table",
+      "currentValue": 184.4,
+      "expectedAnnualGrowth": 4.22,
+      "annualVolatility": 25
+    },
+    {
+      "setNumber": "76934-1",
+      "name": "Ferrari F40 Supercar",
+      "currentValue": 23.75,
+      "expectedAnnualGrowth": 3.16,
+      "annualVolatility": 25
+    },
+    {
+      "setNumber": "75682-1",
+      "name": "Elphaba & Glinda Figures",
+      "currentValue": 40.16,
+      "expectedAnnualGrowth": -5.38,
+      "annualVolatility": 25
+    },
+    {
+      "setNumber": "71438-1",
+      "name": "Super Mario World Mario & Yoshi",
+      "currentValue": 263.98,
+      "expectedAnnualGrowth": -5.3,
+      "annualVolatility": 25
+    },
+    {
+      "setNumber": "42172-1",
+      "name": "McLaren P1",
+      "currentValue": 395.99,
+      "expectedAnnualGrowth": -4.04,
+      "annualVolatility": 25
+    },
+    {
+      "setNumber": "77073-1",
+      "name": "Battle Bus",
+      "currentValue": 175.98,
+      "expectedAnnualGrowth": -14.76,
+      "annualVolatility": 25
+    },
+    {
+      "setNumber": "10350-1",
+      "name": "Tudor Corner",
+      "currentValue": 880,
+      "expectedAnnualGrowth": -3.98,
+      "annualVolatility": 25
+    },
+    {
+      "setNumber": "10342-1",
+      "name": "Pretty Pink Flower Bouquet",
+      "currentValue": 43.82,
+      "expectedAnnualGrowth": -7.58,
+      "annualVolatility": 25
+    },
+    {
+      "setNumber": "21353-1",
+      "name": "The Botanical Garden",
+      "currentValue": 1367.7,
+      "expectedAnnualGrowth": 3.53,
+      "annualVolatility": 25
+    },
+    {
+      "setNumber": "31165-1",
+      "name": "Wild Animals Panda Family",
+      "currentValue": 27.02,
+      "expectedAnnualGrowth": -9.33,
+      "annualVolatility": 25
+    },
+    {
+      "setNumber": "42204-1",
+      "name": "Fast & Furious Toyota Supra MK4",
+      "currentValue": 96.61,
+      "expectedAnnualGrowth": -5,
+      "annualVolatility": 25
+    },
+    {
+      "setNumber": "72046-1",
+      "name": "Game Boy",
+      "currentValue": 307.77,
+      "expectedAnnualGrowth": 12.75,
+      "annualVolatility": 25
+    },
+    {
+      "setNumber": "77239-1",
+      "name": "Porsche 911 GT3 RS Super Car",
+      "currentValue": 23.75,
+      "expectedAnnualGrowth": -3.16,
+      "annualVolatility": 25
+    },
+    {
+      "setNumber": "77237-1",
+      "name": "Dodge Challenger SRT Hellcat Sports Car",
+      "currentValue": 23.75,
+      "expectedAnnualGrowth": -3.16,
+      "annualVolatility": 25
+    },
+    {
+      "setNumber": "42210-1",
+      "name": "2 Fast 2 Furious Nissan Skyline GT-R (R34)",
+      "currentValue": 246.38,
+      "expectedAnnualGrowth": 10,
+      "annualVolatility": 25
+    },
+    {
+      "setNumber": "10354-1",
+      "name": "The Lord of the Rings The Shire",
+      "currentValue": 237.59,
+      "expectedAnnualGrowth": 7.33,
+      "annualVolatility": 25
+    },
+    {
+      "setNumber": "43279-1",
+      "name": "WALL•E and EVE",
+      "currentValue": 63.44,
+      "expectedAnnualGrowth": -3.85,
+      "annualVolatility": 25
+    },
+    {
+      "setNumber": "21276-1",
+      "name": "The Creeper",
+      "currentValue": 169.97,
+      "expectedAnnualGrowth": 5.9,
+      "annualVolatility": 25
+    },
+    {
+      "setNumber": "21279-1",
+      "name": "The Enderman Tower",
+      "currentValue": 73.25,
+      "expectedAnnualGrowth": 6.48,
+      "annualVolatility": 25
+    },
+    {
+      "setNumber": "72037-1",
+      "name": "Mario Kart - Mario & Standard Kart",
+      "currentValue": 747.96,
+      "expectedAnnualGrowth": -9.09,
+      "annualVolatility": 25
+    },
+    {
+      "setNumber": "77241-1",
+      "name": "2 Fast 2 Furious Honda S2000",
+      "currentValue": 43.9,
+      "expectedAnnualGrowth": -10.02,
+      "annualVolatility": 25
+    },
+    {
+      "setNumber": "42212-1",
+      "name": "Ferrari FXX K",
+      "currentValue": 57.48,
+      "expectedAnnualGrowth": -4.31,
+      "annualVolatility": 25
+    },
+    {
+      "setNumber": "43257-1",
+      "name": "Angel",
+      "currentValue": 57.19,
+      "expectedAnnualGrowth": 4.91,
+      "annualVolatility": 25
+    },
+    {
+      "setNumber": "77253-1",
+      "name": "Bugatti Vision GT Hyper Sports Car",
+      "currentValue": 24.63,
+      "expectedAnnualGrowth": -12,
+      "annualVolatility": 25
+    },
+    {
+      "setNumber": "77254-1",
+      "name": "Ferrari SF90 XX Stradale Sports Car",
+      "currentValue": 24.63,
+      "expectedAnnualGrowth": -4.59,
+      "annualVolatility": 25
+    },
+    {
+      "setNumber": "77255-1",
+      "name": "Lightning McQueen",
+      "currentValue": 24.63,
+      "expectedAnnualGrowth": -2.56,
+      "annualVolatility": 25
+    },
+    {
+      "setNumber": "31218-1",
+      "name": "Japanese Cherry Blossom Landscape",
+      "currentValue": 473.33,
+      "expectedAnnualGrowth": 9.86,
+      "annualVolatility": 25
+    },
+    {
+      "setNumber": "30719-1",
+      "name": "Go-Kart Racer",
+      "currentValue": 7.02,
+      "expectedAnnualGrowth": 6.84,
+      "annualVolatility": 25
+    },
+    {
+      "setNumber": "30721-1",
+      "name": "Flower Stand with Roses",
+      "currentValue": 4.39,
+      "expectedAnnualGrowth": 4.78,
+      "annualVolatility": 25
+    },
+    {
+      "setNumber": "40922-1",
+      "name": "Lilo & Stitch Angel",
+      "currentValue": 22.86,
+      "expectedAnnualGrowth": -12.07,
+      "annualVolatility": 25
+    },
+    {
+      "setNumber": "40779-1",
+      "name": "Year of the Horse",
+      "currentValue": 4.4,
+      "expectedAnnualGrowth": -9.09,
+      "annualVolatility": 25
+    },
+    {
+      "setNumber": "40915-1",
+      "name": "Lion Dance",
+      "currentValue": 0,
+      "expectedAnnualGrowth": -32.21,
+      "annualVolatility": 25
+    }
+  ]
+}

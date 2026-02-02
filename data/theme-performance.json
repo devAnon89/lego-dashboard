@@ -1,0 +1,521 @@
+{
+  "metadata": {
+    "generatedAt": "2026-02-02T22:54:58.309Z",
+    "totalSets": 54,
+    "totalThemes": 17
+  },
+  "themePerformance": [
+    {
+      "theme": "Creator",
+      "setCount": 1,
+      "totalValue": 27.02,
+      "totalPaid": 0,
+      "roi": 0,
+      "growth": {
+        "mean": 2601.75,
+        "median": 2601.75,
+        "stdDev": 0,
+        "min": 2601.75,
+        "max": 2601.75,
+        "sampleSize": 1
+      },
+      "cagr": {
+        "mean": 0,
+        "median": 0,
+        "stdDev": 0,
+        "sampleSize": 0
+      },
+      "volatility": "low",
+      "recommendation": "Insufficient data for recommendation"
+    },
+    {
+      "theme": "City",
+      "setCount": 1,
+      "totalValue": 7.02,
+      "totalPaid": 0,
+      "roi": 0,
+      "growth": {
+        "mean": 602.24,
+        "median": 602.24,
+        "stdDev": 0,
+        "min": 602.24,
+        "max": 602.24,
+        "sampleSize": 1
+      },
+      "cagr": {
+        "mean": 0,
+        "median": 0,
+        "stdDev": 0,
+        "sampleSize": 0
+      },
+      "volatility": "low",
+      "recommendation": "Insufficient data for recommendation"
+    },
+    {
+      "theme": "Friends",
+      "setCount": 1,
+      "totalValue": 4.39,
+      "totalPaid": 0,
+      "roi": 0,
+      "growth": {
+        "mean": 339.12,
+        "median": 339.12,
+        "stdDev": 0,
+        "min": 339.12,
+        "max": 339.12,
+        "sampleSize": 1
+      },
+      "cagr": {
+        "mean": 0,
+        "median": 0,
+        "stdDev": 0,
+        "sampleSize": 0
+      },
+      "volatility": "low",
+      "recommendation": "Insufficient data for recommendation"
+    },
+    {
+      "theme": "Fortnite",
+      "setCount": 1,
+      "totalValue": 175.98,
+      "totalPaid": 121.94,
+      "roi": 44.32,
+      "growth": {
+        "mean": 44.32,
+        "median": 44.32,
+        "stdDev": 0,
+        "min": 44.32,
+        "max": 44.32,
+        "sampleSize": 1
+      },
+      "cagr": {
+        "mean": 0,
+        "median": 0,
+        "stdDev": 0,
+        "sampleSize": 0
+      },
+      "volatility": "low",
+      "recommendation": "Insufficient data for recommendation"
+    },
+    {
+      "theme": "LEGO Art",
+      "setCount": 2,
+      "totalValue": 974.93,
+      "totalPaid": 697.43,
+      "roi": 39.79,
+      "growth": {
+        "mean": 42.27,
+        "median": 42.27,
+        "stdDev": 16.86,
+        "min": 25.41,
+        "max": 59.13,
+        "sampleSize": 2
+      },
+      "cagr": {
+        "mean": 0,
+        "median": 0,
+        "stdDev": 0,
+        "sampleSize": 0
+      },
+      "volatility": "medium",
+      "recommendation": "Strong performer - increase allocation"
+    },
+    {
+      "theme": "Super Mario",
+      "setCount": 4,
+      "totalValue": 1636.46,
+      "totalPaid": 1419.17,
+      "roi": 15.31,
+      "growth": {
+        "mean": 14.82,
+        "median": 18.03,
+        "stdDev": 12.23,
+        "min": -4.4,
+        "max": 27.64,
+        "sampleSize": 4
+      },
+      "cagr": {
+        "mean": 0,
+        "median": 0,
+        "stdDev": 0,
+        "sampleSize": 0
+      },
+      "volatility": "low",
+      "recommendation": "Good performer - maintain allocation"
+    },
+    {
+      "theme": "Technic",
+      "setCount": 8,
+      "totalValue": 1706,
+      "totalPaid": 1480.41,
+      "roi": 15.24,
+      "growth": {
+        "mean": 541.73,
+        "median": 10.68,
+        "stdDev": 1420.22,
+        "min": -16.98,
+        "max": 4299.12,
+        "sampleSize": 8
+      },
+      "cagr": {
+        "mean": 0,
+        "median": 0,
+        "stdDev": 0,
+        "sampleSize": 0
+      },
+      "volatility": "high",
+      "recommendation": "Good performer - maintain allocation"
+    },
+    {
+      "theme": "Minecraft",
+      "setCount": 3,
+      "totalValue": 427.62,
+      "totalPaid": 389.09,
+      "roi": 9.9,
+      "growth": {
+        "mean": 8.3,
+        "median": 4.06,
+        "stdDev": 23.88,
+        "min": -18.6,
+        "max": 39.44,
+        "sampleSize": 3
+      },
+      "cagr": {
+        "mean": 0,
+        "median": 0,
+        "stdDev": 0,
+        "sampleSize": 0
+      },
+      "volatility": "medium",
+      "recommendation": "Stable - selective buying opportunities"
+    },
+    {
+      "theme": "Ideas",
+      "setCount": 3,
+      "totalValue": 1895.66,
+      "totalPaid": 1874.4,
+      "roi": 1.13,
+      "growth": {
+        "mean": 0.07,
+        "median": 3.62,
+        "stdDev": 8.78,
+        "min": -12,
+        "max": 8.6,
+        "sampleSize": 3
+      },
+      "cagr": {
+        "mean": 0,
+        "median": 0,
+        "stdDev": 0,
+        "sampleSize": 0
+      },
+      "volatility": "low",
+      "recommendation": "Stable - selective buying opportunities"
+    },
+    {
+      "theme": "Marvel Super Heroes",
+      "setCount": 3,
+      "totalValue": 678.39,
+      "totalPaid": 689.86,
+      "roi": -1.66,
+      "growth": {
+        "mean": -8.9,
+        "median": -4.43,
+        "stdDev": 11.82,
+        "min": -25.09,
+        "max": 2.81,
+        "sampleSize": 3
+      },
+      "cagr": {
+        "mean": 0,
+        "median": 0,
+        "stdDev": 0,
+        "sampleSize": 0
+      },
+      "volatility": "low",
+      "recommendation": "Underperforming - hold existing, avoid new purchases"
+    },
+    {
+      "theme": "Icons",
+      "setCount": 6,
+      "totalValue": 4695.92,
+      "totalPaid": 4726.71,
+      "roi": -0.65,
+      "growth": {
+        "mean": -6.08,
+        "median": -5.98,
+        "stdDev": 8.35,
+        "min": -19.48,
+        "max": 6.28,
+        "sampleSize": 6
+      },
+      "cagr": {
+        "mean": 0,
+        "median": 0,
+        "stdDev": 0,
+        "sampleSize": 0
+      },
+      "volatility": "low",
+      "recommendation": "Underperforming - hold existing, avoid new purchases"
+    },
+    {
+      "theme": "Botanicals",
+      "setCount": 1,
+      "totalValue": 43.82,
+      "totalPaid": 47.99,
+      "roi": -8.69,
+      "growth": {
+        "mean": -8.7,
+        "median": -8.7,
+        "stdDev": 0,
+        "min": -8.7,
+        "max": -8.7,
+        "sampleSize": 1
+      },
+      "cagr": {
+        "mean": 0,
+        "median": 0,
+        "stdDev": 0,
+        "sampleSize": 0
+      },
+      "volatility": "low",
+      "recommendation": "Insufficient data for recommendation"
+    },
+    {
+      "theme": "Speed Champions",
+      "setCount": 10,
+      "totalValue": 318.81,
+      "totalPaid": 380.65,
+      "roi": -16.25,
+      "growth": {
+        "mean": -12.46,
+        "median": -12,
+        "stdDev": 10.25,
+        "min": -36,
+        "max": 6.46,
+        "sampleSize": 10
+      },
+      "cagr": {
+        "mean": 0,
+        "median": 0,
+        "stdDev": 0,
+        "sampleSize": 0
+      },
+      "volatility": "low",
+      "recommendation": "Poor performer - consider reducing exposure"
+    },
+    {
+      "theme": "BrickHeadz",
+      "setCount": 2,
+      "totalValue": 45.72,
+      "totalPaid": 51.96,
+      "roi": -12.01,
+      "growth": {
+        "mean": -12,
+        "median": -12,
+        "stdDev": 0,
+        "min": -12,
+        "max": -12,
+        "sampleSize": 2
+      },
+      "cagr": {
+        "mean": 0,
+        "median": 0,
+        "stdDev": 0,
+        "sampleSize": 0
+      },
+      "volatility": "low",
+      "recommendation": "Poor performer - consider reducing exposure"
+    },
+    {
+      "theme": "Disney",
+      "setCount": 3,
+      "totalValue": 235.02,
+      "totalPaid": 264.97,
+      "roi": -11.3,
+      "growth": {
+        "mean": -11.12,
+        "median": -12,
+        "stdDev": 1.24,
+        "min": -12,
+        "max": -9.36,
+        "sampleSize": 3
+      },
+      "cagr": {
+        "mean": 0,
+        "median": 0,
+        "stdDev": 0,
+        "sampleSize": 0
+      },
+      "volatility": "low",
+      "recommendation": "Poor performer - consider reducing exposure"
+    },
+    {
+      "theme": "Wicked",
+      "setCount": 1,
+      "totalValue": 40.16,
+      "totalPaid": 54.99,
+      "roi": -26.97,
+      "growth": {
+        "mean": -26.96,
+        "median": -26.96,
+        "stdDev": 0,
+        "min": -26.96,
+        "max": -26.96,
+        "sampleSize": 1
+      },
+      "cagr": {
+        "mean": 0,
+        "median": 0,
+        "stdDev": 0,
+        "sampleSize": 0
+      },
+      "volatility": "low",
+      "recommendation": "Insufficient data for recommendation"
+    },
+    {
+      "theme": "Seasonal",
+      "setCount": 4,
+      "totalValue": 61.78,
+      "totalPaid": 84.96,
+      "roi": -27.28,
+      "growth": {
+        "mean": 43.89,
+        "median": -32.21,
+        "stdDev": 173.21,
+        "min": -100,
+        "max": 340,
+        "sampleSize": 4
+      },
+      "cagr": {
+        "mean": 0,
+        "median": 0,
+        "stdDev": 0,
+        "sampleSize": 0
+      },
+      "volatility": "high",
+      "recommendation": "Poor performer - consider reducing exposure"
+    }
+  ],
+  "tierPerformance": [
+    {
+      "tier": "premium",
+      "priceRange": "€100-249",
+      "setCount": 7,
+      "growth": {
+        "mean": 18.38,
+        "median": 22.73,
+        "stdDev": 21.79
+      },
+      "cagr": {
+        "mean": 0,
+        "median": 0
+      }
+    },
+    {
+      "tier": "ultimate",
+      "priceRange": "€250+",
+      "setCount": 10,
+      "growth": {
+        "mean": 3.32,
+        "median": 3.21,
+        "stdDev": 11.6
+      },
+      "cagr": {
+        "mean": 0,
+        "median": 0
+      }
+    },
+    {
+      "tier": "mid",
+      "priceRange": "€30-99",
+      "setCount": 22,
+      "growth": {
+        "mean": 308.02,
+        "median": -7.18,
+        "stdDev": 1026.31
+      },
+      "cagr": {
+        "mean": 0,
+        "median": 0
+      }
+    },
+    {
+      "tier": "budget",
+      "priceRange": "< €30",
+      "setCount": 15,
+      "growth": {
+        "mean": 69.77,
+        "median": -12,
+        "stdDev": 188.5
+      },
+      "cagr": {
+        "mean": 0,
+        "median": 0
+      }
+    }
+  ],
+  "licensePerformance": [
+    {
+      "type": "licensed",
+      "setCount": 31,
+      "growth": {
+        "mean": 137.17,
+        "median": -4.43,
+        "stdDev": 760.05
+      },
+      "cagr": {
+        "mean": 0,
+        "median": 0
+      }
+    },
+    {
+      "type": "original",
+      "setCount": 23,
+      "growth": {
+        "mean": 162.3,
+        "median": -4.4,
+        "stdDev": 542.79
+      },
+      "cagr": {
+        "mean": 0,
+        "median": 0
+      }
+    }
+  ],
+  "insights": {
+    "topPerformingTheme": "Creator",
+    "worstPerformingTheme": "Seasonal",
+    "bestPriceTier": "premium",
+    "licensedVsOriginal": "Original outperforms"
+  },
+  "recommendations": {
+    "increase": [
+      "LEGO Art",
+      "Super Mario",
+      "Technic",
+      "Minecraft",
+      "Ideas"
+    ],
+    "decrease": [
+      "Speed Champions",
+      "BrickHeadz",
+      "Disney",
+      "Wicked",
+      "Seasonal"
+    ],
+    "optimalAllocation": {
+      "LEGO Art": 25.1,
+      "Super Mario": 16.1,
+      "Technic": 9.3,
+      "Minecraft": 10.4,
+      "Ideas": 10.4,
+      "Marvel Super Heroes": 7.2,
+      "Icons": 6.5,
+      "Speed Champions": 4.1,
+      "BrickHeadz": 3.6,
+      "Disney": 3.6,
+      "Seasonal": 3.7
+    }
+  }
+}

@@ -1,0 +1,1818 @@
+{
+  "metadata": {
+    "generatedAt": "2026-02-02T22:57:19.795Z",
+    "totalSets": 54
+  },
+  "summary": {
+    "critical": 2,
+    "high": 2,
+    "medium": 8,
+    "low": 0,
+    "active": 42
+  },
+  "urgentActions": [
+    {
+      "setNumber": "76191-1",
+      "name": "Infinity Gauntlet",
+      "urgency": "critical",
+      "recommendation": "Set likely retired. Prices may spike - consider selling if you have multiple copies."
+    },
+    {
+      "setNumber": "76917-1",
+      "name": "Nissan Skyline GT-R",
+      "urgency": "critical",
+      "recommendation": "Set likely retired. Prices may spike - consider selling if you have multiple copies."
+    },
+    {
+      "setNumber": "42115-1",
+      "name": "Lamborghini Sián FKP 37",
+      "urgency": "high",
+      "recommendation": "Retirement imminent. Buy additional units now if interested. Expected price increase post-retirement."
+    },
+    {
+      "setNumber": "40674-1",
+      "name": "Stitch",
+      "urgency": "high",
+      "recommendation": "Retirement imminent. Buy additional units now if interested. Expected price increase post-retirement."
+    }
+  ],
+  "upcomingRetirements": [
+    {
+      "setNumber": "21345-1",
+      "name": "Polaroid Camera",
+      "monthsUntil": 8,
+      "expected": "2026-09-30",
+      "confidence": 80
+    },
+    {
+      "setNumber": "40499-1",
+      "name": "Santa's Sleigh",
+      "monthsUntil": 10,
+      "expected": "2026-12-01",
+      "confidence": 60
+    },
+    {
+      "setNumber": "77241-1",
+      "name": "2 Fast 2 Furious Honda S2000",
+      "monthsUntil": 11,
+      "expected": "2026-12-31",
+      "confidence": 65
+    },
+    {
+      "setNumber": "42143-1",
+      "name": "Ferrari Daytona SP3",
+      "monthsUntil": 12,
+      "expected": "2027-01-30",
+      "confidence": 90
+    },
+    {
+      "setNumber": "76912-1",
+      "name": "Fast & Furious 1970 Dodge Charger R/T",
+      "monthsUntil": 12,
+      "expected": "2027-02-02",
+      "confidence": 50
+    },
+    {
+      "setNumber": "40573-1",
+      "name": "Christmas Tree",
+      "monthsUntil": 12,
+      "expected": "2027-02-02",
+      "confidence": 50
+    },
+    {
+      "setNumber": "71426-1",
+      "name": "Piranha Plant",
+      "monthsUntil": 12,
+      "expected": "2027-02-02",
+      "confidence": 50
+    },
+    {
+      "setNumber": "75682-1",
+      "name": "Elphaba & Glinda Figures",
+      "monthsUntil": 12,
+      "expected": "2027-02-02",
+      "confidence": 50
+    },
+    {
+      "setNumber": "72046-1",
+      "name": "Game Boy",
+      "monthsUntil": 12,
+      "expected": "2027-02-02",
+      "confidence": 50
+    },
+    {
+      "setNumber": "77239-1",
+      "name": "Porsche 911 GT3 RS Super Car",
+      "monthsUntil": 12,
+      "expected": "2027-02-02",
+      "confidence": 50
+    },
+    {
+      "setNumber": "77237-1",
+      "name": "Dodge Challenger SRT Hellcat Sports Car",
+      "monthsUntil": 12,
+      "expected": "2027-02-02",
+      "confidence": 50
+    },
+    {
+      "setNumber": "77253-1",
+      "name": "Bugatti Vision GT Hyper Sports Car",
+      "monthsUntil": 12,
+      "expected": "2027-02-02",
+      "confidence": 50
+    },
+    {
+      "setNumber": "77254-1",
+      "name": "Ferrari SF90 XX Stradale Sports Car",
+      "monthsUntil": 12,
+      "expected": "2027-02-02",
+      "confidence": 50
+    },
+    {
+      "setNumber": "30719-1",
+      "name": "Go-Kart Racer",
+      "monthsUntil": 12,
+      "expected": "2027-02-02",
+      "confidence": 50
+    },
+    {
+      "setNumber": "30721-1",
+      "name": "Flower Stand with Roses",
+      "monthsUntil": 12,
+      "expected": "2027-02-02",
+      "confidence": 50
+    },
+    {
+      "setNumber": "40922-1",
+      "name": "Lilo & Stitch Angel",
+      "monthsUntil": 12,
+      "expected": "2027-02-02",
+      "confidence": 50
+    }
+  ],
+  "predictions": [
+    {
+      "setNumber": "76191-1",
+      "name": "Infinity Gauntlet",
+      "theme": "Marvel Super Heroes / Avengers",
+      "baseTheme": "Marvel Super Heroes",
+      "retail": 89.99,
+      "currentValue": 62.08,
+      "priceTier": "mid",
+      "ageYears": 4.7,
+      "estimatedRelease": "2021-05-31",
+      "themeLifespan": {
+        "typical": 2,
+        "adjusted": 2.5,
+        "range": "1.5-3 years"
+      },
+      "retirementPrediction": {
+        "expected": "2024-05-31",
+        "window": {
+          "earliest": "2023-05-31",
+          "latest": "2024-05-31"
+        },
+        "monthsUntil": 0,
+        "status": "LIKELY_RETIRED",
+        "urgency": "critical"
+      },
+      "signals": [
+        "Approaching typical Marvel Super Heroes lifespan",
+        "Past typical theme lifespan"
+      ],
+      "signalScore": 5,
+      "confidence": 90,
+      "recommendation": "Set likely retired. Prices may spike - consider selling if you have multiple copies."
+    },
+    {
+      "setNumber": "76917-1",
+      "name": "Nissan Skyline GT-R",
+      "theme": "Speed Champions / Nissan",
+      "baseTheme": "Speed Champions",
+      "retail": 24.99,
+      "currentValue": 40.24,
+      "priceTier": "budget",
+      "ageYears": 3.4,
+      "estimatedRelease": "2022-08-31",
+      "themeLifespan": {
+        "typical": 2.5,
+        "adjusted": 2,
+        "range": "1.5-3.5 years"
+      },
+      "retirementPrediction": {
+        "expected": "2024-08-31",
+        "window": {
+          "earliest": "2023-08-31",
+          "latest": "2025-08-31"
+        },
+        "monthsUntil": 0,
+        "status": "LIKELY_RETIRED",
+        "urgency": "critical"
+      },
+      "signals": [
+        "Trading above retail price",
+        "Approaching typical Speed Champions lifespan",
+        "Past typical theme lifespan"
+      ],
+      "signalScore": 6,
+      "confidence": 95,
+      "recommendation": "Set likely retired. Prices may spike - consider selling if you have multiple copies."
+    },
+    {
+      "setNumber": "42115-1",
+      "name": "Lamborghini Sián FKP 37",
+      "theme": "Technic / Licensed",
+      "baseTheme": "Technic",
+      "retail": 449.99,
+      "currentValue": 425.57,
+      "priceTier": "ultimate",
+      "ageYears": 5.8,
+      "estimatedRelease": "2020-03-30",
+      "themeLifespan": {
+        "typical": 3,
+        "adjusted": 4.5,
+        "range": "2-5 years"
+      },
+      "retirementPrediction": {
+        "expected": "2025-03-30",
+        "window": {
+          "earliest": "2023-03-30",
+          "latest": "2026-03-30"
+        },
+        "monthsUntil": 0,
+        "status": "RETIRING_SOON",
+        "urgency": "high"
+      },
+      "signals": [
+        "Approaching typical Technic lifespan",
+        "Past typical theme lifespan"
+      ],
+      "signalScore": 5,
+      "confidence": 90,
+      "recommendation": "Retirement imminent. Buy additional units now if interested. Expected price increase post-retirement."
+    },
+    {
+      "setNumber": "40674-1",
+      "name": "Stitch",
+      "theme": "BrickHeadz / Disney",
+      "baseTheme": "BrickHeadz",
+      "retail": 12.99,
+      "currentValue": 22.86,
+      "priceTier": "budget",
+      "ageYears": 2.3,
+      "estimatedRelease": "2023-09-30",
+      "themeLifespan": {
+        "typical": 2,
+        "adjusted": 2,
+        "range": "1-3 years"
+      },
+      "retirementPrediction": {
+        "expected": "2025-09-30",
+        "window": {
+          "earliest": "2024-09-30",
+          "latest": "2026-09-30"
+        },
+        "monthsUntil": 0,
+        "status": "RETIRING_SOON",
+        "urgency": "high"
+      },
+      "signals": [
+        "Trading above retail price",
+        "Approaching typical BrickHeadz lifespan",
+        "Past typical theme lifespan"
+      ],
+      "signalScore": 6,
+      "confidence": 95,
+      "recommendation": "Retirement imminent. Buy additional units now if interested. Expected price increase post-retirement."
+    },
+    {
+      "setNumber": "21345-1",
+      "name": "Polaroid Camera",
+      "theme": "Ideas / Licensed",
+      "baseTheme": "Ideas",
+      "retail": 79.99,
+      "currentValue": 211.17,
+      "priceTier": "mid",
+      "ageYears": 2.3,
+      "estimatedRelease": "2023-09-30",
+      "themeLifespan": {
+        "typical": 2.5,
+        "adjusted": 2.5,
+        "range": "2-4 years"
+      },
+      "retirementPrediction": {
+        "expected": "2026-09-30",
+        "window": {
+          "earliest": "2025-09-30",
+          "latest": "2027-09-30"
+        },
+        "monthsUntil": 8,
+        "status": "RETIREMENT_WINDOW",
+        "urgency": "medium"
+      },
+      "signals": [
+        "Trading above retail price",
+        "Approaching typical Ideas lifespan"
+      ],
+      "signalScore": 3,
+      "confidence": 80,
+      "recommendation": "In retirement window. Monitor for clearance sales and stock depletion signals."
+    },
+    {
+      "setNumber": "40499-1",
+      "name": "Santa's Sleigh",
+      "theme": "Seasonal / Christmas",
+      "baseTheme": "Seasonal",
+      "retail": 39.99,
+      "currentValue": 28.78,
+      "priceTier": "mid",
+      "ageYears": 1.2,
+      "estimatedRelease": "2024-12-01",
+      "themeLifespan": {
+        "typical": 1.5,
+        "adjusted": 1.5,
+        "range": "1-2 years"
+      },
+      "retirementPrediction": {
+        "expected": "2026-12-01",
+        "window": {
+          "earliest": "2025-12-01",
+          "latest": "2026-12-01"
+        },
+        "monthsUntil": 10,
+        "status": "RETIREMENT_WINDOW",
+        "urgency": "medium"
+      },
+      "signals": [],
+      "signalScore": 0,
+      "confidence": 60,
+      "recommendation": "In retirement window. Monitor for clearance sales and stock depletion signals."
+    },
+    {
+      "setNumber": "77241-1",
+      "name": "2 Fast 2 Furious Honda S2000",
+      "theme": "Speed Champions / Honda",
+      "baseTheme": "Speed Champions",
+      "retail": 26.99,
+      "currentValue": 43.9,
+      "priceTier": "budget",
+      "ageYears": 1.1,
+      "estimatedRelease": "2024-12-31",
+      "themeLifespan": {
+        "typical": 2.5,
+        "adjusted": 2,
+        "range": "1.5-3.5 years"
+      },
+      "retirementPrediction": {
+        "expected": "2026-12-31",
+        "window": {
+          "earliest": "2025-12-31",
+          "latest": "2027-12-31"
+        },
+        "monthsUntil": 11,
+        "status": "RETIREMENT_WINDOW",
+        "urgency": "medium"
+      },
+      "signals": [
+        "Trading above retail price"
+      ],
+      "signalScore": 1,
+      "confidence": 65,
+      "recommendation": "In retirement window. Monitor for clearance sales and stock depletion signals."
+    },
+    {
+      "setNumber": "42143-1",
+      "name": "Ferrari Daytona SP3",
+      "theme": "Technic",
+      "baseTheme": "Technic",
+      "retail": 449.99,
+      "currentValue": 395.99,
+      "priceTier": "ultimate",
+      "ageYears": 4,
+      "estimatedRelease": "2022-01-30",
+      "themeLifespan": {
+        "typical": 3,
+        "adjusted": 4.5,
+        "range": "2-5 years"
+      },
+      "retirementPrediction": {
+        "expected": "2027-01-30",
+        "window": {
+          "earliest": "2025-01-30",
+          "latest": "2028-01-30"
+        },
+        "monthsUntil": 12,
+        "status": "RETIREMENT_WINDOW",
+        "urgency": "medium"
+      },
+      "signals": [
+        "Approaching typical Technic lifespan",
+        "Past typical theme lifespan"
+      ],
+      "signalScore": 5,
+      "confidence": 90,
+      "recommendation": "In retirement window. Monitor for clearance sales and stock depletion signals."
+    },
+    {
+      "setNumber": "42161-1",
+      "name": "Lamborghini Huracán Tecnica",
+      "theme": "Technic / Licensed",
+      "baseTheme": "Technic",
+      "retail": 52.99,
+      "currentValue": 43.99,
+      "priceTier": "mid",
+      "ageYears": 2.9,
+      "estimatedRelease": "2023-03-03",
+      "themeLifespan": {
+        "typical": 3,
+        "adjusted": 3.5,
+        "range": "2-5 years"
+      },
+      "retirementPrediction": {
+        "expected": "2027-03-03",
+        "window": {
+          "earliest": "2025-03-03",
+          "latest": "2028-03-03"
+        },
+        "monthsUntil": 13,
+        "status": "RETIREMENT_WINDOW",
+        "urgency": "medium"
+      },
+      "signals": [
+        "High growth rate (>30%)",
+        "Approaching typical Technic lifespan"
+      ],
+      "signalScore": 4,
+      "confidence": 85,
+      "recommendation": "In retirement window. Monitor for clearance sales and stock depletion signals."
+    },
+    {
+      "setNumber": "76934-1",
+      "name": "Ferrari F40 Supercar",
+      "theme": "Speed Champions / Ferrari",
+      "baseTheme": "Speed Champions",
+      "retail": 26.99,
+      "currentValue": 23.75,
+      "priceTier": "budget",
+      "ageYears": 1.8,
+      "estimatedRelease": "2024-05-01",
+      "themeLifespan": {
+        "typical": 2.5,
+        "adjusted": 2.5,
+        "range": "1.5-3.5 years"
+      },
+      "retirementPrediction": {
+        "expected": "2027-05-01",
+        "window": {
+          "earliest": "2025-05-01",
+          "latest": "2027-05-01"
+        },
+        "monthsUntil": 15,
+        "status": "RETIREMENT_WINDOW",
+        "urgency": "medium"
+      },
+      "signals": [],
+      "signalScore": 0,
+      "confidence": 65,
+      "recommendation": "In retirement window. Monitor for clearance sales and stock depletion signals."
+    },
+    {
+      "setNumber": "10316-1",
+      "name": "The Lord of the Rings Rivendell",
+      "theme": "Icons / Licensed",
+      "baseTheme": "Icons",
+      "retail": 499.99,
+      "currentValue": 1759.96,
+      "priceTier": "ultimate",
+      "ageYears": 3.3,
+      "estimatedRelease": "2022-11-01",
+      "themeLifespan": {
+        "typical": 3,
+        "adjusted": 4.5,
+        "range": "2-5 years"
+      },
+      "retirementPrediction": {
+        "expected": "2027-11-01",
+        "window": {
+          "earliest": "2025-11-01",
+          "latest": "2028-11-01"
+        },
+        "monthsUntil": 21,
+        "status": "RETIREMENT_WINDOW",
+        "urgency": "medium"
+      },
+      "signals": [
+        "Trading above retail price",
+        "Approaching typical Icons lifespan",
+        "Past typical theme lifespan"
+      ],
+      "signalScore": 6,
+      "confidence": 95,
+      "recommendation": "In retirement window. Monitor for clearance sales and stock depletion signals."
+    },
+    {
+      "setNumber": "10330-1",
+      "name": "McLaren MP4/4 & Ayrton Senna",
+      "theme": "Icons / Vehicles",
+      "baseTheme": "Icons",
+      "retail": 79.99,
+      "currentValue": 128.82,
+      "priceTier": "mid",
+      "ageYears": 2.3,
+      "estimatedRelease": "2023-11-01",
+      "themeLifespan": {
+        "typical": 3,
+        "adjusted": 3.5,
+        "range": "2-5 years"
+      },
+      "retirementPrediction": {
+        "expected": "2027-11-01",
+        "window": {
+          "earliest": "2025-11-01",
+          "latest": "2028-11-01"
+        },
+        "monthsUntil": 21,
+        "status": "RETIREMENT_WINDOW",
+        "urgency": "medium"
+      },
+      "signals": [
+        "Trading above retail price"
+      ],
+      "signalScore": 1,
+      "confidence": 70,
+      "recommendation": "In retirement window. Monitor for clearance sales and stock depletion signals."
+    },
+    {
+      "setNumber": "40779-1",
+      "name": "Year of the Horse",
+      "theme": "Seasonal / Chinese New Year",
+      "baseTheme": "Seasonal",
+      "retail": 0,
+      "currentValue": 4.4,
+      "priceTier": "budget",
+      "ageYears": 1,
+      "estimatedRelease": "2025-02-02",
+      "themeLifespan": {
+        "typical": 1.5,
+        "adjusted": 1,
+        "range": "1-2 years"
+      },
+      "retirementPrediction": {
+        "expected": "2026-02-02",
+        "window": {
+          "earliest": "2026-02-02",
+          "latest": "2027-02-02"
+        },
+        "monthsUntil": 0,
+        "status": "ACTIVE",
+        "urgency": "none"
+      },
+      "signals": [],
+      "signalScore": 0,
+      "confidence": 50,
+      "recommendation": "Active but approaching retirement (~0 months). Consider buying before retirement."
+    },
+    {
+      "setNumber": "40915-1",
+      "name": "Lion Dance",
+      "theme": "Seasonal / Chinese Traditional Festivals",
+      "baseTheme": "Seasonal",
+      "retail": 0,
+      "currentValue": 0,
+      "priceTier": "budget",
+      "ageYears": 1,
+      "estimatedRelease": "2025-02-02",
+      "themeLifespan": {
+        "typical": 1.5,
+        "adjusted": 1,
+        "range": "1-2 years"
+      },
+      "retirementPrediction": {
+        "expected": "2026-02-02",
+        "window": {
+          "earliest": "2026-02-02",
+          "latest": "2027-02-02"
+        },
+        "monthsUntil": 0,
+        "status": "ACTIVE",
+        "urgency": "none"
+      },
+      "signals": [],
+      "signalScore": 0,
+      "confidence": 50,
+      "recommendation": "Active but approaching retirement (~0 months). Consider buying before retirement."
+    },
+    {
+      "setNumber": "76912-1",
+      "name": "Fast & Furious 1970 Dodge Charger R/T",
+      "theme": "Speed Champions / Dodge",
+      "baseTheme": "Speed Champions",
+      "retail": 24.99,
+      "currentValue": 52.76,
+      "priceTier": "budget",
+      "ageYears": 1,
+      "estimatedRelease": "2025-02-02",
+      "themeLifespan": {
+        "typical": 2.5,
+        "adjusted": 2,
+        "range": "1.5-3.5 years"
+      },
+      "retirementPrediction": {
+        "expected": "2027-02-02",
+        "window": {
+          "earliest": "2026-02-02",
+          "latest": "2028-02-02"
+        },
+        "monthsUntil": 12,
+        "status": "ACTIVE",
+        "urgency": "none"
+      },
+      "signals": [],
+      "signalScore": 0,
+      "confidence": 50,
+      "recommendation": "Active with 12+ months expected availability. No urgency to buy."
+    },
+    {
+      "setNumber": "40573-1",
+      "name": "Christmas Tree",
+      "theme": "Seasonal / Christmas",
+      "baseTheme": "Seasonal",
+      "retail": 44.99,
+      "currentValue": 28.6,
+      "priceTier": "mid",
+      "ageYears": 1,
+      "estimatedRelease": "2025-02-02",
+      "themeLifespan": {
+        "typical": 1.5,
+        "adjusted": 1.5,
+        "range": "1-2 years"
+      },
+      "retirementPrediction": {
+        "expected": "2027-02-02",
+        "window": {
+          "earliest": "2026-02-02",
+          "latest": "2027-02-02"
+        },
+        "monthsUntil": 12,
+        "status": "ACTIVE",
+        "urgency": "none"
+      },
+      "signals": [],
+      "signalScore": 0,
+      "confidence": 50,
+      "recommendation": "Active with 12+ months expected availability. No urgency to buy."
+    },
+    {
+      "setNumber": "71426-1",
+      "name": "Piranha Plant",
+      "theme": "Super Mario / Miscellaneous",
+      "baseTheme": "Super Mario",
+      "retail": 64.99,
+      "currentValue": 316.75,
+      "priceTier": "mid",
+      "ageYears": 1,
+      "estimatedRelease": "2025-02-02",
+      "themeLifespan": {
+        "typical": 2,
+        "adjusted": 2,
+        "range": "1.5-3 years"
+      },
+      "retirementPrediction": {
+        "expected": "2027-02-02",
+        "window": {
+          "earliest": "2027-02-02",
+          "latest": "2028-02-02"
+        },
+        "monthsUntil": 12,
+        "status": "ACTIVE",
+        "urgency": "none"
+      },
+      "signals": [],
+      "signalScore": 0,
+      "confidence": 50,
+      "recommendation": "Active with 12+ months expected availability. No urgency to buy."
+    },
+    {
+      "setNumber": "75682-1",
+      "name": "Elphaba & Glinda Figures",
+      "theme": "Wicked / Part One",
+      "baseTheme": "Wicked",
+      "retail": 54.99,
+      "currentValue": 40.16,
+      "priceTier": "mid",
+      "ageYears": 1,
+      "estimatedRelease": "2025-02-02",
+      "themeLifespan": {
+        "typical": 2.5,
+        "adjusted": 2.2,
+        "range": "1.5-4 years"
+      },
+      "retirementPrediction": {
+        "expected": "2027-02-02",
+        "window": {
+          "earliest": "2027-02-02",
+          "latest": "2029-02-02"
+        },
+        "monthsUntil": 12,
+        "status": "ACTIVE",
+        "urgency": "none"
+      },
+      "signals": [],
+      "signalScore": 0,
+      "confidence": 50,
+      "recommendation": "Active with 12+ months expected availability. No urgency to buy."
+    },
+    {
+      "setNumber": "72046-1",
+      "name": "Game Boy",
+      "theme": "Super Mario / Miscellaneous",
+      "baseTheme": "Super Mario",
+      "retail": 59.99,
+      "currentValue": 307.77,
+      "priceTier": "mid",
+      "ageYears": 1,
+      "estimatedRelease": "2025-02-02",
+      "themeLifespan": {
+        "typical": 2,
+        "adjusted": 2,
+        "range": "1.5-3 years"
+      },
+      "retirementPrediction": {
+        "expected": "2027-02-02",
+        "window": {
+          "earliest": "2027-02-02",
+          "latest": "2028-02-02"
+        },
+        "monthsUntil": 12,
+        "status": "ACTIVE",
+        "urgency": "none"
+      },
+      "signals": [],
+      "signalScore": 0,
+      "confidence": 50,
+      "recommendation": "Active with 12+ months expected availability. No urgency to buy."
+    },
+    {
+      "setNumber": "77239-1",
+      "name": "Porsche 911 GT3 RS Super Car",
+      "theme": "Speed Champions / Porsche",
+      "baseTheme": "Speed Champions",
+      "retail": 26.99,
+      "currentValue": 23.75,
+      "priceTier": "budget",
+      "ageYears": 1,
+      "estimatedRelease": "2025-02-02",
+      "themeLifespan": {
+        "typical": 2.5,
+        "adjusted": 2,
+        "range": "1.5-3.5 years"
+      },
+      "retirementPrediction": {
+        "expected": "2027-02-02",
+        "window": {
+          "earliest": "2026-02-02",
+          "latest": "2028-02-02"
+        },
+        "monthsUntil": 12,
+        "status": "ACTIVE",
+        "urgency": "none"
+      },
+      "signals": [],
+      "signalScore": 0,
+      "confidence": 50,
+      "recommendation": "Active with 12+ months expected availability. No urgency to buy."
+    },
+    {
+      "setNumber": "77237-1",
+      "name": "Dodge Challenger SRT Hellcat Sports Car",
+      "theme": "Speed Champions / Dodge",
+      "baseTheme": "Speed Champions",
+      "retail": 26.99,
+      "currentValue": 23.75,
+      "priceTier": "budget",
+      "ageYears": 1,
+      "estimatedRelease": "2025-02-02",
+      "themeLifespan": {
+        "typical": 2.5,
+        "adjusted": 2,
+        "range": "1.5-3.5 years"
+      },
+      "retirementPrediction": {
+        "expected": "2027-02-02",
+        "window": {
+          "earliest": "2026-02-02",
+          "latest": "2028-02-02"
+        },
+        "monthsUntil": 12,
+        "status": "ACTIVE",
+        "urgency": "none"
+      },
+      "signals": [],
+      "signalScore": 0,
+      "confidence": 50,
+      "recommendation": "Active with 12+ months expected availability. No urgency to buy."
+    },
+    {
+      "setNumber": "77253-1",
+      "name": "Bugatti Vision GT Hyper Sports Car",
+      "theme": "Speed Champions / Bugatti",
+      "baseTheme": "Speed Champions",
+      "retail": 27.99,
+      "currentValue": 24.63,
+      "priceTier": "budget",
+      "ageYears": 1,
+      "estimatedRelease": "2025-02-02",
+      "themeLifespan": {
+        "typical": 2.5,
+        "adjusted": 2,
+        "range": "1.5-3.5 years"
+      },
+      "retirementPrediction": {
+        "expected": "2027-02-02",
+        "window": {
+          "earliest": "2026-02-02",
+          "latest": "2028-02-02"
+        },
+        "monthsUntil": 12,
+        "status": "ACTIVE",
+        "urgency": "none"
+      },
+      "signals": [],
+      "signalScore": 0,
+      "confidence": 50,
+      "recommendation": "Active with 12+ months expected availability. No urgency to buy."
+    },
+    {
+      "setNumber": "77254-1",
+      "name": "Ferrari SF90 XX Stradale Sports Car",
+      "theme": "Speed Champions / Ferrari",
+      "baseTheme": "Speed Champions",
+      "retail": 27.99,
+      "currentValue": 24.63,
+      "priceTier": "budget",
+      "ageYears": 1,
+      "estimatedRelease": "2025-02-02",
+      "themeLifespan": {
+        "typical": 2.5,
+        "adjusted": 2,
+        "range": "1.5-3.5 years"
+      },
+      "retirementPrediction": {
+        "expected": "2027-02-02",
+        "window": {
+          "earliest": "2026-02-02",
+          "latest": "2028-02-02"
+        },
+        "monthsUntil": 12,
+        "status": "ACTIVE",
+        "urgency": "none"
+      },
+      "signals": [],
+      "signalScore": 0,
+      "confidence": 50,
+      "recommendation": "Active with 12+ months expected availability. No urgency to buy."
+    },
+    {
+      "setNumber": "30719-1",
+      "name": "Go-Kart Racer",
+      "theme": "City / Racing",
+      "baseTheme": "City",
+      "retail": 3.99,
+      "currentValue": 7.02,
+      "priceTier": "budget",
+      "ageYears": 1,
+      "estimatedRelease": "2025-02-02",
+      "themeLifespan": {
+        "typical": 2.5,
+        "adjusted": 2,
+        "range": "2-4 years"
+      },
+      "retirementPrediction": {
+        "expected": "2027-02-02",
+        "window": {
+          "earliest": "2027-02-02",
+          "latest": "2029-02-02"
+        },
+        "monthsUntil": 12,
+        "status": "ACTIVE",
+        "urgency": "none"
+      },
+      "signals": [],
+      "signalScore": 0,
+      "confidence": 50,
+      "recommendation": "Active with 12+ months expected availability. No urgency to buy."
+    },
+    {
+      "setNumber": "30721-1",
+      "name": "Flower Stand with Roses",
+      "theme": "Friends / General",
+      "baseTheme": "Friends",
+      "retail": 3.99,
+      "currentValue": 4.39,
+      "priceTier": "budget",
+      "ageYears": 1,
+      "estimatedRelease": "2025-02-02",
+      "themeLifespan": {
+        "typical": 2,
+        "adjusted": 1.5,
+        "range": "1.5-3 years"
+      },
+      "retirementPrediction": {
+        "expected": "2027-02-02",
+        "window": {
+          "earliest": "2026-02-02",
+          "latest": "2028-02-02"
+        },
+        "monthsUntil": 12,
+        "status": "ACTIVE",
+        "urgency": "none"
+      },
+      "signals": [],
+      "signalScore": 0,
+      "confidence": 50,
+      "recommendation": "Active with 12+ months expected availability. No urgency to buy."
+    },
+    {
+      "setNumber": "40922-1",
+      "name": "Lilo & Stitch Angel",
+      "theme": "BrickHeadz / Disney",
+      "baseTheme": "BrickHeadz",
+      "retail": 12.99,
+      "currentValue": 22.86,
+      "priceTier": "budget",
+      "ageYears": 1,
+      "estimatedRelease": "2025-02-02",
+      "themeLifespan": {
+        "typical": 2,
+        "adjusted": 2,
+        "range": "1-3 years"
+      },
+      "retirementPrediction": {
+        "expected": "2027-02-02",
+        "window": {
+          "earliest": "2026-02-02",
+          "latest": "2028-02-02"
+        },
+        "monthsUntil": 12,
+        "status": "ACTIVE",
+        "urgency": "none"
+      },
+      "signals": [],
+      "signalScore": 0,
+      "confidence": 50,
+      "recommendation": "Active with 12+ months expected availability. No urgency to buy."
+    },
+    {
+      "setNumber": "71438-1",
+      "name": "Super Mario World Mario & Yoshi",
+      "theme": "Super Mario / Miscellaneous",
+      "baseTheme": "Super Mario",
+      "retail": 129.99,
+      "currentValue": 263.98,
+      "priceTier": "premium",
+      "ageYears": 1.8,
+      "estimatedRelease": "2024-05-01",
+      "themeLifespan": {
+        "typical": 2,
+        "adjusted": 2.5,
+        "range": "1.5-3 years"
+      },
+      "retirementPrediction": {
+        "expected": "2027-05-01",
+        "window": {
+          "earliest": "2026-05-01",
+          "latest": "2028-05-01"
+        },
+        "monthsUntil": 15,
+        "status": "ACTIVE",
+        "urgency": "none"
+      },
+      "signals": [
+        "Trading above retail price",
+        "Approaching typical Super Mario lifespan"
+      ],
+      "signalScore": 3,
+      "confidence": 80,
+      "recommendation": "Active with 15+ months expected availability. No urgency to buy."
+    },
+    {
+      "setNumber": "77073-1",
+      "name": "Battle Bus",
+      "theme": "Fortnite",
+      "baseTheme": "Fortnite",
+      "retail": 99.99,
+      "currentValue": 175.98,
+      "priceTier": "mid",
+      "ageYears": 1.8,
+      "estimatedRelease": "2024-05-01",
+      "themeLifespan": {
+        "typical": 2.5,
+        "adjusted": 2.5,
+        "range": "1.5-4 years"
+      },
+      "retirementPrediction": {
+        "expected": "2027-05-01",
+        "window": {
+          "earliest": "2026-05-01",
+          "latest": "2028-05-01"
+        },
+        "monthsUntil": 15,
+        "status": "ACTIVE",
+        "urgency": "none"
+      },
+      "signals": [
+        "Trading above retail price",
+        "High growth rate (>30%)"
+      ],
+      "signalScore": 3,
+      "confidence": 80,
+      "recommendation": "Active with 15+ months expected availability. No urgency to buy."
+    },
+    {
+      "setNumber": "10342-1",
+      "name": "Pretty Pink Flower Bouquet",
+      "theme": "Botanicals",
+      "baseTheme": "Botanicals",
+      "retail": 59.99,
+      "currentValue": 43.82,
+      "priceTier": "mid",
+      "ageYears": 1.4,
+      "estimatedRelease": "2024-08-31",
+      "themeLifespan": {
+        "typical": 3,
+        "adjusted": 3,
+        "range": "2-4 years"
+      },
+      "retirementPrediction": {
+        "expected": "2027-08-31",
+        "window": {
+          "earliest": "2026-08-31",
+          "latest": "2028-08-31"
+        },
+        "monthsUntil": 19,
+        "status": "ACTIVE",
+        "urgency": "none"
+      },
+      "signals": [],
+      "signalScore": 0,
+      "confidence": 65,
+      "recommendation": "Active with 19+ months expected availability. No urgency to buy."
+    },
+    {
+      "setNumber": "31165-1",
+      "name": "Wild Animals Panda Family",
+      "theme": "Creator / 3 in 1",
+      "baseTheme": "Creator",
+      "retail": 39.99,
+      "currentValue": 27.02,
+      "priceTier": "mid",
+      "ageYears": 1.4,
+      "estimatedRelease": "2024-08-31",
+      "themeLifespan": {
+        "typical": 3,
+        "adjusted": 3,
+        "range": "2-4 years"
+      },
+      "retirementPrediction": {
+        "expected": "2027-08-31",
+        "window": {
+          "earliest": "2026-08-31",
+          "latest": "2028-08-31"
+        },
+        "monthsUntil": 19,
+        "status": "ACTIVE",
+        "urgency": "none"
+      },
+      "signals": [
+        "High growth rate (>30%)"
+      ],
+      "signalScore": 2,
+      "confidence": 75,
+      "recommendation": "Active with 19+ months expected availability. No urgency to buy."
+    },
+    {
+      "setNumber": "42204-1",
+      "name": "Fast & Furious Toyota Supra MK4",
+      "theme": "Technic / Fast and Furious",
+      "baseTheme": "Technic",
+      "retail": 59.99,
+      "currentValue": 96.61,
+      "priceTier": "mid",
+      "ageYears": 1.3,
+      "estimatedRelease": "2024-11-01",
+      "themeLifespan": {
+        "typical": 3,
+        "adjusted": 3,
+        "range": "2-5 years"
+      },
+      "retirementPrediction": {
+        "expected": "2027-11-01",
+        "window": {
+          "earliest": "2026-11-01",
+          "latest": "2029-11-01"
+        },
+        "monthsUntil": 21,
+        "status": "ACTIVE",
+        "urgency": "none"
+      },
+      "signals": [
+        "Trading above retail price"
+      ],
+      "signalScore": 1,
+      "confidence": 65,
+      "recommendation": "Active with 21+ months expected availability. No urgency to buy."
+    },
+    {
+      "setNumber": "72037-1",
+      "name": "Mario Kart - Mario & Standard Kart",
+      "theme": "Super Mario / Miscellaneous",
+      "baseTheme": "Super Mario",
+      "retail": 169.99,
+      "currentValue": 747.96,
+      "priceTier": "premium",
+      "ageYears": 1.2,
+      "estimatedRelease": "2024-12-01",
+      "themeLifespan": {
+        "typical": 2,
+        "adjusted": 2.5,
+        "range": "1.5-3 years"
+      },
+      "retirementPrediction": {
+        "expected": "2027-12-01",
+        "window": {
+          "earliest": "2026-12-01",
+          "latest": "2028-12-01"
+        },
+        "monthsUntil": 22,
+        "status": "ACTIVE",
+        "urgency": "none"
+      },
+      "signals": [
+        "Trading above retail price"
+      ],
+      "signalScore": 1,
+      "confidence": 65,
+      "recommendation": "Active with 22+ months expected availability. No urgency to buy."
+    },
+    {
+      "setNumber": "76223-1",
+      "name": "Nano Gauntlet",
+      "theme": "Marvel Super Heroes / Avengers",
+      "baseTheme": "Marvel Super Heroes",
+      "retail": 69.99,
+      "currentValue": 102.25,
+      "priceTier": "mid",
+      "ageYears": 1,
+      "estimatedRelease": "2025-02-02",
+      "themeLifespan": {
+        "typical": 2,
+        "adjusted": 2.5,
+        "range": "1.5-3 years"
+      },
+      "retirementPrediction": {
+        "expected": "2028-02-02",
+        "window": {
+          "earliest": "2027-02-02",
+          "latest": "2028-02-02"
+        },
+        "monthsUntil": 24,
+        "status": "ACTIVE",
+        "urgency": "none"
+      },
+      "signals": [],
+      "signalScore": 0,
+      "confidence": 50,
+      "recommendation": "Active with 24+ months expected availability. No urgency to buy."
+    },
+    {
+      "setNumber": "76922-1",
+      "name": "BMW M4 GT3 & BMW M Hybrid V8",
+      "theme": "Speed Champions / BMW",
+      "baseTheme": "Speed Champions",
+      "retail": 49.99,
+      "currentValue": 36.77,
+      "priceTier": "mid",
+      "ageYears": 1,
+      "estimatedRelease": "2025-02-02",
+      "themeLifespan": {
+        "typical": 2.5,
+        "adjusted": 2.5,
+        "range": "1.5-3.5 years"
+      },
+      "retirementPrediction": {
+        "expected": "2028-02-02",
+        "window": {
+          "earliest": "2027-02-02",
+          "latest": "2029-02-02"
+        },
+        "monthsUntil": 24,
+        "status": "ACTIVE",
+        "urgency": "none"
+      },
+      "signals": [],
+      "signalScore": 0,
+      "confidence": 50,
+      "recommendation": "Active with 24+ months expected availability. No urgency to buy."
+    },
+    {
+      "setNumber": "76269-1",
+      "name": "Avengers Tower",
+      "theme": "Marvel Super Heroes / Avengers",
+      "baseTheme": "Marvel Super Heroes",
+      "retail": 499.99,
+      "currentValue": 514.06,
+      "priceTier": "ultimate",
+      "ageYears": 1,
+      "estimatedRelease": "2025-02-02",
+      "themeLifespan": {
+        "typical": 2,
+        "adjusted": 3,
+        "range": "1.5-3 years"
+      },
+      "retirementPrediction": {
+        "expected": "2028-02-02",
+        "window": {
+          "earliest": "2028-02-02",
+          "latest": "2029-02-02"
+        },
+        "monthsUntil": 24,
+        "status": "ACTIVE",
+        "urgency": "none"
+      },
+      "signals": [],
+      "signalScore": 0,
+      "confidence": 50,
+      "recommendation": "Active with 24+ months expected availability. No urgency to buy."
+    },
+    {
+      "setNumber": "31212-1",
+      "name": "The Milky Way Galaxy",
+      "theme": "LEGO Art",
+      "baseTheme": "LEGO Art",
+      "retail": 199.99,
+      "currentValue": 501.6,
+      "priceTier": "premium",
+      "ageYears": 1,
+      "estimatedRelease": "2025-02-02",
+      "themeLifespan": {
+        "typical": 2.5,
+        "adjusted": 3,
+        "range": "2-3.5 years"
+      },
+      "retirementPrediction": {
+        "expected": "2028-02-02",
+        "window": {
+          "earliest": "2028-02-02",
+          "latest": "2029-02-02"
+        },
+        "monthsUntil": 24,
+        "status": "ACTIVE",
+        "urgency": "none"
+      },
+      "signals": [],
+      "signalScore": 0,
+      "confidence": 50,
+      "recommendation": "Active with 24+ months expected availability. No urgency to buy."
+    },
+    {
+      "setNumber": "43247-1",
+      "name": "Young Simba the Lion King",
+      "theme": "Disney / The Lion King",
+      "baseTheme": "Disney",
+      "retail": 129.99,
+      "currentValue": 114.39,
+      "priceTier": "premium",
+      "ageYears": 1,
+      "estimatedRelease": "2025-02-02",
+      "themeLifespan": {
+        "typical": 2.5,
+        "adjusted": 3,
+        "range": "2-4 years"
+      },
+      "retirementPrediction": {
+        "expected": "2028-02-02",
+        "window": {
+          "earliest": "2028-02-02",
+          "latest": "2030-02-02"
+        },
+        "monthsUntil": 24,
+        "status": "ACTIVE",
+        "urgency": "none"
+      },
+      "signals": [],
+      "signalScore": 0,
+      "confidence": 50,
+      "recommendation": "Active with 24+ months expected availability. No urgency to buy."
+    },
+    {
+      "setNumber": "42173-1",
+      "name": "Koenigsegg Jesko Absolut Grey Hypercar",
+      "theme": "Technic / Licensed",
+      "baseTheme": "Technic",
+      "retail": 52.99,
+      "currentValue": 43.99,
+      "priceTier": "mid",
+      "ageYears": 1,
+      "estimatedRelease": "2025-02-02",
+      "themeLifespan": {
+        "typical": 3,
+        "adjusted": 3,
+        "range": "2-5 years"
+      },
+      "retirementPrediction": {
+        "expected": "2028-02-02",
+        "window": {
+          "earliest": "2027-02-02",
+          "latest": "2030-02-02"
+        },
+        "monthsUntil": 24,
+        "status": "ACTIVE",
+        "urgency": "none"
+      },
+      "signals": [],
+      "signalScore": 0,
+      "confidence": 50,
+      "recommendation": "Active with 24+ months expected availability. No urgency to buy."
+    },
+    {
+      "setNumber": "21265-1",
+      "name": "The Crafting Table",
+      "theme": "Minecraft / Miscellaneous",
+      "baseTheme": "Minecraft",
+      "retail": 89.99,
+      "currentValue": 184.4,
+      "priceTier": "mid",
+      "ageYears": 1,
+      "estimatedRelease": "2025-02-02",
+      "themeLifespan": {
+        "typical": 2.5,
+        "adjusted": 2.5,
+        "range": "2-3.5 years"
+      },
+      "retirementPrediction": {
+        "expected": "2028-02-02",
+        "window": {
+          "earliest": "2027-02-02",
+          "latest": "2029-02-02"
+        },
+        "monthsUntil": 24,
+        "status": "ACTIVE",
+        "urgency": "none"
+      },
+      "signals": [],
+      "signalScore": 0,
+      "confidence": 50,
+      "recommendation": "Active with 24+ months expected availability. No urgency to buy."
+    },
+    {
+      "setNumber": "43279-1",
+      "name": "WALL•E and EVE",
+      "theme": "Disney / WALL•E",
+      "baseTheme": "Disney",
+      "retail": 69.99,
+      "currentValue": 63.44,
+      "priceTier": "mid",
+      "ageYears": 1,
+      "estimatedRelease": "2025-02-02",
+      "themeLifespan": {
+        "typical": 2.5,
+        "adjusted": 2.5,
+        "range": "2-4 years"
+      },
+      "retirementPrediction": {
+        "expected": "2028-02-02",
+        "window": {
+          "earliest": "2027-02-02",
+          "latest": "2029-02-02"
+        },
+        "monthsUntil": 24,
+        "status": "ACTIVE",
+        "urgency": "none"
+      },
+      "signals": [],
+      "signalScore": 0,
+      "confidence": 50,
+      "recommendation": "Active with 24+ months expected availability. No urgency to buy."
+    },
+    {
+      "setNumber": "21276-1",
+      "name": "The Creeper",
+      "theme": "Minecraft / Minifig-scale",
+      "baseTheme": "Minecraft",
+      "retail": 39.99,
+      "currentValue": 169.97,
+      "priceTier": "mid",
+      "ageYears": 1,
+      "estimatedRelease": "2025-02-02",
+      "themeLifespan": {
+        "typical": 2.5,
+        "adjusted": 2.5,
+        "range": "2-3.5 years"
+      },
+      "retirementPrediction": {
+        "expected": "2028-02-02",
+        "window": {
+          "earliest": "2027-02-02",
+          "latest": "2029-02-02"
+        },
+        "monthsUntil": 24,
+        "status": "ACTIVE",
+        "urgency": "none"
+      },
+      "signals": [],
+      "signalScore": 0,
+      "confidence": 50,
+      "recommendation": "Active with 24+ months expected availability. No urgency to buy."
+    },
+    {
+      "setNumber": "21279-1",
+      "name": "The Enderman Tower",
+      "theme": "Minecraft / Minifig-scale",
+      "baseTheme": "Minecraft",
+      "retail": 99.99,
+      "currentValue": 73.25,
+      "priceTier": "mid",
+      "ageYears": 1,
+      "estimatedRelease": "2025-02-02",
+      "themeLifespan": {
+        "typical": 2.5,
+        "adjusted": 2.5,
+        "range": "2-3.5 years"
+      },
+      "retirementPrediction": {
+        "expected": "2028-02-02",
+        "window": {
+          "earliest": "2027-02-02",
+          "latest": "2029-02-02"
+        },
+        "monthsUntil": 24,
+        "status": "ACTIVE",
+        "urgency": "none"
+      },
+      "signals": [],
+      "signalScore": 0,
+      "confidence": 50,
+      "recommendation": "Active with 24+ months expected availability. No urgency to buy."
+    },
+    {
+      "setNumber": "42212-1",
+      "name": "Ferrari FXX K",
+      "theme": "Technic / Licensed",
+      "baseTheme": "Technic",
+      "retail": 59.99,
+      "currentValue": 57.48,
+      "priceTier": "mid",
+      "ageYears": 1,
+      "estimatedRelease": "2025-02-02",
+      "themeLifespan": {
+        "typical": 3,
+        "adjusted": 3,
+        "range": "2-5 years"
+      },
+      "retirementPrediction": {
+        "expected": "2028-02-02",
+        "window": {
+          "earliest": "2027-02-02",
+          "latest": "2030-02-02"
+        },
+        "monthsUntil": 24,
+        "status": "ACTIVE",
+        "urgency": "none"
+      },
+      "signals": [],
+      "signalScore": 0,
+      "confidence": 50,
+      "recommendation": "Active with 24+ months expected availability. No urgency to buy."
+    },
+    {
+      "setNumber": "43257-1",
+      "name": "Angel",
+      "theme": "Disney / Lilo and Stitch",
+      "baseTheme": "Disney",
+      "retail": 64.99,
+      "currentValue": 57.19,
+      "priceTier": "mid",
+      "ageYears": 1,
+      "estimatedRelease": "2025-02-02",
+      "themeLifespan": {
+        "typical": 2.5,
+        "adjusted": 3,
+        "range": "2-4 years"
+      },
+      "retirementPrediction": {
+        "expected": "2028-02-02",
+        "window": {
+          "earliest": "2027-02-02",
+          "latest": "2029-02-02"
+        },
+        "monthsUntil": 24,
+        "status": "ACTIVE",
+        "urgency": "none"
+      },
+      "signals": [],
+      "signalScore": 0,
+      "confidence": 50,
+      "recommendation": "Active with 24+ months expected availability. No urgency to buy."
+    },
+    {
+      "setNumber": "77255-1",
+      "name": "Lightning McQueen",
+      "theme": "Speed Champions / Disney",
+      "baseTheme": "Speed Champions",
+      "retail": 27.99,
+      "currentValue": 24.63,
+      "priceTier": "budget",
+      "ageYears": 1,
+      "estimatedRelease": "2025-02-02",
+      "themeLifespan": {
+        "typical": 2.5,
+        "adjusted": 2.5,
+        "range": "1.5-3.5 years"
+      },
+      "retirementPrediction": {
+        "expected": "2028-02-02",
+        "window": {
+          "earliest": "2026-02-02",
+          "latest": "2028-02-02"
+        },
+        "monthsUntil": 24,
+        "status": "ACTIVE",
+        "urgency": "none"
+      },
+      "signals": [],
+      "signalScore": 0,
+      "confidence": 50,
+      "recommendation": "Active with 24+ months expected availability. No urgency to buy."
+    },
+    {
+      "setNumber": "31218-1",
+      "name": "Japanese Cherry Blossom Landscape",
+      "theme": "LEGO Art / Paintings",
+      "baseTheme": "LEGO Art",
+      "retail": 119.99,
+      "currentValue": 473.33,
+      "priceTier": "premium",
+      "ageYears": 1,
+      "estimatedRelease": "2025-02-02",
+      "themeLifespan": {
+        "typical": 2.5,
+        "adjusted": 3,
+        "range": "2-3.5 years"
+      },
+      "retirementPrediction": {
+        "expected": "2028-02-02",
+        "window": {
+          "earliest": "2028-02-02",
+          "latest": "2029-02-02"
+        },
+        "monthsUntil": 24,
+        "status": "ACTIVE",
+        "urgency": "none"
+      },
+      "signals": [],
+      "signalScore": 0,
+      "confidence": 50,
+      "recommendation": "Active with 24+ months expected availability. No urgency to buy."
+    },
+    {
+      "setNumber": "10323-1",
+      "name": "PAC-MAN Arcade",
+      "theme": "Icons / Licensed",
+      "baseTheme": "Icons",
+      "retail": 269.99,
+      "currentValue": 475.18,
+      "priceTier": "ultimate",
+      "ageYears": 1,
+      "estimatedRelease": "2025-02-02",
+      "themeLifespan": {
+        "typical": 3,
+        "adjusted": 4,
+        "range": "2-5 years"
+      },
+      "retirementPrediction": {
+        "expected": "2029-02-02",
+        "window": {
+          "earliest": "2028-02-02",
+          "latest": "2031-02-02"
+        },
+        "monthsUntil": 37,
+        "status": "ACTIVE",
+        "urgency": "none"
+      },
+      "signals": [],
+      "signalScore": 0,
+      "confidence": 50,
+      "recommendation": "Active with 37+ months expected availability. No urgency to buy."
+    },
+    {
+      "setNumber": "21348-1",
+      "name": "Dungeons & Dragons Red Dragon's Tale",
+      "theme": "Ideas / Licensed",
+      "baseTheme": "Ideas",
+      "retail": 359.99,
+      "currentValue": 316.79,
+      "priceTier": "ultimate",
+      "ageYears": 1,
+      "estimatedRelease": "2025-02-02",
+      "themeLifespan": {
+        "typical": 2.5,
+        "adjusted": 3.5,
+        "range": "2-4 years"
+      },
+      "retirementPrediction": {
+        "expected": "2029-02-02",
+        "window": {
+          "earliest": "2028-02-02",
+          "latest": "2030-02-02"
+        },
+        "monthsUntil": 37,
+        "status": "ACTIVE",
+        "urgency": "none"
+      },
+      "signals": [],
+      "signalScore": 0,
+      "confidence": 50,
+      "recommendation": "Active with 37+ months expected availability. No urgency to buy."
+    },
+    {
+      "setNumber": "10333-1",
+      "name": "The Lord of the Rings Barad-Dur",
+      "theme": "Icons / Licensed",
+      "baseTheme": "Icons",
+      "retail": 459.99,
+      "currentValue": 1214.37,
+      "priceTier": "ultimate",
+      "ageYears": 1,
+      "estimatedRelease": "2025-02-02",
+      "themeLifespan": {
+        "typical": 3,
+        "adjusted": 4,
+        "range": "2-5 years"
+      },
+      "retirementPrediction": {
+        "expected": "2029-02-02",
+        "window": {
+          "earliest": "2028-02-02",
+          "latest": "2031-02-02"
+        },
+        "monthsUntil": 37,
+        "status": "ACTIVE",
+        "urgency": "none"
+      },
+      "signals": [],
+      "signalScore": 0,
+      "confidence": 50,
+      "recommendation": "Active with 37+ months expected availability. No urgency to buy."
+    },
+    {
+      "setNumber": "10350-1",
+      "name": "Tudor Corner",
+      "theme": "Icons / Modular Buildings",
+      "baseTheme": "Icons",
+      "retail": 229.99,
+      "currentValue": 880,
+      "priceTier": "premium",
+      "ageYears": 1,
+      "estimatedRelease": "2025-02-02",
+      "themeLifespan": {
+        "typical": 3,
+        "adjusted": 3.5,
+        "range": "2-5 years"
+      },
+      "retirementPrediction": {
+        "expected": "2029-02-02",
+        "window": {
+          "earliest": "2028-02-02",
+          "latest": "2031-02-02"
+        },
+        "monthsUntil": 37,
+        "status": "ACTIVE",
+        "urgency": "none"
+      },
+      "signals": [],
+      "signalScore": 0,
+      "confidence": 50,
+      "recommendation": "Active with 37+ months expected availability. No urgency to buy."
+    },
+    {
+      "setNumber": "21353-1",
+      "name": "The Botanical Garden",
+      "theme": "Ideas",
+      "baseTheme": "Ideas",
+      "retail": 329.99,
+      "currentValue": 1367.7,
+      "priceTier": "ultimate",
+      "ageYears": 1,
+      "estimatedRelease": "2025-02-02",
+      "themeLifespan": {
+        "typical": 2.5,
+        "adjusted": 3.5,
+        "range": "2-4 years"
+      },
+      "retirementPrediction": {
+        "expected": "2029-02-02",
+        "window": {
+          "earliest": "2028-02-02",
+          "latest": "2030-02-02"
+        },
+        "monthsUntil": 37,
+        "status": "ACTIVE",
+        "urgency": "none"
+      },
+      "signals": [],
+      "signalScore": 0,
+      "confidence": 50,
+      "recommendation": "Active with 37+ months expected availability. No urgency to buy."
+    },
+    {
+      "setNumber": "42210-1",
+      "name": "2 Fast 2 Furious Nissan Skyline GT-R (R34)",
+      "theme": "Technic / Licensed",
+      "baseTheme": "Technic",
+      "retail": 139.99,
+      "currentValue": 246.38,
+      "priceTier": "premium",
+      "ageYears": 1,
+      "estimatedRelease": "2025-02-02",
+      "themeLifespan": {
+        "typical": 3,
+        "adjusted": 4,
+        "range": "2-5 years"
+      },
+      "retirementPrediction": {
+        "expected": "2029-02-02",
+        "window": {
+          "earliest": "2028-02-02",
+          "latest": "2031-02-02"
+        },
+        "monthsUntil": 37,
+        "status": "ACTIVE",
+        "urgency": "none"
+      },
+      "signals": [],
+      "signalScore": 0,
+      "confidence": 50,
+      "recommendation": "Active with 37+ months expected availability. No urgency to buy."
+    },
+    {
+      "setNumber": "10354-1",
+      "name": "The Lord of the Rings The Shire",
+      "theme": "Icons / Licensed",
+      "baseTheme": "Icons",
+      "retail": 269.99,
+      "currentValue": 237.59,
+      "priceTier": "ultimate",
+      "ageYears": 1,
+      "estimatedRelease": "2025-02-02",
+      "themeLifespan": {
+        "typical": 3,
+        "adjusted": 4,
+        "range": "2-5 years"
+      },
+      "retirementPrediction": {
+        "expected": "2029-02-02",
+        "window": {
+          "earliest": "2028-02-02",
+          "latest": "2031-02-02"
+        },
+        "monthsUntil": 37,
+        "status": "ACTIVE",
+        "urgency": "none"
+      },
+      "signals": [],
+      "signalScore": 0,
+      "confidence": 50,
+      "recommendation": "Active with 37+ months expected availability. No urgency to buy."
+    },
+    {
+      "setNumber": "42172-1",
+      "name": "McLaren P1",
+      "theme": "Technic / Licensed",
+      "baseTheme": "Technic",
+      "retail": 449.99,
+      "currentValue": 395.99,
+      "priceTier": "ultimate",
+      "ageYears": 1.8,
+      "estimatedRelease": "2024-03-30",
+      "themeLifespan": {
+        "typical": 3,
+        "adjusted": 4.5,
+        "range": "2-5 years"
+      },
+      "retirementPrediction": {
+        "expected": "2029-03-30",
+        "window": {
+          "earliest": "2027-03-30",
+          "latest": "2030-03-30"
+        },
+        "monthsUntil": 38,
+        "status": "ACTIVE",
+        "urgency": "none"
+      },
+      "signals": [],
+      "signalScore": 0,
+      "confidence": 65,
+      "recommendation": "Active with 38+ months expected availability. No urgency to buy."
+    }
+  ]
+}

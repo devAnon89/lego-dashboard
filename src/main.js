@@ -11,6 +11,11 @@ let analysis = null;
 let priceHistory = null;
 let aiPredictions = null;
 let ebayPriceHistory = null;
+let undervalueAnalysis = null;
+let themePerformance = null;
+let monteCarloResults = null;
+let retirementPredictions = null;
+let buyTiming = null;
 let currentTab = 'all';
 let currentFilter = '';
 let historyChart = null;
@@ -77,6 +82,32 @@ async function loadData() {
       );
     } catch (e) {
       ebayPriceHistory = null;
+    }
+    // Load new analysis data
+    try {
+      undervalueAnalysis = await fetch('data/undervalue-analysis.json').then((r) => r.json());
+    } catch (e) {
+      undervalueAnalysis = null;
+    }
+    try {
+      themePerformance = await fetch('data/theme-performance.json').then((r) => r.json());
+    } catch (e) {
+      themePerformance = null;
+    }
+    try {
+      monteCarloResults = await fetch('data/monte-carlo-results.json').then((r) => r.json());
+    } catch (e) {
+      monteCarloResults = null;
+    }
+    try {
+      retirementPredictions = await fetch('data/retirement-predictions.json').then((r) => r.json());
+    } catch (e) {
+      retirementPredictions = null;
+    }
+    try {
+      buyTiming = await fetch('data/buy-timing.json').then((r) => r.json());
+    } catch (e) {
+      buyTiming = null;
     }
     renderDashboard();
   } catch (e) {
@@ -318,6 +349,11 @@ function renderDashboard() {
   // Render AI prediction summary
   renderAIPredictionSummary(sets);
 
+  // Render new analytics sections
+  renderAdvancedAnalytics();
+  renderBuySignals();
+  renderRetirementAlerts();
+
   // Render sets
   filterSets();
 }
@@ -534,6 +570,213 @@ function renderAIPredictionSummary(sets) {
       reasoningSamples.join('<br>') +
       '<br><span class="text-gray-400 text-xs mt-1 block">Click on any set for detailed AI reasoning.</span>';
   }
+}
+
+// Render Advanced Analytics Section (Monte Carlo, Theme Performance)
+function renderAdvancedAnalytics() {
+  const container = document.getElementById('advancedAnalytics');
+  if (!container) return;
+
+  let html = '';
+
+  // Monte Carlo Results
+  if (monteCarloResults) {
+    const mc = monteCarloResults.projections;
+    html += `
+      <div class="card rounded-xl p-4 mb-4">
+        <h3 class="text-lg font-semibold mb-3 flex items-center gap-2">
+          <span class="text-2xl">📊</span> Portfolio Projections (Monte Carlo)
+        </h3>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+          ${['1yr', '3yr', '5yr', '10yr'].map(period => {
+            const p = mc[period];
+            if (!p) return '';
+            const color = p.growth.median >= 0 ? 'text-green-400' : 'text-red-400';
+            return `
+              <div class="bg-gray-800 rounded-lg p-3">
+                <div class="text-xs text-gray-400">${period.replace('yr', ' Year')}</div>
+                <div class="text-lg font-bold">€${p.projections.median.toLocaleString('de-DE')}</div>
+                <div class="${color} text-sm">${p.growth.median >= 0 ? '+' : ''}${p.growth.median}%</div>
+                <div class="text-xs text-gray-500">80% CI: €${p.confidenceIntervals['80%'].low.toLocaleString('de-DE')} - €${p.confidenceIntervals['80%'].high.toLocaleString('de-DE')}</div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+        <div class="text-xs text-gray-400">Based on ${monteCarloResults.metadata.simulations.toLocaleString()} simulations</div>
+      </div>
+    `;
+  }
+
+  // Theme Performance
+  if (themePerformance) {
+    const themes = themePerformance.themePerformance.slice(0, 8);
+    html += `
+      <div class="card rounded-xl p-4 mb-4">
+        <h3 class="text-lg font-semibold mb-3 flex items-center gap-2">
+          <span class="text-2xl">🎯</span> Theme Performance Rankings
+        </h3>
+        <div class="space-y-2">
+          ${themes.map((t, i) => {
+            const medal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : '';
+            const color = t.growth.median >= 0 ? 'bg-green-500' : 'bg-red-500';
+            const width = Math.min(100, Math.abs(t.growth.median) / 2);
+            return `
+              <div class="flex items-center gap-3">
+                <span class="w-6">${medal}</span>
+                <span class="w-32 text-sm truncate">${t.theme}</span>
+                <div class="flex-1 bg-gray-700 rounded-full h-2">
+                  <div class="${color} h-2 rounded-full" style="width: ${width}%"></div>
+                </div>
+                <span class="w-20 text-right text-sm ${t.growth.median >= 0 ? 'text-green-400' : 'text-red-400'}">
+                  ${t.growth.median >= 0 ? '+' : ''}${t.growth.median.toFixed(1)}%
+                </span>
+              </div>
+            `;
+          }).join('')}
+        </div>
+        <div class="mt-3 text-xs text-gray-400">
+          Best tier: ${themePerformance.insights.bestPriceTier} | ${themePerformance.insights.licensedVsOriginal}
+        </div>
+      </div>
+    `;
+  }
+
+  container.innerHTML = html;
+}
+
+// Render Buy Signals Section
+function renderBuySignals() {
+  const container = document.getElementById('buySignals');
+  if (!container) return;
+
+  let html = '';
+
+  // Undervalue Opportunities
+  if (undervalueAnalysis) {
+    const strongBuys = undervalueAnalysis.opportunities.strongBuy.slice(0, 5);
+    const buys = undervalueAnalysis.opportunities.buy.slice(0, 3);
+
+    html += `
+      <div class="card rounded-xl p-4 mb-4">
+        <h3 class="text-lg font-semibold mb-3 flex items-center gap-2">
+          <span class="text-2xl">💰</span> Undervalued Sets
+        </h3>
+        ${strongBuys.length > 0 ? `
+          <div class="mb-3">
+            <div class="text-xs text-green-400 font-semibold mb-2">🔥 STRONG BUY</div>
+            ${strongBuys.map(s => `
+              <div class="bg-green-500/10 border border-green-500/20 rounded-lg p-2 mb-2">
+                <div class="font-medium text-sm">${s.name}</div>
+                <div class="text-xs text-gray-400">Current: €${s.currentValue.toFixed(0)} | Expected: €${s.expectedValue.toFixed(0)}</div>
+                <div class="text-xs text-green-400">${s.reasoning}</div>
+              </div>
+            `).join('')}
+          </div>
+        ` : ''}
+        ${buys.length > 0 ? `
+          <div>
+            <div class="text-xs text-blue-400 font-semibold mb-2">✅ BUY</div>
+            ${buys.map(s => `
+              <div class="bg-blue-500/10 border border-blue-500/20 rounded-lg p-2 mb-2">
+                <div class="font-medium text-sm">${s.name}</div>
+                <div class="text-xs text-gray-400">Score: ${s.opportunityScore}</div>
+              </div>
+            `).join('')}
+          </div>
+        ` : ''}
+        <div class="text-xs text-gray-400 mt-2">
+          ${undervalueAnalysis.metadata.undervaluedCount} undervalued sets found
+        </div>
+      </div>
+    `;
+  }
+
+  // Buy Timing
+  if (buyTiming) {
+    const currentMonth = buyTiming.currentMonthAnalysis;
+    const actionColor = currentMonth.action === 'BUY' ? 'text-green-400' :
+                       currentMonth.action === 'AVOID' ? 'text-red-400' : 'text-yellow-400';
+
+    html += `
+      <div class="card rounded-xl p-4 mb-4">
+        <h3 class="text-lg font-semibold mb-3 flex items-center gap-2">
+          <span class="text-2xl">📅</span> Buy Timing
+        </h3>
+        <div class="bg-gray-800 rounded-lg p-3 mb-3">
+          <div class="flex justify-between items-center">
+            <span class="text-sm">Current Month: <strong>${currentMonth.month}</strong></span>
+            <span class="${actionColor} font-bold">${currentMonth.action}</span>
+          </div>
+          <div class="text-xs text-gray-400 mt-1">${currentMonth.reason}</div>
+          <div class="text-xs mt-1">Expected discount: <span class="text-green-400">${currentMonth.discount}%</span></div>
+        </div>
+        <div class="text-xs text-gray-400">
+          ${buyTiming.summary.buyNow} sets recommended to buy now
+        </div>
+      </div>
+    `;
+  }
+
+  container.innerHTML = html;
+}
+
+// Render Retirement Alerts Section
+function renderRetirementAlerts() {
+  const container = document.getElementById('retirementAlerts');
+  if (!container || !retirementPredictions) return;
+
+  const urgent = retirementPredictions.urgentActions.slice(0, 5);
+  const upcoming = retirementPredictions.upcomingRetirements.slice(0, 5);
+
+  let html = `
+    <div class="card rounded-xl p-4">
+      <h3 class="text-lg font-semibold mb-3 flex items-center gap-2">
+        <span class="text-2xl">⏰</span> Retirement Alerts
+      </h3>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-2 mb-4">
+        <div class="bg-red-500/10 rounded-lg p-2 text-center">
+          <div class="text-2xl font-bold text-red-400">${retirementPredictions.summary.critical}</div>
+          <div class="text-xs text-gray-400">Critical</div>
+        </div>
+        <div class="bg-orange-500/10 rounded-lg p-2 text-center">
+          <div class="text-2xl font-bold text-orange-400">${retirementPredictions.summary.high}</div>
+          <div class="text-xs text-gray-400">High</div>
+        </div>
+        <div class="bg-yellow-500/10 rounded-lg p-2 text-center">
+          <div class="text-2xl font-bold text-yellow-400">${retirementPredictions.summary.medium}</div>
+          <div class="text-xs text-gray-400">Medium</div>
+        </div>
+        <div class="bg-green-500/10 rounded-lg p-2 text-center">
+          <div class="text-2xl font-bold text-green-400">${retirementPredictions.summary.active}</div>
+          <div class="text-xs text-gray-400">Active</div>
+        </div>
+      </div>
+      ${urgent.length > 0 ? `
+        <div class="mb-3">
+          <div class="text-xs text-red-400 font-semibold mb-2">⚠️ URGENT ACTIONS</div>
+          ${urgent.map(u => `
+            <div class="bg-red-500/10 border border-red-500/20 rounded-lg p-2 mb-2">
+              <div class="font-medium text-sm">${u.name}</div>
+              <div class="text-xs text-gray-400">${u.recommendation}</div>
+            </div>
+          `).join('')}
+        </div>
+      ` : ''}
+      ${upcoming.length > 0 ? `
+        <div>
+          <div class="text-xs text-yellow-400 font-semibold mb-2">📆 UPCOMING (12 months)</div>
+          ${upcoming.map(u => `
+            <div class="flex justify-between items-center py-1 border-b border-gray-700">
+              <span class="text-sm truncate">${u.name}</span>
+              <span class="text-xs text-yellow-400">${u.monthsUntil}mo</span>
+            </div>
+          `).join('')}
+        </div>
+      ` : ''}
+    </div>
+  `;
+
+  container.innerHTML = html;
 }
 
 function renderProjectedPerformers(containerId, sets, isTop) {

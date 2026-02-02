@@ -1,0 +1,1834 @@
+{
+  "metadata": {
+    "generatedAt": "2026-02-02T22:58:27.919Z",
+    "currentMonth": "February",
+    "totalSets": 54
+  },
+  "currentMonthAnalysis": {
+    "month": "February",
+    "discount": 10,
+    "reason": "Continued clearance, low demand",
+    "action": "BUY"
+  },
+  "seasonalPatterns": {
+    "January": {
+      "discount": 15,
+      "reason": "Post-holiday clearance sales",
+      "action": "BUY"
+    },
+    "February": {
+      "discount": 10,
+      "reason": "Continued clearance, low demand",
+      "action": "BUY"
+    },
+    "March": {
+      "discount": 5,
+      "reason": "Pre-spring releases",
+      "action": "NEUTRAL"
+    },
+    "April": {
+      "discount": 0,
+      "reason": "Standard pricing period",
+      "action": "NEUTRAL"
+    },
+    "May": {
+      "discount": 8,
+      "reason": "May the 4th (Star Wars), Memorial Day sales",
+      "action": "BUY"
+    },
+    "June": {
+      "discount": 5,
+      "reason": "Early summer sales",
+      "action": "NEUTRAL"
+    },
+    "July": {
+      "discount": 10,
+      "reason": "Summer clearance begins",
+      "action": "BUY"
+    },
+    "August": {
+      "discount": 12,
+      "reason": "Back-to-school clearance, summer wave endings",
+      "action": "BUY"
+    },
+    "September": {
+      "discount": 5,
+      "reason": "New fall releases arriving",
+      "action": "NEUTRAL"
+    },
+    "October": {
+      "discount": 0,
+      "reason": "Holiday stock buildup",
+      "action": "AVOID"
+    },
+    "November": {
+      "discount": -5,
+      "reason": "Black Friday may offer deals, but limited on LEGO",
+      "action": "WAIT"
+    },
+    "December": {
+      "discount": -10,
+      "reason": "Peak holiday demand, highest prices",
+      "action": "AVOID"
+    }
+  },
+  "historicalPatterns": {
+    "January": {
+      "priceIndex": 100,
+      "sampleSize": 0,
+      "avgPrice": 0
+    },
+    "February": {
+      "priceIndex": 100,
+      "sampleSize": 0,
+      "avgPrice": 0
+    },
+    "March": {
+      "priceIndex": 100,
+      "sampleSize": 0,
+      "avgPrice": 0
+    },
+    "April": {
+      "priceIndex": 100,
+      "sampleSize": 0,
+      "avgPrice": 0
+    },
+    "May": {
+      "priceIndex": 100,
+      "sampleSize": 0,
+      "avgPrice": 0
+    },
+    "June": {
+      "priceIndex": 100,
+      "sampleSize": 0,
+      "avgPrice": 0
+    },
+    "July": {
+      "priceIndex": 100,
+      "sampleSize": 0,
+      "avgPrice": 0
+    },
+    "August": {
+      "priceIndex": 100,
+      "sampleSize": 0,
+      "avgPrice": 0
+    },
+    "September": {
+      "priceIndex": 100,
+      "sampleSize": 0,
+      "avgPrice": 0
+    },
+    "October": {
+      "priceIndex": 100,
+      "sampleSize": 0,
+      "avgPrice": 0
+    },
+    "November": {
+      "priceIndex": 100,
+      "sampleSize": 0,
+      "avgPrice": 0
+    },
+    "December": {
+      "priceIndex": 100,
+      "sampleSize": 0,
+      "avgPrice": 0
+    }
+  },
+  "themeBestMonths": {
+    "Star Wars": [
+      "January",
+      "February",
+      "May",
+      "August"
+    ],
+    "Speed Champions": [
+      "January",
+      "February",
+      "August"
+    ],
+    "Seasonal": [
+      "January",
+      "February"
+    ],
+    "Harry Potter": [
+      "January",
+      "July",
+      "August"
+    ],
+    "Marvel Super Heroes": [
+      "January",
+      "February",
+      "July"
+    ],
+    "Disney": [
+      "January",
+      "February",
+      "August"
+    ],
+    "Technic": [
+      "January",
+      "February",
+      "July",
+      "August"
+    ],
+    "Icons": [
+      "January",
+      "February",
+      "July"
+    ],
+    "Ideas": [
+      "January",
+      "February",
+      "August"
+    ],
+    "Creator": [
+      "January",
+      "February",
+      "July",
+      "August"
+    ],
+    "City": [
+      "January",
+      "August"
+    ],
+    "Friends": [
+      "January",
+      "August"
+    ],
+    "Super Mario": [
+      "January",
+      "February",
+      "August"
+    ],
+    "Minecraft": [
+      "January",
+      "August"
+    ],
+    "Botanicals": [
+      "January",
+      "February",
+      "July"
+    ],
+    "default": [
+      "January",
+      "February",
+      "July",
+      "August"
+    ]
+  },
+  "summary": {
+    "buyNow": 49,
+    "buySoon": 0,
+    "wait": 0,
+    "neutral": 5
+  },
+  "recommendations": {
+    "buyNow": [
+      {
+        "setNumber": "42115-1",
+        "name": "Lamborghini Sián FKP 37",
+        "reasoning": "Retirement imminent (24 months). Buy immediately before prices spike."
+      },
+      {
+        "setNumber": "76191-1",
+        "name": "Infinity Gauntlet",
+        "reasoning": "Retirement imminent (24 months). Buy immediately before prices spike."
+      },
+      {
+        "setNumber": "40499-1",
+        "name": "Santa's Sleigh",
+        "reasoning": "February is optimal buying month for Seasonal. Continued clearance, low demand"
+      },
+      {
+        "setNumber": "42143-1",
+        "name": "Ferrari Daytona SP3",
+        "reasoning": "February is optimal buying month for Technic. Continued clearance, low demand"
+      },
+      {
+        "setNumber": "76223-1",
+        "name": "Nano Gauntlet",
+        "reasoning": "February is optimal buying month for Marvel Super Heroes. Continued clearance, low demand"
+      },
+      {
+        "setNumber": "76912-1",
+        "name": "Fast & Furious 1970 Dodge Charger R/T",
+        "reasoning": "February is optimal buying month for Speed Champions. Continued clearance, low demand"
+      },
+      {
+        "setNumber": "40573-1",
+        "name": "Christmas Tree",
+        "reasoning": "February is optimal buying month for Seasonal. Continued clearance, low demand"
+      },
+      {
+        "setNumber": "76917-1",
+        "name": "Nissan Skyline GT-R",
+        "reasoning": "Retirement imminent (24 months). Buy immediately before prices spike."
+      },
+      {
+        "setNumber": "10316-1",
+        "name": "The Lord of the Rings Rivendell",
+        "reasoning": "February is optimal buying month for Icons. Continued clearance, low demand"
+      },
+      {
+        "setNumber": "10323-1",
+        "name": "PAC-MAN Arcade",
+        "reasoning": "February is optimal buying month for Icons. Continued clearance, low demand"
+      },
+      {
+        "setNumber": "42161-1",
+        "name": "Lamborghini Huracán Tecnica",
+        "reasoning": "February is optimal buying month for Technic. Continued clearance, low demand"
+      },
+      {
+        "setNumber": "71426-1",
+        "name": "Piranha Plant",
+        "reasoning": "February is optimal buying month for Super Mario. Continued clearance, low demand"
+      },
+      {
+        "setNumber": "76922-1",
+        "name": "BMW M4 GT3 & BMW M Hybrid V8",
+        "reasoning": "February is optimal buying month for Speed Champions. Continued clearance, low demand"
+      },
+      {
+        "setNumber": "21345-1",
+        "name": "Polaroid Camera",
+        "reasoning": "February is optimal buying month for Ideas. Continued clearance, low demand"
+      },
+      {
+        "setNumber": "76269-1",
+        "name": "Avengers Tower",
+        "reasoning": "February is optimal buying month for Marvel Super Heroes. Continued clearance, low demand"
+      },
+      {
+        "setNumber": "21348-1",
+        "name": "Dungeons & Dragons Red Dragon's Tale",
+        "reasoning": "February is optimal buying month for Ideas. Continued clearance, low demand"
+      },
+      {
+        "setNumber": "40674-1",
+        "name": "Stitch",
+        "reasoning": "Retirement imminent (24 months). Buy immediately before prices spike."
+      },
+      {
+        "setNumber": "10333-1",
+        "name": "The Lord of the Rings Barad-Dur",
+        "reasoning": "February is optimal buying month for Icons. Continued clearance, low demand"
+      },
+      {
+        "setNumber": "10330-1",
+        "name": "McLaren MP4/4 & Ayrton Senna",
+        "reasoning": "February is optimal buying month for Icons. Continued clearance, low demand"
+      },
+      {
+        "setNumber": "31212-1",
+        "name": "The Milky Way Galaxy",
+        "reasoning": "February is optimal buying month for LEGO Art. Continued clearance, low demand"
+      },
+      {
+        "setNumber": "43247-1",
+        "name": "Young Simba the Lion King",
+        "reasoning": "February is optimal buying month for Disney. Continued clearance, low demand"
+      },
+      {
+        "setNumber": "42173-1",
+        "name": "Koenigsegg Jesko Absolut Grey Hypercar",
+        "reasoning": "February is optimal buying month for Technic. Continued clearance, low demand"
+      },
+      {
+        "setNumber": "76934-1",
+        "name": "Ferrari F40 Supercar",
+        "reasoning": "February is optimal buying month for Speed Champions. Continued clearance, low demand"
+      },
+      {
+        "setNumber": "75682-1",
+        "name": "Elphaba & Glinda Figures",
+        "reasoning": "February is optimal buying month for Wicked. Continued clearance, low demand"
+      },
+      {
+        "setNumber": "71438-1",
+        "name": "Super Mario World Mario & Yoshi",
+        "reasoning": "February is optimal buying month for Super Mario. Continued clearance, low demand"
+      },
+      {
+        "setNumber": "42172-1",
+        "name": "McLaren P1",
+        "reasoning": "February is optimal buying month for Technic. Continued clearance, low demand"
+      },
+      {
+        "setNumber": "77073-1",
+        "name": "Battle Bus",
+        "reasoning": "February is optimal buying month for Fortnite. Continued clearance, low demand"
+      },
+      {
+        "setNumber": "10350-1",
+        "name": "Tudor Corner",
+        "reasoning": "February is optimal buying month for Icons. Continued clearance, low demand"
+      },
+      {
+        "setNumber": "10342-1",
+        "name": "Pretty Pink Flower Bouquet",
+        "reasoning": "February is optimal buying month for Botanicals. Continued clearance, low demand"
+      },
+      {
+        "setNumber": "21353-1",
+        "name": "The Botanical Garden",
+        "reasoning": "February is optimal buying month for Ideas. Continued clearance, low demand"
+      },
+      {
+        "setNumber": "31165-1",
+        "name": "Wild Animals Panda Family",
+        "reasoning": "February is optimal buying month for Creator. Continued clearance, low demand"
+      },
+      {
+        "setNumber": "42204-1",
+        "name": "Fast & Furious Toyota Supra MK4",
+        "reasoning": "February is optimal buying month for Technic. Continued clearance, low demand"
+      },
+      {
+        "setNumber": "72046-1",
+        "name": "Game Boy",
+        "reasoning": "February is optimal buying month for Super Mario. Continued clearance, low demand"
+      },
+      {
+        "setNumber": "77239-1",
+        "name": "Porsche 911 GT3 RS Super Car",
+        "reasoning": "February is optimal buying month for Speed Champions. Continued clearance, low demand"
+      },
+      {
+        "setNumber": "77237-1",
+        "name": "Dodge Challenger SRT Hellcat Sports Car",
+        "reasoning": "February is optimal buying month for Speed Champions. Continued clearance, low demand"
+      },
+      {
+        "setNumber": "42210-1",
+        "name": "2 Fast 2 Furious Nissan Skyline GT-R (R34)",
+        "reasoning": "February is optimal buying month for Technic. Continued clearance, low demand"
+      },
+      {
+        "setNumber": "10354-1",
+        "name": "The Lord of the Rings The Shire",
+        "reasoning": "February is optimal buying month for Icons. Continued clearance, low demand"
+      },
+      {
+        "setNumber": "43279-1",
+        "name": "WALL•E and EVE",
+        "reasoning": "February is optimal buying month for Disney. Continued clearance, low demand"
+      },
+      {
+        "setNumber": "72037-1",
+        "name": "Mario Kart - Mario & Standard Kart",
+        "reasoning": "February is optimal buying month for Super Mario. Continued clearance, low demand"
+      },
+      {
+        "setNumber": "77241-1",
+        "name": "2 Fast 2 Furious Honda S2000",
+        "reasoning": "February is optimal buying month for Speed Champions. Continued clearance, low demand"
+      },
+      {
+        "setNumber": "42212-1",
+        "name": "Ferrari FXX K",
+        "reasoning": "February is optimal buying month for Technic. Continued clearance, low demand"
+      },
+      {
+        "setNumber": "43257-1",
+        "name": "Angel",
+        "reasoning": "February is optimal buying month for Disney. Continued clearance, low demand"
+      },
+      {
+        "setNumber": "77253-1",
+        "name": "Bugatti Vision GT Hyper Sports Car",
+        "reasoning": "February is optimal buying month for Speed Champions. Continued clearance, low demand"
+      },
+      {
+        "setNumber": "77254-1",
+        "name": "Ferrari SF90 XX Stradale Sports Car",
+        "reasoning": "February is optimal buying month for Speed Champions. Continued clearance, low demand"
+      },
+      {
+        "setNumber": "77255-1",
+        "name": "Lightning McQueen",
+        "reasoning": "February is optimal buying month for Speed Champions. Continued clearance, low demand"
+      },
+      {
+        "setNumber": "31218-1",
+        "name": "Japanese Cherry Blossom Landscape",
+        "reasoning": "February is optimal buying month for LEGO Art. Continued clearance, low demand"
+      },
+      {
+        "setNumber": "40922-1",
+        "name": "Lilo & Stitch Angel",
+        "reasoning": "February is optimal buying month for BrickHeadz. Continued clearance, low demand"
+      },
+      {
+        "setNumber": "40779-1",
+        "name": "Year of the Horse",
+        "reasoning": "February is optimal buying month for Seasonal. Continued clearance, low demand"
+      },
+      {
+        "setNumber": "40915-1",
+        "name": "Lion Dance",
+        "reasoning": "February is optimal buying month for Seasonal. Continued clearance, low demand"
+      }
+    ],
+    "buySoon": [],
+    "wait": []
+  },
+  "allRecommendations": [
+    {
+      "setNumber": "42115-1",
+      "name": "Lamborghini Sián FKP 37",
+      "theme": "Technic / Licensed",
+      "baseTheme": "Technic",
+      "currentValue": 425.57,
+      "recommendation": "BUY_NOW",
+      "reasoning": "Retirement imminent (24 months). Buy immediately before prices spike.",
+      "timing": {
+        "currentMonth": "February",
+        "currentMonthAction": "BUY",
+        "expectedDiscount": 10,
+        "optimalMonth": "July",
+        "monthsToWait": 5,
+        "bestMonths": [
+          "January",
+          "February",
+          "July",
+          "August"
+        ]
+      },
+      "retirement": {
+        "monthsUntil": 24,
+        "urgency": "high"
+      }
+    },
+    {
+      "setNumber": "76191-1",
+      "name": "Infinity Gauntlet",
+      "theme": "Marvel Super Heroes / Avengers",
+      "baseTheme": "Marvel Super Heroes",
+      "currentValue": 62.08,
+      "recommendation": "BUY_NOW",
+      "reasoning": "Retirement imminent (24 months). Buy immediately before prices spike.",
+      "timing": {
+        "currentMonth": "February",
+        "currentMonthAction": "BUY",
+        "expectedDiscount": 10,
+        "optimalMonth": "July",
+        "monthsToWait": 5,
+        "bestMonths": [
+          "January",
+          "February",
+          "July"
+        ]
+      },
+      "retirement": {
+        "monthsUntil": 24,
+        "urgency": "critical"
+      }
+    },
+    {
+      "setNumber": "40499-1",
+      "name": "Santa's Sleigh",
+      "theme": "Seasonal / Christmas",
+      "baseTheme": "Seasonal",
+      "currentValue": 28.78,
+      "recommendation": "BUY_NOW",
+      "reasoning": "February is optimal buying month for Seasonal. Continued clearance, low demand",
+      "timing": {
+        "currentMonth": "February",
+        "currentMonthAction": "BUY",
+        "expectedDiscount": 10,
+        "optimalMonth": "January",
+        "monthsToWait": 11,
+        "bestMonths": [
+          "January",
+          "February"
+        ]
+      },
+      "retirement": {
+        "monthsUntil": 10,
+        "urgency": "medium"
+      }
+    },
+    {
+      "setNumber": "42143-1",
+      "name": "Ferrari Daytona SP3",
+      "theme": "Technic",
+      "baseTheme": "Technic",
+      "currentValue": 395.99,
+      "recommendation": "BUY_NOW",
+      "reasoning": "February is optimal buying month for Technic. Continued clearance, low demand",
+      "timing": {
+        "currentMonth": "February",
+        "currentMonthAction": "BUY",
+        "expectedDiscount": 10,
+        "optimalMonth": "July",
+        "monthsToWait": 5,
+        "bestMonths": [
+          "January",
+          "February",
+          "July",
+          "August"
+        ]
+      },
+      "retirement": {
+        "monthsUntil": 12,
+        "urgency": "medium"
+      }
+    },
+    {
+      "setNumber": "76223-1",
+      "name": "Nano Gauntlet",
+      "theme": "Marvel Super Heroes / Avengers",
+      "baseTheme": "Marvel Super Heroes",
+      "currentValue": 102.25,
+      "recommendation": "BUY_NOW",
+      "reasoning": "February is optimal buying month for Marvel Super Heroes. Continued clearance, low demand",
+      "timing": {
+        "currentMonth": "February",
+        "currentMonthAction": "BUY",
+        "expectedDiscount": 10,
+        "optimalMonth": "July",
+        "monthsToWait": 5,
+        "bestMonths": [
+          "January",
+          "February",
+          "July"
+        ]
+      },
+      "retirement": {
+        "monthsUntil": 24,
+        "urgency": "none"
+      }
+    },
+    {
+      "setNumber": "76912-1",
+      "name": "Fast & Furious 1970 Dodge Charger R/T",
+      "theme": "Speed Champions / Dodge",
+      "baseTheme": "Speed Champions",
+      "currentValue": 52.76,
+      "recommendation": "BUY_NOW",
+      "reasoning": "February is optimal buying month for Speed Champions. Continued clearance, low demand",
+      "timing": {
+        "currentMonth": "February",
+        "currentMonthAction": "BUY",
+        "expectedDiscount": 10,
+        "optimalMonth": "August",
+        "monthsToWait": 6,
+        "bestMonths": [
+          "January",
+          "February",
+          "August"
+        ]
+      },
+      "retirement": {
+        "monthsUntil": 12,
+        "urgency": "none"
+      }
+    },
+    {
+      "setNumber": "40573-1",
+      "name": "Christmas Tree",
+      "theme": "Seasonal / Christmas",
+      "baseTheme": "Seasonal",
+      "currentValue": 28.6,
+      "recommendation": "BUY_NOW",
+      "reasoning": "February is optimal buying month for Seasonal. Continued clearance, low demand",
+      "timing": {
+        "currentMonth": "February",
+        "currentMonthAction": "BUY",
+        "expectedDiscount": 10,
+        "optimalMonth": "January",
+        "monthsToWait": 11,
+        "bestMonths": [
+          "January",
+          "February"
+        ]
+      },
+      "retirement": {
+        "monthsUntil": 12,
+        "urgency": "none"
+      }
+    },
+    {
+      "setNumber": "76917-1",
+      "name": "Nissan Skyline GT-R",
+      "theme": "Speed Champions / Nissan",
+      "baseTheme": "Speed Champions",
+      "currentValue": 40.24,
+      "recommendation": "BUY_NOW",
+      "reasoning": "Retirement imminent (24 months). Buy immediately before prices spike.",
+      "timing": {
+        "currentMonth": "February",
+        "currentMonthAction": "BUY",
+        "expectedDiscount": 10,
+        "optimalMonth": "August",
+        "monthsToWait": 6,
+        "bestMonths": [
+          "January",
+          "February",
+          "August"
+        ]
+      },
+      "retirement": {
+        "monthsUntil": 24,
+        "urgency": "critical"
+      }
+    },
+    {
+      "setNumber": "10316-1",
+      "name": "The Lord of the Rings Rivendell",
+      "theme": "Icons / Licensed",
+      "baseTheme": "Icons",
+      "currentValue": 1759.96,
+      "recommendation": "BUY_NOW",
+      "reasoning": "February is optimal buying month for Icons. Continued clearance, low demand",
+      "timing": {
+        "currentMonth": "February",
+        "currentMonthAction": "BUY",
+        "expectedDiscount": 10,
+        "optimalMonth": "July",
+        "monthsToWait": 5,
+        "bestMonths": [
+          "January",
+          "February",
+          "July"
+        ]
+      },
+      "retirement": {
+        "monthsUntil": 21,
+        "urgency": "medium"
+      }
+    },
+    {
+      "setNumber": "10323-1",
+      "name": "PAC-MAN Arcade",
+      "theme": "Icons / Licensed",
+      "baseTheme": "Icons",
+      "currentValue": 475.18,
+      "recommendation": "BUY_NOW",
+      "reasoning": "February is optimal buying month for Icons. Continued clearance, low demand",
+      "timing": {
+        "currentMonth": "February",
+        "currentMonthAction": "BUY",
+        "expectedDiscount": 10,
+        "optimalMonth": "July",
+        "monthsToWait": 5,
+        "bestMonths": [
+          "January",
+          "February",
+          "July"
+        ]
+      },
+      "retirement": {
+        "monthsUntil": 37,
+        "urgency": "none"
+      }
+    },
+    {
+      "setNumber": "42161-1",
+      "name": "Lamborghini Huracán Tecnica",
+      "theme": "Technic / Licensed",
+      "baseTheme": "Technic",
+      "currentValue": 43.99,
+      "recommendation": "BUY_NOW",
+      "reasoning": "February is optimal buying month for Technic. Continued clearance, low demand",
+      "timing": {
+        "currentMonth": "February",
+        "currentMonthAction": "BUY",
+        "expectedDiscount": 10,
+        "optimalMonth": "July",
+        "monthsToWait": 5,
+        "bestMonths": [
+          "January",
+          "February",
+          "July",
+          "August"
+        ]
+      },
+      "retirement": {
+        "monthsUntil": 13,
+        "urgency": "medium"
+      }
+    },
+    {
+      "setNumber": "71426-1",
+      "name": "Piranha Plant",
+      "theme": "Super Mario / Miscellaneous",
+      "baseTheme": "Super Mario",
+      "currentValue": 316.75,
+      "recommendation": "BUY_NOW",
+      "reasoning": "February is optimal buying month for Super Mario. Continued clearance, low demand",
+      "timing": {
+        "currentMonth": "February",
+        "currentMonthAction": "BUY",
+        "expectedDiscount": 10,
+        "optimalMonth": "August",
+        "monthsToWait": 6,
+        "bestMonths": [
+          "January",
+          "February",
+          "August"
+        ]
+      },
+      "retirement": {
+        "monthsUntil": 12,
+        "urgency": "none"
+      }
+    },
+    {
+      "setNumber": "76922-1",
+      "name": "BMW M4 GT3 & BMW M Hybrid V8",
+      "theme": "Speed Champions / BMW",
+      "baseTheme": "Speed Champions",
+      "currentValue": 36.77,
+      "recommendation": "BUY_NOW",
+      "reasoning": "February is optimal buying month for Speed Champions. Continued clearance, low demand",
+      "timing": {
+        "currentMonth": "February",
+        "currentMonthAction": "BUY",
+        "expectedDiscount": 10,
+        "optimalMonth": "August",
+        "monthsToWait": 6,
+        "bestMonths": [
+          "January",
+          "February",
+          "August"
+        ]
+      },
+      "retirement": {
+        "monthsUntil": 24,
+        "urgency": "none"
+      }
+    },
+    {
+      "setNumber": "21345-1",
+      "name": "Polaroid Camera",
+      "theme": "Ideas / Licensed",
+      "baseTheme": "Ideas",
+      "currentValue": 211.17,
+      "recommendation": "BUY_NOW",
+      "reasoning": "February is optimal buying month for Ideas. Continued clearance, low demand",
+      "timing": {
+        "currentMonth": "February",
+        "currentMonthAction": "BUY",
+        "expectedDiscount": 10,
+        "optimalMonth": "August",
+        "monthsToWait": 6,
+        "bestMonths": [
+          "January",
+          "February",
+          "August"
+        ]
+      },
+      "retirement": {
+        "monthsUntil": 8,
+        "urgency": "medium"
+      }
+    },
+    {
+      "setNumber": "76269-1",
+      "name": "Avengers Tower",
+      "theme": "Marvel Super Heroes / Avengers",
+      "baseTheme": "Marvel Super Heroes",
+      "currentValue": 514.06,
+      "recommendation": "BUY_NOW",
+      "reasoning": "February is optimal buying month for Marvel Super Heroes. Continued clearance, low demand",
+      "timing": {
+        "currentMonth": "February",
+        "currentMonthAction": "BUY",
+        "expectedDiscount": 10,
+        "optimalMonth": "July",
+        "monthsToWait": 5,
+        "bestMonths": [
+          "January",
+          "February",
+          "July"
+        ]
+      },
+      "retirement": {
+        "monthsUntil": 24,
+        "urgency": "none"
+      }
+    },
+    {
+      "setNumber": "21348-1",
+      "name": "Dungeons & Dragons Red Dragon's Tale",
+      "theme": "Ideas / Licensed",
+      "baseTheme": "Ideas",
+      "currentValue": 316.79,
+      "recommendation": "BUY_NOW",
+      "reasoning": "February is optimal buying month for Ideas. Continued clearance, low demand",
+      "timing": {
+        "currentMonth": "February",
+        "currentMonthAction": "BUY",
+        "expectedDiscount": 10,
+        "optimalMonth": "August",
+        "monthsToWait": 6,
+        "bestMonths": [
+          "January",
+          "February",
+          "August"
+        ]
+      },
+      "retirement": {
+        "monthsUntil": 37,
+        "urgency": "none"
+      }
+    },
+    {
+      "setNumber": "40674-1",
+      "name": "Stitch",
+      "theme": "BrickHeadz / Disney",
+      "baseTheme": "BrickHeadz",
+      "currentValue": 22.86,
+      "recommendation": "BUY_NOW",
+      "reasoning": "Retirement imminent (24 months). Buy immediately before prices spike.",
+      "timing": {
+        "currentMonth": "February",
+        "currentMonthAction": "BUY",
+        "expectedDiscount": 10,
+        "optimalMonth": "July",
+        "monthsToWait": 5,
+        "bestMonths": [
+          "January",
+          "February",
+          "July",
+          "August"
+        ]
+      },
+      "retirement": {
+        "monthsUntil": 24,
+        "urgency": "high"
+      }
+    },
+    {
+      "setNumber": "10333-1",
+      "name": "The Lord of the Rings Barad-Dur",
+      "theme": "Icons / Licensed",
+      "baseTheme": "Icons",
+      "currentValue": 1214.37,
+      "recommendation": "BUY_NOW",
+      "reasoning": "February is optimal buying month for Icons. Continued clearance, low demand",
+      "timing": {
+        "currentMonth": "February",
+        "currentMonthAction": "BUY",
+        "expectedDiscount": 10,
+        "optimalMonth": "July",
+        "monthsToWait": 5,
+        "bestMonths": [
+          "January",
+          "February",
+          "July"
+        ]
+      },
+      "retirement": {
+        "monthsUntil": 37,
+        "urgency": "none"
+      }
+    },
+    {
+      "setNumber": "10330-1",
+      "name": "McLaren MP4/4 & Ayrton Senna",
+      "theme": "Icons / Vehicles",
+      "baseTheme": "Icons",
+      "currentValue": 128.82,
+      "recommendation": "BUY_NOW",
+      "reasoning": "February is optimal buying month for Icons. Continued clearance, low demand",
+      "timing": {
+        "currentMonth": "February",
+        "currentMonthAction": "BUY",
+        "expectedDiscount": 10,
+        "optimalMonth": "July",
+        "monthsToWait": 5,
+        "bestMonths": [
+          "January",
+          "February",
+          "July"
+        ]
+      },
+      "retirement": {
+        "monthsUntil": 21,
+        "urgency": "medium"
+      }
+    },
+    {
+      "setNumber": "31212-1",
+      "name": "The Milky Way Galaxy",
+      "theme": "LEGO Art",
+      "baseTheme": "LEGO Art",
+      "currentValue": 501.6,
+      "recommendation": "BUY_NOW",
+      "reasoning": "February is optimal buying month for LEGO Art. Continued clearance, low demand",
+      "timing": {
+        "currentMonth": "February",
+        "currentMonthAction": "BUY",
+        "expectedDiscount": 10,
+        "optimalMonth": "July",
+        "monthsToWait": 5,
+        "bestMonths": [
+          "January",
+          "February",
+          "July",
+          "August"
+        ]
+      },
+      "retirement": {
+        "monthsUntil": 24,
+        "urgency": "none"
+      }
+    },
+    {
+      "setNumber": "43247-1",
+      "name": "Young Simba the Lion King",
+      "theme": "Disney / The Lion King",
+      "baseTheme": "Disney",
+      "currentValue": 114.39,
+      "recommendation": "BUY_NOW",
+      "reasoning": "February is optimal buying month for Disney. Continued clearance, low demand",
+      "timing": {
+        "currentMonth": "February",
+        "currentMonthAction": "BUY",
+        "expectedDiscount": 10,
+        "optimalMonth": "August",
+        "monthsToWait": 6,
+        "bestMonths": [
+          "January",
+          "February",
+          "August"
+        ]
+      },
+      "retirement": {
+        "monthsUntil": 24,
+        "urgency": "none"
+      }
+    },
+    {
+      "setNumber": "42173-1",
+      "name": "Koenigsegg Jesko Absolut Grey Hypercar",
+      "theme": "Technic / Licensed",
+      "baseTheme": "Technic",
+      "currentValue": 43.99,
+      "recommendation": "BUY_NOW",
+      "reasoning": "February is optimal buying month for Technic. Continued clearance, low demand",
+      "timing": {
+        "currentMonth": "February",
+        "currentMonthAction": "BUY",
+        "expectedDiscount": 10,
+        "optimalMonth": "July",
+        "monthsToWait": 5,
+        "bestMonths": [
+          "January",
+          "February",
+          "July",
+          "August"
+        ]
+      },
+      "retirement": {
+        "monthsUntil": 24,
+        "urgency": "none"
+      }
+    },
+    {
+      "setNumber": "21265-1",
+      "name": "The Crafting Table",
+      "theme": "Minecraft / Miscellaneous",
+      "baseTheme": "Minecraft",
+      "currentValue": 184.4,
+      "recommendation": "NEUTRAL",
+      "reasoning": "No urgency. Optimal buying window: January, August.",
+      "timing": {
+        "currentMonth": "February",
+        "currentMonthAction": "BUY",
+        "expectedDiscount": 10,
+        "optimalMonth": "August",
+        "monthsToWait": 6,
+        "bestMonths": [
+          "January",
+          "August"
+        ]
+      },
+      "retirement": {
+        "monthsUntil": 24,
+        "urgency": "none"
+      }
+    },
+    {
+      "setNumber": "76934-1",
+      "name": "Ferrari F40 Supercar",
+      "theme": "Speed Champions / Ferrari",
+      "baseTheme": "Speed Champions",
+      "currentValue": 23.75,
+      "recommendation": "BUY_NOW",
+      "reasoning": "February is optimal buying month for Speed Champions. Continued clearance, low demand",
+      "timing": {
+        "currentMonth": "February",
+        "currentMonthAction": "BUY",
+        "expectedDiscount": 10,
+        "optimalMonth": "August",
+        "monthsToWait": 6,
+        "bestMonths": [
+          "January",
+          "February",
+          "August"
+        ]
+      },
+      "retirement": {
+        "monthsUntil": 15,
+        "urgency": "medium"
+      }
+    },
+    {
+      "setNumber": "75682-1",
+      "name": "Elphaba & Glinda Figures",
+      "theme": "Wicked / Part One",
+      "baseTheme": "Wicked",
+      "currentValue": 40.16,
+      "recommendation": "BUY_NOW",
+      "reasoning": "February is optimal buying month for Wicked. Continued clearance, low demand",
+      "timing": {
+        "currentMonth": "February",
+        "currentMonthAction": "BUY",
+        "expectedDiscount": 10,
+        "optimalMonth": "July",
+        "monthsToWait": 5,
+        "bestMonths": [
+          "January",
+          "February",
+          "July",
+          "August"
+        ]
+      },
+      "retirement": {
+        "monthsUntil": 12,
+        "urgency": "none"
+      }
+    },
+    {
+      "setNumber": "71438-1",
+      "name": "Super Mario World Mario & Yoshi",
+      "theme": "Super Mario / Miscellaneous",
+      "baseTheme": "Super Mario",
+      "currentValue": 263.98,
+      "recommendation": "BUY_NOW",
+      "reasoning": "February is optimal buying month for Super Mario. Continued clearance, low demand",
+      "timing": {
+        "currentMonth": "February",
+        "currentMonthAction": "BUY",
+        "expectedDiscount": 10,
+        "optimalMonth": "August",
+        "monthsToWait": 6,
+        "bestMonths": [
+          "January",
+          "February",
+          "August"
+        ]
+      },
+      "retirement": {
+        "monthsUntil": 15,
+        "urgency": "none"
+      }
+    },
+    {
+      "setNumber": "42172-1",
+      "name": "McLaren P1",
+      "theme": "Technic / Licensed",
+      "baseTheme": "Technic",
+      "currentValue": 395.99,
+      "recommendation": "BUY_NOW",
+      "reasoning": "February is optimal buying month for Technic. Continued clearance, low demand",
+      "timing": {
+        "currentMonth": "February",
+        "currentMonthAction": "BUY",
+        "expectedDiscount": 10,
+        "optimalMonth": "July",
+        "monthsToWait": 5,
+        "bestMonths": [
+          "January",
+          "February",
+          "July",
+          "August"
+        ]
+      },
+      "retirement": {
+        "monthsUntil": 38,
+        "urgency": "none"
+      }
+    },
+    {
+      "setNumber": "77073-1",
+      "name": "Battle Bus",
+      "theme": "Fortnite",
+      "baseTheme": "Fortnite",
+      "currentValue": 175.98,
+      "recommendation": "BUY_NOW",
+      "reasoning": "February is optimal buying month for Fortnite. Continued clearance, low demand",
+      "timing": {
+        "currentMonth": "February",
+        "currentMonthAction": "BUY",
+        "expectedDiscount": 10,
+        "optimalMonth": "July",
+        "monthsToWait": 5,
+        "bestMonths": [
+          "January",
+          "February",
+          "July",
+          "August"
+        ]
+      },
+      "retirement": {
+        "monthsUntil": 15,
+        "urgency": "none"
+      }
+    },
+    {
+      "setNumber": "10350-1",
+      "name": "Tudor Corner",
+      "theme": "Icons / Modular Buildings",
+      "baseTheme": "Icons",
+      "currentValue": 880,
+      "recommendation": "BUY_NOW",
+      "reasoning": "February is optimal buying month for Icons. Continued clearance, low demand",
+      "timing": {
+        "currentMonth": "February",
+        "currentMonthAction": "BUY",
+        "expectedDiscount": 10,
+        "optimalMonth": "July",
+        "monthsToWait": 5,
+        "bestMonths": [
+          "January",
+          "February",
+          "July"
+        ]
+      },
+      "retirement": {
+        "monthsUntil": 37,
+        "urgency": "none"
+      }
+    },
+    {
+      "setNumber": "10342-1",
+      "name": "Pretty Pink Flower Bouquet",
+      "theme": "Botanicals",
+      "baseTheme": "Botanicals",
+      "currentValue": 43.82,
+      "recommendation": "BUY_NOW",
+      "reasoning": "February is optimal buying month for Botanicals. Continued clearance, low demand",
+      "timing": {
+        "currentMonth": "February",
+        "currentMonthAction": "BUY",
+        "expectedDiscount": 10,
+        "optimalMonth": "July",
+        "monthsToWait": 5,
+        "bestMonths": [
+          "January",
+          "February",
+          "July"
+        ]
+      },
+      "retirement": {
+        "monthsUntil": 19,
+        "urgency": "none"
+      }
+    },
+    {
+      "setNumber": "21353-1",
+      "name": "The Botanical Garden",
+      "theme": "Ideas",
+      "baseTheme": "Ideas",
+      "currentValue": 1367.7,
+      "recommendation": "BUY_NOW",
+      "reasoning": "February is optimal buying month for Ideas. Continued clearance, low demand",
+      "timing": {
+        "currentMonth": "February",
+        "currentMonthAction": "BUY",
+        "expectedDiscount": 10,
+        "optimalMonth": "August",
+        "monthsToWait": 6,
+        "bestMonths": [
+          "January",
+          "February",
+          "August"
+        ]
+      },
+      "retirement": {
+        "monthsUntil": 37,
+        "urgency": "none"
+      }
+    },
+    {
+      "setNumber": "31165-1",
+      "name": "Wild Animals Panda Family",
+      "theme": "Creator / 3 in 1",
+      "baseTheme": "Creator",
+      "currentValue": 27.02,
+      "recommendation": "BUY_NOW",
+      "reasoning": "February is optimal buying month for Creator. Continued clearance, low demand",
+      "timing": {
+        "currentMonth": "February",
+        "currentMonthAction": "BUY",
+        "expectedDiscount": 10,
+        "optimalMonth": "July",
+        "monthsToWait": 5,
+        "bestMonths": [
+          "January",
+          "February",
+          "July",
+          "August"
+        ]
+      },
+      "retirement": {
+        "monthsUntil": 19,
+        "urgency": "none"
+      }
+    },
+    {
+      "setNumber": "42204-1",
+      "name": "Fast & Furious Toyota Supra MK4",
+      "theme": "Technic / Fast and Furious",
+      "baseTheme": "Technic",
+      "currentValue": 96.61,
+      "recommendation": "BUY_NOW",
+      "reasoning": "February is optimal buying month for Technic. Continued clearance, low demand",
+      "timing": {
+        "currentMonth": "February",
+        "currentMonthAction": "BUY",
+        "expectedDiscount": 10,
+        "optimalMonth": "July",
+        "monthsToWait": 5,
+        "bestMonths": [
+          "January",
+          "February",
+          "July",
+          "August"
+        ]
+      },
+      "retirement": {
+        "monthsUntil": 21,
+        "urgency": "none"
+      }
+    },
+    {
+      "setNumber": "72046-1",
+      "name": "Game Boy",
+      "theme": "Super Mario / Miscellaneous",
+      "baseTheme": "Super Mario",
+      "currentValue": 307.77,
+      "recommendation": "BUY_NOW",
+      "reasoning": "February is optimal buying month for Super Mario. Continued clearance, low demand",
+      "timing": {
+        "currentMonth": "February",
+        "currentMonthAction": "BUY",
+        "expectedDiscount": 10,
+        "optimalMonth": "August",
+        "monthsToWait": 6,
+        "bestMonths": [
+          "January",
+          "February",
+          "August"
+        ]
+      },
+      "retirement": {
+        "monthsUntil": 12,
+        "urgency": "none"
+      }
+    },
+    {
+      "setNumber": "77239-1",
+      "name": "Porsche 911 GT3 RS Super Car",
+      "theme": "Speed Champions / Porsche",
+      "baseTheme": "Speed Champions",
+      "currentValue": 23.75,
+      "recommendation": "BUY_NOW",
+      "reasoning": "February is optimal buying month for Speed Champions. Continued clearance, low demand",
+      "timing": {
+        "currentMonth": "February",
+        "currentMonthAction": "BUY",
+        "expectedDiscount": 10,
+        "optimalMonth": "August",
+        "monthsToWait": 6,
+        "bestMonths": [
+          "January",
+          "February",
+          "August"
+        ]
+      },
+      "retirement": {
+        "monthsUntil": 12,
+        "urgency": "none"
+      }
+    },
+    {
+      "setNumber": "77237-1",
+      "name": "Dodge Challenger SRT Hellcat Sports Car",
+      "theme": "Speed Champions / Dodge",
+      "baseTheme": "Speed Champions",
+      "currentValue": 23.75,
+      "recommendation": "BUY_NOW",
+      "reasoning": "February is optimal buying month for Speed Champions. Continued clearance, low demand",
+      "timing": {
+        "currentMonth": "February",
+        "currentMonthAction": "BUY",
+        "expectedDiscount": 10,
+        "optimalMonth": "August",
+        "monthsToWait": 6,
+        "bestMonths": [
+          "January",
+          "February",
+          "August"
+        ]
+      },
+      "retirement": {
+        "monthsUntil": 12,
+        "urgency": "none"
+      }
+    },
+    {
+      "setNumber": "42210-1",
+      "name": "2 Fast 2 Furious Nissan Skyline GT-R (R34)",
+      "theme": "Technic / Licensed",
+      "baseTheme": "Technic",
+      "currentValue": 246.38,
+      "recommendation": "BUY_NOW",
+      "reasoning": "February is optimal buying month for Technic. Continued clearance, low demand",
+      "timing": {
+        "currentMonth": "February",
+        "currentMonthAction": "BUY",
+        "expectedDiscount": 10,
+        "optimalMonth": "July",
+        "monthsToWait": 5,
+        "bestMonths": [
+          "January",
+          "February",
+          "July",
+          "August"
+        ]
+      },
+      "retirement": {
+        "monthsUntil": 37,
+        "urgency": "none"
+      }
+    },
+    {
+      "setNumber": "10354-1",
+      "name": "The Lord of the Rings The Shire",
+      "theme": "Icons / Licensed",
+      "baseTheme": "Icons",
+      "currentValue": 237.59,
+      "recommendation": "BUY_NOW",
+      "reasoning": "February is optimal buying month for Icons. Continued clearance, low demand",
+      "timing": {
+        "currentMonth": "February",
+        "currentMonthAction": "BUY",
+        "expectedDiscount": 10,
+        "optimalMonth": "July",
+        "monthsToWait": 5,
+        "bestMonths": [
+          "January",
+          "February",
+          "July"
+        ]
+      },
+      "retirement": {
+        "monthsUntil": 37,
+        "urgency": "none"
+      }
+    },
+    {
+      "setNumber": "43279-1",
+      "name": "WALL•E and EVE",
+      "theme": "Disney / WALL•E",
+      "baseTheme": "Disney",
+      "currentValue": 63.44,
+      "recommendation": "BUY_NOW",
+      "reasoning": "February is optimal buying month for Disney. Continued clearance, low demand",
+      "timing": {
+        "currentMonth": "February",
+        "currentMonthAction": "BUY",
+        "expectedDiscount": 10,
+        "optimalMonth": "August",
+        "monthsToWait": 6,
+        "bestMonths": [
+          "January",
+          "February",
+          "August"
+        ]
+      },
+      "retirement": {
+        "monthsUntil": 24,
+        "urgency": "none"
+      }
+    },
+    {
+      "setNumber": "21276-1",
+      "name": "The Creeper",
+      "theme": "Minecraft / Minifig-scale",
+      "baseTheme": "Minecraft",
+      "currentValue": 169.97,
+      "recommendation": "NEUTRAL",
+      "reasoning": "No urgency. Optimal buying window: January, August.",
+      "timing": {
+        "currentMonth": "February",
+        "currentMonthAction": "BUY",
+        "expectedDiscount": 10,
+        "optimalMonth": "August",
+        "monthsToWait": 6,
+        "bestMonths": [
+          "January",
+          "August"
+        ]
+      },
+      "retirement": {
+        "monthsUntil": 24,
+        "urgency": "none"
+      }
+    },
+    {
+      "setNumber": "21279-1",
+      "name": "The Enderman Tower",
+      "theme": "Minecraft / Minifig-scale",
+      "baseTheme": "Minecraft",
+      "currentValue": 73.25,
+      "recommendation": "NEUTRAL",
+      "reasoning": "No urgency. Optimal buying window: January, August.",
+      "timing": {
+        "currentMonth": "February",
+        "currentMonthAction": "BUY",
+        "expectedDiscount": 10,
+        "optimalMonth": "August",
+        "monthsToWait": 6,
+        "bestMonths": [
+          "January",
+          "August"
+        ]
+      },
+      "retirement": {
+        "monthsUntil": 24,
+        "urgency": "none"
+      }
+    },
+    {
+      "setNumber": "72037-1",
+      "name": "Mario Kart - Mario & Standard Kart",
+      "theme": "Super Mario / Miscellaneous",
+      "baseTheme": "Super Mario",
+      "currentValue": 747.96,
+      "recommendation": "BUY_NOW",
+      "reasoning": "February is optimal buying month for Super Mario. Continued clearance, low demand",
+      "timing": {
+        "currentMonth": "February",
+        "currentMonthAction": "BUY",
+        "expectedDiscount": 10,
+        "optimalMonth": "August",
+        "monthsToWait": 6,
+        "bestMonths": [
+          "January",
+          "February",
+          "August"
+        ]
+      },
+      "retirement": {
+        "monthsUntil": 22,
+        "urgency": "none"
+      }
+    },
+    {
+      "setNumber": "77241-1",
+      "name": "2 Fast 2 Furious Honda S2000",
+      "theme": "Speed Champions / Honda",
+      "baseTheme": "Speed Champions",
+      "currentValue": 43.9,
+      "recommendation": "BUY_NOW",
+      "reasoning": "February is optimal buying month for Speed Champions. Continued clearance, low demand",
+      "timing": {
+        "currentMonth": "February",
+        "currentMonthAction": "BUY",
+        "expectedDiscount": 10,
+        "optimalMonth": "August",
+        "monthsToWait": 6,
+        "bestMonths": [
+          "January",
+          "February",
+          "August"
+        ]
+      },
+      "retirement": {
+        "monthsUntil": 11,
+        "urgency": "medium"
+      }
+    },
+    {
+      "setNumber": "42212-1",
+      "name": "Ferrari FXX K",
+      "theme": "Technic / Licensed",
+      "baseTheme": "Technic",
+      "currentValue": 57.48,
+      "recommendation": "BUY_NOW",
+      "reasoning": "February is optimal buying month for Technic. Continued clearance, low demand",
+      "timing": {
+        "currentMonth": "February",
+        "currentMonthAction": "BUY",
+        "expectedDiscount": 10,
+        "optimalMonth": "July",
+        "monthsToWait": 5,
+        "bestMonths": [
+          "January",
+          "February",
+          "July",
+          "August"
+        ]
+      },
+      "retirement": {
+        "monthsUntil": 24,
+        "urgency": "none"
+      }
+    },
+    {
+      "setNumber": "43257-1",
+      "name": "Angel",
+      "theme": "Disney / Lilo and Stitch",
+      "baseTheme": "Disney",
+      "currentValue": 57.19,
+      "recommendation": "BUY_NOW",
+      "reasoning": "February is optimal buying month for Disney. Continued clearance, low demand",
+      "timing": {
+        "currentMonth": "February",
+        "currentMonthAction": "BUY",
+        "expectedDiscount": 10,
+        "optimalMonth": "August",
+        "monthsToWait": 6,
+        "bestMonths": [
+          "January",
+          "February",
+          "August"
+        ]
+      },
+      "retirement": {
+        "monthsUntil": 24,
+        "urgency": "none"
+      }
+    },
+    {
+      "setNumber": "77253-1",
+      "name": "Bugatti Vision GT Hyper Sports Car",
+      "theme": "Speed Champions / Bugatti",
+      "baseTheme": "Speed Champions",
+      "currentValue": 24.63,
+      "recommendation": "BUY_NOW",
+      "reasoning": "February is optimal buying month for Speed Champions. Continued clearance, low demand",
+      "timing": {
+        "currentMonth": "February",
+        "currentMonthAction": "BUY",
+        "expectedDiscount": 10,
+        "optimalMonth": "August",
+        "monthsToWait": 6,
+        "bestMonths": [
+          "January",
+          "February",
+          "August"
+        ]
+      },
+      "retirement": {
+        "monthsUntil": 12,
+        "urgency": "none"
+      }
+    },
+    {
+      "setNumber": "77254-1",
+      "name": "Ferrari SF90 XX Stradale Sports Car",
+      "theme": "Speed Champions / Ferrari",
+      "baseTheme": "Speed Champions",
+      "currentValue": 24.63,
+      "recommendation": "BUY_NOW",
+      "reasoning": "February is optimal buying month for Speed Champions. Continued clearance, low demand",
+      "timing": {
+        "currentMonth": "February",
+        "currentMonthAction": "BUY",
+        "expectedDiscount": 10,
+        "optimalMonth": "August",
+        "monthsToWait": 6,
+        "bestMonths": [
+          "January",
+          "February",
+          "August"
+        ]
+      },
+      "retirement": {
+        "monthsUntil": 12,
+        "urgency": "none"
+      }
+    },
+    {
+      "setNumber": "77255-1",
+      "name": "Lightning McQueen",
+      "theme": "Speed Champions / Disney",
+      "baseTheme": "Speed Champions",
+      "currentValue": 24.63,
+      "recommendation": "BUY_NOW",
+      "reasoning": "February is optimal buying month for Speed Champions. Continued clearance, low demand",
+      "timing": {
+        "currentMonth": "February",
+        "currentMonthAction": "BUY",
+        "expectedDiscount": 10,
+        "optimalMonth": "August",
+        "monthsToWait": 6,
+        "bestMonths": [
+          "January",
+          "February",
+          "August"
+        ]
+      },
+      "retirement": {
+        "monthsUntil": 24,
+        "urgency": "none"
+      }
+    },
+    {
+      "setNumber": "31218-1",
+      "name": "Japanese Cherry Blossom Landscape",
+      "theme": "LEGO Art / Paintings",
+      "baseTheme": "LEGO Art",
+      "currentValue": 473.33,
+      "recommendation": "BUY_NOW",
+      "reasoning": "February is optimal buying month for LEGO Art. Continued clearance, low demand",
+      "timing": {
+        "currentMonth": "February",
+        "currentMonthAction": "BUY",
+        "expectedDiscount": 10,
+        "optimalMonth": "July",
+        "monthsToWait": 5,
+        "bestMonths": [
+          "January",
+          "February",
+          "July",
+          "August"
+        ]
+      },
+      "retirement": {
+        "monthsUntil": 24,
+        "urgency": "none"
+      }
+    },
+    {
+      "setNumber": "30719-1",
+      "name": "Go-Kart Racer",
+      "theme": "City / Racing",
+      "baseTheme": "City",
+      "currentValue": 7.02,
+      "recommendation": "NEUTRAL",
+      "reasoning": "No urgency. Optimal buying window: January, August.",
+      "timing": {
+        "currentMonth": "February",
+        "currentMonthAction": "BUY",
+        "expectedDiscount": 10,
+        "optimalMonth": "August",
+        "monthsToWait": 6,
+        "bestMonths": [
+          "January",
+          "August"
+        ]
+      },
+      "retirement": {
+        "monthsUntil": 12,
+        "urgency": "none"
+      }
+    },
+    {
+      "setNumber": "30721-1",
+      "name": "Flower Stand with Roses",
+      "theme": "Friends / General",
+      "baseTheme": "Friends",
+      "currentValue": 4.39,
+      "recommendation": "NEUTRAL",
+      "reasoning": "No urgency. Optimal buying window: January, August.",
+      "timing": {
+        "currentMonth": "February",
+        "currentMonthAction": "BUY",
+        "expectedDiscount": 10,
+        "optimalMonth": "August",
+        "monthsToWait": 6,
+        "bestMonths": [
+          "January",
+          "August"
+        ]
+      },
+      "retirement": {
+        "monthsUntil": 12,
+        "urgency": "none"
+      }
+    },
+    {
+      "setNumber": "40922-1",
+      "name": "Lilo & Stitch Angel",
+      "theme": "BrickHeadz / Disney",
+      "baseTheme": "BrickHeadz",
+      "currentValue": 22.86,
+      "recommendation": "BUY_NOW",
+      "reasoning": "February is optimal buying month for BrickHeadz. Continued clearance, low demand",
+      "timing": {
+        "currentMonth": "February",
+        "currentMonthAction": "BUY",
+        "expectedDiscount": 10,
+        "optimalMonth": "July",
+        "monthsToWait": 5,
+        "bestMonths": [
+          "January",
+          "February",
+          "July",
+          "August"
+        ]
+      },
+      "retirement": {
+        "monthsUntil": 12,
+        "urgency": "none"
+      }
+    },
+    {
+      "setNumber": "40779-1",
+      "name": "Year of the Horse",
+      "theme": "Seasonal / Chinese New Year",
+      "baseTheme": "Seasonal",
+      "currentValue": 4.4,
+      "recommendation": "BUY_NOW",
+      "reasoning": "February is optimal buying month for Seasonal. Continued clearance, low demand",
+      "timing": {
+        "currentMonth": "February",
+        "currentMonthAction": "BUY",
+        "expectedDiscount": 10,
+        "optimalMonth": "January",
+        "monthsToWait": 11,
+        "bestMonths": [
+          "January",
+          "February"
+        ]
+      },
+      "retirement": {
+        "monthsUntil": 24,
+        "urgency": "none"
+      }
+    },
+    {
+      "setNumber": "40915-1",
+      "name": "Lion Dance",
+      "theme": "Seasonal / Chinese Traditional Festivals",
+      "baseTheme": "Seasonal",
+      "currentValue": 0,
+      "recommendation": "BUY_NOW",
+      "reasoning": "February is optimal buying month for Seasonal. Continued clearance, low demand",
+      "timing": {
+        "currentMonth": "February",
+        "currentMonthAction": "BUY",
+        "expectedDiscount": 10,
+        "optimalMonth": "January",
+        "monthsToWait": 11,
+        "bestMonths": [
+          "January",
+          "February"
+        ]
+      },
+      "retirement": {
+        "monthsUntil": 24,
+        "urgency": "none"
+      }
+    }
+  ]
+}
