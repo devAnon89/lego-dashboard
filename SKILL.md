@@ -199,9 +199,9 @@ Ask Clawdbot: "Update LEGO portfolio prices" or "Check LEGO prices on eBay"
 
 ### Scripts
 
-- `scripts/ebay-scraper.js` - Generate search URLs, parse prices
-- `scripts/full-scrape.js` - BrickEconomy URLs reference
-- `scripts/daily-snapshot.js` - Save daily snapshots
+- `scripts/ebay-scraper.cjs` - Generate search URLs, parse prices
+- `scripts/full-scrape.cjs` - BrickEconomy URLs reference
+- `scripts/daily-snapshot.cjs` - Save daily snapshots
 
 ## Scheduled Tasks
 

@@ -30,15 +30,15 @@ Investment-grade LEGO set portfolio tracker with multi-source pricing, historica
 │   ├── index.html        # Main dashboard
 │   └── data/             # Portfolio data (JSON)
 ├── scripts/
-│   ├── scrape-brickeconomy.js
-│   ├── ebay-scraper.js
-│   ├── daily-snapshot.js
-│   └── full-scrape.js
+│   ├── scrape-brickeconomy.cjs
+│   ├── ebay-scraper.cjs
+│   ├── daily-snapshot.cjs
+│   └── full-scrape.cjs
 ├── data/                 # Source data
 │   ├── portfolio.json    # Your sets
 │   ├── analysis.json     # Market analysis
 │   └── price-history.json
-├── lego-cli.js           # CLI tool
+├── lego-cli.cjs          # CLI tool
 ├── dashboard.html        # Standalone dashboard
 └── vercel.json           # Deployment config
 ```
@@ -78,10 +78,10 @@ npm run format
 
 ```bash
 # Run CLI
-node lego-cli.js --help
+node lego-cli.cjs --help
 
 # Scrape prices
-node scripts/full-scrape.js
+node scripts/full-scrape.cjs
 ```
 
 ## Portfolio JSON Format

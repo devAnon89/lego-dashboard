@@ -35,7 +35,7 @@ export default [
 
   // CommonJS files (CLI scripts)
   {
-    files: ['lego-cli.js', 'deep-analysis.js', 'scripts/**/*.js'],
+    files: ['*.cjs', 'scripts/**/*.cjs'],
     languageOptions: {
       sourceType: 'commonjs',
       globals: {
