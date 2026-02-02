@@ -10,7 +10,22 @@
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1/dist/chartjs-plugin-zoom.min.js"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-    body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%); }
+
+    /* Prevent horizontal scrolling - CRITICAL */
+    * {
+      box-sizing: border-box;
+    }
+    html, body {
+      overflow-x: hidden;
+      max-width: 100vw;
+      position: relative;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
     .card { background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); }
     .glow-green { box-shadow: 0 0 20px rgba(34, 197, 94, 0.3); }
     .glow-red { box-shadow: 0 0 20px rgba(239, 68, 68, 0.3); }
@@ -372,6 +387,121 @@
       #setsGrid .card {
         padding: 0.875rem;
         min-height: 180px;
+      }
+    }
+
+    /* Horizontal Scroll Prevention - Additional Safeguards */
+    @media (max-width: 768px) {
+      /* Ensure body padding doesn't cause overflow */
+      body {
+        padding-left: 0.75rem; /* Reduce from 1rem */
+        padding-right: 0.75rem;
+      }
+
+      /* Prevent text overflow */
+      h1, h2, h3, p, span, div {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+      }
+
+      /* Ensure grid containers don't overflow */
+      .grid {
+        max-width: 100%;
+      }
+
+      /* Fix tabs negative margin containment */
+      .tabs-container {
+        max-width: 100vw;
+        box-sizing: border-box;
+      }
+
+      /* Ensure cards don't overflow */
+      .card {
+        max-width: 100%;
+        box-sizing: border-box;
+      }
+
+      /* Ensure header doesn't overflow */
+      header {
+        max-width: 100%;
+      }
+
+      header h1 {
+        font-size: 1.5rem; /* Reduce from 3xl on very small screens */
+        line-height: 1.3;
+      }
+
+      header p {
+        font-size: 0.875rem;
+        line-height: 1.4;
+      }
+    }
+
+    @media (max-width: 425px) {
+      /* Further reduce body padding on smallest screens */
+      body {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+        padding-top: 0.75rem;
+        padding-bottom: 0.75rem;
+      }
+
+      /* Reduce header margins */
+      header {
+        margin-bottom: 1.5rem; /* Reduce from 2rem */
+      }
+
+      header h1 {
+        font-size: 1.25rem; /* 20px - smaller for 375px screens */
+      }
+
+      header p {
+        font-size: 0.75rem;
+      }
+
+      /* Reduce gaps between sections */
+      .mb-8 {
+        margin-bottom: 1.5rem !important;
+      }
+
+      .mb-6 {
+        margin-bottom: 1rem !important;
+      }
+
+      /* Ensure all grids have proper spacing */
+      .gap-4 {
+        gap: 0.5rem !important;
+      }
+
+      /* Reduce card padding to minimum */
+      .card.rounded-xl.p-4:not(#summaryCards .card) {
+        padding: 0.75rem !important;
+      }
+
+      /* Ensure long URLs or text don't overflow */
+      .text-gray-400, .text-sm, .text-xs {
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+
+    @media (max-width: 375px) {
+      /* Extra precautions for 375px and below */
+      body {
+        padding: 0.5rem;
+      }
+
+      /* Ensure no element exceeds viewport */
+      * {
+        max-width: 100vw;
+      }
+
+      .tabs-container {
+        margin-left: -0.5rem;
+        margin-right: -0.5rem;
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
       }
     }
   </style>
