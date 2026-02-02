@@ -471,21 +471,83 @@ async function withRetry(fn, options = {}) {
  */
 function calculateMarketValue(prices) {
   if (!prices || prices.length === 0) return null;
-  
+
   // Sort prices
   const sorted = [...prices].sort((a, b) => a - b);
-  
+
   // Remove top and bottom 10% as outliers
   const trim = Math.floor(sorted.length * 0.1);
   const trimmed = sorted.slice(trim, sorted.length - trim || undefined);
-  
+
   if (trimmed.length === 0) return sorted[Math.floor(sorted.length / 2)];
-  
+
   // Return median
   const mid = Math.floor(trimmed.length / 2);
-  return trimmed.length % 2 === 0 
-    ? (trimmed[mid - 1] + trimmed[mid]) / 2 
+  return trimmed.length % 2 === 0
+    ? (trimmed[mid - 1] + trimmed[mid]) / 2
     : trimmed[mid];
+}
+
+/**
+ * Calculate statistics from sold listings
+ * @param {Array<{price: number}>} listings - Array of listing objects with price
+ * @returns {Object} Statistics object with count, median, mean, min, max, stdDev
+ */
+function calculateStatistics(listings) {
+  if (!listings || listings.length === 0) {
+    return {
+      count: 0,
+      median: null,
+      mean: null,
+      min: null,
+      max: null,
+      stdDev: null
+    };
+  }
+
+  const prices = listings.map(l => l.price).filter(p => typeof p === 'number' && !isNaN(p));
+
+  if (prices.length === 0) {
+    return {
+      count: 0,
+      median: null,
+      mean: null,
+      min: null,
+      max: null,
+      stdDev: null
+    };
+  }
+
+  // Sort prices for median calculation
+  const sorted = [...prices].sort((a, b) => a - b);
+
+  // Calculate median
+  const mid = Math.floor(sorted.length / 2);
+  const median = sorted.length % 2 === 0
+    ? (sorted[mid - 1] + sorted[mid]) / 2
+    : sorted[mid];
+
+  // Calculate mean
+  const sum = prices.reduce((acc, p) => acc + p, 0);
+  const mean = sum / prices.length;
+
+  // Calculate min and max
+  const min = sorted[0];
+  const max = sorted[sorted.length - 1];
+
+  // Calculate standard deviation
+  const squaredDiffs = prices.map(p => Math.pow(p - mean, 2));
+  const avgSquaredDiff = squaredDiffs.reduce((acc, d) => acc + d, 0) / prices.length;
+  const stdDev = Math.sqrt(avgSquaredDiff);
+
+  return {
+    count: prices.length,
+    median: parseFloat(median.toFixed(2)),
+    mean: parseFloat(mean.toFixed(2)),
+    min: parseFloat(min.toFixed(2)),
+    max: parseFloat(max.toFixed(2)),
+    stdDev: parseFloat(stdDev.toFixed(2))
+  };
 }
 
 /**
@@ -730,6 +792,42 @@ async function main() {
     priceHistory.snapshots.push(snapshot);
     priceHistory.lastUpdate = snapshot.timestamp;
 
+    // Update soldListings structure with enhanced data
+    priceHistory.soldListings = priceHistory.soldListings || {};
+
+    for (const result of results) {
+      if (result.listings && result.listings.length > 0) {
+        // Get existing listings or initialize empty array
+        const existingData = priceHistory.soldListings[result.setId] || { listings: [] };
+        const existingListings = existingData.listings || [];
+
+        // Merge new listings with existing, avoiding duplicates based on price+title+soldDate
+        const newListings = result.listings.filter(newListing => {
+          return !existingListings.some(existing =>
+            existing.price === newListing.price &&
+            existing.title === newListing.title &&
+            existing.soldDate === newListing.soldDate
+          );
+        });
+
+        const allListings = [...existingListings, ...newListings];
+
+        // Keep only the most recent listings (limit to 100 per set)
+        const sortedListings = allListings
+          .sort((a, b) => new Date(b.scrapedAt || 0) - new Date(a.scrapedAt || 0))
+          .slice(0, 100);
+
+        // Calculate statistics from all listings
+        const statistics = calculateStatistics(sortedListings);
+
+        priceHistory.soldListings[result.setId] = {
+          listings: sortedListings,
+          statistics: statistics,
+          lastUpdate: snapshot.timestamp
+        };
+      }
+    }
+
     savePriceHistory(priceHistory);
     logger.info(`Saved results to ${PRICE_HISTORY_FILE}`);
 
@@ -801,6 +899,7 @@ module.exports = {
   detectCondition,
   detectListingType,
   calculateMarketValue,
+  calculateStatistics,
   loadPriceHistory,
   savePriceHistory,
   scrapeSingleSet,
