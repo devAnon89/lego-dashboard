@@ -17,7 +17,7 @@ require('dotenv').config();
 const cron = require('node-cron');
 const { spawn } = require('child_process');
 const path = require('path');
-const logger = require('./logger');
+const logger = require('./logger.cjs');
 
 // Parse command-line arguments
 const args = process.argv.slice(2);
@@ -26,7 +26,7 @@ const isTestShutdownMode = args.includes('--test-shutdown');
 
 // Get schedule from environment or use default (daily at 6am)
 const SCRAPE_SCHEDULE = process.env.SCRAPE_SCHEDULE || '0 6 * * *';
-const SCRIPT_PATH = path.join(__dirname, 'automated-scraper.js');
+const SCRIPT_PATH = path.join(__dirname, 'automated-scraper.cjs');
 
 // Track current scraper process
 let currentScraperProcess = null;
