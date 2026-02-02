@@ -1,0 +1,25 @@
+{
+  "active": true,
+  "spec": "007-price-source-confidence-scoring",
+  "state": "building",
+  "subtasks": {
+    "completed": 1,
+    "total": 8,
+    "in_progress": 1,
+    "failed": 0
+  },
+  "phase": {
+    "current": "Confidence Scoring Logic",
+    "id": null,
+    "total": 2
+  },
+  "workers": {
+    "active": 0,
+    "max": 1
+  },
+  "session": {
+    "number": 4,
+    "started_at": "2026-02-01T23:54:22.077054"
+  },
+  "last_update": "2026-02-02T00:05:58.815734"
+}
