@@ -1,0 +1,39 @@
+{
+  "sandbox": {
+    "enabled": true,
+    "autoAllowBashIfSandboxed": true
+  },
+  "permissions": {
+    "defaultMode": "acceptEdits",
+    "allow": [
+      "Read(./**)",
+      "Write(./**)",
+      "Edit(./**)",
+      "Glob(./**)",
+      "Grep(./**)",
+      "Read(C:\\Work\\lego-dashboard\\.auto-claude\\worktrees\\tasks\\005-market-benchmark-comparison/**)",
+      "Write(C:\\Work\\lego-dashboard\\.auto-claude\\worktrees\\tasks\\005-market-benchmark-comparison/**)",
+      "Edit(C:\\Work\\lego-dashboard\\.auto-claude\\worktrees\\tasks\\005-market-benchmark-comparison/**)",
+      "Glob(C:\\Work\\lego-dashboard\\.auto-claude\\worktrees\\tasks\\005-market-benchmark-comparison/**)",
+      "Grep(C:\\Work\\lego-dashboard\\.auto-claude\\worktrees\\tasks\\005-market-benchmark-comparison/**)",
+      "Read(C:\\Work\\lego-dashboard\\.auto-claude\\worktrees\\tasks\\005-market-benchmark-comparison\\.auto-claude\\specs\\005-market-benchmark-comparison/**)",
+      "Write(C:\\Work\\lego-dashboard\\.auto-claude\\worktrees\\tasks\\005-market-benchmark-comparison\\.auto-claude\\specs\\005-market-benchmark-comparison/**)",
+      "Edit(C:\\Work\\lego-dashboard\\.auto-claude\\worktrees\\tasks\\005-market-benchmark-comparison\\.auto-claude\\specs\\005-market-benchmark-comparison/**)",
+      "Read(C:\\Work\\lego-dashboard\\.auto-claude/**)",
+      "Write(C:\\Work\\lego-dashboard\\.auto-claude/**)",
+      "Edit(C:\\Work\\lego-dashboard\\.auto-claude/**)",
+      "Glob(C:\\Work\\lego-dashboard\\.auto-claude/**)",
+      "Grep(C:\\Work\\lego-dashboard\\.auto-claude/**)",
+      "Bash(*)",
+      "WebFetch(*)",
+      "WebSearch(*)",
+      "mcp__context7__resolve-library-id(*)",
+      "mcp__context7__get-library-docs(*)",
+      "mcp__graphiti-memory__search_nodes(*)",
+      "mcp__graphiti-memory__search_facts(*)",
+      "mcp__graphiti-memory__add_episode(*)",
+      "mcp__graphiti-memory__get_episodes(*)",
+      "mcp__graphiti-memory__get_entity_edge(*)"
+    ]
+  }
+}

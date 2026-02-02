@@ -277,6 +277,13 @@
         analysis = await fetch('data/deep-analysis.json').then(r => r.json());
         try {
           priceHistory = await fetch('data/price-history.json').then(r => r.json());
+          // Load and attach market benchmarks
+          try {
+            const benchmarkData = await fetch('data/market-benchmarks.json').then(r => r.json());
+            priceHistory.benchmarks = transformBenchmarks(benchmarkData);
+          } catch (e) {
+            priceHistory.benchmarks = null;
+          }
         } catch (e) {
           priceHistory = null;
         }
@@ -285,6 +292,41 @@
         console.error('Failed to load data:', e);
         document.getElementById('setsGrid').innerHTML = '<div class="text-red-400">Failed to load portfolio data</div>';
       }
+    }
+
+    // Transform benchmark data to indexed format
+    function transformBenchmarks(benchmarkData) {
+      const result = {
+        overall: {},
+        theme: {}
+      };
+
+      // Transform overall market benchmark
+      if (benchmarkData.benchmarks && benchmarkData.benchmarks.overall_market) {
+        benchmarkData.benchmarks.overall_market.indexHistory.forEach(entry => {
+          const month = entry.date.substring(0, 7);
+          result.overall[month] = entry.value;
+        });
+      }
+
+      // For theme benchmark, combine all theme-specific benchmarks
+      // Use the first available theme that matches portfolio themes
+      const availableThemes = ['technic', 'icons', 'star_wars', 'speed_champions', 'super_mario'];
+      availableThemes.forEach(theme => {
+        if (benchmarkData.benchmarks && benchmarkData.benchmarks[theme]) {
+          benchmarkData.benchmarks[theme].indexHistory.forEach(entry => {
+            const month = entry.date.substring(0, 7);
+            // Average values if multiple themes exist for same month
+            if (result.theme[month]) {
+              result.theme[month] = (result.theme[month] + entry.value) / 2;
+            } else {
+              result.theme[month] = entry.value;
+            }
+          });
+        }
+      });
+
+      return result;
     }
 
     function renderDashboard() {
@@ -402,10 +444,11 @@
 
       const range = document.getElementById('historyRange').value;
       const months = range === 'all' ? 999 : parseInt(range);
-      
+      const benchmarkType = document.getElementById('benchmarkSelector').value;
+
       // Aggregate portfolio value by month
       const monthlyData = {};
-      
+
       // Get all unique dates across all sets
       const allDates = new Set();
       Object.values(priceHistory.sets).forEach(set => {
@@ -413,10 +456,10 @@
           set.priceHistory.forEach(p => allDates.add(p.date.substring(0, 7)));
         }
       });
-      
+
       const sortedDates = Array.from(allDates).sort();
       const recentDates = sortedDates.slice(-months);
-      
+
       recentDates.forEach(month => {
         let totalValue = 0;
         Object.entries(portfolio.sets).forEach(([setId, setData]) => {
@@ -435,14 +478,45 @@
         });
         monthlyData[month] = totalValue;
       });
-      
+
       const labels = Object.keys(monthlyData);
       const values = Object.values(monthlyData);
-      
+
+      // Prepare datasets
+      const datasets = [{
+        label: 'Portfolio',
+        data: values,
+        borderColor: '#8b5cf6',
+        backgroundColor: 'rgba(139, 92, 246, 0.1)',
+        fill: benchmarkType === 'none',
+        tension: 0.4,
+        pointRadius: 2,
+        pointHoverRadius: 6
+      }];
+
+      // Add benchmark data if selected
+      if (benchmarkType !== 'none' && priceHistory.benchmarks) {
+        const benchmarkData = calculateBenchmarkData(benchmarkType, recentDates, monthlyData);
+        if (benchmarkData) {
+          const benchmarkColor = benchmarkType === 'overall' ? '#f97316' : '#3b82f6';
+          datasets.push({
+            label: benchmarkType === 'overall' ? 'Overall Market' : 'Theme Average',
+            data: benchmarkData,
+            borderColor: benchmarkColor,
+            backgroundColor: 'rgba(0, 0, 0, 0)',
+            fill: false,
+            tension: 0.4,
+            pointRadius: 2,
+            pointHoverRadius: 6,
+            borderDash: [5, 5]
+          });
+        }
+      }
+
       const ctx = document.getElementById('historyChart').getContext('2d');
-      
+
       if (historyChart) historyChart.destroy();
-      
+
       historyChart = new Chart(ctx, {
         type: 'line',
         data: {
@@ -450,25 +524,22 @@
             const [y, m] = d.split('-');
             return new Date(y, m-1).toLocaleDateString('en-US', { month: 'short', year: '2-digit' });
           }),
-          datasets: [{
-            label: 'Portfolio Value (€)',
-            data: values,
-            borderColor: '#8b5cf6',
-            backgroundColor: 'rgba(139, 92, 246, 0.1)',
-            fill: true,
-            tension: 0.4,
-            pointRadius: 2,
-            pointHoverRadius: 6
-          }]
+          datasets: datasets
         },
         options: {
           responsive: true,
           maintainAspectRatio: false,
           plugins: {
-            legend: { display: false },
+            legend: {
+              display: benchmarkType !== 'none',
+              labels: {
+                color: '#9ca3af',
+                font: { size: 12 }
+              }
+            },
             tooltip: {
               callbacks: {
-                label: (ctx) => '€' + ctx.raw.toLocaleString('de-DE', {minimumFractionDigits: 2})
+                label: (ctx) => ctx.dataset.label + ': €' + ctx.raw.toLocaleString('de-DE', {minimumFractionDigits: 2})
               }
             }
           },
@@ -489,13 +560,52 @@
       });
     }
 
+    function calculateBenchmarkData(benchmarkType, dates, portfolioData) {
+      if (!priceHistory.benchmarks) return null;
+
+      if (benchmarkType === 'overall') {
+        // Use overall market benchmark
+        const overallBenchmark = priceHistory.benchmarks.overall;
+        if (!overallBenchmark) return null;
+
+        // Normalize to portfolio's starting value
+        const portfolioValues = Object.values(portfolioData);
+        const startValue = portfolioValues[0];
+        const benchmarkStart = overallBenchmark[dates[0]];
+        if (!benchmarkStart) return null;
+
+        return dates.map(date => {
+          const benchmarkValue = overallBenchmark[date];
+          if (!benchmarkValue) return null;
+          return startValue * (benchmarkValue / benchmarkStart);
+        });
+      } else if (benchmarkType === 'theme') {
+        // Use theme-specific benchmark
+        const themeBenchmark = priceHistory.benchmarks.theme;
+        if (!themeBenchmark) return null;
+
+        // Normalize to portfolio's starting value
+        const portfolioValues = Object.values(portfolioData);
+        const startValue = portfolioValues[0];
+        const benchmarkStart = themeBenchmark[dates[0]];
+        if (!benchmarkStart) return null;
+
+        return dates.map(date => {
+          const benchmarkValue = themeBenchmark[date];
+          if (!benchmarkValue) return null;
+          return startValue * (benchmarkValue / benchmarkStart);
+        });
+      }
+
+      return null;
+    }
+
     function updateHistoryChart() {
       renderHistoryChart();
     }
 
     function updateBenchmark() {
-      // TODO: Implement benchmark comparison logic
-      // Will be implemented in subsequent subtasks
+      renderHistoryChart();
     }
 
     function renderProjectedPerformers(containerId, sets, isTop) {
