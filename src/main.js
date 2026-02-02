@@ -217,10 +217,13 @@ function renderDashboard() {
   document.getElementById('avgScore').textContent = avgScore.toFixed(1);
 
   // Calculate portfolio projections
+  // Note: currentTotal must be calculated the same way (value * qty) for consistent comparison
+  let currentTotal = 0;
   let projected1yr = 0;
   let projected5yr = 0;
   sets.forEach((s) => {
     const qty = (s.qty_new || 0) + (s.qty_used || 0);
+    currentTotal += s.value * qty;
     const pred = s.predictions;
     if (pred && pred['1yr']) {
       projected1yr += (pred['1yr'].value || s.value) * qty;
@@ -233,25 +236,30 @@ function renderDashboard() {
       projected5yr += s.value * qty * 1.8; // Default 80% growth estimate over 5yr
     }
   });
-
-  const currentTotal = portfolio.summary.total_current;
   const growth1yr = ((projected1yr - currentTotal) / currentTotal) * 100;
   const growth5yr = ((projected5yr - currentTotal) / currentTotal) * 100;
+
+  const change1yr = projected1yr - currentTotal;
+  const change5yr = projected5yr - currentTotal;
+  const color1yr = change1yr >= 0 ? 'text-green-400' : 'text-red-400';
+  const color5yr = change5yr >= 0 ? 'text-green-400' : 'text-red-400';
+  const sign1yr = change1yr >= 0 ? '+' : '';
+  const sign5yr = change5yr >= 0 ? '+' : '';
 
   document.getElementById('forecast1yr').textContent =
     '€' + projected1yr.toLocaleString('de-DE', { minimumFractionDigits: 0 });
   document.getElementById('forecast1yrGrowth').textContent =
-    '+' + growth1yr.toFixed(1) + '% projected';
+    sign1yr + growth1yr.toFixed(1) + '% projected';
 
   document.getElementById('projection1yr').textContent =
     '€' + projected1yr.toLocaleString('de-DE', { minimumFractionDigits: 0 });
   document.getElementById('projection1yrChange').innerHTML =
-    `<span class="text-green-400">+€${(projected1yr - currentTotal).toLocaleString('de-DE', { minimumFractionDigits: 0 })}</span> <span class="text-gray-400">(+${growth1yr.toFixed(1)}%)</span>`;
+    `<span class="${color1yr}">${sign1yr}€${Math.abs(change1yr).toLocaleString('de-DE', { minimumFractionDigits: 0 })}</span> <span class="text-gray-400">(${sign1yr}${growth1yr.toFixed(1)}%)</span>`;
 
   document.getElementById('projection5yr').textContent =
     '€' + projected5yr.toLocaleString('de-DE', { minimumFractionDigits: 0 });
   document.getElementById('projection5yrChange').innerHTML =
-    `<span class="text-green-400">+€${(projected5yr - currentTotal).toLocaleString('de-DE', { minimumFractionDigits: 0 })}</span> <span class="text-gray-400">(+${growth5yr.toFixed(1)}%)</span>`;
+    `<span class="${color5yr}">${sign5yr}€${Math.abs(change5yr).toLocaleString('de-DE', { minimumFractionDigits: 0 })}</span> <span class="text-gray-400">(${sign5yr}${growth5yr.toFixed(1)}%)</span>`;
 
   // Top/Bottom projected
   const sortedByProjected = [...sets].sort((a, b) => {
