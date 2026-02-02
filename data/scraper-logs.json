@@ -91,5 +91,89 @@
         "exitCode": 1
       }
     ]
+  },
+  {
+    "runId": "dry-run-1770057318002",
+    "mode": "dry-run",
+    "startTime": "2026-02-02T18:35:18.002Z",
+    "endTime": "2026-02-02T18:35:18.002Z",
+    "durationMs": 0,
+    "status": "success",
+    "portfolio": {
+      "loaded": false,
+      "setsCount": 0
+    },
+    "brickeconomy": {
+      "success": false,
+      "skipped": true
+    },
+    "ebay": {
+      "success": false,
+      "skipped": true
+    },
+    "aiPrediction": {
+      "success": false,
+      "skipped": true
+    },
+    "snapshot": {
+      "success": false,
+      "skipped": true
+    }
+  },
+  {
+    "runId": "dry-run-1770057324492",
+    "mode": "dry-run",
+    "startTime": "2026-02-02T18:35:24.492Z",
+    "endTime": "2026-02-02T18:35:24.492Z",
+    "durationMs": 0,
+    "status": "success",
+    "portfolio": {
+      "loaded": false,
+      "setsCount": 0
+    },
+    "brickeconomy": {
+      "success": false,
+      "skipped": true
+    },
+    "ebay": {
+      "success": false,
+      "skipped": true
+    },
+    "aiPrediction": {
+      "success": false,
+      "skipped": true
+    },
+    "snapshot": {
+      "success": false,
+      "skipped": true
+    }
+  },
+  {
+    "runId": "dry-run-1770057603960",
+    "mode": "dry-run",
+    "startTime": "2026-02-02T18:40:03.960Z",
+    "endTime": "2026-02-02T18:40:03.960Z",
+    "durationMs": 0,
+    "status": "success",
+    "portfolio": {
+      "loaded": false,
+      "setsCount": 0
+    },
+    "brickeconomy": {
+      "success": false,
+      "skipped": true
+    },
+    "ebay": {
+      "success": false,
+      "skipped": true
+    },
+    "aiPrediction": {
+      "success": false,
+      "skipped": true
+    },
+    "snapshot": {
+      "success": false,
+      "skipped": true
+    }
   }
 ]

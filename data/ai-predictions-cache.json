@@ -1,6 +1,106 @@
 {
   "metadata": {
-    "lastUpdated": null,
+    "lastUpdated": "2026-02-02T18:40:00.000Z",
+    "source": "OpenAI GPT-4",
+    "cacheVersion": "1.0",
     "note": "AI predictions cache with TTL-based expiration"
+  },
+  "predictions": {
+    "10316-1": {
+      "setId": "10316-1",
+      "setName": "The Lord of the Rings Rivendell",
+      "theme": "Icons / Licensed",
+      "currentValue": 439.99,
+      "prediction": {
+        "1yr": {
+          "value": 520.00,
+          "date": "2027-02-02",
+          "source": "OpenAI GPT-4"
+        },
+        "5yr": {
+          "value": 850.00,
+          "date": "2031-02-02",
+          "source": "OpenAI GPT-4"
+        },
+        "growth1yr": 18.18,
+        "growth5yr": 93.19,
+        "confidence": "high",
+        "reasoning": "Strong Lord of the Rings license with dedicated collector base. First Icons-scale LOTR set creates scarcity premium. Historical data from similar licensed sets shows consistent appreciation post-retirement."
+      },
+      "cachedAt": "2026-02-02T18:40:00.000Z",
+      "ttlType": "standard",
+      "ttlHours": 24,
+      "modelVersion": "gpt-4o",
+      "inputSummary": {
+        "ebayListingsCount": 45,
+        "similarSetsCount": 5,
+        "hasHistoricalData": true,
+        "firstOfKind": true
+      }
+    },
+    "10323-1": {
+      "setId": "10323-1",
+      "setName": "PAC-MAN Arcade",
+      "theme": "Icons / Licensed",
+      "currentValue": 237.59,
+      "prediction": {
+        "1yr": {
+          "value": 280.00,
+          "date": "2027-02-02",
+          "source": "OpenAI GPT-4"
+        },
+        "5yr": {
+          "value": 420.00,
+          "date": "2031-02-02",
+          "source": "OpenAI GPT-4"
+        },
+        "growth1yr": 17.85,
+        "growth5yr": 76.78,
+        "confidence": "medium",
+        "reasoning": "PAC-MAN has nostalgic appeal across generations. Moderate license strength. Similar arcade-themed sets have shown steady appreciation, though market segment is smaller than major franchises."
+      },
+      "cachedAt": "2026-02-02T18:40:00.000Z",
+      "ttlType": "standard",
+      "ttlHours": 24,
+      "modelVersion": "gpt-4o",
+      "inputSummary": {
+        "ebayListingsCount": 18,
+        "similarSetsCount": 3,
+        "hasHistoricalData": true,
+        "firstOfKind": false
+      }
+    },
+    "42115-1": {
+      "setId": "42115-1",
+      "setName": "Lamborghini Sián FKP 37",
+      "theme": "Technic / Licensed",
+      "currentValue": 425.04,
+      "prediction": {
+        "1yr": {
+          "value": 480.00,
+          "date": "2027-02-02",
+          "source": "OpenAI GPT-4"
+        },
+        "5yr": {
+          "value": 750.00,
+          "date": "2031-02-02",
+          "source": "OpenAI GPT-4"
+        },
+        "growth1yr": 12.93,
+        "growth5yr": 76.45,
+        "confidence": "high",
+        "reasoning": "Premium Technic supercars consistently perform well. Lamborghini license has strong collector appeal. Already showing 27.5% growth indicates strong demand trajectory."
+      },
+      "cachedAt": "2026-02-02T18:40:00.000Z",
+      "ttlType": "standard",
+      "ttlHours": 24,
+      "modelVersion": "gpt-4o",
+      "inputSummary": {
+        "ebayListingsCount": 52,
+        "similarSetsCount": 4,
+        "hasHistoricalData": true,
+        "firstOfKind": false
+      }
+    }
   }
 }
