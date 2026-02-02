@@ -96,6 +96,65 @@ function calculateDiscount(listingPrice, targetPrice) {
 }
 
 /**
+ * Score a deal based on discount, seller rating, and condition match
+ * @param {object} listing - Listing from scraper with price, rating, condition
+ * @param {object} watchItem - Watchlist item with target_price and preferred_condition
+ * @returns {number} Score from 0-100 (50% discount, 25% rating, 25% condition)
+ */
+function scoreDeal(listing, watchItem) {
+  if (!listing || !watchItem) return 0;
+
+  let score = 0;
+
+  // 1. Price discount component (50 points max)
+  if (listing.price && watchItem.target_price) {
+    const discountPct = calculateDiscount(listing.price, watchItem.target_price);
+
+    // Scale discount to 0-50 points
+    // 0% discount = 0 points
+    // 20% discount = 25 points
+    // 40% discount = 40 points
+    // 50%+ discount = 50 points (capped)
+    const discountScore = Math.min(50, (discountPct / 50) * 50);
+    score += Math.max(0, discountScore);
+  }
+
+  // 2. Seller rating component (25 points max)
+  if (listing.rating !== undefined && listing.rating !== null) {
+    // Rating is typically 0-100 scale
+    // Scale to 0-25 points
+    const ratingScore = (listing.rating / 100) * 25;
+    score += Math.max(0, Math.min(25, ratingScore));
+  }
+
+  // 3. Condition match component (25 points max)
+  if (watchItem.preferred_condition && listing.condition) {
+    const preferredCondition = watchItem.preferred_condition.toLowerCase();
+    const listingCondition = listing.condition.toLowerCase();
+
+    if (preferredCondition === listingCondition) {
+      // Perfect match
+      score += 25;
+    } else if (preferredCondition === 'new' && listingCondition === 'used') {
+      // User wants new but got used = low score
+      score += 5;
+    } else if (preferredCondition === 'used' && listingCondition === 'new') {
+      // User wants used but got new = better than nothing
+      score += 15;
+    } else {
+      // Other partial matches
+      score += 10;
+    }
+  } else if (listing.condition) {
+    // No preference specified, give partial points for any condition info
+    score += 15;
+  }
+
+  // Ensure score is within 0-100 range
+  return Math.max(0, Math.min(100, Math.round(score)));
+}
+
+/**
  * Find deals for a specific watchlist item
  * @param {string} setId - Set ID like "10316-1"
  * @param {object} watchItem - Watchlist item configuration
@@ -298,6 +357,7 @@ module.exports = {
   saveDeals,
   meetsTargetCriteria,
   calculateDiscount,
+  scoreDeal,
   findDealsForSet,
   isDuplicateDeal,
   WATCHLIST_FILE,
