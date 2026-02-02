@@ -228,6 +228,7 @@
     let analysis = null;
     let priceHistory = null;
     let salesData = null;
+    let purchasesData = null;
     let currentTab = 'all';
     let currentFilter = '';
     let historyChart = null;
@@ -284,6 +285,11 @@
         } catch (e) {
           salesData = null;
         }
+        try {
+          purchasesData = await fetch('data/purchases.json').then(r => r.json());
+        } catch (e) {
+          purchasesData = null;
+        }
         renderDashboard();
       } catch (e) {
         console.error('Failed to load data:', e);
@@ -304,7 +310,11 @@
         const setSales = salesData && salesData.sales ?
           salesData.sales.filter(sale => sale.setId === id) : [];
 
-        return { id, ...data, analysis: a, avgScore, predictions, sales: setSales };
+        // Merge purchase data
+        const setPurchases = purchasesData && purchasesData.purchases ?
+          purchasesData.purchases.filter(purchase => purchase.setId === id) : [];
+
+        return { id, ...data, analysis: a, avgScore, predictions, sales: setSales, purchaseHistory: setPurchases };
       });
 
       // Summary
@@ -693,6 +703,11 @@
       const setSales = salesData && salesData.sales ?
         salesData.sales.filter(sale => sale.setId === id) : [];
       s.sales = setSales;
+
+      // Merge purchase data
+      const setPurchases = purchasesData && purchasesData.purchases ?
+        purchasesData.purchases.filter(purchase => purchase.setId === id) : [];
+      s.purchaseHistory = setPurchases;
 
       const actionColors = { BUY: 'bg-green-500 text-white', HOLD: 'bg-yellow-500 text-black', SELL: 'bg-red-500 text-white' };
       const entryColors = { excellent: 'bg-green-500/20 text-green-400', good: 'bg-blue-500/20 text-blue-400', fair: 'bg-yellow-500/20 text-yellow-400', poor: 'bg-red-500/20 text-red-400' };
