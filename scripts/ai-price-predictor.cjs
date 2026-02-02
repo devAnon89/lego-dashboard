@@ -21,6 +21,9 @@ const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 const MAX_RETRIES = parseInt(process.env.MAX_RETRIES || '3', 10);
 const RETRY_DELAY = parseInt(process.env.RETRY_DELAY || '2000', 10);
 
+// Rate limiting configuration (3 requests per second = 333ms minimum between requests)
+const RATE_LIMIT_MIN_INTERVAL = 334; // milliseconds between requests (slightly over 333ms for safety margin)
+
 // Cache TTL constants (in milliseconds)
 const CACHE_TTL_STANDARD = 24 * 60 * 60 * 1000; // 24 hours
 const CACHE_TTL_VOLATILE = 12 * 60 * 60 * 1000; // 12 hours
@@ -40,7 +43,89 @@ function sleep(ms) {
 }
 
 /**
+ * Rate limiter for API calls
+ * Ensures minimum interval between requests (3 req/sec = 334ms minimum between requests)
+ */
+class RateLimiter {
+  constructor(minIntervalMs = RATE_LIMIT_MIN_INTERVAL) {
+    this.minIntervalMs = minIntervalMs;
+    this.lastRequestTime = 0;
+  }
+
+  /**
+   * Wait until it's safe to make another request
+   * @returns {Promise<void>}
+   */
+  async acquire() {
+    const now = Date.now();
+    const timeSinceLastRequest = now - this.lastRequestTime;
+    const waitTime = Math.max(0, this.minIntervalMs - timeSinceLastRequest);
+
+    if (waitTime > 0) {
+      logger.debug(`Rate limiter: waiting ${waitTime}ms before next request`);
+      await sleep(waitTime);
+    }
+
+    this.lastRequestTime = Date.now();
+  }
+
+  /**
+   * Reset the rate limiter (useful for testing)
+   */
+  reset() {
+    this.lastRequestTime = 0;
+  }
+}
+
+// Global rate limiter instance for OpenAI API calls
+const openaiRateLimiter = new RateLimiter();
+
+/**
+ * Check if an error is a rate limit error (429)
+ * @param {Error} error - The error to check
+ * @returns {boolean} True if this is a rate limit error
+ */
+function isRateLimitError(error) {
+  // Check for HTTP 429 status
+  if (error.status === 429 || error.statusCode === 429) {
+    return true;
+  }
+  // Check for rate limit message in error
+  if (error.message && error.message.toLowerCase().includes('rate limit')) {
+    return true;
+  }
+  // Check for OpenAI-specific rate limit error code
+  if (error.code === 'rate_limit_exceeded') {
+    return true;
+  }
+  return false;
+}
+
+/**
+ * Parse retry-after header or error message for suggested wait time
+ * @param {Error} error - The error that may contain retry information
+ * @returns {number|null} Suggested wait time in ms, or null if not found
+ */
+function parseRetryAfter(error) {
+  // Check for retry-after in error details
+  if (error.retryAfter) {
+    return error.retryAfter * 1000; // Convert seconds to ms
+  }
+  // Try to parse from error message (OpenAI sometimes includes this)
+  if (error.message) {
+    const match = error.message.match(/try again in (\d+(?:\.\d+)?)\s*(s|ms|seconds?|milliseconds?)/i);
+    if (match) {
+      const value = parseFloat(match[1]);
+      const unit = match[2].toLowerCase();
+      return unit.startsWith('ms') || unit === 'milliseconds' ? value : value * 1000;
+    }
+  }
+  return null;
+}
+
+/**
  * Execute a function with retry logic and exponential backoff
+ * Enhanced to handle rate limit errors with appropriate delays
  */
 async function withRetry(fn, options = {}) {
   const { maxRetries = MAX_RETRIES, retryDelay = RETRY_DELAY, context = '' } = options;
@@ -53,8 +138,26 @@ async function withRetry(fn, options = {}) {
       lastError = error;
 
       if (attempt < maxRetries) {
-        const delay = retryDelay * Math.pow(2, attempt - 1); // Exponential backoff
-        logger.warn(`${context} failed (attempt ${attempt}/${maxRetries}), retrying in ${delay}ms`, error);
+        let delay;
+
+        // Check if this is a rate limit error
+        if (isRateLimitError(error)) {
+          // Try to get retry-after value, otherwise use longer backoff for rate limits
+          const retryAfterMs = parseRetryAfter(error);
+          if (retryAfterMs) {
+            delay = retryAfterMs + 100; // Add small buffer
+            logger.warn(`${context} rate limited (attempt ${attempt}/${maxRetries}), waiting ${delay}ms as suggested by API`, error);
+          } else {
+            // Use aggressive exponential backoff for rate limits (start at 5s, double each time)
+            delay = 5000 * Math.pow(2, attempt - 1);
+            logger.warn(`${context} rate limited (attempt ${attempt}/${maxRetries}), backing off for ${delay}ms`, error);
+          }
+        } else {
+          // Standard exponential backoff for other errors
+          delay = retryDelay * Math.pow(2, attempt - 1);
+          logger.warn(`${context} failed (attempt ${attempt}/${maxRetries}), retrying in ${delay}ms`, error);
+        }
+
         await sleep(delay);
       } else {
         logger.error(`${context} failed after ${maxRetries} attempts`, error);
@@ -320,6 +423,7 @@ Respond in JSON format:
 
 /**
  * Call OpenAI API to generate price prediction
+ * Includes rate limiting (3 req/sec) and proper error handling
  * @param {string} prompt - Structured prompt
  * @returns {Object} Parsed prediction response
  */
@@ -327,6 +431,9 @@ async function callOpenAI(prompt) {
   if (!OPENAI_API_KEY) {
     throw new Error('OPENAI_API_KEY environment variable is not set');
   }
+
+  // Acquire rate limit token before making request
+  await openaiRateLimiter.acquire();
 
   const response = await fetch('https://api.openai.com/v1/chat/completions', {
     method: 'POST',
@@ -342,10 +449,34 @@ async function callOpenAI(prompt) {
     })
   });
 
+  // Handle rate limit errors with proper error object
+  if (response.status === 429) {
+    const retryAfter = response.headers.get('retry-after');
+    const errorData = await response.json().catch(() => ({}));
+    const error = new Error(errorData.error?.message || 'Rate limit exceeded');
+    error.status = 429;
+    error.code = 'rate_limit_exceeded';
+    if (retryAfter) {
+      error.retryAfter = parseInt(retryAfter, 10);
+    }
+    throw error;
+  }
+
+  // Handle other HTTP errors
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}));
+    const error = new Error(errorData.error?.message || `HTTP ${response.status}: ${response.statusText}`);
+    error.status = response.status;
+    throw error;
+  }
+
   const data = await response.json();
 
   if (data.error) {
-    throw new Error(data.error.message);
+    const error = new Error(data.error.message);
+    error.code = data.error.code;
+    error.type = data.error.type;
+    throw error;
   }
 
   if (!data.choices || !data.choices[0] || !data.choices[0].message) {
@@ -619,10 +750,8 @@ async function main() {
       predictions.push(cachedPrediction);
       displayPrediction(cachedPrediction);
 
-      // Add delay between API calls to avoid rate limiting
-      if (setsToPredictIds.length > 1 && cacheMisses > 0) {
-        await sleep(500);
-      }
+      // Note: Rate limiting is handled by openaiRateLimiter.acquire() in callOpenAI()
+      // Additional delay here is not needed as the rate limiter ensures 3 req/sec max
     } catch (error) {
       logger.error(`Failed to generate prediction for ${setId}`, error);
     }
@@ -688,6 +817,10 @@ module.exports = {
   generateDryRunPrediction,
   withRetry,
   sleep,
+  RateLimiter,
+  openaiRateLimiter,
+  isRateLimitError,
+  parseRetryAfter,
   DATA_DIR,
   PORTFOLIO_FILE,
   EBAY_PRICE_HISTORY_FILE,
@@ -695,6 +828,7 @@ module.exports = {
   AI_PREDICTIONS_CACHE_FILE,
   CACHE_TTL_STANDARD,
   CACHE_TTL_VOLATILE,
+  RATE_LIMIT_MIN_INTERVAL,
 };
 
 if (require.main === module) {
