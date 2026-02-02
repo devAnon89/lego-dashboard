@@ -1,711 +1,1682 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>🧱 LEGO Investment Dashboard</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🧱 LEGO Investment Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1/dist/chartjs-plugin-zoom.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+    /* Prevent horizontal scrolling - CRITICAL */
+    * {
+      box-sizing: border-box;
+    }
+    html, body {
+      overflow-x: hidden;
+      max-width: 100vw;
+      position: relative;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+    .card { background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); }
+    .glow-green { box-shadow: 0 0 20px rgba(34, 197, 94, 0.3); }
+    .glow-red { box-shadow: 0 0 20px rgba(239, 68, 68, 0.3); }
+    .glow-yellow { box-shadow: 0 0 20px rgba(234, 179, 8, 0.3); }
+    .glow-purple { box-shadow: 0 0 20px rgba(168, 85, 247, 0.3); }
+    .score-bar { background: linear-gradient(90deg, #ef4444 0%, #eab308 50%, #22c55e 100%); }
+    .tab-active { border-bottom: 2px solid #3b82f6; color: #3b82f6; }
+    .prediction-badge { background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%); }
+    .tooltip-container { position: relative; display: inline-block; }
+    .tooltip-content {
+      visibility: hidden;
+      opacity: 0;
+      position: absolute;
+      z-index: 1000;
+      bottom: 125%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(17, 24, 39, 0.98);
+      border: 1px solid rgba(255,255,255,0.2);
+      backdrop-filter: blur(10px);
+      padding: 12px;
+      border-radius: 8px;
+      width: 280px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      transition: opacity 0.3s, visibility 0.3s;
+    }
+    .tooltip-container:hover .tooltip-content { visibility: visible; opacity: 1; }
+    .tooltip-content::after {
+      content: "";
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      margin-left: -5px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: rgba(17, 24, 39, 0.98) transparent transparent transparent;
+    }
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); }
+    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 4px; }
+
+    /* Mobile Navigation Styles */
+    .mobile-menu-btn { display: none; }
+    .mobile-nav {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 280px;
+      height: 100vh;
+      background: rgba(26, 26, 46, 0.98);
+      backdrop-filter: blur(20px);
+      border-left: 1px solid rgba(255,255,255,0.1);
+      transition: right 0.3s ease-in-out;
+      z-index: 1000;
+      padding: 20px;
+      overflow-y: auto;
+    }
+    .mobile-nav.active { right: 0; }
+    .mobile-nav-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: rgba(0,0,0,0.5);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+      z-index: 999;
+    }
+    .mobile-nav-backdrop.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* Mobile Summary Cards Optimization */
+    @media (max-width: 768px) {
+      .mobile-menu-btn { display: flex; }
+      .desktop-nav { display: none; }
+
+      /* Summary cards mobile layout */
+      #summaryCards {
+        gap: 0.75rem; /* Reduce gap on mobile */
+      }
+
+      #summaryCards .card {
+        padding: 0.75rem; /* Reduce padding from 1rem to 0.75rem */
+        min-height: 90px; /* Ensure consistent card height */
+      }
+
+      #summaryCards .text-sm {
+        font-size: 0.75rem; /* 12px - slightly smaller labels */
+        line-height: 1.2;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      #summaryCards .text-2xl {
+        font-size: 1.25rem; /* 20px - reduced from 24px for mobile */
+        line-height: 1.3;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      #summaryCards .flex.items-center {
+        flex-wrap: wrap;
+      }
+    }
+
+    /* Extra small screens (375px and below) */
+    @media (max-width: 425px) {
+      #summaryCards {
+        gap: 0.5rem; /* Further reduce gap */
+      }
+
+      #summaryCards .card {
+        padding: 0.625rem; /* 10px padding for very small screens */
+      }
+
+      #summaryCards .text-2xl {
+        font-size: 1.125rem; /* 18px - further reduced but still readable */
+      }
+
+      #summaryCards .text-sm {
+        font-size: 0.75rem; /* 12px - keeping readable on smallest screens */
+      }
+    }
+
+    /* Chart mobile responsiveness */
+    @media (max-width: 768px) {
+      /* Adjust chart container heights for mobile */
+      .chart-container {
+        height: 250px !important; /* Slightly reduced from desktop */
+      }
+
+      /* Make chart controls more touch-friendly */
+      #historyRange {
+        padding: 0.5rem;
+        font-size: 0.875rem;
+      }
+
+      /* Hide some chart labels on very small screens */
+      @media (max-width: 425px) {
+        .chart-container {
+          height: 220px !important;
+        }
+      }
+    }
+
+    /* Mobile Tabs with horizontal scroll */
+    .tabs-container {
+      overflow-x: auto;
+      overflow-y: hidden;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255,255,255,0.2) transparent;
+    }
+
+    .tabs-container::-webkit-scrollbar {
+      height: 3px;
+    }
+
+    .tabs-container::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .tabs-container::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,0.2);
+      border-radius: 2px;
+    }
+
+    @media (max-width: 768px) {
+      .tabs-container {
+        margin-left: -1rem;
+        margin-right: -1rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+
+      .tabs-wrapper {
+        display: inline-flex;
+        min-width: 100%;
+      }
+
+      .tabs-wrapper button {
+        flex-shrink: 0;
+        min-width: fit-content;
+        padding: 0.75rem 1.25rem; /* min 44px touch target */
+        font-size: 0.875rem;
+        white-space: nowrap;
+      }
+    }
+
+    @media (min-width: 769px) {
+      .tabs-wrapper {
+        display: flex;
+        width: 100%;
+      }
+    }
+
+    /* Mobile Modal Optimization */
+    @media (max-width: 768px) {
+      /* Full screen modal on mobile */
+      #modal {
+        padding: 0;
+        align-items: flex-start;
+      }
+
+      #modal > .card {
+        max-width: 100%;
+        max-height: 100vh;
+        height: 100vh;
+        border-radius: 0;
+        margin: 0;
+      }
+
+      #modal .p-6 {
+        padding: 1rem; /* Reduce padding from 1.5rem to 1rem */
+      }
+
+      /* Ensure close button is easily tappable (44px min) */
+      #modal button[onclick="closeModal()"] {
+        min-width: 44px;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem; /* Larger X */
+      }
+
+      /* Stack stats grid to single column on mobile */
+      #modalContent .grid.grid-cols-2.md\\:grid-cols-4 {
+        grid-template-columns: repeat(1, minmax(0, 1fr));
+        gap: 0.75rem;
+      }
+
+      /* Optimize stat cards for mobile */
+      #modalContent .bg-gray-800.rounded-lg.p-3 {
+        padding: 0.75rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      #modalContent .bg-gray-800.rounded-lg.p-3 .text-xs {
+        font-size: 0.75rem;
+        margin-bottom: 0;
+      }
+
+      #modalContent .bg-gray-800.rounded-lg.p-3 .text-xl {
+        font-size: 1.125rem; /* Slightly smaller for mobile */
+      }
+
+      /* Optimize predictions section for mobile */
+      #modalContent .grid.grid-cols-2.gap-4 {
+        gap: 0.75rem;
+      }
+
+      /* Make action badges wrap properly */
+      #modalContent .flex.gap-3 {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+
+      #modalContent .flex.gap-3 > span {
+        font-size: 0.875rem;
+        padding: 0.5rem 0.75rem;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+      }
+
+      /* Optimize title section */
+      #modalContent h2.text-2xl {
+        font-size: 1.25rem;
+        line-height: 1.4;
+      }
+
+      #modalContent .text-gray-400 {
+        font-size: 0.875rem;
+      }
+    }
+
+    /* Extra small screens optimization */
+    @media (max-width: 425px) {
+      #modal .p-6 {
+        padding: 0.75rem;
+      }
+
+      #modalContent h2.text-2xl {
+        font-size: 1.125rem;
+      }
+    }
+
+    /* Touch-Friendly Tap Targets - Minimum 44px */
+    @media (max-width: 768px) {
+      /* All buttons minimum 44px */
+      button {
+        min-height: 44px;
+        min-width: 44px;
+      }
+
+      /* Input fields and dropdowns - comfortable tap targets */
+      input[type="text"],
+      select {
+        min-height: 44px;
+        padding: 0.625rem 1rem; /* 10px 16px */
+        font-size: 1rem; /* 16px to prevent zoom on iOS */
+      }
+
+      /* Mobile menu buttons */
+      .mobile-menu-btn {
+        min-width: 44px;
+        min-height: 44px;
+        padding: 0.625rem; /* 10px */
+      }
+
+      .mobile-nav button {
+        min-height: 44px;
+        padding: 0.75rem 1rem;
+      }
+
+      /* Desktop nav buttons on mobile */
+      .desktop-nav button {
+        min-height: 44px;
+        padding: 0.625rem 1rem;
+      }
+
+      /* Tab buttons - already handled but ensuring consistency */
+      .tabs-wrapper button {
+        min-height: 44px;
+        padding: 0.75rem 1.25rem;
+      }
+
+      /* Action summary cards - clickable with good touch target */
+      .card.cursor-pointer {
+        min-height: 100px; /* Ensure adequate tap area */
+        padding: 1rem;
+      }
+
+      /* Set cards in grid - adequate tap targets */
+      #setsGrid .card {
+        min-height: 180px; /* Ensure card is large enough */
+        padding: 1rem;
+      }
+
+      /* Performer cards - rendered dynamically but styled here */
+      .bg-gray-800\/50.cursor-pointer {
+        min-height: 60px; /* Comfortable tap target */
+        padding: 0.75rem;
+      }
+
+      /* Search input specific */
+      #searchInput {
+        min-height: 44px;
+      }
+
+      /* Select dropdowns */
+      #themeFilter,
+      #sortBy,
+      #historyRange {
+        min-height: 44px;
+      }
+
+      /* Summary cards - ensure they're tappable if needed */
+      #summaryCards .card {
+        min-height: 90px;
+        padding: 0.75rem;
+      }
+    }
+
+    /* Extra touch-friendly adjustments for very small screens */
+    @media (max-width: 425px) {
+      /* Maintain 44px even on smallest screens */
+      button {
+        min-height: 44px;
+        padding: 0.625rem 1rem;
+      }
+
+      input[type="text"],
+      select {
+        min-height: 44px;
+        font-size: 1rem; /* Prevent zoom */
+      }
+
+      /* Slightly reduce card padding but keep tap target size */
+      #setsGrid .card {
+        padding: 0.875rem;
+        min-height: 180px;
+      }
+    }
+
+    /* Horizontal Scroll Prevention - Additional Safeguards */
+    @media (max-width: 768px) {
+      /* Ensure body padding doesn't cause overflow */
       body {
-        font-family: 'Inter', sans-serif;
-        background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+        padding-left: 0.75rem; /* Reduce from 1rem */
+        padding-right: 0.75rem;
       }
+
+      /* Prevent text overflow */
+      h1, h2, h3, p, span, div {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+      }
+
+      /* Ensure grid containers don't overflow */
+      .grid {
+        max-width: 100%;
+      }
+
+      /* Fix tabs negative margin containment */
+      .tabs-container {
+        max-width: 100vw;
+        box-sizing: border-box;
+      }
+
+      /* Ensure cards don't overflow */
       .card {
-        background: rgba(255, 255, 255, 0.05);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        max-width: 100%;
+        box-sizing: border-box;
       }
-      .glow-green {
-        box-shadow: 0 0 20px rgba(34, 197, 94, 0.3);
+
+      /* Ensure header doesn't overflow */
+      header {
+        max-width: 100%;
       }
-      .glow-red {
-        box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
+
+      header h1 {
+        font-size: 1.5rem; /* Reduce from 3xl on very small screens */
+        line-height: 1.3;
       }
-      .glow-yellow {
-        box-shadow: 0 0 20px rgba(234, 179, 8, 0.3);
+
+      header p {
+        font-size: 0.875rem;
+        line-height: 1.4;
       }
-      .glow-purple {
-        box-shadow: 0 0 20px rgba(168, 85, 247, 0.3);
+    }
+
+    @media (max-width: 425px) {
+      /* Further reduce body padding on smallest screens */
+      body {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+        padding-top: 0.75rem;
+        padding-bottom: 0.75rem;
       }
-      .score-bar {
-        background: linear-gradient(
-          90deg,
-          #ef4444 0%,
-          #eab308 50%,
-          #22c55e 100%
-        );
+
+      /* Reduce header margins */
+      header {
+        margin-bottom: 1.5rem; /* Reduce from 2rem */
       }
-      .tab-active {
-        border-bottom: 2px solid #3b82f6;
-        color: #3b82f6;
+
+      header h1 {
+        font-size: 1.25rem; /* 20px - smaller for 375px screens */
       }
-      .prediction-badge {
-        background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+
+      header p {
+        font-size: 0.75rem;
       }
-      ::-webkit-scrollbar {
-        width: 8px;
+
+      /* Reduce gaps between sections */
+      .mb-8 {
+        margin-bottom: 1.5rem !important;
       }
-      ::-webkit-scrollbar-track {
-        background: rgba(255, 255, 255, 0.05);
+
+      .mb-6 {
+        margin-bottom: 1rem !important;
       }
-      ::-webkit-scrollbar-thumb {
-        background: rgba(255, 255, 255, 0.2);
-        border-radius: 4px;
+
+      /* Ensure all grids have proper spacing */
+      .gap-4 {
+        gap: 0.5rem !important;
       }
-    </style>
-  </head>
-  <body class="min-h-screen text-white p-4 md:p-8">
-    <!-- Header -->
-    <header class="mb-8">
-      <div class="flex items-center justify-between flex-wrap gap-4">
-        <div>
-          <h1 class="text-3xl md:text-4xl font-bold">
-            🧱 LEGO Investment Dashboard
-          </h1>
-          <p class="text-gray-400 mt-1">
-            AI-Powered Portfolio Analysis with BrickEconomy ML Predictions
-          </p>
-        </div>
-        <div class="flex items-center gap-4">
+
+      /* Reduce card padding to minimum */
+      .card.rounded-xl.p-4:not(#summaryCards .card) {
+        padding: 0.75rem !important;
+      }
+
+      /* Ensure long URLs or text don't overflow */
+      .text-gray-400, .text-sm, .text-xs {
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+
+    @media (max-width: 375px) {
+      /* Extra precautions for 375px and below */
+      body {
+        padding: 0.5rem;
+      }
+
+      /* Ensure no element exceeds viewport */
+      * {
+        max-width: 100vw;
+      }
+
+      .tabs-container {
+        margin-left: -0.5rem;
+        margin-right: -0.5rem;
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+      }
+    }
+  </style>
+</head>
+<body class="min-h-screen text-white p-4 md:p-8">
+  <!-- Mobile Navigation Backdrop -->
+  <div class="mobile-nav-backdrop" id="mobileNavBackdrop" onclick="toggleMobileNav()"></div>
+
+  <!-- Mobile Navigation Drawer -->
+  <nav class="mobile-nav" id="mobileNav">
+    <div class="flex items-center justify-between mb-6">
+      <h2 class="text-xl font-bold">Menu</h2>
+      <button onclick="toggleMobileNav()" class="text-gray-400 hover:text-white p-2">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+    <div class="space-y-4">
+      <button onclick="refreshData(); toggleMobileNav();" class="w-full px-4 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg text-sm font-medium transition flex items-center gap-2">
+        <span>🔄</span>
+        <span>Refresh Data</span>
+      </button>
+      <div class="border-t border-gray-700 pt-4">
+        <p class="text-xs text-gray-400 mb-2">Quick Actions</p>
+        <button onclick="switchTab('buy'); toggleMobileNav();" class="w-full px-4 py-2 text-left text-sm hover:bg-white/5 rounded transition">🟢 View Buy Recommendations</button>
+        <button onclick="switchTab('hold'); toggleMobileNav();" class="w-full px-4 py-2 text-left text-sm hover:bg-white/5 rounded transition">⏳ View Hold Positions</button>
+        <button onclick="switchTab('sell'); toggleMobileNav();" class="w-full px-4 py-2 text-left text-sm hover:bg-white/5 rounded transition">🔴 View Sell Candidates</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Header -->
+  <header class="mb-8">
+    <div class="flex items-center justify-between flex-wrap gap-4">
+      <div class="flex-1">
+        <h1 class="text-3xl md:text-4xl font-bold">🧱 LEGO Investment Dashboard</h1>
+        <p class="text-gray-400 mt-1">AI-Powered Portfolio Analysis with BrickEconomy ML Predictions</p>
+      </div>
+      <div class="flex items-center gap-4">
+<!-- Desktop Navigation -->
+        <div class="desktop-nav flex items-center gap-4">
+          <a href="deals.html" class="px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg text-sm font-medium transition">🎯 Deals</a>
           <span class="text-sm text-gray-400" id="lastUpdated"></span>
-          <button
-            onclick="refreshData()"
-            class="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg text-sm font-medium transition"
-          >
-            🔄 Refresh
-          </button>
+          <button onclick="refreshData()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg text-sm font-medium transition">🔄 Refresh</button>
+        </div>
+        <!-- Mobile Menu Button -->
+        <button onclick="toggleMobileNav()" class="mobile-menu-btn items-center justify-center p-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Summary Cards -->
+  <div class="grid grid-cols-2 md:grid-cols-6 gap-4 mb-8" id="summaryCards">
+    <div class="card rounded-xl p-4">
+      <div class="text-gray-400 text-sm">Total Value</div>
+      <div class="text-2xl font-bold text-white" id="totalValue">-</div>
+      <div class="text-sm text-gray-500" id="totalPaid"></div>
+    </div>
+    <div class="card rounded-xl p-4">
+      <div class="text-gray-400 text-sm">Total Gain/Loss</div>
+      <div class="text-2xl font-bold" id="totalGain">-</div>
+      <div class="text-sm" id="totalGainPct"></div>
+    </div>
+    <div class="card rounded-xl p-4">
+      <div class="text-gray-400 text-sm">Realized Gains</div>
+      <div class="text-2xl font-bold" id="totalRealizedGains">-</div>
+      <div class="text-sm text-gray-500" id="totalSales"></div>
+    </div>
+    <div class="card rounded-xl p-4">
+      <div class="text-gray-400 text-sm">Total Sets</div>
+      <div class="text-2xl font-bold text-white" id="totalSets">-</div>
+      <div class="text-sm text-gray-500" id="totalUnits"></div>
+    </div>
+    <div class="card rounded-xl p-4">
+      <div class="text-gray-400 text-sm">Avg Score</div>
+      <div class="text-2xl font-bold text-blue-400" id="avgScore">-</div>
+      <div class="text-sm text-gray-500">out of 10</div>
+    </div>
+    <div class="card rounded-xl p-4 glow-purple">
+      <div class="text-gray-400 text-sm flex items-center gap-1">
+        🔮 1yr Forecast
+        <span class="text-xs text-purple-400">(ML)</span>
+      </div>
+      <div class="text-2xl font-bold text-purple-400" id="forecast1yr">-</div>
+      <div class="text-sm text-purple-300" id="forecast1yrGrowth"></div>
+    </div>
+  </div>
+
+  <!-- Portfolio History Chart -->
+  <div class="card rounded-xl p-4 mb-8">
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-2 mb-4">
+      <h3 class="text-lg font-semibold flex items-center gap-2">📈 Portfolio Value History</h3>
+      <div class="flex flex-col md:flex-row items-start md:items-center gap-2">
+        <span class="text-xs text-gray-400 hidden md:inline">Based on price history from BrickEconomy</span>
+        <select id="historyRange" class="bg-gray-800 border border-gray-700 rounded px-2 py-1 text-sm w-full md:w-auto" onchange="updateHistoryChart()">
+          <option value="6">6 Months</option>
+          <option value="12" selected>1 Year</option>
+          <option value="24">2 Years</option>
+          <option value="all">All Time</option>
+        </select>
+      </div>
+    </div>
+    <div class="text-xs text-gray-400 mb-2 md:hidden">💡 Pinch to zoom • Swipe to pan</div>
+    <div class="h-64 chart-container">
+      <canvas id="historyChart"></canvas>
+    </div>
+  </div>
+
+  <!-- Future Projections Section -->
+  <div class="card rounded-xl p-4 mb-8">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-lg font-semibold flex items-center gap-2">🔮 Future Projections</h3>
+      <span class="prediction-badge px-3 py-1 rounded-full text-xs font-medium">Powered by BrickEconomy ML</span>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="bg-gradient-to-br from-purple-900/30 to-indigo-900/30 rounded-xl p-4 border border-purple-500/20">
+        <div class="flex items-center gap-2 mb-3">
+          <span class="text-purple-400">📅</span>
+          <span class="text-sm font-medium text-purple-300">1-Year Projection (Jan 2026)</span>
+        </div>
+        <div class="text-3xl font-bold text-white mb-2" id="projection1yr">-</div>
+        <div class="text-sm" id="projection1yrChange">-</div>
+        <div class="mt-3 text-xs text-gray-400">
+          Based on BrickEconomy's machine learning model trained on historical LEGO market data
         </div>
       </div>
-    </header>
-
-    <!-- Summary Cards -->
-    <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8" id="summaryCards">
-      <div class="card rounded-xl p-4">
-        <div class="text-gray-400 text-sm">Total Value</div>
-        <div class="text-2xl font-bold text-white" id="totalValue">-</div>
-        <div class="text-sm text-gray-500" id="totalPaid"></div>
-      </div>
-      <div class="card rounded-xl p-4">
-        <div class="text-gray-400 text-sm">Total Gain/Loss</div>
-        <div class="text-2xl font-bold" id="totalGain">-</div>
-        <div class="text-sm" id="totalGainPct"></div>
-      </div>
-      <div class="card rounded-xl p-4">
-        <div class="text-gray-400 text-sm">Total Sets</div>
-        <div class="text-2xl font-bold text-white" id="totalSets">-</div>
-        <div class="text-sm text-gray-500" id="totalUnits"></div>
-      </div>
-      <div class="card rounded-xl p-4">
-        <div class="text-gray-400 text-sm">Avg Score</div>
-        <div class="text-2xl font-bold text-blue-400" id="avgScore">-</div>
-        <div class="text-sm text-gray-500">out of 10</div>
-      </div>
-      <div class="card rounded-xl p-4 glow-purple">
-        <div class="text-gray-400 text-sm flex items-center gap-1">
-          🔮 1yr Forecast
-          <span class="text-xs text-purple-400">(ML)</span>
+      <div class="bg-gradient-to-br from-indigo-900/30 to-blue-900/30 rounded-xl p-4 border border-indigo-500/20">
+        <div class="flex items-center gap-2 mb-3">
+          <span class="text-indigo-400">📅</span>
+          <span class="text-sm font-medium text-indigo-300">5-Year Projection (Jan 2030)</span>
         </div>
-        <div class="text-2xl font-bold text-purple-400" id="forecast1yr">-</div>
-        <div class="text-sm text-purple-300" id="forecast1yrGrowth"></div>
-      </div>
-    </div>
-
-    <!-- Portfolio History Chart -->
-    <div class="card rounded-xl p-4 mb-8">
-      <div class="flex items-center justify-between mb-4">
-        <h3 class="text-lg font-semibold flex items-center gap-2">
-          📈 Portfolio Value History
-        </h3>
-        <div class="flex items-center gap-2">
-          <span class="text-xs text-gray-400"
-            >Based on price history from BrickEconomy</span
-          >
-          <select
-            id="historyRange"
-            class="bg-gray-800 border border-gray-700 rounded px-2 py-1 text-sm"
-            onchange="updateHistoryChart()"
-          >
-            <option value="6">6 Months</option>
-            <option value="12" selected>1 Year</option>
-            <option value="24">2 Years</option>
-            <option value="all">All Time</option>
-          </select>
+        <div class="text-3xl font-bold text-white mb-2" id="projection5yr">-</div>
+        <div class="text-sm" id="projection5yrChange">-</div>
+        <div class="mt-3 text-xs text-gray-400">
+          Long-term estimate based on historical appreciation patterns for retired sets
         </div>
       </div>
-      <div class="h-64">
-        <canvas id="historyChart"></canvas>
+    </div>
+    <div class="mt-4 p-3 bg-yellow-500/10 border border-yellow-500/20 rounded-lg">
+      <p class="text-xs text-yellow-300">
+        ⚠️ <strong>Disclaimer:</strong> Predictions are generated by BrickEconomy's ML model and are estimates only. 
+        Actual future values may vary significantly based on market conditions, rarity, and collector demand.
+      </p>
+    </div>
+  </div>
+
+  <!-- Theme Allocation Chart -->
+  <div class="card rounded-xl p-4 mb-8">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-lg font-semibold flex items-center gap-2">🎨 Portfolio by Theme</h3>
+      <span class="text-xs text-gray-400">Value allocation across LEGO themes</span>
+    </div>
+    <div class="h-80">
+      <canvas id="themeChart"></canvas>
+    </div>
+  </div>
+
+  <!-- Theme Performance History Chart -->
+  <div class="card rounded-xl p-4 mb-8">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-lg font-semibold flex items-center gap-2">📊 Theme Performance History</h3>
+      <div class="flex items-center gap-2">
+        <span class="text-xs text-gray-400">Top 5 themes by value over time</span>
+        <select id="themeHistoryRange" class="bg-gray-800 border border-gray-700 rounded px-2 py-1 text-sm" onchange="updateThemeHistoryChart()">
+          <option value="6">6 Months</option>
+          <option value="12" selected>1 Year</option>
+          <option value="24">2 Years</option>
+          <option value="all">All Time</option>
+        </select>
       </div>
     </div>
+    <div class="h-64">
+      <canvas id="themeHistoryChart"></canvas>
+    </div>
+  </div>
 
-    <!-- Future Projections Section -->
-    <div class="card rounded-xl p-4 mb-8">
-      <div class="flex items-center justify-between mb-4">
-        <h3 class="text-lg font-semibold flex items-center gap-2">
-          🔮 Future Projections
-        </h3>
-        <span
-          class="prediction-badge px-3 py-1 rounded-full text-xs font-medium"
-          >Powered by BrickEconomy ML</span
-        >
+  <!-- Theme ROI Comparison Table -->
+  <div class="card rounded-xl p-4 mb-8">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-lg font-semibold flex items-center gap-2">💰 Theme ROI Comparison</h3>
+      <div class="flex items-center gap-2">
+        <span class="text-xs text-gray-400">Click headers to sort</span>
+        <select id="themeROISort" class="bg-gray-800 border border-gray-700 rounded px-2 py-1 text-sm" onchange="renderThemeROITable()">
+          <option value="roi">Sort by ROI</option>
+          <option value="value">Sort by Value</option>
+          <option value="gain">Sort by Gain</option>
+          <option value="theme">Sort by Theme</option>
+        </select>
       </div>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div
-          class="bg-gradient-to-br from-purple-900/30 to-indigo-900/30 rounded-xl p-4 border border-purple-500/20"
-        >
-          <div class="flex items-center gap-2 mb-3">
-            <span class="text-purple-400">📅</span>
-            <span class="text-sm font-medium text-purple-300"
-              >1-Year Projection (Jan 2026)</span
-            >
-          </div>
-          <div class="text-3xl font-bold text-white mb-2" id="projection1yr">
-            -
-          </div>
-          <div class="text-sm" id="projection1yrChange">-</div>
-          <div class="mt-3 text-xs text-gray-400">
-            Based on BrickEconomy's machine learning model trained on historical
-            LEGO market data
-          </div>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm">
+        <thead>
+          <tr class="border-b border-gray-700">
+            <th class="text-left py-3 px-2 text-gray-400 font-medium cursor-pointer hover:text-white transition" onclick="sortThemeROI('theme')">Theme</th>
+            <th class="text-right py-3 px-2 text-gray-400 font-medium cursor-pointer hover:text-white transition" onclick="sortThemeROI('sets')">Sets</th>
+            <th class="text-right py-3 px-2 text-gray-400 font-medium cursor-pointer hover:text-white transition" onclick="sortThemeROI('invested')">Invested</th>
+            <th class="text-right py-3 px-2 text-gray-400 font-medium cursor-pointer hover:text-white transition" onclick="sortThemeROI('value')">Current Value</th>
+            <th class="text-right py-3 px-2 text-gray-400 font-medium cursor-pointer hover:text-white transition" onclick="sortThemeROI('gain')">Gain/Loss</th>
+            <th class="text-right py-3 px-2 text-gray-400 font-medium cursor-pointer hover:text-white transition" onclick="sortThemeROI('roi')">ROI %</th>
+            <th class="text-right py-3 px-2 text-gray-400 font-medium">vs Portfolio</th>
+          </tr>
+        </thead>
+        <tbody id="themeROITableBody">
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Top Projected Gains -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+    <div class="card rounded-xl p-4">
+      <h3 class="text-lg font-semibold mb-4 flex items-center gap-2">🚀 Best 1yr Projected Growth</h3>
+      <div id="topProjected" class="space-y-3"></div>
+    </div>
+    <div class="card rounded-xl p-4">
+      <h3 class="text-lg font-semibold mb-4 flex items-center gap-2">⚠️ Lowest 1yr Projected Growth</h3>
+      <div id="bottomProjected" class="space-y-3"></div>
+    </div>
+  </div>
+
+  <!-- Action Summary -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+    <div class="card rounded-xl p-4 glow-green cursor-pointer hover:scale-[1.02] transition" onclick="filterByAction('BUY')">
+      <div class="flex items-center justify-between">
+        <div>
+          <div class="text-green-400 text-sm font-medium">🟢 BUY</div>
+          <div class="text-3xl font-bold text-green-400" id="buyCount">-</div>
         </div>
-        <div
-          class="bg-gradient-to-br from-indigo-900/30 to-blue-900/30 rounded-xl p-4 border border-indigo-500/20"
-        >
-          <div class="flex items-center gap-2 mb-3">
-            <span class="text-indigo-400">📅</span>
-            <span class="text-sm font-medium text-indigo-300"
-              >5-Year Projection (Jan 2030)</span
-            >
-          </div>
-          <div class="text-3xl font-bold text-white mb-2" id="projection5yr">
-            -
-          </div>
-          <div class="text-sm" id="projection5yrChange">-</div>
-          <div class="mt-3 text-xs text-gray-400">
-            Long-term estimate based on historical appreciation patterns for
-            retired sets
-          </div>
+        <div class="text-5xl opacity-30">📈</div>
+      </div>
+      <div class="text-sm text-gray-400 mt-2" id="buyThesis"></div>
+    </div>
+    <div class="card rounded-xl p-4 glow-yellow cursor-pointer hover:scale-[1.02] transition" onclick="filterByAction('HOLD')">
+      <div class="flex items-center justify-between">
+        <div>
+          <div class="text-yellow-400 text-sm font-medium">⏳ HOLD</div>
+          <div class="text-3xl font-bold text-yellow-400" id="holdCount">-</div>
         </div>
+        <div class="text-5xl opacity-30">⏸️</div>
       </div>
-      <div
-        class="mt-4 p-3 bg-yellow-500/10 border border-yellow-500/20 rounded-lg"
-      >
-        <p class="text-xs text-yellow-300">
-          ⚠️ <strong>Disclaimer:</strong> Predictions are generated by
-          BrickEconomy's ML model and are estimates only. Actual future values
-          may vary significantly based on market conditions, rarity, and
-          collector demand.
-        </p>
-      </div>
+      <div class="text-sm text-gray-400 mt-2" id="holdThesis"></div>
     </div>
-
-    <!-- Top Projected Gains -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-      <div class="card rounded-xl p-4">
-        <h3 class="text-lg font-semibold mb-4 flex items-center gap-2">
-          🚀 Best 1yr Projected Growth
-        </h3>
-        <div id="topProjected" class="space-y-3"></div>
-      </div>
-      <div class="card rounded-xl p-4">
-        <h3 class="text-lg font-semibold mb-4 flex items-center gap-2">
-          ⚠️ Lowest 1yr Projected Growth
-        </h3>
-        <div id="bottomProjected" class="space-y-3"></div>
-      </div>
-    </div>
-
-    <!-- Action Summary -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-      <div
-        class="card rounded-xl p-4 glow-green cursor-pointer hover:scale-[1.02] transition"
-        onclick="filterByAction('BUY')"
-      >
-        <div class="flex items-center justify-between">
-          <div>
-            <div class="text-green-400 text-sm font-medium">🟢 BUY</div>
-            <div class="text-3xl font-bold text-green-400" id="buyCount">-</div>
-          </div>
-          <div class="text-5xl opacity-30">📈</div>
+    <div class="card rounded-xl p-4 glow-red cursor-pointer hover:scale-[1.02] transition" onclick="filterByAction('SELL')">
+      <div class="flex items-center justify-between">
+        <div>
+          <div class="text-red-400 text-sm font-medium">🔴 SELL</div>
+          <div class="text-3xl font-bold text-red-400" id="sellCount">-</div>
         </div>
-        <div class="text-sm text-gray-400 mt-2" id="buyThesis"></div>
+        <div class="text-5xl opacity-30">📉</div>
       </div>
-      <div
-        class="card rounded-xl p-4 glow-yellow cursor-pointer hover:scale-[1.02] transition"
-        onclick="filterByAction('HOLD')"
-      >
-        <div class="flex items-center justify-between">
-          <div>
-            <div class="text-yellow-400 text-sm font-medium">⏳ HOLD</div>
-            <div class="text-3xl font-bold text-yellow-400" id="holdCount">
-              -
-            </div>
-          </div>
-          <div class="text-5xl opacity-30">⏸️</div>
-        </div>
-        <div class="text-sm text-gray-400 mt-2" id="holdThesis"></div>
-      </div>
-      <div
-        class="card rounded-xl p-4 glow-red cursor-pointer hover:scale-[1.02] transition"
-        onclick="filterByAction('SELL')"
-      >
-        <div class="flex items-center justify-between">
-          <div>
-            <div class="text-red-400 text-sm font-medium">🔴 SELL</div>
-            <div class="text-3xl font-bold text-red-400" id="sellCount">-</div>
-          </div>
-          <div class="text-5xl opacity-30">📉</div>
-        </div>
-        <div class="text-sm text-gray-400 mt-2" id="sellThesis"></div>
-      </div>
+      <div class="text-sm text-gray-400 mt-2" id="sellThesis"></div>
     </div>
+  </div>
 
-    <!-- Top & Bottom Performers -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-      <div class="card rounded-xl p-4">
-        <h3 class="text-lg font-semibold mb-4 flex items-center gap-2">
-          🏆 Top 5 Investment Scores
-        </h3>
-        <div id="topPerformers" class="space-y-3"></div>
-      </div>
-      <div class="card rounded-xl p-4">
-        <h3 class="text-lg font-semibold mb-4 flex items-center gap-2">
-          ⚠️ Underperformers
-        </h3>
-        <div id="bottomPerformers" class="space-y-3"></div>
-      </div>
+  <!-- Top & Bottom Performers -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+    <div class="card rounded-xl p-4">
+      <h3 class="text-lg font-semibold mb-4 flex items-center gap-2">🏆 Top 5 Investment Scores</h3>
+      <div id="topPerformers" class="space-y-3"></div>
     </div>
-
-    <!-- Tabs -->
-    <div class="flex gap-6 border-b border-gray-700 mb-6">
-      <button class="pb-2 tab-active" data-tab="all" onclick="switchTab('all')">
-        All Sets
-      </button>
-      <button
-        class="pb-2 text-gray-400 hover:text-white"
-        data-tab="buy"
-        onclick="switchTab('buy')"
-      >
-        Buy
-      </button>
-      <button
-        class="pb-2 text-gray-400 hover:text-white"
-        data-tab="hold"
-        onclick="switchTab('hold')"
-      >
-        Hold
-      </button>
-      <button
-        class="pb-2 text-gray-400 hover:text-white"
-        data-tab="sell"
-        onclick="switchTab('sell')"
-      >
-        Sell
-      </button>
+    <div class="card rounded-xl p-4">
+      <h3 class="text-lg font-semibold mb-4 flex items-center gap-2">⚠️ Underperformers</h3>
+      <div id="bottomPerformers" class="space-y-3"></div>
     </div>
+  </div>
 
-    <!-- Search & Filter -->
-    <div class="flex flex-wrap gap-4 mb-6">
-      <input
-        type="text"
-        id="searchInput"
-        placeholder="🔍 Search sets..."
-        class="bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 flex-1 min-w-[200px]"
-        oninput="filterSets()"
-      />
-      <select
-        id="themeFilter"
-        class="bg-gray-800 border border-gray-700 rounded-lg px-4 py-2"
-        onchange="filterSets()"
-      >
-        <option value="">All Themes</option>
-      </select>
-      <select
-        id="sortBy"
-        class="bg-gray-800 border border-gray-700 rounded-lg px-4 py-2"
-        onchange="filterSets()"
-      >
-        <option value="score">Sort by Score</option>
-        <option value="growth">Sort by Growth</option>
-        <option value="projected">Sort by Projected Growth</option>
-        <option value="value">Sort by Value</option>
-        <option value="name">Sort by Name</option>
-      </select>
+  <!-- Tabs -->
+<div class="tabs-container border-b border-gray-700 mb-6">
+    <div class="tabs-wrapper gap-6">
+      <button class="pb-2 tab-active" data-tab="all" onclick="switchTab('all')">All Sets</button>
+      <button class="pb-2 text-gray-400 hover:text-white" data-tab="buy" onclick="switchTab('buy')">Buy</button>
+      <button class="pb-2 text-gray-400 hover:text-white" data-tab="hold" onclick="switchTab('hold')">Hold</button>
+      <button class="pb-2 text-gray-400 hover:text-white" data-tab="sell" onclick="switchTab('sell')">Sell</button>
+      <div id="themeFilterBadge" class="hidden ml-auto"></div>
     </div>
+  </div>
 
-    <!-- Sets Grid -->
-    <div
-      id="setsGrid"
-      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
-    ></div>
+  <!-- Search & Filter -->
+  <div class="flex flex-wrap gap-4 mb-6">
+    <input type="text" id="searchInput" placeholder="🔍 Search sets..." class="bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 flex-1 min-w-[200px]" oninput="filterSets()">
+    <select id="themeFilter" class="bg-gray-800 border border-gray-700 rounded-lg px-4 py-2" onchange="filterSets()">
+      <option value="">All Themes</option>
+    </select>
+    <select id="sortBy" class="bg-gray-800 border border-gray-700 rounded-lg px-4 py-2" onchange="filterSets()">
+      <option value="score">Sort by Score</option>
+      <option value="growth">Sort by Growth</option>
+      <option value="projected">Sort by Projected Growth</option>
+      <option value="value">Sort by Value</option>
+      <option value="name">Sort by Name</option>
+    </select>
+  </div>
 
-    <!-- Set Detail Modal -->
-    <div
-      id="modal"
-      class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden items-center justify-center z-50 p-4"
-    >
-      <div
-        class="card rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto"
-      >
-        <div class="p-6" id="modalContent"></div>
-      </div>
+  <!-- Sets Grid -->
+  <div id="setsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+
+  <!-- Set Detail Modal -->
+  <div id="modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
+    <div class="card rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto">
+      <div class="p-6" id="modalContent"></div>
     </div>
+  </div>
 
-    <script>
-      // Data stores
-      let portfolio = null;
-      let analysis = null;
-      let priceHistory = null;
-      let currentTab = 'all';
-      let currentFilter = '';
-      let historyChart = null;
+  <script>
+    // Data stores
+    let portfolio = null;
+    let analysis = null;
+    let priceHistory = null;
+    let confidence = null;
+    let salesData = null;
+    let purchasesData = null;
+    let currentTab = 'all';
+    let currentFilter = '';
+    let currentThemeFilter = null;
+    let historyChart = null;
+    let themeHistoryChart = null;
 
-      // Transform new data format to expected format
-      function transformPortfolio(data) {
-        // If already in old format (sets is object), return as-is
-        if (data.summary && !Array.isArray(data.sets)) return data;
+    // Mobile navigation toggle
+    function toggleMobileNav() {
+      const nav = document.getElementById('mobileNav');
+      const backdrop = document.getElementById('mobileNavBackdrop');
+      nav.classList.toggle('active');
+      backdrop.classList.toggle('active');
+    }
 
-        // Transform new format (sets is array, metadata instead of summary)
-        const setsObj = {};
-        (data.sets || []).forEach((set) => {
-          const id = set.setNumber || set.id;
-          setsObj[id] = {
-            name: set.name,
-            theme: set.theme,
-            retail_price: set.retail,
-            price_paid: set.paid,
-            current_value: set.value,
-            qty_new: set.qtyNew,
-            qty_used: set.qtyUsed,
-            growth: set.growth,
-          };
-        });
-
-        const meta = data.metadata || {};
-        return {
-          sets: setsObj,
-          summary: {
-            total_current: meta.totalCurrentValue || 0,
-            total_paid: meta.totalPaid || 0,
-            total_gain_eur:
-              (meta.totalCurrentValue || 0) - (meta.totalPaid || 0),
-            total_gain_pct: meta.totalGain || 0,
-            total_sets: meta.totalSets || Object.keys(setsObj).length,
-            total_units: meta.totalUnits || 0,
-            last_updated: meta.lastUpdated || new Date().toISOString(),
-          },
+    // Transform new data format to expected format
+    function transformPortfolio(data) {
+      // If already in old format (sets is object), return as-is
+      if (data.summary && !Array.isArray(data.sets)) return data;
+      
+      // Transform new format (sets is array, metadata instead of summary)
+      const setsObj = {};
+      (data.sets || []).forEach(set => {
+        const id = set.setNumber || set.id;
+        setsObj[id] = {
+          name: set.name,
+          theme: set.theme,
+          retail_price: set.retail,
+          price_paid: set.paid,
+          current_value: set.value,
+          qty_new: set.qtyNew,
+          qty_used: set.qtyUsed,
+          growth: set.growth
         };
-      }
+      });
+      
+      const meta = data.metadata || {};
+      return {
+        sets: setsObj,
+        summary: {
+          total_current: meta.totalCurrentValue || 0,
+          total_paid: meta.totalPaid || 0,
+          total_gain_eur: (meta.totalCurrentValue || 0) - (meta.totalPaid || 0),
+          total_gain_pct: meta.totalGain || 0,
+          total_sets: meta.totalSets || Object.keys(setsObj).length,
+          total_units: meta.totalUnits || 0,
+          last_updated: meta.lastUpdated || new Date().toISOString()
+        }
+      };
+    }
 
-      // Load data
-      async function loadData() {
+    // Load data
+    async function loadData() {
+      try {
+        let rawPortfolio = await fetch('data/portfolio.json').then(r => r.json());
+        portfolio = transformPortfolio(rawPortfolio);
+        analysis = await fetch('data/deep-analysis.json').then(r => r.json());
         try {
-          let rawPortfolio = await fetch('data/portfolio.json').then((r) =>
-            r.json()
-          );
-          portfolio = transformPortfolio(rawPortfolio);
-          analysis = await fetch('data/deep-analysis.json').then((r) =>
-            r.json()
-          );
-          try {
-            priceHistory = await fetch('data/price-history.json').then((r) =>
-              r.json()
-            );
-          } catch (e) {
-            priceHistory = null;
-          }
-          renderDashboard();
+          priceHistory = await fetch('data/price-history.json').then(r => r.json());
         } catch (e) {
-          console.error('Failed to load data:', e);
-          document.getElementById('setsGrid').innerHTML =
-            '<div class="text-red-400">Failed to load portfolio data</div>';
+          priceHistory = null;
         }
+        try {
+          confidence = await fetch('data/confidence.json').then(r => r.json());
+        } catch (e) {
+          confidence = null;
+        }
+        try {
+          salesData = await fetch('data/sales.json').then(r => r.json());
+        } catch (e) {
+          salesData = null;
+        }
+        try {
+          purchasesData = await fetch('data/purchases.json').then(r => r.json());
+        } catch (e) {
+          purchasesData = null;
+        }
+        renderDashboard();
+      } catch (e) {
+        console.error('Failed to load data:', e);
+        document.getElementById('setsGrid').innerHTML = '<div class="text-red-400">Failed to load portfolio data</div>';
+      }
+    }
+
+    function renderDashboard() {
+      if (!portfolio || !analysis) return;
+
+      // Calculate enriched data
+      const sets = Object.entries(portfolio.sets).map(([id, data]) => {
+        const a = analysis[id] || {};
+        const avgScore = ((a.license || 0) + (a.retirement || 0) + (a.appeal || 0) + (a.liquidity || 0)) / 4;
+        const predictions = a.predictions || {};
+        const conf = confidence?.sets?.[id]?.confidence || 'Low';
+
+        // Merge sales data
+        const setSales = salesData && salesData.sales ?
+          salesData.sales.filter(sale => sale.setId === id) : [];
+
+        // Merge purchase data
+        const setPurchases = purchasesData && purchasesData.purchases ?
+          purchasesData.purchases.filter(purchase => purchase.setId === id) : [];
+
+        return { id, ...data, analysis: a, avgScore, predictions, confidence: conf, sales: setSales, purchaseHistory: setPurchases };
+      });
+
+      // Summary
+      document.getElementById('totalValue').textContent = '€' + portfolio.summary.total_current.toLocaleString('de-DE', {minimumFractionDigits: 2});
+      document.getElementById('totalPaid').textContent = 'Paid: €' + portfolio.summary.total_paid.toLocaleString('de-DE', {minimumFractionDigits: 2});
+      
+      const gain = portfolio.summary.total_gain_eur;
+      const gainPct = portfolio.summary.total_gain_pct;
+      const gainEl = document.getElementById('totalGain');
+      const gainPctEl = document.getElementById('totalGainPct');
+      gainEl.textContent = (gain >= 0 ? '+' : '') + '€' + gain.toLocaleString('de-DE', {minimumFractionDigits: 2});
+      gainEl.className = 'text-2xl font-bold ' + (gain >= 0 ? 'text-green-400' : 'text-red-400');
+      gainPctEl.textContent = (gainPct >= 0 ? '+' : '') + gainPct.toFixed(2) + '%';
+      gainPctEl.className = 'text-sm ' + (gainPct >= 0 ? 'text-green-400' : 'text-red-400');
+
+      const totalUnits = sets.reduce((sum, s) => sum + (s.qty_new || 0) + (s.qty_used || 0), 0);
+      document.getElementById('totalSets').textContent = sets.length;
+      document.getElementById('totalUnits').textContent = totalUnits + ' total units';
+
+      const avgScore = sets.reduce((sum, s) => sum + s.avgScore, 0) / sets.length;
+      document.getElementById('avgScore').textContent = avgScore.toFixed(1);
+
+      // Calculate total realized gains
+      let totalRealizedGains = 0;
+      let totalSalesCount = 0;
+      sets.forEach(s => {
+        if (s.sales && Array.isArray(s.sales)) {
+          s.sales.forEach(sale => {
+            totalRealizedGains += (sale.realizedGain || 0);
+            totalSalesCount++;
+          });
+        }
+      });
+
+      const realizedGainsEl = document.getElementById('totalRealizedGains');
+      const totalSalesEl = document.getElementById('totalSales');
+      realizedGainsEl.textContent = (totalRealizedGains >= 0 ? '+' : '') + '€' + totalRealizedGains.toLocaleString('de-DE', {minimumFractionDigits: 2});
+      realizedGainsEl.className = 'text-2xl font-bold ' + (totalRealizedGains >= 0 ? 'text-green-400' : 'text-red-400');
+      totalSalesEl.textContent = totalSalesCount + ' sale' + (totalSalesCount !== 1 ? 's' : '');
+
+      // Calculate portfolio projections
+      let projected1yr = 0;
+      let projected5yr = 0;
+      sets.forEach(s => {
+        const qty = (s.qty_new || 0) + (s.qty_used || 0);
+        const pred = s.predictions;
+        if (pred && pred['1yr']) {
+          projected1yr += (pred['1yr'].value || s.value) * qty;
+        } else {
+          projected1yr += s.value * qty * 1.15; // Default 15% growth estimate
+        }
+        if (pred && pred['5yr']) {
+          projected5yr += (pred['5yr'].value || s.value) * qty;
+        } else {
+          projected5yr += s.value * qty * 1.8; // Default 80% growth estimate over 5yr
+        }
+      });
+
+      const currentTotal = portfolio.summary.total_current;
+      const growth1yr = ((projected1yr - currentTotal) / currentTotal) * 100;
+      const growth5yr = ((projected5yr - currentTotal) / currentTotal) * 100;
+
+      document.getElementById('forecast1yr').textContent = '€' + projected1yr.toLocaleString('de-DE', {minimumFractionDigits: 0});
+      document.getElementById('forecast1yrGrowth').textContent = '+' + growth1yr.toFixed(1) + '% projected';
+
+      document.getElementById('projection1yr').textContent = '€' + projected1yr.toLocaleString('de-DE', {minimumFractionDigits: 0});
+      document.getElementById('projection1yrChange').innerHTML = `<span class="text-green-400">+€${(projected1yr - currentTotal).toLocaleString('de-DE', {minimumFractionDigits: 0})}</span> <span class="text-gray-400">(+${growth1yr.toFixed(1)}%)</span>`;
+
+      document.getElementById('projection5yr').textContent = '€' + projected5yr.toLocaleString('de-DE', {minimumFractionDigits: 0});
+      document.getElementById('projection5yrChange').innerHTML = `<span class="text-green-400">+€${(projected5yr - currentTotal).toLocaleString('de-DE', {minimumFractionDigits: 0})}</span> <span class="text-gray-400">(+${growth5yr.toFixed(1)}%)</span>`;
+
+      // Top/Bottom projected
+      const sortedByProjected = [...sets].sort((a, b) => {
+        const aGrowth = a.predictions?.growth1yr || 15;
+        const bGrowth = b.predictions?.growth1yr || 15;
+        return bGrowth - aGrowth;
+      });
+      renderProjectedPerformers('topProjected', sortedByProjected.slice(0, 5), true);
+      renderProjectedPerformers('bottomProjected', sortedByProjected.slice(-5).reverse(), false);
+
+      // Action counts
+      const buys = sets.filter(s => s.analysis.action === 'BUY');
+      const holds = sets.filter(s => s.analysis.action === 'HOLD');
+      const sells = sets.filter(s => s.analysis.action === 'SELL');
+
+      document.getElementById('buyCount').textContent = buys.length;
+      document.getElementById('holdCount').textContent = holds.length;
+      document.getElementById('sellCount').textContent = sells.length;
+
+      document.getElementById('buyThesis').textContent = buys.length > 0 ? buys[0].name : 'No buy recommendations';
+      document.getElementById('sellThesis').textContent = sells.length > 0 ? `${sells.length} sets to consider selling` : 'No sell recommendations';
+      document.getElementById('holdThesis').textContent = `${holds.length} sets performing as expected`;
+
+      // Top/Bottom performers
+      const sorted = [...sets].sort((a, b) => b.avgScore - a.avgScore);
+      renderPerformers('topPerformers', sorted.slice(0, 5), true);
+      renderPerformers('bottomPerformers', sorted.slice(-5).reverse(), false);
+
+      // Theme filter
+      const themes = [...new Set(sets.map(s => s.theme.split(' / ')[0]))].sort();
+      const themeSelect = document.getElementById('themeFilter');
+      themeSelect.innerHTML = '<option value="">All Themes</option>' + 
+        themes.map(t => `<option value="${t}">${t}</option>`).join('');
+
+      // Last updated
+      document.getElementById('lastUpdated').textContent = 'Updated: ' + new Date(portfolio.summary.last_updated).toLocaleString();
+
+      // Render history chart
+      renderHistoryChart();
+
+      // Render theme allocation chart
+      renderThemeChart();
+
+      // Render theme history chart
+      renderThemeHistoryChart();
+
+      // Render theme ROI table
+      renderThemeROITable();
+
+      // Render sets
+      filterSets();
+    }
+
+    function renderHistoryChart() {
+      if (!priceHistory) {
+        document.getElementById('historyChart').parentElement.innerHTML = '<div class="text-gray-400 h-64 flex items-center justify-center">No price history data available</div>';
+        return;
       }
 
-      function renderDashboard() {
-        if (!portfolio || !analysis) return;
-
-        // Calculate enriched data
-        const sets = Object.entries(portfolio.sets).map(([id, data]) => {
-          const a = analysis[id] || {};
-          const avgScore =
-            ((a.license || 0) +
-              (a.retirement || 0) +
-              (a.appeal || 0) +
-              (a.liquidity || 0)) /
-            4;
-          const predictions = a.predictions || {};
-          return { id, ...data, analysis: a, avgScore, predictions };
-        });
-
-        // Summary
-        document.getElementById('totalValue').textContent =
-          '€' +
-          portfolio.summary.total_current.toLocaleString('de-DE', {
-            minimumFractionDigits: 2,
-          });
-        document.getElementById('totalPaid').textContent =
-          'Paid: €' +
-          portfolio.summary.total_paid.toLocaleString('de-DE', {
-            minimumFractionDigits: 2,
-          });
-
-        const gain = portfolio.summary.total_gain_eur;
-        const gainPct = portfolio.summary.total_gain_pct;
-        const gainEl = document.getElementById('totalGain');
-        const gainPctEl = document.getElementById('totalGainPct');
-        gainEl.textContent =
-          (gain >= 0 ? '+' : '') +
-          '€' +
-          gain.toLocaleString('de-DE', { minimumFractionDigits: 2 });
-        gainEl.className =
-          'text-2xl font-bold ' +
-          (gain >= 0 ? 'text-green-400' : 'text-red-400');
-        gainPctEl.textContent =
-          (gainPct >= 0 ? '+' : '') + gainPct.toFixed(2) + '%';
-        gainPctEl.className =
-          'text-sm ' + (gainPct >= 0 ? 'text-green-400' : 'text-red-400');
-
-        const totalUnits = sets.reduce(
-          (sum, s) => sum + (s.qty_new || 0) + (s.qty_used || 0),
-          0
-        );
-        document.getElementById('totalSets').textContent = sets.length;
-        document.getElementById('totalUnits').textContent =
-          totalUnits + ' total units';
-
-        const avgScore =
-          sets.reduce((sum, s) => sum + s.avgScore, 0) / sets.length;
-        document.getElementById('avgScore').textContent = avgScore.toFixed(1);
-
-        // Calculate portfolio projections
-        let projected1yr = 0;
-        let projected5yr = 0;
-        sets.forEach((s) => {
-          const qty = (s.qty_new || 0) + (s.qty_used || 0);
-          const pred = s.predictions;
-          if (pred && pred['1yr']) {
-            projected1yr += (pred['1yr'].value || s.value) * qty;
+      const range = document.getElementById('historyRange').value;
+      const months = range === 'all' ? 999 : parseInt(range);
+      
+      // Aggregate portfolio value by month
+      const monthlyData = {};
+      
+      // Get all unique dates across all sets
+      const allDates = new Set();
+      Object.values(priceHistory.sets).forEach(set => {
+        if (set.priceHistory) {
+          set.priceHistory.forEach(p => allDates.add(p.date.substring(0, 7)));
+        }
+      });
+      
+      const sortedDates = Array.from(allDates).sort();
+      const recentDates = sortedDates.slice(-months);
+      
+      recentDates.forEach(month => {
+        let totalValue = 0;
+        Object.entries(portfolio.sets).forEach(([setId, setData]) => {
+          const qty = (setData.qty_new || 0) + (setData.qty_used || 0);
+          const historySet = priceHistory.sets[setId];
+          if (historySet && historySet.priceHistory) {
+            const monthData = historySet.priceHistory.find(p => p.date.startsWith(month));
+            if (monthData) {
+              totalValue += monthData.newValue * qty;
+            } else {
+              totalValue += setData.value; // fallback to current value
+            }
           } else {
-            projected1yr += s.value * qty * 1.15; // Default 15% growth estimate
-          }
-          if (pred && pred['5yr']) {
-            projected5yr += (pred['5yr'].value || s.value) * qty;
-          } else {
-            projected5yr += s.value * qty * 1.8; // Default 80% growth estimate over 5yr
+            totalValue += setData.value; // fallback
           }
         });
+        monthlyData[month] = totalValue;
+      });
+      
+      const labels = Object.keys(monthlyData);
+      const values = Object.values(monthlyData);
+      
+      const ctx = document.getElementById('historyChart').getContext('2d');
+      
+      if (historyChart) historyChart.destroy();
+      
+      historyChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels.map(d => {
+            const [y, m] = d.split('-');
+            return new Date(y, m-1).toLocaleDateString('en-US', { month: 'short', year: '2-digit' });
+          }),
+          datasets: [{
+            label: 'Portfolio Value (€)',
+            data: values,
+            borderColor: '#8b5cf6',
+            backgroundColor: 'rgba(139, 92, 246, 0.1)',
+            fill: true,
+            tension: 0.4,
+            pointRadius: window.innerWidth < 768 ? 4 : 2,
+            pointHoverRadius: window.innerWidth < 768 ? 8 : 6,
+            pointHitRadius: window.innerWidth < 768 ? 20 : 10
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: {
+            mode: 'nearest',
+            intersect: false
+          },
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              enabled: true,
+              mode: 'index',
+              intersect: false,
+              padding: window.innerWidth < 768 ? 12 : 8,
+              titleFont: {
+                size: window.innerWidth < 768 ? 14 : 12
+              },
+              bodyFont: {
+                size: window.innerWidth < 768 ? 13 : 11
+              },
+              callbacks: {
+                label: (ctx) => '€' + ctx.raw.toLocaleString('de-DE', {minimumFractionDigits: 2})
+              }
+            },
+            zoom: {
+              pan: {
+                enabled: true,
+                mode: 'x',
+                modifierKey: null
+              },
+              zoom: {
+                wheel: {
+                  enabled: true,
+                  speed: 0.1
+                },
+                pinch: {
+                  enabled: true
+                },
+                mode: 'x'
+              },
+              limits: {
+                x: { min: 'original', max: 'original' }
+              }
+            }
+          },
+          scales: {
+            y: {
+              grid: { color: 'rgba(255,255,255,0.05)' },
+              ticks: {
+                color: '#9ca3af',
+                font: {
+                  size: window.innerWidth < 768 ? 10 : 11
+                },
+                callback: (v) => '€' + v.toLocaleString()
+              }
+            },
+            x: {
+              grid: { display: false },
+              ticks: {
+                color: '#9ca3af',
+                font: {
+                  size: window.innerWidth < 768 ? 10 : 11
+                },
+                maxRotation: window.innerWidth < 768 ? 45 : 0,
+                minRotation: window.innerWidth < 768 ? 45 : 0
+              }
+            }
+          }
+        }
+      });
+    }
 
-        const currentTotal = portfolio.summary.total_current;
-        const growth1yr = ((projected1yr - currentTotal) / currentTotal) * 100;
-        const growth5yr = ((projected5yr - currentTotal) / currentTotal) * 100;
+    function updateHistoryChart() {
+      renderHistoryChart();
+    }
 
-        document.getElementById('forecast1yr').textContent =
-          '€' +
-          projected1yr.toLocaleString('de-DE', { minimumFractionDigits: 0 });
-        document.getElementById('forecast1yrGrowth').textContent =
-          '+' + growth1yr.toFixed(1) + '% projected';
-
-        document.getElementById('projection1yr').textContent =
-          '€' +
-          projected1yr.toLocaleString('de-DE', { minimumFractionDigits: 0 });
-        document.getElementById('projection1yrChange').innerHTML =
-          `<span class="text-green-400">+€${(projected1yr - currentTotal).toLocaleString('de-DE', { minimumFractionDigits: 0 })}</span> <span class="text-gray-400">(+${growth1yr.toFixed(1)}%)</span>`;
-
-        document.getElementById('projection5yr').textContent =
-          '€' +
-          projected5yr.toLocaleString('de-DE', { minimumFractionDigits: 0 });
-        document.getElementById('projection5yrChange').innerHTML =
-          `<span class="text-green-400">+€${(projected5yr - currentTotal).toLocaleString('de-DE', { minimumFractionDigits: 0 })}</span> <span class="text-gray-400">(+${growth5yr.toFixed(1)}%)</span>`;
-
-        // Top/Bottom projected
-        const sortedByProjected = [...sets].sort((a, b) => {
-          const aGrowth = a.predictions?.growth1yr || 15;
-          const bGrowth = b.predictions?.growth1yr || 15;
-          return bGrowth - aGrowth;
-        });
-        renderProjectedPerformers(
-          'topProjected',
-          sortedByProjected.slice(0, 5),
-          true
-        );
-        renderProjectedPerformers(
-          'bottomProjected',
-          sortedByProjected.slice(-5).reverse(),
-          false
-        );
-
-        // Action counts
-        const buys = sets.filter((s) => s.analysis.action === 'BUY');
-        const holds = sets.filter((s) => s.analysis.action === 'HOLD');
-        const sells = sets.filter((s) => s.analysis.action === 'SELL');
-
-        document.getElementById('buyCount').textContent = buys.length;
-        document.getElementById('holdCount').textContent = holds.length;
-        document.getElementById('sellCount').textContent = sells.length;
-
-        document.getElementById('buyThesis').textContent =
-          buys.length > 0 ? buys[0].name : 'No buy recommendations';
-        document.getElementById('sellThesis').textContent =
-          sells.length > 0
-            ? `${sells.length} sets to consider selling`
-            : 'No sell recommendations';
-        document.getElementById('holdThesis').textContent =
-          `${holds.length} sets performing as expected`;
-
-        // Top/Bottom performers
-        const sorted = [...sets].sort((a, b) => b.avgScore - a.avgScore);
-        renderPerformers('topPerformers', sorted.slice(0, 5), true);
-        renderPerformers('bottomPerformers', sorted.slice(-5).reverse(), false);
-
-        // Theme filter
-        const themes = [
-          ...new Set(sets.map((s) => s.theme.split(' / ')[0])),
-        ].sort();
-        const themeSelect = document.getElementById('themeFilter');
-        themeSelect.innerHTML =
-          '<option value="">All Themes</option>' +
-          themes.map((t) => `<option value="${t}">${t}</option>`).join('');
-
-        // Last updated
-        document.getElementById('lastUpdated').textContent =
-          'Updated: ' +
-          new Date(portfolio.summary.last_updated).toLocaleString();
-
-        // Render history chart
-        renderHistoryChart();
-
-        // Render sets
-        filterSets();
+    function renderThemeHistoryChart() {
+      if (!priceHistory || !portfolio || !analysis) {
+        const chartElement = document.getElementById('themeHistoryChart');
+        if (chartElement) {
+          chartElement.parentElement.innerHTML = '<div class="text-gray-400 h-64 flex items-center justify-center">No price history data available</div>';
+        }
+        return;
       }
 
-      function renderHistoryChart() {
-        if (!priceHistory) {
-          document.getElementById('historyChart').parentElement.innerHTML =
-            '<div class="text-gray-400 h-64 flex items-center justify-center">No price history data available</div>';
-          return;
+      const range = document.getElementById('themeHistoryRange').value;
+      const months = range === 'all' ? 999 : parseInt(range);
+
+      // Get all sets with their theme info
+      const sets = Object.entries(portfolio.sets).map(([id, data]) => {
+        const a = analysis[id] || {};
+        const avgScore = ((a.license || 0) + (a.retirement || 0) + (a.appeal || 0) + (a.liquidity || 0)) / 4;
+        const predictions = a.predictions || {};
+        return { id, ...data, analysis: a, avgScore, predictions };
+      });
+
+      // Aggregate by theme to get top 5 themes by current value
+      const themeData = aggregateByTheme(sets);
+      const topThemes = Object.entries(themeData)
+        .sort((a, b) => b[1].totalValue - a[1].totalValue)
+        .slice(0, 5)
+        .map(([theme]) => theme);
+
+      // Get all unique dates across all sets
+      const allDates = new Set();
+      Object.values(priceHistory.sets).forEach(set => {
+        if (set.priceHistory) {
+          set.priceHistory.forEach(p => allDates.add(p.date.substring(0, 7)));
         }
+      });
 
-        const range = document.getElementById('historyRange').value;
-        const months = range === 'all' ? 999 : parseInt(range);
+      const sortedDates = Array.from(allDates).sort();
+      const recentDates = sortedDates.slice(-months);
 
-        // Aggregate portfolio value by month
-        const monthlyData = {};
+      // Color palette for themes (using same colors as theme chart)
+      const colors = [
+        '#8b5cf6', '#3b82f6', '#06b6d4', '#10b981', '#84cc16',
+        '#eab308', '#f59e0b', '#ef4444', '#ec4899', '#a855f7'
+      ];
 
-        // Get all unique dates across all sets
-        const allDates = new Set();
-        Object.values(priceHistory.sets).forEach((set) => {
-          if (set.priceHistory) {
-            set.priceHistory.forEach((p) =>
-              allDates.add(p.date.substring(0, 7))
-            );
-          }
-        });
+      // Calculate historical value for each theme
+      const datasets = topThemes.map((theme, index) => {
+        const themeMonthlyData = {};
+        const themeSets = themeData[theme].sets;
 
-        const sortedDates = Array.from(allDates).sort();
-        const recentDates = sortedDates.slice(-months);
-
-        recentDates.forEach((month) => {
+        recentDates.forEach(month => {
           let totalValue = 0;
-          Object.entries(portfolio.sets).forEach(([setId, setData]) => {
-            const qty = (setData.qty_new || 0) + (setData.qty_used || 0);
-            const historySet = priceHistory.sets[setId];
+          themeSets.forEach(set => {
+            const qty = (set.qty_new || 0) + (set.qty_used || 0);
+            const historySet = priceHistory.sets[set.id];
             if (historySet && historySet.priceHistory) {
-              const monthData = historySet.priceHistory.find((p) =>
-                p.date.startsWith(month)
-              );
+              const monthData = historySet.priceHistory.find(p => p.date.startsWith(month));
               if (monthData) {
                 totalValue += monthData.newValue * qty;
               } else {
-                totalValue += setData.value; // fallback to current value
+                totalValue += set.value; // fallback to current value
               }
             } else {
-              totalValue += setData.value; // fallback
+              totalValue += set.value; // fallback
             }
           });
-          monthlyData[month] = totalValue;
+          themeMonthlyData[month] = totalValue;
         });
 
-        const labels = Object.keys(monthlyData);
-        const values = Object.values(monthlyData);
+        return {
+          label: theme,
+          data: Object.values(themeMonthlyData),
+          borderColor: colors[index % colors.length],
+          backgroundColor: colors[index % colors.length] + '20',
+          fill: false,
+          tension: 0.4,
+          pointRadius: 2,
+          pointHoverRadius: 6
+        };
+      });
 
-        const ctx = document.getElementById('historyChart').getContext('2d');
+      const labels = recentDates.map(d => {
+        const [y, m] = d.split('-');
+        return new Date(y, m-1).toLocaleDateString('en-US', { month: 'short', year: '2-digit' });
+      });
 
-        if (historyChart) historyChart.destroy();
+      const ctx = document.getElementById('themeHistoryChart');
+      if (!ctx) return;
 
-        historyChart = new Chart(ctx, {
-          type: 'line',
-          data: {
-            labels: labels.map((d) => {
-              const [y, m] = d.split('-');
-              return new Date(y, m - 1).toLocaleDateString('en-US', {
-                month: 'short',
-                year: '2-digit',
-              });
-            }),
-            datasets: [
-              {
-                label: 'Portfolio Value (€)',
-                data: values,
-                borderColor: '#8b5cf6',
-                backgroundColor: 'rgba(139, 92, 246, 0.1)',
-                fill: true,
-                tension: 0.4,
-                pointRadius: 2,
-                pointHoverRadius: 6,
-              },
-            ],
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-              legend: { display: false },
-              tooltip: {
-                callbacks: {
-                  label: (ctx) =>
-                    '€' +
-                    ctx.raw.toLocaleString('de-DE', {
-                      minimumFractionDigits: 2,
-                    }),
+      if (themeHistoryChart) themeHistoryChart.destroy();
+
+      themeHistoryChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: datasets
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: true,
+              position: 'bottom',
+              labels: {
+                color: '#9ca3af',
+                padding: 10,
+                font: {
+                  size: 11
                 },
-              },
+                usePointStyle: true,
+                pointStyle: 'line'
+              }
             },
-            scales: {
-              y: {
-                grid: { color: 'rgba(255,255,255,0.05)' },
-                ticks: {
-                  color: '#9ca3af',
-                  callback: (v) => '€' + v.toLocaleString(),
-                },
-              },
-              x: {
-                grid: { display: false },
-                ticks: { color: '#9ca3af' },
-              },
-            },
+            tooltip: {
+              callbacks: {
+                label: (ctx) => `${ctx.dataset.label}: €${ctx.raw.toLocaleString('de-DE', {minimumFractionDigits: 2})}`
+              }
+            }
           },
+          scales: {
+            y: {
+              grid: { color: 'rgba(255,255,255,0.05)' },
+              ticks: {
+                color: '#9ca3af',
+                callback: (v) => '€' + v.toLocaleString()
+              }
+            },
+            x: {
+              grid: { display: false },
+              ticks: { color: '#9ca3af' }
+            }
+          }
+        }
+      });
+    }
+
+    function updateThemeHistoryChart() {
+      renderThemeHistoryChart();
+    }
+
+    let themeChart = null;
+    function renderThemeChart() {
+      if (!portfolio || !analysis) return;
+
+      const sets = Object.entries(portfolio.sets).map(([id, data]) => {
+        const a = analysis[id] || {};
+        const avgScore = ((a.license || 0) + (a.retirement || 0) + (a.appeal || 0) + (a.liquidity || 0)) / 4;
+        const predictions = a.predictions || {};
+        return { id, ...data, analysis: a, avgScore, predictions };
+      });
+
+      // Aggregate portfolio by theme
+      const themeData = aggregateByTheme(sets);
+      const themeValues = Object.entries(themeData)
+        .map(([theme, data]) => ({
+          theme: theme,
+          value: data.totalValue
+        }))
+        .sort((a, b) => b.value - a.value);
+
+      // Prepare chart data
+      const labels = themeValues.map(t => t.theme);
+      const values = themeValues.map(t => t.value);
+      const total = values.reduce((sum, v) => sum + v, 0);
+      const percentages = values.map(v => ((v / total) * 100).toFixed(1));
+
+      // Color palette for themes
+      const colors = [
+        '#8b5cf6', '#3b82f6', '#06b6d4', '#10b981', '#84cc16',
+        '#eab308', '#f59e0b', '#ef4444', '#ec4899', '#a855f7',
+        '#6366f1', '#14b8a6', '#22c55e', '#facc15', '#fb923c'
+      ];
+
+      const ctx = document.getElementById('themeChart');
+      if (!ctx) return;
+
+      if (themeChart) {
+        themeChart.destroy();
+      }
+
+      themeChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: labels,
+          datasets: [{
+            data: values,
+            backgroundColor: colors.slice(0, labels.length),
+            borderColor: '#1a1a2e',
+            borderWidth: 2
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          onClick: (event, activeElements) => {
+            if (activeElements.length > 0) {
+              const index = activeElements[0].index;
+              const theme = labels[index];
+              filterByTheme(theme);
+              // Scroll to sets grid
+              document.getElementById('setsGrid').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+          },
+          plugins: {
+            legend: {
+              display: true,
+              position: 'right',
+              labels: {
+                color: '#9ca3af',
+                padding: 12,
+                font: {
+                  size: 11
+                },
+                generateLabels: (chart) => {
+                  const data = chart.data;
+                  return data.labels.map((label, i) => ({
+                    text: `${label} (${percentages[i]}%)`,
+                    fillStyle: data.datasets[0].backgroundColor[i],
+                    hidden: false,
+                    index: i
+                  }));
+                }
+              },
+              onClick: (event, legendItem, legend) => {
+                const theme = legend.chart.data.labels[legendItem.index];
+                filterByTheme(theme);
+                // Scroll to sets grid
+                document.getElementById('setsGrid').scrollIntoView({ behavior: 'smooth', block: 'start' });
+              }
+            },
+            tooltip: {
+              callbacks: {
+                label: (ctx) => {
+                  const value = ctx.raw;
+                  const percentage = ((value / total) * 100).toFixed(1);
+                  return `€${value.toLocaleString('de-DE', {minimumFractionDigits: 2})} (${percentage}%)`;
+                }
+              }
+            }
+          }
+        }
+      });
+    }
+
+    // Theme aggregation functions
+    function aggregateByTheme(sets) {
+      const themeData = {};
+
+      sets.forEach(set => {
+        const theme = set.theme || 'Unknown';
+        if (!themeData[theme]) {
+          themeData[theme] = {
+            theme: theme,
+            totalValue: 0,
+            totalPaid: 0,
+            totalGain: 0,
+            totalUnits: 0,
+            setCount: 0,
+            sets: []
+          };
+        }
+
+        const qty = (set.qty_new || 0) + (set.qty_used || 0);
+        const value = set.current_value || 0;
+        const paid = set.price_paid || 0;
+
+        themeData[theme].totalValue += value;
+        themeData[theme].totalPaid += paid;
+        themeData[theme].totalGain += (value - paid);
+        themeData[theme].totalUnits += qty;
+        themeData[theme].setCount += 1;
+        themeData[theme].sets.push(set);
+      });
+
+      // Calculate percentages and ROI for each theme
+      Object.values(themeData).forEach(theme => {
+        theme.gainPct = theme.totalPaid > 0 ? ((theme.totalGain / theme.totalPaid) * 100) : 0;
+        theme.avgScore = theme.sets.reduce((sum, s) => sum + (s.avgScore || 0), 0) / theme.sets.length;
+      });
+
+      return themeData;
+    }
+
+    // Theme ROI table rendering
+    let currentThemeROISort = 'roi';
+    let themeROISortDirection = 'desc';
+
+    function renderThemeROITable() {
+      if (!portfolio || !analysis) return;
+
+      const sets = Object.entries(portfolio.sets).map(([id, data]) => {
+        const a = analysis[id] || {};
+        const avgScore = ((a.license || 0) + (a.retirement || 0) + (a.appeal || 0) + (a.liquidity || 0)) / 4;
+        const predictions = a.predictions || {};
+        return { id, ...data, analysis: a, avgScore, predictions };
+      });
+
+      const themeData = aggregateByTheme(sets);
+      const sortBy = document.getElementById('themeROISort')?.value || currentThemeROISort;
+
+      let themeArray = Object.values(themeData);
+
+      // Sort based on selected criterion
+      themeArray.sort((a, b) => {
+        let aVal, bVal;
+        switch(sortBy) {
+          case 'theme':
+            return themeROISortDirection === 'asc'
+              ? a.theme.localeCompare(b.theme)
+              : b.theme.localeCompare(a.theme);
+          case 'sets':
+            aVal = a.setCount;
+            bVal = b.setCount;
+            break;
+          case 'invested':
+            aVal = a.totalPaid;
+            bVal = b.totalPaid;
+            break;
+          case 'value':
+            aVal = a.totalValue;
+            bVal = b.totalValue;
+            break;
+          case 'gain':
+            aVal = a.totalGain;
+            bVal = b.totalGain;
+            break;
+          case 'roi':
+          default:
+            aVal = a.gainPct;
+            bVal = b.gainPct;
+            break;
+        }
+        return themeROISortDirection === 'desc' ? bVal - aVal : aVal - bVal;
+      });
+
+      const tbody = document.getElementById('themeROITableBody');
+      if (!tbody) return;
+
+      // Calculate portfolio average ROI (weighted by invested amount)
+      const totalInvested = themeArray.reduce((sum, t) => sum + t.totalPaid, 0);
+      const totalValue = themeArray.reduce((sum, t) => sum + t.totalValue, 0);
+      const portfolioAvgROI = totalInvested > 0 ? ((totalValue - totalInvested) / totalInvested) * 100 : 0;
+
+      tbody.innerHTML = themeArray.map(theme => {
+        const roiColor = theme.gainPct >= 20 ? 'text-green-400' :
+                         theme.gainPct >= 0 ? 'text-yellow-400' : 'text-red-400';
+        const roiBg = theme.gainPct >= 20 ? 'bg-green-500/10' :
+                      theme.gainPct >= 0 ? 'bg-yellow-500/10' : 'bg-red-500/10';
+        const gainColor = theme.totalGain >= 0 ? 'text-green-400' : 'text-red-400';
+        const gainIcon = theme.totalGain >= 0 ? '↑' : '↓';
+
+        // Calculate performance vs portfolio average (in percentage points)
+        const vsBenchmark = theme.gainPct - portfolioAvgROI;
+        const benchmarkColor = vsBenchmark > 0 ? 'text-green-400' : 'text-red-400';
+        const benchmarkBg = vsBenchmark > 0 ? 'bg-green-500/10' : 'bg-red-500/10';
+        const benchmarkIcon = vsBenchmark > 0 ? '↑' : '↓';
+
+        return `
+          <tr class="border-b border-gray-800 hover:bg-gray-800/50 transition cursor-pointer" onclick="filterByTheme('${theme.theme}'); document.getElementById('setsGrid').scrollIntoView({ behavior: 'smooth', block: 'start' });">
+            <td class="py-3 px-2 font-medium">${theme.theme}</td>
+            <td class="py-3 px-2 text-right text-gray-400">${theme.setCount}</td>
+            <td class="py-3 px-2 text-right">€${theme.totalPaid.toFixed(0)}</td>
+            <td class="py-3 px-2 text-right font-medium">€${theme.totalValue.toFixed(0)}</td>
+            <td class="py-3 px-2 text-right ${gainColor} font-medium">${gainIcon} €${Math.abs(theme.totalGain).toFixed(0)}</td>
+            <td class="py-3 px-2 text-right">
+              <span class="${roiBg} ${roiColor} px-2 py-1 rounded font-bold">
+                ${theme.gainPct >= 0 ? '+' : ''}${theme.gainPct.toFixed(1)}%
+              </span>
+            </td>
+            <td class="py-3 px-2 text-right">
+              <span class="${benchmarkBg} ${benchmarkColor} px-2 py-1 rounded font-medium">
+                ${benchmarkIcon} ${vsBenchmark > 0 ? '+' : ''}${vsBenchmark.toFixed(1)} pp
+              </span>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function sortThemeROI(column) {
+      if (currentThemeROISort === column) {
+        themeROISortDirection = themeROISortDirection === 'desc' ? 'asc' : 'desc';
+      } else {
+        currentThemeROISort = column;
+        themeROISortDirection = column === 'theme' ? 'asc' : 'desc';
+      }
+
+      // Update dropdown to match
+      const dropdown = document.getElementById('themeROISort');
+      if (dropdown && ['roi', 'value', 'gain', 'theme'].includes(column)) {
+        dropdown.value = column;
+      }
+
+      renderThemeROITable();
+    }
+
+    function calculateThemeAllocation(themeData, totalValue) {
+      const allocation = {};
+
+      Object.entries(themeData).forEach(([theme, data]) => {
+        allocation[theme] = {
+          ...data,
+          allocationPct: totalValue > 0 ? (data.totalValue / totalValue) * 100 : 0
+        };
+      });
+
+      return allocation;
+    }
+
+    function getTopThemesByMetric(themeData, metric, limit = 5) {
+      return Object.values(themeData)
+        .sort((a, b) => b[metric] - a[metric])
+        .slice(0, limit);
+    }
+
+    function getThemeHistoricalPerformance(theme) {
+      if (!priceHistory) return null;
+
+      const monthlyData = {};
+
+      // Get all unique dates
+      const allDates = new Set();
+      Object.values(priceHistory.sets).forEach(set => {
+        if (set.priceHistory) {
+          set.priceHistory.forEach(p => allDates.add(p.date.substring(0, 7)));
+        }
+      });
+
+      const sortedDates = Array.from(allDates).sort();
+
+      sortedDates.forEach(month => {
+        let totalValue = 0;
+        Object.entries(portfolio.sets).forEach(([setId, setData]) => {
+          if (setData.theme === theme) {
+            const qty = (setData.qty_new || 0) + (setData.qty_used || 0);
+            const historySet = priceHistory.sets[setId];
+            if (historySet && historySet.priceHistory) {
+              const monthData = historySet.priceHistory.find(p => p.date.startsWith(month));
+              if (monthData) {
+                totalValue += monthData.newValue * qty;
+              } else {
+                totalValue += setData.current_value || 0;
+              }
+            } else {
+              totalValue += setData.current_value || 0;
+            }
+          }
         });
-      }
+        monthlyData[month] = totalValue;
+      });
 
-      function updateHistoryChart() {
-        renderHistoryChart();
-      }
+      return monthlyData;
+    }
 
-      function renderProjectedPerformers(containerId, sets, isTop) {
-        const container = document.getElementById(containerId);
-        container.innerHTML = sets
-          .map((s, i) => {
-            const growth = s.predictions?.growth1yr || 15;
-            const color =
-              growth > 20
-                ? 'text-green-400'
-                : growth > 10
-                  ? 'text-yellow-400'
-                  : 'text-red-400';
-            const value1yr = s.predictions?.['1yr']?.value || s.value * 1.15;
-            return `
+    function renderProjectedPerformers(containerId, sets, isTop) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = sets.map((s, i) => {
+        const growth = s.predictions?.growth1yr || 15;
+        const color = growth > 20 ? 'text-green-400' : growth > 10 ? 'text-yellow-400' : 'text-red-400';
+        const value1yr = s.predictions?.['1yr']?.value || (s.value * 1.15);
+        return `
           <div class="flex items-center justify-between p-2 bg-gray-800/50 rounded-lg cursor-pointer hover:bg-gray-700/50 transition" onclick="showDetail('${s.id}')">
             <div class="flex items-center gap-3">
               <span class="text-gray-500 text-sm w-5">${i + 1}</span>
@@ -720,17 +1691,15 @@
             </div>
           </div>
         `;
-          })
-          .join('');
-      }
+      }).join('');
+    }
 
-      function renderPerformers(containerId, sets, isTop) {
-        const container = document.getElementById(containerId);
-        container.innerHTML = sets
-          .map((s, i) => {
-            const color = isTop ? 'text-green-400' : 'text-red-400';
-            const icon = isTop ? '↑' : '↓';
-            return `
+    function renderPerformers(containerId, sets, isTop) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = sets.map((s, i) => {
+        const color = isTop ? 'text-green-400' : 'text-red-400';
+        const icon = isTop ? '↑' : '↓';
+        return `
           <div class="flex items-center justify-between p-2 bg-gray-800/50 rounded-lg cursor-pointer hover:bg-gray-700/50 transition" onclick="showDetail('${s.id}')">
             <div class="flex items-center gap-3">
               <span class="text-gray-500 text-sm w-5">${isTop ? i + 1 : ''}</span>
@@ -745,111 +1714,104 @@
             </div>
           </div>
         `;
-          })
-          .join('');
+      }).join('');
+    }
+
+    function switchTab(tab) {
+      currentTab = tab;
+      document.querySelectorAll('[data-tab]').forEach(btn => {
+        btn.classList.remove('tab-active', 'text-blue-400');
+        btn.classList.add('text-gray-400');
+      });
+      document.querySelector(`[data-tab="${tab}"]`).classList.add('tab-active');
+      document.querySelector(`[data-tab="${tab}"]`).classList.remove('text-gray-400');
+      filterSets();
+    }
+
+    function filterByAction(action) {
+      currentTab = action.toLowerCase();
+      switchTab(currentTab);
+    }
+
+    function filterByTheme(theme) {
+      currentThemeFilter = theme;
+      updateThemeFilterDisplay();
+      filterSets();
+    }
+
+    function clearThemeFilter() {
+      currentThemeFilter = null;
+      updateThemeFilterDisplay();
+      filterSets();
+    }
+
+    function updateThemeFilterDisplay() {
+      const filterBadge = document.getElementById('themeFilterBadge');
+      if (currentThemeFilter) {
+        filterBadge.innerHTML = `
+          <div class="flex items-center gap-2 px-3 py-1 bg-blue-500/20 border border-blue-500/30 rounded-lg text-sm">
+            <span>🎨 ${currentThemeFilter}</span>
+            <button onclick="clearThemeFilter()" class="text-blue-400 hover:text-blue-300 font-bold">✕</button>
+          </div>
+        `;
+        filterBadge.classList.remove('hidden');
+      } else {
+        filterBadge.classList.add('hidden');
+      }
+    }
+
+    function filterSets() {
+      const search = document.getElementById('searchInput').value.toLowerCase();
+      const theme = currentThemeFilter || document.getElementById('themeFilter').value;
+      const sortBy = document.getElementById('sortBy').value;
+
+      let sets = Object.entries(portfolio.sets).map(([id, data]) => {
+        const a = analysis[id] || {};
+        const avgScore = ((a.license || 0) + (a.retirement || 0) + (a.appeal || 0) + (a.liquidity || 0)) / 4;
+        const predictions = a.predictions || {};
+        return { id, ...data, analysis: a, avgScore, predictions };
+      });
+
+      // Filter by tab
+      if (currentTab !== 'all') {
+        sets = sets.filter(s => s.analysis.action?.toLowerCase() === currentTab);
       }
 
-      function switchTab(tab) {
-        currentTab = tab;
-        document.querySelectorAll('[data-tab]').forEach((btn) => {
-          btn.classList.remove('tab-active', 'text-blue-400');
-          btn.classList.add('text-gray-400');
-        });
-        document
-          .querySelector(`[data-tab="${tab}"]`)
-          .classList.add('tab-active');
-        document
-          .querySelector(`[data-tab="${tab}"]`)
-          .classList.remove('text-gray-400');
-        filterSets();
+      // Filter by search
+      if (search) {
+        sets = sets.filter(s => s.name.toLowerCase().includes(search) || s.theme.toLowerCase().includes(search));
       }
 
-      function filterByAction(action) {
-        currentTab = action.toLowerCase();
-        switchTab(currentTab);
+      // Filter by theme (from drill-down or dropdown)
+      if (theme) {
+        sets = sets.filter(s => s.theme === theme || s.theme.startsWith(theme));
       }
 
-      function filterSets() {
-        const search = document
-          .getElementById('searchInput')
-          .value.toLowerCase();
-        const theme = document.getElementById('themeFilter').value;
-        const sortBy = document.getElementById('sortBy').value;
+      // Sort
+      if (sortBy === 'score') sets.sort((a, b) => b.avgScore - a.avgScore);
+      else if (sortBy === 'growth') sets.sort((a, b) => b.growth_pct - a.growth_pct);
+      else if (sortBy === 'projected') sets.sort((a, b) => (b.predictions?.growth1yr || 15) - (a.predictions?.growth1yr || 15));
+      else if (sortBy === 'value') sets.sort((a, b) => b.value - a.value);
+      else if (sortBy === 'name') sets.sort((a, b) => a.name.localeCompare(b.name));
 
-        let sets = Object.entries(portfolio.sets).map(([id, data]) => {
-          const a = analysis[id] || {};
-          const avgScore =
-            ((a.license || 0) +
-              (a.retirement || 0) +
-              (a.appeal || 0) +
-              (a.liquidity || 0)) /
-            4;
-          const predictions = a.predictions || {};
-          return { id, ...data, analysis: a, avgScore, predictions };
-        });
+      renderSets(sets);
+    }
 
-        // Filter by tab
-        if (currentTab !== 'all') {
-          sets = sets.filter(
-            (s) => s.analysis.action?.toLowerCase() === currentTab
-          );
-        }
+    function renderSets(sets) {
+      const grid = document.getElementById('setsGrid');
+      grid.innerHTML = sets.map(s => {
+        const action = s.analysis.action || 'UNKNOWN';
+        const actionColors = { BUY: 'bg-green-500/20 text-green-400 border-green-500/30', HOLD: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30', SELL: 'bg-red-500/20 text-red-400 border-red-500/30' };
+        const actionIcons = { BUY: '🟢', HOLD: '⏳', SELL: '🔴' };
+        const growthColor = s.growth_pct >= 0 ? 'text-green-400' : 'text-red-400';
+        const entryColors = { excellent: 'text-green-400', good: 'text-blue-400', fair: 'text-yellow-400', poor: 'text-red-400' };
+        const projected1yr = s.predictions?.['1yr']?.value || (s.value * 1.15);
+        const projectedGrowth = s.predictions?.growth1yr || 15;
 
-        // Filter by search
-        if (search) {
-          sets = sets.filter(
-            (s) =>
-              s.name.toLowerCase().includes(search) ||
-              s.theme.toLowerCase().includes(search)
-          );
-        }
+        const conf = s.confidence || 'Low';
+        const confidenceColors = { High: 'bg-green-500/20 text-green-400 border-green-500/30', Medium: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30', Low: 'bg-red-500/20 text-red-400 border-red-500/30' };
 
-        // Filter by theme
-        if (theme) {
-          sets = sets.filter((s) => s.theme.startsWith(theme));
-        }
-
-        // Sort
-        if (sortBy === 'score') sets.sort((a, b) => b.avgScore - a.avgScore);
-        else if (sortBy === 'growth')
-          sets.sort((a, b) => b.growth_pct - a.growth_pct);
-        else if (sortBy === 'projected')
-          sets.sort(
-            (a, b) =>
-              (b.predictions?.growth1yr || 15) -
-              (a.predictions?.growth1yr || 15)
-          );
-        else if (sortBy === 'value') sets.sort((a, b) => b.value - a.value);
-        else if (sortBy === 'name')
-          sets.sort((a, b) => a.name.localeCompare(b.name));
-
-        renderSets(sets);
-      }
-
-      function renderSets(sets) {
-        const grid = document.getElementById('setsGrid');
-        grid.innerHTML = sets
-          .map((s) => {
-            const action = s.analysis.action || 'UNKNOWN';
-            const actionColors = {
-              BUY: 'bg-green-500/20 text-green-400 border-green-500/30',
-              HOLD: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30',
-              SELL: 'bg-red-500/20 text-red-400 border-red-500/30',
-            };
-            const actionIcons = { BUY: '🟢', HOLD: '⏳', SELL: '🔴' };
-            const growthColor =
-              s.growth_pct >= 0 ? 'text-green-400' : 'text-red-400';
-            const entryColors = {
-              excellent: 'text-green-400',
-              good: 'text-blue-400',
-              fair: 'text-yellow-400',
-              poor: 'text-red-400',
-            };
-            const projected1yr =
-              s.predictions?.['1yr']?.value || s.value * 1.15;
-            const projectedGrowth = s.predictions?.growth1yr || 15;
-
-            return `
+        return `
           <div class="card rounded-xl p-4 cursor-pointer hover:bg-white/10 transition" onclick="showDetail('${s.id}')">
             <div class="flex justify-between items-start mb-3">
               <div class="flex-1">
@@ -860,15 +1822,25 @@
                 ${actionIcons[action] || '❓'} ${action}
               </span>
             </div>
-            
+
+
             <div class="grid grid-cols-3 gap-2 mb-3">
               <div>
                 <div class="text-xs text-gray-400">Value</div>
-                <div class="font-bold text-sm">€${s.value.toLocaleString('de-DE', { minimumFractionDigits: 0 })}</div>
+                <div class="font-bold text-sm">€${s.value.toLocaleString('de-DE', {minimumFractionDigits: 0})}</div>
               </div>
               <div>
                 <div class="text-xs text-gray-400">Growth</div>
                 <div class="font-bold text-sm ${growthColor}">${s.growth_pct >= 0 ? '+' : ''}${s.growth_pct.toFixed(1)}%</div>
+              </div>
+              <div title="${s.purchaseHistory && s.purchaseHistory.length > 0 ? (() => {
+                const totalQty = s.purchaseHistory.reduce((sum, p) => sum + (p.quantity || 0), 0);
+                const weightedTotal = s.purchaseHistory.reduce((sum, p) => sum + (p.price || 0) * (p.quantity || 0), 0);
+                const avgPaid = totalQty > 0 ? weightedTotal / totalQty : s.paid;
+                return `Avg paid: €${avgPaid.toFixed(2)} (weighted average from ${s.purchaseHistory.length} purchase${s.purchaseHistory.length !== 1 ? 's' : ''})`;
+              })() : `Cost basis: €${s.paid.toFixed(2)}`}">
+                <div class="text-xs text-gray-400">Paid</div>
+                <div class="font-bold text-sm text-gray-300">€${s.paid.toLocaleString('de-DE', {minimumFractionDigits: 0})}</div>
               </div>
               <div>
                 <div class="text-xs text-purple-400 flex items-center gap-1">🔮 1yr</div>
@@ -876,7 +1848,7 @@
               </div>
             </div>
 
-            <div class="flex items-center justify-between text-sm">
+            <div class="flex items-center justify-between text-sm mb-2">
               <div class="flex items-center gap-2">
                 <span class="text-gray-400">Score:</span>
                 <span class="font-bold text-blue-400">${s.avgScore.toFixed(1)}/10</span>
@@ -887,45 +1859,59 @@
               </div>
             </div>
 
+            <div class="flex items-center justify-between text-sm">
+              <div class="flex items-center gap-2">
+                <span class="text-gray-400">Confidence:</span>
+                <div class="tooltip-container">
+                  <span class="px-2 py-0.5 rounded text-xs font-medium border ${confidenceColors[conf]} cursor-help">${conf}</span>
+                  <div class="tooltip-content">${generateConfidenceTooltip(s.id)}</div>
+                </div>
+                ${hasSourceDisagreement(s.id) ? `
+                  <div class="tooltip-container">
+                    <span class="flex items-center justify-center w-5 h-5 rounded-full bg-yellow-500/20 border border-yellow-500/50 cursor-help" title="Source disagreement">
+                      <svg class="w-3 h-3 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                      </svg>
+                    </span>
+                    <div class="tooltip-content">${generateDisagreementTooltip(s.id)}</div>
+                  </div>
+                ` : ''}
+              </div>
+            </div>
+
             <div class="mt-3 pt-3 border-t border-gray-700">
               <p class="text-xs text-gray-400 line-clamp-2">${s.analysis.thesis || 'No analysis available'}</p>
             </div>
           </div>
         `;
-          })
-          .join('');
-      }
+      }).join('');
+    }
 
-      function showDetail(id) {
-        const s = { id, ...portfolio.sets[id], analysis: analysis[id] || {} };
-        const avgScore =
-          ((s.analysis.license || 0) +
-            (s.analysis.retirement || 0) +
-            (s.analysis.appeal || 0) +
-            (s.analysis.liquidity || 0)) /
-          4;
-        const predictions = s.analysis.predictions || {};
+    function showDetail(id) {
+      const s = { id, ...portfolio.sets[id], analysis: analysis[id] || {} };
+      const avgScore = ((s.analysis.license || 0) + (s.analysis.retirement || 0) + (s.analysis.appeal || 0) + (s.analysis.liquidity || 0)) / 4;
+      const predictions = s.analysis.predictions || {};
 
-        const actionColors = {
-          BUY: 'bg-green-500 text-white',
-          HOLD: 'bg-yellow-500 text-black',
-          SELL: 'bg-red-500 text-white',
-        };
-        const entryColors = {
-          excellent: 'bg-green-500/20 text-green-400',
-          good: 'bg-blue-500/20 text-blue-400',
-          fair: 'bg-yellow-500/20 text-yellow-400',
-          poor: 'bg-red-500/20 text-red-400',
-        };
-        const growthColor =
-          s.growth_pct >= 0 ? 'text-green-400' : 'text-red-400';
+      // Merge sales data
+      const setSales = salesData && salesData.sales ?
+        salesData.sales.filter(sale => sale.setId === id) : [];
+      s.sales = setSales;
 
-        const pred1yr = predictions['1yr']?.value || s.value * 1.15;
-        const pred5yr = predictions['5yr']?.value || s.value * 1.8;
-        const growth1yr = predictions.growth1yr || 15;
-        const growth5yr = predictions.growth5yr || 80;
+      // Merge purchase data
+      const setPurchases = purchasesData && purchasesData.purchases ?
+        purchasesData.purchases.filter(purchase => purchase.setId === id) : [];
+      s.purchaseHistory = setPurchases;
 
-        const content = `
+      const actionColors = { BUY: 'bg-green-500 text-white', HOLD: 'bg-yellow-500 text-black', SELL: 'bg-red-500 text-white' };
+      const entryColors = { excellent: 'bg-green-500/20 text-green-400', good: 'bg-blue-500/20 text-blue-400', fair: 'bg-yellow-500/20 text-yellow-400', poor: 'bg-red-500/20 text-red-400' };
+      const growthColor = s.growth_pct >= 0 ? 'text-green-400' : 'text-red-400';
+
+      const pred1yr = predictions['1yr']?.value || (s.value * 1.15);
+      const pred5yr = predictions['5yr']?.value || (s.value * 1.8);
+      const growth1yr = predictions.growth1yr || 15;
+      const growth5yr = predictions.growth5yr || 80;
+
+      const content = `
         <div class="flex justify-between items-start mb-6">
           <div>
             <h2 class="text-2xl font-bold">${s.name}</h2>
@@ -937,11 +1923,11 @@
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
           <div class="bg-gray-800 rounded-lg p-3">
             <div class="text-xs text-gray-400">Current Value</div>
-            <div class="text-xl font-bold">€${s.value.toLocaleString('de-DE', { minimumFractionDigits: 2 })}</div>
+            <div class="text-xl font-bold">€${s.value.toLocaleString('de-DE', {minimumFractionDigits: 2})}</div>
           </div>
           <div class="bg-gray-800 rounded-lg p-3">
             <div class="text-xs text-gray-400">Paid</div>
-            <div class="text-xl font-bold">€${s.paid.toLocaleString('de-DE', { minimumFractionDigits: 2 })}</div>
+            <div class="text-xl font-bold">€${s.paid.toLocaleString('de-DE', {minimumFractionDigits: 2})}</div>
           </div>
           <div class="bg-gray-800 rounded-lg p-3">
             <div class="text-xs text-gray-400">Growth</div>
@@ -1003,24 +1989,93 @@
           </div>
         </div>
 
+        <div class="bg-gray-800 rounded-lg p-4 mb-6">
+          <h3 class="font-semibold mb-3 flex items-center gap-2">📦 Purchase History</h3>
+          ${s.purchaseHistory && s.purchaseHistory.length > 0 ? `
+            <div class="overflow-x-auto">
+              <table class="w-full text-sm">
+                <thead>
+                  <tr class="border-b border-gray-700">
+                    <th class="text-left py-2 px-3 text-gray-400 font-medium">Date</th>
+                    <th class="text-left py-2 px-3 text-gray-400 font-medium">Price</th>
+                    <th class="text-left py-2 px-3 text-gray-400 font-medium">Quantity</th>
+                    <th class="text-left py-2 px-3 text-gray-400 font-medium">Seller</th>
+                    <th class="text-left py-2 px-3 text-gray-400 font-medium">Condition</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${s.purchaseHistory.map(purchase => `
+                    <tr class="border-b border-gray-700/50">
+                      <td class="py-2 px-3 text-gray-300">${purchase.date || '-'}</td>
+                      <td class="py-2 px-3 text-white font-medium">€${purchase.price ? purchase.price.toLocaleString('de-DE', {minimumFractionDigits: 2}) : '-'}</td>
+                      <td class="py-2 px-3 text-gray-300">${purchase.quantity || '-'}</td>
+                      <td class="py-2 px-3 text-gray-300">${purchase.seller || '-'}</td>
+                      <td class="py-2 px-3">
+                        <span class="px-2 py-1 rounded text-xs ${purchase.condition === 'New' ? 'bg-green-500/20 text-green-400' : 'bg-blue-500/20 text-blue-400'}">
+                          ${purchase.condition || '-'}
+                        </span>
+                      </td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+            </div>
+          ` : `
+            <p class="text-gray-400 text-sm">No purchase history recorded</p>
+          `}
+        </div>
+
+        <div class="bg-gray-800 rounded-lg p-4 mb-6">
+          <h3 class="font-semibold mb-3 flex items-center gap-2">💰 Sales History</h3>
+          ${s.sales && s.sales.length > 0 ? `
+            <div class="overflow-x-auto">
+              <table class="w-full text-sm">
+                <thead>
+                  <tr class="border-b border-gray-700">
+                    <th class="text-left py-2 px-3 text-gray-400 font-medium">Date</th>
+                    <th class="text-left py-2 px-3 text-gray-400 font-medium">Sale Price</th>
+                    <th class="text-left py-2 px-3 text-gray-400 font-medium">Quantity</th>
+                    <th class="text-left py-2 px-3 text-gray-400 font-medium">Buyer</th>
+                    <th class="text-left py-2 px-3 text-gray-400 font-medium">Realized Gain</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${s.sales.map(sale => {
+                    const realizedGain = sale.realizedGain || 0;
+                    const gainColor = realizedGain >= 0 ? 'text-green-400' : 'text-red-400';
+                    return `
+                      <tr class="border-b border-gray-700/50">
+                        <td class="py-2 px-3 text-gray-300">${sale.date || '-'}</td>
+                        <td class="py-2 px-3 text-white font-medium">€${sale.price ? sale.price.toLocaleString('de-DE', {minimumFractionDigits: 2}) : '-'}</td>
+                        <td class="py-2 px-3 text-gray-300">${sale.qty || '-'}</td>
+                        <td class="py-2 px-3 text-gray-300">${sale.buyer || '-'}</td>
+                        <td class="py-2 px-3 font-medium ${gainColor}">
+                          ${realizedGain >= 0 ? '+' : ''}€${realizedGain.toLocaleString('de-DE', {minimumFractionDigits: 2})}
+                        </td>
+                      </tr>
+                    `;
+                  }).join('')}
+                </tbody>
+              </table>
+            </div>
+          ` : `
+            <p class="text-gray-400 text-sm">No sales history recorded</p>
+          `}
+        </div>
+
         ${s.purchaseDate ? `<div class="bg-gray-800 rounded-lg p-4 mb-4"><span class="text-gray-400">📅 Purchase Date:</span> <span class="text-white">${s.purchaseDate}</span></div>` : ''}
         ${s.notes ? `<div class="bg-gray-800 rounded-lg p-4"><h3 class="font-semibold mb-2">📝 Notes</h3><p class="text-gray-300">${s.notes}</p></div>` : ''}
       `;
 
-        document.getElementById('modalContent').innerHTML = content;
-        document.getElementById('modal').classList.remove('hidden');
-        document.getElementById('modal').classList.add('flex');
-      }
+      document.getElementById('modalContent').innerHTML = content;
+      document.getElementById('modal').classList.remove('hidden');
+      document.getElementById('modal').classList.add('flex');
+    }
 
-      function renderScoreBar(label, value) {
-        const pct = ((value || 0) / 10) * 100;
-        const color =
-          value >= 7
-            ? 'bg-green-500'
-            : value >= 4
-              ? 'bg-yellow-500'
-              : 'bg-red-500';
-        return `
+    function renderScoreBar(label, value) {
+      const pct = ((value || 0) / 10) * 100;
+      const color = value >= 7 ? 'bg-green-500' : value >= 4 ? 'bg-yellow-500' : 'bg-red-500';
+      return `
         <div class="flex items-center gap-3">
           <span class="text-sm text-gray-400 w-32">${label}</span>
           <div class="flex-1 bg-gray-700 rounded-full h-2 overflow-hidden">
@@ -1029,29 +2084,141 @@
           <span class="text-sm font-bold w-8">${value || 0}</span>
         </div>
       `;
+    }
+
+    function hasSourceDisagreement(setId) {
+      if (!confidence || !confidence.sets || !confidence.sets[setId]) {
+        return false;
+      }
+      const confData = confidence.sets[setId];
+      const factors = confData.factors || {};
+      const sourceAgreement = factors.sourceAgreement || {};
+      const maxDiff = sourceAgreement.maxDiff;
+      return maxDiff !== null && maxDiff > 0.15;
+    }
+
+    function generateDisagreementTooltip(setId) {
+      if (!confidence || !confidence.sets || !confidence.sets[setId]) {
+        return '';
+      }
+      const confData = confidence.sets[setId];
+      const factors = confData.factors || {};
+      const sourceAgreement = factors.sourceAgreement || {};
+      const maxDiff = sourceAgreement.maxDiff;
+
+      if (maxDiff === null || maxDiff <= 0.15) {
+        return '';
       }
 
-      function closeModal() {
-        document.getElementById('modal').classList.add('hidden');
-        document.getElementById('modal').classList.remove('flex');
+      const sources = sourceAgreement.sources || [];
+      const pctDiff = (maxDiff * 100).toFixed(1);
+
+      return `
+        <div class="text-xs space-y-2">
+          <div class="font-semibold text-white border-b border-yellow-600 pb-1">⚠️ Source Disagreement</div>
+          <div>
+            <span class="text-gray-400">Price variance:</span>
+            <span class="text-yellow-300 ml-1 font-bold">${pctDiff}%</span>
+          </div>
+          <div>
+            <span class="text-gray-400">Sources:</span>
+            <span class="text-white ml-1">${sources.join(', ')}</span>
+          </div>
+          <div class="text-yellow-300 text-xs pt-1 border-t border-gray-600">
+            Multiple sources show significant price differences. Exercise caution when valuing this set.
+          </div>
+        </div>
+      `;
+    }
+
+    function generateConfidenceTooltip(setId) {
+      if (!confidence || !confidence.sets || !confidence.sets[setId]) {
+        return '';
       }
 
-      function refreshData() {
-        loadData();
+      const confData = confidence.sets[setId];
+      const factors = confData.factors || {};
+      const recency = factors.recency || {};
+      const sourceAgreement = factors.sourceAgreement || {};
+      const txVolume = factors.transactionVolume || {};
+      const warnings = confData.warnings || [];
+
+      // Format data age
+      const ageDays = recency.age_days || 0;
+      let ageText = '';
+      if (ageDays < 1) ageText = 'Updated today';
+      else if (ageDays === 1) ageText = 'Updated 1 day ago';
+      else if (ageDays < 30) ageText = `Updated ${ageDays} days ago`;
+      else if (ageDays < 365) ageText = `Updated ${Math.floor(ageDays/30)} months ago`;
+      else ageText = `Updated ${Math.floor(ageDays/365)} year${Math.floor(ageDays/365) > 1 ? 's' : ''} ago`;
+
+      // Format sources
+      const sources = sourceAgreement.sources || [];
+      const sourcesText = sources.length > 0 ? sources.join(', ') : 'No sources';
+
+      // Check for significant disagreement
+      const maxDiff = sourceAgreement.maxDiff;
+      const hasDisagreement = maxDiff !== null && maxDiff > 0.15;
+
+      let tooltipHTML = `
+        <div class="text-xs space-y-2">
+          <div class="font-semibold text-white border-b border-gray-600 pb-1">Confidence Breakdown</div>
+          <div>
+            <span class="text-gray-400">Data age:</span>
+            <span class="text-white ml-1">${ageText}</span>
+          </div>
+          <div>
+            <span class="text-gray-400">Sources:</span>
+            <span class="text-white ml-1">${sourcesText}</span>
+          </div>
+          <div>
+            <span class="text-gray-400">Transactions:</span>
+            <span class="text-white ml-1">${txVolume.count || 0}</span>
+          </div>
+      `;
+
+      if (hasDisagreement) {
+        tooltipHTML += `
+          <div class="text-yellow-400 pt-1 border-t border-gray-600">
+            ⚠️ Sources disagree by ${(maxDiff * 100).toFixed(1)}%
+          </div>
+        `;
       }
 
-      // Close modal on background click
-      document.getElementById('modal').addEventListener('click', (e) => {
-        if (e.target.id === 'modal') closeModal();
-      });
+      if (warnings.length > 0) {
+        tooltipHTML += `
+          <div class="pt-1 border-t border-gray-600">
+            <div class="text-red-400 font-medium">⚠️ Warnings:</div>
+            ${warnings.map(w => `<div class="text-red-300">• ${w}</div>`).join('')}
+          </div>
+        `;
+      }
 
-      // Keyboard shortcuts
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closeModal();
-      });
+      tooltipHTML += `</div>`;
+      return tooltipHTML;
+    }
 
-      // Initialize
+    function closeModal() {
+      document.getElementById('modal').classList.add('hidden');
+      document.getElementById('modal').classList.remove('flex');
+    }
+
+    function refreshData() {
       loadData();
-    </script>
-  </body>
+    }
+
+    // Close modal on background click
+    document.getElementById('modal').addEventListener('click', (e) => {
+      if (e.target.id === 'modal') closeModal();
+    });
+
+    // Keyboard shortcuts
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
+
+    // Initialize
+    loadData();
+  </script>
+</body>
 </html>

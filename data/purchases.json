@@ -1,0 +1,34 @@
+{
+  "purchases": [
+    {
+      "id": "1769992481930",
+      "setId": "10316-1",
+      "date": "2024-01-15",
+      "price": 400,
+      "qty": 1,
+      "seller": "BrickLink Store A",
+      "condition": "New",
+      "notes": ""
+    },
+    {
+      "id": "1769992485169",
+      "setId": "10316-1",
+      "date": "2024-02-10",
+      "price": 420,
+      "qty": 1,
+      "seller": "BrickLink Store B",
+      "condition": "New",
+      "notes": ""
+    },
+    {
+      "id": "1769992487384",
+      "setId": "10316-1",
+      "date": "2024-03-05",
+      "price": 410,
+      "qty": 1,
+      "seller": "BrickLink Store C",
+      "condition": "New",
+      "notes": ""
+    }
+  ]
+}

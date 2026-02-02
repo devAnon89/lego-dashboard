@@ -127,16 +127,26 @@
     "zip",
     "zsh"
   ],
-  "stack_commands": ["node", "npm", "npx", "vc", "vercel"],
+  "stack_commands": [
+    "node",
+    "npm",
+    "npx",
+    "vc",
+    "vercel"
+  ],
   "script_commands": [],
   "custom_commands": [],
   "detected_stack": {
-    "languages": ["javascript"],
+    "languages": [
+      "javascript"
+    ],
     "package_managers": [],
     "frameworks": [],
     "databases": [],
     "infrastructure": [],
-    "cloud_providers": ["vercel"],
+    "cloud_providers": [
+      "vercel"
+    ],
     "code_quality_tools": [],
     "version_managers": []
   },
