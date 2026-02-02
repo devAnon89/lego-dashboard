@@ -222,6 +222,7 @@
     let portfolio = null;
     let analysis = null;
     let priceHistory = null;
+    let confidence = null;
     let currentTab = 'all';
     let currentFilter = '';
     let historyChart = null;
@@ -273,6 +274,11 @@
         } catch (e) {
           priceHistory = null;
         }
+        try {
+          confidence = await fetch('data/confidence.json').then(r => r.json());
+        } catch (e) {
+          confidence = null;
+        }
         renderDashboard();
       } catch (e) {
         console.error('Failed to load data:', e);
@@ -288,7 +294,8 @@
         const a = analysis[id] || {};
         const avgScore = ((a.license || 0) + (a.retirement || 0) + (a.appeal || 0) + (a.liquidity || 0)) / 4;
         const predictions = a.predictions || {};
-        return { id, ...data, analysis: a, avgScore, predictions };
+        const conf = confidence?.sets?.[id]?.confidence || 'Low';
+        return { id, ...data, analysis: a, avgScore, predictions, confidence: conf };
       });
 
       // Summary
@@ -595,6 +602,9 @@
         const projected1yr = s.predictions?.['1yr']?.value || (s.value * 1.15);
         const projectedGrowth = s.predictions?.growth1yr || 15;
 
+        const conf = s.confidence || 'Low';
+        const confidenceColors = { High: 'bg-green-500/20 text-green-400 border-green-500/30', Medium: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30', Low: 'bg-red-500/20 text-red-400 border-red-500/30' };
+
         return `
           <div class="card rounded-xl p-4 cursor-pointer hover:bg-white/10 transition" onclick="showDetail('${s.id}')">
             <div class="flex justify-between items-start mb-3">
@@ -606,7 +616,7 @@
                 ${actionIcons[action] || '❓'} ${action}
               </span>
             </div>
-            
+
             <div class="grid grid-cols-3 gap-2 mb-3">
               <div>
                 <div class="text-xs text-gray-400">Value</div>
@@ -622,7 +632,7 @@
               </div>
             </div>
 
-            <div class="flex items-center justify-between text-sm">
+            <div class="flex items-center justify-between text-sm mb-2">
               <div class="flex items-center gap-2">
                 <span class="text-gray-400">Score:</span>
                 <span class="font-bold text-blue-400">${s.avgScore.toFixed(1)}/10</span>
@@ -630,6 +640,13 @@
               <div class="flex items-center gap-2">
                 <span class="text-gray-400">Entry:</span>
                 <span class="${entryColors[s.analysis.entry] || 'text-gray-400'}">${s.analysis.entry || '-'}</span>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between text-sm">
+              <div class="flex items-center gap-2">
+                <span class="text-gray-400">Confidence:</span>
+                <span class="px-2 py-0.5 rounded text-xs font-medium border ${confidenceColors[conf]}">${conf}</span>
               </div>
             </div>
 
