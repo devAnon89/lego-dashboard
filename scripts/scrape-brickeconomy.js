@@ -2,7 +2,7 @@
 /**
  * BrickEconomy Scraper Script
  * Extracts price history and future predictions from BrickEconomy set pages
- * 
+ *
  * Usage: Run from the browser console while on a set page, or use with Puppeteer
  */
 
@@ -23,13 +23,13 @@ function extractSetDataFromPage() {
     priceHistory: [],
     predictions: {},
     currentValue: null,
-    setInfo: {}
+    setInfo: {},
   };
-  
+
   // Find the price history table
   const chartTables = document.querySelectorAll('table');
   let priceTable = null;
-  
+
   for (const table of chartTables) {
     const rows = table.querySelectorAll('tr');
     if (rows.length > 10) {
@@ -40,20 +40,24 @@ function extractSetDataFromPage() {
       }
     }
   }
-  
+
   if (priceTable) {
     const rows = priceTable.querySelectorAll('tbody tr');
     const today = new Date();
-    
-    rows.forEach(row => {
+
+    rows.forEach((row) => {
       const cells = row.querySelectorAll('td');
       if (cells.length >= 5) {
         const dateStr = cells[0]?.textContent?.trim();
-        const retailPrice = parseFloat(cells[1]?.textContent?.replace(/[^0-9.]/g, '')) || null;
-        const rrp = parseFloat(cells[2]?.textContent?.replace(/[^0-9.]/g, '')) || null;
-        const newSealedValue = parseFloat(cells[3]?.textContent?.replace(/[^0-9.]/g, '')) || null;
-        const usedValue = parseFloat(cells[4]?.textContent?.replace(/[^0-9.]/g, '')) || null;
-        
+        const retailPrice =
+          parseFloat(cells[1]?.textContent?.replace(/[^0-9.]/g, '')) || null;
+        const rrp =
+          parseFloat(cells[2]?.textContent?.replace(/[^0-9.]/g, '')) || null;
+        const newSealedValue =
+          parseFloat(cells[3]?.textContent?.replace(/[^0-9.]/g, '')) || null;
+        const usedValue =
+          parseFloat(cells[4]?.textContent?.replace(/[^0-9.]/g, '')) || null;
+
         // Parse date
         if (dateStr) {
           const parsedDate = new Date(dateStr);
@@ -61,16 +65,24 @@ function extractSetDataFromPage() {
             const entry = {
               date: parsedDate.toISOString().split('T')[0],
               newValue: newSealedValue,
-              usedValue: usedValue
+              usedValue: usedValue,
             };
-            
+
             // Check if this is future data (prediction)
             if (parsedDate > today) {
-              const monthsFromNow = Math.round((parsedDate - today) / (30 * 24 * 60 * 60 * 1000));
+              const monthsFromNow = Math.round(
+                (parsedDate - today) / (30 * 24 * 60 * 60 * 1000)
+              );
               if (monthsFromNow <= 12) {
-                data.predictions['1yr'] = { value: newSealedValue, date: entry.date };
+                data.predictions['1yr'] = {
+                  value: newSealedValue,
+                  date: entry.date,
+                };
               } else if (monthsFromNow <= 60) {
-                data.predictions['5yr'] = { value: newSealedValue, date: entry.date };
+                data.predictions['5yr'] = {
+                  value: newSealedValue,
+                  date: entry.date,
+                };
               }
             } else {
               data.priceHistory.push(entry);
@@ -80,20 +92,20 @@ function extractSetDataFromPage() {
       }
     });
   }
-  
+
   // Get current value from the "Today" line
   const todayText = document.body.innerText;
   const todayMatch = todayText.match(/Today €([\d,]+(?:\.\d+)?)/);
   if (todayMatch) {
     data.currentValue = parseFloat(todayMatch[1].replace(',', '.'));
   }
-  
+
   // Get set info
   const h1 = document.querySelector('h1');
   if (h1) {
     data.setInfo.name = h1.textContent.replace(/^\d+\s+LEGO\s+\w+\s+/, '');
   }
-  
+
   return data;
 }
 
@@ -103,7 +115,7 @@ module.exports = { extractSetDataFromPage, setIds };
 // If run directly, output set IDs
 if (require.main === module) {
   console.log('Portfolio sets to scrape:');
-  setIds.forEach(id => {
+  setIds.forEach((id) => {
     const set = portfolio.sets[id];
     const baseId = id.replace('-1', '');
     const nameSlug = set.name.toLowerCase().replace(/[^a-z0-9]+/g, '-');

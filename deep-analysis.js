@@ -2,12 +2,17 @@ const fs = require('fs');
 const path = require('path');
 
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
-const portfolio = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/portfolio.json'), 'utf8'));
+const portfolio = JSON.parse(
+  fs.readFileSync(path.join(__dirname, 'data/portfolio.json'), 'utf8')
+);
 
 async function analyzeBatch(sets) {
-  const setsInfo = sets.map(([id, d]) => 
-    `• ${d.name} (${id}): Theme=${d.theme}, Retail=€${d.retail}, Paid=€${d.paid}, Value=€${d.value}, Qty=${d.qty_new}new/${d.qty_used}used, Growth=${d.growth_pct.toFixed(1)}%`
-  ).join('\n');
+  const setsInfo = sets
+    .map(
+      ([id, d]) =>
+        `• ${d.name} (${id}): Theme=${d.theme}, Retail=€${d.retail}, Paid=€${d.paid}, Value=€${d.value}, Qty=${d.qty_new}new/${d.qty_used}used, Growth=${d.growth_pct.toFixed(1)}%`
+    )
+    .join('\n');
 
   const prompt = `You are a LEGO investment analyst. Analyze these ${sets.length} LEGO sets:
 
@@ -40,14 +45,14 @@ Return JSON object with set IDs as keys:
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${OPENAI_API_KEY}`
+      Authorization: `Bearer ${OPENAI_API_KEY}`,
     },
     body: JSON.stringify({
       model: 'gpt-4o',
       messages: [{ role: 'user', content: prompt }],
       temperature: 0.2,
-      response_format: { type: 'json_object' }
-    })
+      response_format: { type: 'json_object' },
+    }),
   });
 
   const data = await response.json();
@@ -59,16 +64,20 @@ async function main() {
   const sets = Object.entries(portfolio.sets);
   const BATCH_SIZE = 10;
   const results = {};
-  
-  console.log(`🔍 Analyzing ${sets.length} sets in batches of ${BATCH_SIZE}...\n`);
-  
+
+  console.log(
+    `🔍 Analyzing ${sets.length} sets in batches of ${BATCH_SIZE}...\n`
+  );
+
   for (let i = 0; i < sets.length; i += BATCH_SIZE) {
     const batch = sets.slice(i, i + BATCH_SIZE);
     const batchNum = Math.floor(i / BATCH_SIZE) + 1;
     const totalBatches = Math.ceil(sets.length / BATCH_SIZE);
-    
-    process.stdout.write(`[Batch ${batchNum}/${totalBatches}] Analyzing ${batch.length} sets... `);
-    
+
+    process.stdout.write(
+      `[Batch ${batchNum}/${totalBatches}] Analyzing ${batch.length} sets... `
+    );
+
     try {
       const batchResults = await analyzeBatch(batch);
       Object.assign(results, batchResults);
@@ -76,55 +85,67 @@ async function main() {
     } catch (err) {
       console.log(`✗ ${err.message}`);
     }
-    
-    if (i + BATCH_SIZE < sets.length) await new Promise(r => setTimeout(r, 500));
+
+    if (i + BATCH_SIZE < sets.length)
+      await new Promise((r) => setTimeout(r, 500));
   }
-  
+
   // Save results
   const outputPath = path.join(__dirname, 'data/deep-analysis.json');
   fs.writeFileSync(outputPath, JSON.stringify(results, null, 2));
   console.log(`\n✅ Saved to ${outputPath}`);
-  
+
   // Generate summary
   console.log('\n' + '='.repeat(60));
   console.log('📊 DEEP ANALYSIS SUMMARY');
   console.log('='.repeat(60));
-  
-  const analyzed = Object.entries(results).map(([id, a]) => ({
-    id,
-    name: portfolio.sets[id]?.name || id,
-    ...a,
-    avgScore: ((a.license || 0) + (a.retirement || 0) + (a.appeal || 0) + (a.liquidity || 0)) / 4
-  })).sort((a, b) => b.avgScore - a.avgScore);
-  
+
+  const analyzed = Object.entries(results)
+    .map(([id, a]) => ({
+      id,
+      name: portfolio.sets[id]?.name || id,
+      ...a,
+      avgScore:
+        ((a.license || 0) +
+          (a.retirement || 0) +
+          (a.appeal || 0) +
+          (a.liquidity || 0)) /
+        4,
+    }))
+    .sort((a, b) => b.avgScore - a.avgScore);
+
   // Strong buys
-  const buys = analyzed.filter(a => a.action === 'BUY');
+  const buys = analyzed.filter((a) => a.action === 'BUY');
   if (buys.length) {
     console.log('\n🟢 BUY RECOMMENDATIONS:');
-    buys.forEach(a => console.log(`  • ${a.name} (${a.confidence}): ${a.thesis}`));
+    buys.forEach((a) =>
+      console.log(`  • ${a.name} (${a.confidence}): ${a.thesis}`)
+    );
   }
-  
+
   // Sells
-  const sells = analyzed.filter(a => a.action === 'SELL');
+  const sells = analyzed.filter((a) => a.action === 'SELL');
   if (sells.length) {
     console.log('\n🔴 SELL RECOMMENDATIONS:');
-    sells.forEach(a => console.log(`  • ${a.name}: ${a.thesis}`));
+    sells.forEach((a) => console.log(`  • ${a.name}: ${a.thesis}`));
   }
-  
+
   // Top 5 by score
   console.log('\n🏆 TOP 5 INVESTMENT SCORES:');
   analyzed.slice(0, 5).forEach((a, i) => {
-    console.log(`  ${i + 1}. ${a.name} (${a.avgScore.toFixed(1)}/10) - ${a.thesis}`);
+    console.log(
+      `  ${i + 1}. ${a.name} (${a.avgScore.toFixed(1)}/10) - ${a.thesis}`
+    );
   });
-  
+
   // Bottom 3
   console.log('\n⚠️ WEAKEST POSITIONS:');
-  analyzed.slice(-3).forEach(a => {
+  analyzed.slice(-3).forEach((a) => {
     console.log(`  • ${a.name} (${a.avgScore.toFixed(1)}/10) - ${a.thesis}`);
   });
-  
+
   // Holds
-  const holds = analyzed.filter(a => a.action === 'HOLD');
+  const holds = analyzed.filter((a) => a.action === 'HOLD');
   console.log(`\n⏳ HOLD: ${holds.length} sets`);
 }
 

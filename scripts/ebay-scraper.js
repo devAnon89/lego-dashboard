@@ -2,7 +2,7 @@
 /**
  * eBay EU Price Scraper for LEGO Portfolio
  * Scrapes sold listings from eBay EU markets for real market values
- * 
+ *
  * Run: node ebay-scraper.js [--set 10316-1] [--all] [--dry-run]
  */
 
@@ -38,14 +38,14 @@ function getEbaySearchUrl(setId, domain = 'ebay.de') {
  */
 function parseEbayPrices(pageContent) {
   const prices = [];
-  
+
   // Match patterns like "EUR 123,45" or "€123.45" or "123,45 €"
   const pricePatterns = [
     /EUR\s*([\d.,]+)/gi,
     /€\s*([\d.,]+)/gi,
     /([\d.,]+)\s*€/gi,
   ];
-  
+
   for (const pattern of pricePatterns) {
     let match;
     while ((match = pattern.exec(pageContent)) !== null) {
@@ -55,13 +55,14 @@ function parseEbayPrices(pageContent) {
         priceStr = priceStr.replace(/\./g, '').replace(',', '.');
       }
       const price = parseFloat(priceStr);
-      if (price > 5 && price < 10000) {  // Reasonable LEGO price range
+      if (price > 5 && price < 10000) {
+        // Reasonable LEGO price range
         prices.push(price);
       }
     }
   }
-  
-  return [...new Set(prices)];  // Remove duplicates
+
+  return [...new Set(prices)]; // Remove duplicates
 }
 
 /**
@@ -70,20 +71,20 @@ function parseEbayPrices(pageContent) {
  */
 function calculateMarketValue(prices) {
   if (!prices || prices.length === 0) return null;
-  
+
   // Sort prices
   const sorted = [...prices].sort((a, b) => a - b);
-  
+
   // Remove top and bottom 10% as outliers
   const trim = Math.floor(sorted.length * 0.1);
   const trimmed = sorted.slice(trim, sorted.length - trim || undefined);
-  
+
   if (trimmed.length === 0) return sorted[Math.floor(sorted.length / 2)];
-  
+
   // Return median
   const mid = Math.floor(trimmed.length / 2);
-  return trimmed.length % 2 === 0 
-    ? (trimmed[mid - 1] + trimmed[mid]) / 2 
+  return trimmed.length % 2 === 0
+    ? (trimmed[mid - 1] + trimmed[mid]) / 2
     : trimmed[mid];
 }
 
@@ -111,30 +112,32 @@ function savePriceHistory(history) {
 async function main() {
   const args = process.argv.slice(2);
   const dryRun = args.includes('--dry-run');
-  const singleSet = args.find((a, i) => args[i-1] === '--set');
-  
+  const singleSet = args.find((a, i) => args[i - 1] === '--set');
+
   const portfolio = JSON.parse(fs.readFileSync(PORTFOLIO_FILE, 'utf-8'));
-  const sets = singleSet 
+  const sets = singleSet
     ? { [singleSet]: portfolio.sets[singleSet] }
     : portfolio.sets;
-  
+
   console.log('=== eBay EU Price Scraper ===\n');
   console.log(`Sets to scrape: ${Object.keys(sets).length}`);
   console.log(`Dry run: ${dryRun}\n`);
-  
+
   // Output URLs for browser automation
   console.log('--- URLs to scrape ---');
   for (const [setId, setData] of Object.entries(sets)) {
     const url = getEbaySearchUrl(setId);
-    console.log(JSON.stringify({
-      setId,
-      name: setData.name,
-      currentValue: setData.value,
-      qty: (setData.qty_new || 0) + (setData.qty_used || 0),
-      url,
-    }));
+    console.log(
+      JSON.stringify({
+        setId,
+        name: setData.name,
+        currentValue: setData.value,
+        qty: (setData.qty_new || 0) + (setData.qty_used || 0),
+        url,
+      })
+    );
   }
-  
+
   console.log('\n--- Scraping instructions ---');
   console.log('1. Use browser tool to open each URL');
   console.log('2. Wait for page load, extract sold prices');

@@ -20,7 +20,7 @@ function transformPortfolio(data) {
 
   // Transform new format (sets is array, metadata instead of summary)
   const setsObj = {};
-  (data.sets || []).forEach(set => {
+  (data.sets || []).forEach((set) => {
     const id = set.setNumber || set.id;
     setsObj[id] = {
       name: set.name,
@@ -30,7 +30,7 @@ function transformPortfolio(data) {
       current_value: set.value,
       qty_new: set.qtyNew,
       qty_used: set.qtyUsed,
-      growth: set.growth
+      growth: set.growth,
     };
   });
 
@@ -44,25 +44,28 @@ function transformPortfolio(data) {
       total_gain_pct: meta.totalGain || 0,
       total_sets: meta.totalSets || Object.keys(setsObj).length,
       total_units: meta.totalUnits || 0,
-      last_updated: meta.lastUpdated || new Date().toISOString()
-    }
+      last_updated: meta.lastUpdated || new Date().toISOString(),
+    },
   };
 }
 
 // Load data
 async function loadData() {
   try {
-    let rawPortfolio = await fetch('data/portfolio.json').then(r => r.json());
+    let rawPortfolio = await fetch('data/portfolio.json').then((r) => r.json());
     portfolio = transformPortfolio(rawPortfolio);
-    analysis = await fetch('data/deep-analysis.json').then(r => r.json());
+    analysis = await fetch('data/deep-analysis.json').then((r) => r.json());
     try {
-      priceHistory = await fetch('data/price-history.json').then(r => r.json());
+      priceHistory = await fetch('data/price-history.json').then((r) =>
+        r.json()
+      );
     } catch (e) {
       priceHistory = null;
     }
     renderDashboard();
   } catch (e) {
-    document.getElementById('setsGrid').innerHTML = '<div class="text-red-400">Failed to load portfolio data</div>';
+    document.getElementById('setsGrid').innerHTML =
+      '<div class="text-red-400">Failed to load portfolio data</div>';
   }
 }
 
@@ -72,27 +75,49 @@ function renderDashboard() {
   // Calculate enriched data
   const sets = Object.entries(portfolio.sets).map(([id, data]) => {
     const a = analysis[id] || {};
-    const avgScore = ((a.license || 0) + (a.retirement || 0) + (a.appeal || 0) + (a.liquidity || 0)) / 4;
+    const avgScore =
+      ((a.license || 0) +
+        (a.retirement || 0) +
+        (a.appeal || 0) +
+        (a.liquidity || 0)) /
+      4;
     const predictions = a.predictions || {};
     return { id, ...data, analysis: a, avgScore, predictions };
   });
 
   // Summary
-  document.getElementById('totalValue').textContent = '€' + portfolio.summary.total_current.toLocaleString('de-DE', {minimumFractionDigits: 2});
-  document.getElementById('totalPaid').textContent = 'Paid: €' + portfolio.summary.total_paid.toLocaleString('de-DE', {minimumFractionDigits: 2});
+  document.getElementById('totalValue').textContent =
+    '€' +
+    portfolio.summary.total_current.toLocaleString('de-DE', {
+      minimumFractionDigits: 2,
+    });
+  document.getElementById('totalPaid').textContent =
+    'Paid: €' +
+    portfolio.summary.total_paid.toLocaleString('de-DE', {
+      minimumFractionDigits: 2,
+    });
 
   const gain = portfolio.summary.total_gain_eur;
   const gainPct = portfolio.summary.total_gain_pct;
   const gainEl = document.getElementById('totalGain');
   const gainPctEl = document.getElementById('totalGainPct');
-  gainEl.textContent = (gain >= 0 ? '+' : '') + '€' + gain.toLocaleString('de-DE', {minimumFractionDigits: 2});
-  gainEl.className = 'text-2xl font-bold ' + (gain >= 0 ? 'text-green-400' : 'text-red-400');
+  gainEl.textContent =
+    (gain >= 0 ? '+' : '') +
+    '€' +
+    gain.toLocaleString('de-DE', { minimumFractionDigits: 2 });
+  gainEl.className =
+    'text-2xl font-bold ' + (gain >= 0 ? 'text-green-400' : 'text-red-400');
   gainPctEl.textContent = (gainPct >= 0 ? '+' : '') + gainPct.toFixed(2) + '%';
-  gainPctEl.className = 'text-sm ' + (gainPct >= 0 ? 'text-green-400' : 'text-red-400');
+  gainPctEl.className =
+    'text-sm ' + (gainPct >= 0 ? 'text-green-400' : 'text-red-400');
 
-  const totalUnits = sets.reduce((sum, s) => sum + (s.qty_new || 0) + (s.qty_used || 0), 0);
+  const totalUnits = sets.reduce(
+    (sum, s) => sum + (s.qty_new || 0) + (s.qty_used || 0),
+    0
+  );
   document.getElementById('totalSets').textContent = sets.length;
-  document.getElementById('totalUnits').textContent = totalUnits + ' total units';
+  document.getElementById('totalUnits').textContent =
+    totalUnits + ' total units';
 
   const avgScore = sets.reduce((sum, s) => sum + s.avgScore, 0) / sets.length;
   document.getElementById('avgScore').textContent = avgScore.toFixed(1);
@@ -100,7 +125,7 @@ function renderDashboard() {
   // Calculate portfolio projections
   let projected1yr = 0;
   let projected5yr = 0;
-  sets.forEach(s => {
+  sets.forEach((s) => {
     const qty = (s.qty_new || 0) + (s.qty_used || 0);
     const pred = s.predictions;
     if (pred && pred['1yr']) {
@@ -119,14 +144,20 @@ function renderDashboard() {
   const growth1yr = ((projected1yr - currentTotal) / currentTotal) * 100;
   const growth5yr = ((projected5yr - currentTotal) / currentTotal) * 100;
 
-  document.getElementById('forecast1yr').textContent = '€' + projected1yr.toLocaleString('de-DE', {minimumFractionDigits: 0});
-  document.getElementById('forecast1yrGrowth').textContent = '+' + growth1yr.toFixed(1) + '% projected';
+  document.getElementById('forecast1yr').textContent =
+    '€' + projected1yr.toLocaleString('de-DE', { minimumFractionDigits: 0 });
+  document.getElementById('forecast1yrGrowth').textContent =
+    '+' + growth1yr.toFixed(1) + '% projected';
 
-  document.getElementById('projection1yr').textContent = '€' + projected1yr.toLocaleString('de-DE', {minimumFractionDigits: 0});
-  document.getElementById('projection1yrChange').innerHTML = `<span class="text-green-400">+€${(projected1yr - currentTotal).toLocaleString('de-DE', {minimumFractionDigits: 0})}</span> <span class="text-gray-400">(+${growth1yr.toFixed(1)}%)</span>`;
+  document.getElementById('projection1yr').textContent =
+    '€' + projected1yr.toLocaleString('de-DE', { minimumFractionDigits: 0 });
+  document.getElementById('projection1yrChange').innerHTML =
+    `<span class="text-green-400">+€${(projected1yr - currentTotal).toLocaleString('de-DE', { minimumFractionDigits: 0 })}</span> <span class="text-gray-400">(+${growth1yr.toFixed(1)}%)</span>`;
 
-  document.getElementById('projection5yr').textContent = '€' + projected5yr.toLocaleString('de-DE', {minimumFractionDigits: 0});
-  document.getElementById('projection5yrChange').innerHTML = `<span class="text-green-400">+€${(projected5yr - currentTotal).toLocaleString('de-DE', {minimumFractionDigits: 0})}</span> <span class="text-gray-400">(+${growth5yr.toFixed(1)}%)</span>`;
+  document.getElementById('projection5yr').textContent =
+    '€' + projected5yr.toLocaleString('de-DE', { minimumFractionDigits: 0 });
+  document.getElementById('projection5yrChange').innerHTML =
+    `<span class="text-green-400">+€${(projected5yr - currentTotal).toLocaleString('de-DE', { minimumFractionDigits: 0 })}</span> <span class="text-gray-400">(+${growth5yr.toFixed(1)}%)</span>`;
 
   // Top/Bottom projected
   const sortedByProjected = [...sets].sort((a, b) => {
@@ -134,21 +165,34 @@ function renderDashboard() {
     const bGrowth = b.predictions?.growth1yr || 15;
     return bGrowth - aGrowth;
   });
-  renderProjectedPerformers('topProjected', sortedByProjected.slice(0, 5), true);
-  renderProjectedPerformers('bottomProjected', sortedByProjected.slice(-5).reverse(), false);
+  renderProjectedPerformers(
+    'topProjected',
+    sortedByProjected.slice(0, 5),
+    true
+  );
+  renderProjectedPerformers(
+    'bottomProjected',
+    sortedByProjected.slice(-5).reverse(),
+    false
+  );
 
   // Action counts
-  const buys = sets.filter(s => s.analysis.action === 'BUY');
-  const holds = sets.filter(s => s.analysis.action === 'HOLD');
-  const sells = sets.filter(s => s.analysis.action === 'SELL');
+  const buys = sets.filter((s) => s.analysis.action === 'BUY');
+  const holds = sets.filter((s) => s.analysis.action === 'HOLD');
+  const sells = sets.filter((s) => s.analysis.action === 'SELL');
 
   document.getElementById('buyCount').textContent = buys.length;
   document.getElementById('holdCount').textContent = holds.length;
   document.getElementById('sellCount').textContent = sells.length;
 
-  document.getElementById('buyThesis').textContent = buys.length > 0 ? buys[0].name : 'No buy recommendations';
-  document.getElementById('sellThesis').textContent = sells.length > 0 ? `${sells.length} sets to consider selling` : 'No sell recommendations';
-  document.getElementById('holdThesis').textContent = `${holds.length} sets performing as expected`;
+  document.getElementById('buyThesis').textContent =
+    buys.length > 0 ? buys[0].name : 'No buy recommendations';
+  document.getElementById('sellThesis').textContent =
+    sells.length > 0
+      ? `${sells.length} sets to consider selling`
+      : 'No sell recommendations';
+  document.getElementById('holdThesis').textContent =
+    `${holds.length} sets performing as expected`;
 
   // Top/Bottom performers
   const sorted = [...sets].sort((a, b) => b.avgScore - a.avgScore);
@@ -156,13 +200,15 @@ function renderDashboard() {
   renderPerformers('bottomPerformers', sorted.slice(-5).reverse(), false);
 
   // Theme filter
-  const themes = [...new Set(sets.map(s => s.theme.split(' / ')[0]))].sort();
+  const themes = [...new Set(sets.map((s) => s.theme.split(' / ')[0]))].sort();
   const themeSelect = document.getElementById('themeFilter');
-  themeSelect.innerHTML = '<option value="">All Themes</option>' +
-    themes.map(t => `<option value="${t}">${t}</option>`).join('');
+  themeSelect.innerHTML =
+    '<option value="">All Themes</option>' +
+    themes.map((t) => `<option value="${t}">${t}</option>`).join('');
 
   // Last updated
-  document.getElementById('lastUpdated').textContent = 'Updated: ' + new Date(portfolio.summary.last_updated).toLocaleString();
+  document.getElementById('lastUpdated').textContent =
+    'Updated: ' + new Date(portfolio.summary.last_updated).toLocaleString();
 
   // Render history chart
   renderHistoryChart();
@@ -173,7 +219,8 @@ function renderDashboard() {
 
 function renderHistoryChart() {
   if (!priceHistory) {
-    document.getElementById('historyChart').parentElement.innerHTML = '<div class="text-gray-400 h-64 flex items-center justify-center">No price history data available</div>';
+    document.getElementById('historyChart').parentElement.innerHTML =
+      '<div class="text-gray-400 h-64 flex items-center justify-center">No price history data available</div>';
     return;
   }
 
@@ -185,22 +232,24 @@ function renderHistoryChart() {
 
   // Get all unique dates across all sets
   const allDates = new Set();
-  Object.values(priceHistory.sets).forEach(set => {
+  Object.values(priceHistory.sets).forEach((set) => {
     if (set.priceHistory) {
-      set.priceHistory.forEach(p => allDates.add(p.date.substring(0, 7)));
+      set.priceHistory.forEach((p) => allDates.add(p.date.substring(0, 7)));
     }
   });
 
   const sortedDates = Array.from(allDates).sort();
   const recentDates = sortedDates.slice(-months);
 
-  recentDates.forEach(month => {
+  recentDates.forEach((month) => {
     let totalValue = 0;
     Object.entries(portfolio.sets).forEach(([setId, setData]) => {
       const qty = (setData.qty_new || 0) + (setData.qty_used || 0);
       const historySet = priceHistory.sets[setId];
       if (historySet && historySet.priceHistory) {
-        const monthData = historySet.priceHistory.find(p => p.date.startsWith(month));
+        const monthData = historySet.priceHistory.find((p) =>
+          p.date.startsWith(month)
+        );
         if (monthData) {
           totalValue += monthData.newValue * qty;
         } else {
@@ -223,20 +272,25 @@ function renderHistoryChart() {
   historyChart = new Chart(ctx, {
     type: 'line',
     data: {
-      labels: labels.map(d => {
+      labels: labels.map((d) => {
         const [y, m] = d.split('-');
-        return new Date(y, m-1).toLocaleDateString('en-US', { month: 'short', year: '2-digit' });
+        return new Date(y, m - 1).toLocaleDateString('en-US', {
+          month: 'short',
+          year: '2-digit',
+        });
       }),
-      datasets: [{
-        label: 'Portfolio Value (€)',
-        data: values,
-        borderColor: '#8b5cf6',
-        backgroundColor: 'rgba(139, 92, 246, 0.1)',
-        fill: true,
-        tension: 0.4,
-        pointRadius: 2,
-        pointHoverRadius: 6
-      }]
+      datasets: [
+        {
+          label: 'Portfolio Value (€)',
+          data: values,
+          borderColor: '#8b5cf6',
+          backgroundColor: 'rgba(139, 92, 246, 0.1)',
+          fill: true,
+          tension: 0.4,
+          pointRadius: 2,
+          pointHoverRadius: 6,
+        },
+      ],
     },
     options: {
       responsive: true,
@@ -245,24 +299,26 @@ function renderHistoryChart() {
         legend: { display: false },
         tooltip: {
           callbacks: {
-            label: (ctx) => '€' + ctx.raw.toLocaleString('de-DE', {minimumFractionDigits: 2})
-          }
-        }
+            label: (ctx) =>
+              '€' +
+              ctx.raw.toLocaleString('de-DE', { minimumFractionDigits: 2 }),
+          },
+        },
       },
       scales: {
         y: {
           grid: { color: 'rgba(255,255,255,0.05)' },
           ticks: {
             color: '#9ca3af',
-            callback: (v) => '€' + v.toLocaleString()
-          }
+            callback: (v) => '€' + v.toLocaleString(),
+          },
         },
         x: {
           grid: { display: false },
-          ticks: { color: '#9ca3af' }
-        }
-      }
-    }
+          ticks: { color: '#9ca3af' },
+        },
+      },
+    },
   });
 }
 
@@ -272,11 +328,17 @@ function updateHistoryChart() {
 
 function renderProjectedPerformers(containerId, sets, isTop) {
   const container = document.getElementById(containerId);
-  container.innerHTML = sets.map((s, i) => {
-    const growth = s.predictions?.growth1yr || 15;
-    const color = growth > 20 ? 'text-green-400' : growth > 10 ? 'text-yellow-400' : 'text-red-400';
-    const value1yr = s.predictions?.['1yr']?.value || (s.value * 1.15);
-    return `
+  container.innerHTML = sets
+    .map((s, i) => {
+      const growth = s.predictions?.growth1yr || 15;
+      const color =
+        growth > 20
+          ? 'text-green-400'
+          : growth > 10
+            ? 'text-yellow-400'
+            : 'text-red-400';
+      const value1yr = s.predictions?.['1yr']?.value || s.value * 1.15;
+      return `
       <div class="flex items-center justify-between p-2 bg-gray-800/50 rounded-lg cursor-pointer hover:bg-gray-700/50 transition" onclick="showDetail('${s.id}')">
         <div class="flex items-center gap-3">
           <span class="text-gray-500 text-sm w-5">${i + 1}</span>
@@ -291,15 +353,17 @@ function renderProjectedPerformers(containerId, sets, isTop) {
         </div>
       </div>
     `;
-  }).join('');
+    })
+    .join('');
 }
 
 function renderPerformers(containerId, sets, isTop) {
   const container = document.getElementById(containerId);
-  container.innerHTML = sets.map((s, i) => {
-    const color = isTop ? 'text-green-400' : 'text-red-400';
-    const icon = isTop ? '↑' : '↓';
-    return `
+  container.innerHTML = sets
+    .map((s, i) => {
+      const color = isTop ? 'text-green-400' : 'text-red-400';
+      const icon = isTop ? '↑' : '↓';
+      return `
       <div class="flex items-center justify-between p-2 bg-gray-800/50 rounded-lg cursor-pointer hover:bg-gray-700/50 transition" onclick="showDetail('${s.id}')">
         <div class="flex items-center gap-3">
           <span class="text-gray-500 text-sm w-5">${isTop ? i + 1 : ''}</span>
@@ -314,17 +378,20 @@ function renderPerformers(containerId, sets, isTop) {
         </div>
       </div>
     `;
-  }).join('');
+    })
+    .join('');
 }
 
 function switchTab(tab) {
   currentTab = tab;
-  document.querySelectorAll('[data-tab]').forEach(btn => {
+  document.querySelectorAll('[data-tab]').forEach((btn) => {
     btn.classList.remove('tab-active', 'text-blue-400');
     btn.classList.add('text-gray-400');
   });
   document.querySelector(`[data-tab="${tab}"]`).classList.add('tab-active');
-  document.querySelector(`[data-tab="${tab}"]`).classList.remove('text-gray-400');
+  document
+    .querySelector(`[data-tab="${tab}"]`)
+    .classList.remove('text-gray-400');
   filterSets();
 }
 
@@ -340,30 +407,44 @@ function filterSets() {
 
   let sets = Object.entries(portfolio.sets).map(([id, data]) => {
     const a = analysis[id] || {};
-    const avgScore = ((a.license || 0) + (a.retirement || 0) + (a.appeal || 0) + (a.liquidity || 0)) / 4;
+    const avgScore =
+      ((a.license || 0) +
+        (a.retirement || 0) +
+        (a.appeal || 0) +
+        (a.liquidity || 0)) /
+      4;
     const predictions = a.predictions || {};
     return { id, ...data, analysis: a, avgScore, predictions };
   });
 
   // Filter by tab
   if (currentTab !== 'all') {
-    sets = sets.filter(s => s.analysis.action?.toLowerCase() === currentTab);
+    sets = sets.filter((s) => s.analysis.action?.toLowerCase() === currentTab);
   }
 
   // Filter by search
   if (search) {
-    sets = sets.filter(s => s.name.toLowerCase().includes(search) || s.theme.toLowerCase().includes(search));
+    sets = sets.filter(
+      (s) =>
+        s.name.toLowerCase().includes(search) ||
+        s.theme.toLowerCase().includes(search)
+    );
   }
 
   // Filter by theme
   if (theme) {
-    sets = sets.filter(s => s.theme.startsWith(theme));
+    sets = sets.filter((s) => s.theme.startsWith(theme));
   }
 
   // Sort
   if (sortBy === 'score') sets.sort((a, b) => b.avgScore - a.avgScore);
-  else if (sortBy === 'growth') sets.sort((a, b) => b.growth_pct - a.growth_pct);
-  else if (sortBy === 'projected') sets.sort((a, b) => (b.predictions?.growth1yr || 15) - (a.predictions?.growth1yr || 15));
+  else if (sortBy === 'growth')
+    sets.sort((a, b) => b.growth_pct - a.growth_pct);
+  else if (sortBy === 'projected')
+    sets.sort(
+      (a, b) =>
+        (b.predictions?.growth1yr || 15) - (a.predictions?.growth1yr || 15)
+    );
   else if (sortBy === 'value') sets.sort((a, b) => b.value - a.value);
   else if (sortBy === 'name') sets.sort((a, b) => a.name.localeCompare(b.name));
 
@@ -372,16 +453,26 @@ function filterSets() {
 
 function renderSets(sets) {
   const grid = document.getElementById('setsGrid');
-  grid.innerHTML = sets.map(s => {
-    const action = s.analysis.action || 'UNKNOWN';
-    const actionColors = { BUY: 'bg-green-500/20 text-green-400 border-green-500/30', HOLD: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30', SELL: 'bg-red-500/20 text-red-400 border-red-500/30' };
-    const actionIcons = { BUY: '🟢', HOLD: '⏳', SELL: '🔴' };
-    const growthColor = s.growth_pct >= 0 ? 'text-green-400' : 'text-red-400';
-    const entryColors = { excellent: 'text-green-400', good: 'text-blue-400', fair: 'text-yellow-400', poor: 'text-red-400' };
-    const projected1yr = s.predictions?.['1yr']?.value || (s.value * 1.15);
-    const projectedGrowth = s.predictions?.growth1yr || 15;
+  grid.innerHTML = sets
+    .map((s) => {
+      const action = s.analysis.action || 'UNKNOWN';
+      const actionColors = {
+        BUY: 'bg-green-500/20 text-green-400 border-green-500/30',
+        HOLD: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30',
+        SELL: 'bg-red-500/20 text-red-400 border-red-500/30',
+      };
+      const actionIcons = { BUY: '🟢', HOLD: '⏳', SELL: '🔴' };
+      const growthColor = s.growth_pct >= 0 ? 'text-green-400' : 'text-red-400';
+      const entryColors = {
+        excellent: 'text-green-400',
+        good: 'text-blue-400',
+        fair: 'text-yellow-400',
+        poor: 'text-red-400',
+      };
+      const projected1yr = s.predictions?.['1yr']?.value || s.value * 1.15;
+      const projectedGrowth = s.predictions?.growth1yr || 15;
 
-    return `
+      return `
       <div class="card rounded-xl p-4 cursor-pointer hover:bg-white/10 transition" onclick="showDetail('${s.id}')">
         <div class="flex justify-between items-start mb-3">
           <div class="flex-1">
@@ -396,7 +487,7 @@ function renderSets(sets) {
         <div class="grid grid-cols-3 gap-2 mb-3">
           <div>
             <div class="text-xs text-gray-400">Value</div>
-            <div class="font-bold text-sm">€${s.value.toLocaleString('de-DE', {minimumFractionDigits: 0})}</div>
+            <div class="font-bold text-sm">€${s.value.toLocaleString('de-DE', { minimumFractionDigits: 0 })}</div>
           </div>
           <div>
             <div class="text-xs text-gray-400">Growth</div>
@@ -424,20 +515,35 @@ function renderSets(sets) {
         </div>
       </div>
     `;
-  }).join('');
+    })
+    .join('');
 }
 
 function showDetail(id) {
   const s = { id, ...portfolio.sets[id], analysis: analysis[id] || {} };
-  const avgScore = ((s.analysis.license || 0) + (s.analysis.retirement || 0) + (s.analysis.appeal || 0) + (s.analysis.liquidity || 0)) / 4;
+  const avgScore =
+    ((s.analysis.license || 0) +
+      (s.analysis.retirement || 0) +
+      (s.analysis.appeal || 0) +
+      (s.analysis.liquidity || 0)) /
+    4;
   const predictions = s.analysis.predictions || {};
 
-  const actionColors = { BUY: 'bg-green-500 text-white', HOLD: 'bg-yellow-500 text-black', SELL: 'bg-red-500 text-white' };
-  const entryColors = { excellent: 'bg-green-500/20 text-green-400', good: 'bg-blue-500/20 text-blue-400', fair: 'bg-yellow-500/20 text-yellow-400', poor: 'bg-red-500/20 text-red-400' };
+  const actionColors = {
+    BUY: 'bg-green-500 text-white',
+    HOLD: 'bg-yellow-500 text-black',
+    SELL: 'bg-red-500 text-white',
+  };
+  const entryColors = {
+    excellent: 'bg-green-500/20 text-green-400',
+    good: 'bg-blue-500/20 text-blue-400',
+    fair: 'bg-yellow-500/20 text-yellow-400',
+    poor: 'bg-red-500/20 text-red-400',
+  };
   const growthColor = s.growth_pct >= 0 ? 'text-green-400' : 'text-red-400';
 
-  const pred1yr = predictions['1yr']?.value || (s.value * 1.15);
-  const pred5yr = predictions['5yr']?.value || (s.value * 1.8);
+  const pred1yr = predictions['1yr']?.value || s.value * 1.15;
+  const pred5yr = predictions['5yr']?.value || s.value * 1.8;
   const growth1yr = predictions.growth1yr || 15;
   const growth5yr = predictions.growth5yr || 80;
 
@@ -453,11 +559,11 @@ function showDetail(id) {
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
       <div class="bg-gray-800 rounded-lg p-3">
         <div class="text-xs text-gray-400">Current Value</div>
-        <div class="text-xl font-bold">€${s.value.toLocaleString('de-DE', {minimumFractionDigits: 2})}</div>
+        <div class="text-xl font-bold">€${s.value.toLocaleString('de-DE', { minimumFractionDigits: 2 })}</div>
       </div>
       <div class="bg-gray-800 rounded-lg p-3">
         <div class="text-xs text-gray-400">Paid</div>
-        <div class="text-xl font-bold">€${s.paid.toLocaleString('de-DE', {minimumFractionDigits: 2})}</div>
+        <div class="text-xl font-bold">€${s.paid.toLocaleString('de-DE', { minimumFractionDigits: 2 })}</div>
       </div>
       <div class="bg-gray-800 rounded-lg p-3">
         <div class="text-xs text-gray-400">Growth</div>
@@ -530,7 +636,8 @@ function showDetail(id) {
 
 function renderScoreBar(label, value) {
   const pct = ((value || 0) / 10) * 100;
-  const color = value >= 7 ? 'bg-green-500' : value >= 4 ? 'bg-yellow-500' : 'bg-red-500';
+  const color =
+    value >= 7 ? 'bg-green-500' : value >= 4 ? 'bg-yellow-500' : 'bg-red-500';
   return `
     <div class="flex items-center gap-3">
       <span class="text-sm text-gray-400 w-32">${label}</span>

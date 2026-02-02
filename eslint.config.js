@@ -4,7 +4,7 @@ import globals from 'globals';
 export default [
   // Ignore patterns
   {
-    ignores: ['node_modules/', 'dist/', 'data/', '*.log', '.env', '.env.*']
+    ignores: ['node_modules/', 'dist/', 'data/', '*.log', '.env', '.env.*'],
   },
 
   // Base configuration for all JS files
@@ -16,8 +16,8 @@ export default [
       globals: {
         ...globals.browser,
         ...globals.node,
-        ...globals.es2021
-      }
+        ...globals.es2021,
+      },
     },
     rules: {
       ...js.configs.recommended.rules,
@@ -25,12 +25,12 @@ export default [
         'warn',
         {
           argsIgnorePattern: '^_',
-          varsIgnorePattern: '^_'
-        }
+          varsIgnorePattern: '^_',
+        },
       ],
       'no-console': 'off',
-      'no-debugger': 'warn'
-    }
+      'no-debugger': 'warn',
+    },
   },
 
   // CommonJS files (CLI scripts)
@@ -39,9 +39,9 @@ export default [
     languageOptions: {
       sourceType: 'commonjs',
       globals: {
-        ...globals.node
-      }
-    }
+        ...globals.node,
+      },
+    },
   },
 
   // ES Module files (frontend)
@@ -51,8 +51,8 @@ export default [
       sourceType: 'module',
       globals: {
         ...globals.browser,
-        ...globals.es2021
-      }
-    }
-  }
+        ...globals.es2021,
+      },
+    },
+  },
 ];

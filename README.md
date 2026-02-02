@@ -13,15 +13,15 @@ Investment-grade LEGO set portfolio tracker with multi-source pricing, historica
 
 ## Live Dashboard
 
-[View Dashboard](https://lego-portfolio.vercel.app) *(if deployed)*
+[View Dashboard](https://lego-portfolio.vercel.app) _(if deployed)_
 
 ## Data Sources
 
-| Source | Data Type | Method |
-|--------|-----------|--------|
-| BrickEconomy | Price history, trends | Browser scraping |
-| BrickLink | Market prices, inventory | API/scraping |
-| eBay | Sold prices, demand | Search scraping |
+| Source       | Data Type                | Method           |
+| ------------ | ------------------------ | ---------------- |
+| BrickEconomy | Price history, trends    | Browser scraping |
+| BrickLink    | Market prices, inventory | API/scraping     |
+| eBay         | Sold prices, demand      | Search scraping  |
 
 ## Structure
 
@@ -77,6 +77,7 @@ node scripts/full-scrape.js
 ## Deployment
 
 Deploy to Vercel:
+
 ```bash
 vercel --prod
 ```

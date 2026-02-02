@@ -2,7 +2,7 @@
 /**
  * Daily Portfolio Snapshot Script
  * Saves a snapshot of the current portfolio value for historical tracking
- * 
+ *
  * Usage: node daily-snapshot.js
  * Can be run via cron daily
  */
@@ -32,9 +32,9 @@ const snapshot = {
     totalPaid: portfolio.summary.total_paid,
     totalGain: portfolio.summary.total_gain_eur,
     totalGainPct: portfolio.summary.total_gain_pct,
-    setCount: Object.keys(portfolio.sets).length
+    setCount: Object.keys(portfolio.sets).length,
   },
-  setValues: {}
+  setValues: {},
 };
 
 // Record individual set values
@@ -43,7 +43,7 @@ for (const [setId, setData] of Object.entries(portfolio.sets)) {
     name: setData.name,
     value: setData.value,
     qty: setData.qty_new + setData.qty_used,
-    growthPct: setData.growth_pct
+    growthPct: setData.growth_pct,
   };
 }
 
@@ -65,12 +65,12 @@ if (fs.existsSync(historyPath)) {
 }
 
 // Add today's summary to history (avoid duplicates)
-const existingIndex = history.findIndex(h => h.date === today);
+const existingIndex = history.findIndex((h) => h.date === today);
 const historyEntry = {
   date: today,
   totalValue: snapshot.summary.totalValue,
   totalGainPct: snapshot.summary.totalGainPct,
-  setCount: snapshot.summary.setCount
+  setCount: snapshot.summary.setCount,
 };
 
 if (existingIndex >= 0) {
@@ -85,4 +85,6 @@ history.sort((a, b) => a.date.localeCompare(b.date));
 fs.writeFileSync(historyPath, JSON.stringify(history, null, 2));
 console.log(`History updated: ${historyPath}`);
 console.log(`Total snapshots: ${history.length}`);
-console.log(`Current portfolio value: €${snapshot.summary.totalValue.toFixed(2)}`);
+console.log(
+  `Current portfolio value: €${snapshot.summary.totalValue.toFixed(2)}`
+);
