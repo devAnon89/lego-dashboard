@@ -81,6 +81,12 @@
           <option value="24">2 Years</option>
           <option value="all">All Time</option>
         </select>
+        <span class="text-xs text-gray-400 ml-2">Benchmark:</span>
+        <select id="benchmarkSelector" class="bg-gray-800 border border-gray-700 rounded px-2 py-1 text-sm" onchange="updateBenchmark()">
+          <option value="none" selected>None</option>
+          <option value="overall">Overall Market</option>
+          <option value="theme">Theme-Specific</option>
+        </select>
       </div>
     </div>
     <div class="h-64">
@@ -485,6 +491,11 @@
 
     function updateHistoryChart() {
       renderHistoryChart();
+    }
+
+    function updateBenchmark() {
+      // TODO: Implement benchmark comparison logic
+      // Will be implemented in subsequent subtasks
     }
 
     function renderProjectedPerformers(containerId, sets, isTop) {
