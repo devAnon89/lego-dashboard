@@ -733,6 +733,42 @@
           </div>
         </div>
 
+        <div class="bg-gray-800 rounded-lg p-4 mb-6">
+          <h3 class="font-semibold mb-3 flex items-center gap-2">📦 Purchase History</h3>
+          ${s.purchaseHistory && s.purchaseHistory.length > 0 ? `
+            <div class="overflow-x-auto">
+              <table class="w-full text-sm">
+                <thead>
+                  <tr class="border-b border-gray-700">
+                    <th class="text-left py-2 px-3 text-gray-400 font-medium">Date</th>
+                    <th class="text-left py-2 px-3 text-gray-400 font-medium">Price</th>
+                    <th class="text-left py-2 px-3 text-gray-400 font-medium">Quantity</th>
+                    <th class="text-left py-2 px-3 text-gray-400 font-medium">Seller</th>
+                    <th class="text-left py-2 px-3 text-gray-400 font-medium">Condition</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${s.purchaseHistory.map(purchase => `
+                    <tr class="border-b border-gray-700/50">
+                      <td class="py-2 px-3 text-gray-300">${purchase.date || '-'}</td>
+                      <td class="py-2 px-3 text-white font-medium">€${purchase.price ? purchase.price.toLocaleString('de-DE', {minimumFractionDigits: 2}) : '-'}</td>
+                      <td class="py-2 px-3 text-gray-300">${purchase.quantity || '-'}</td>
+                      <td class="py-2 px-3 text-gray-300">${purchase.seller || '-'}</td>
+                      <td class="py-2 px-3">
+                        <span class="px-2 py-1 rounded text-xs ${purchase.condition === 'New' ? 'bg-green-500/20 text-green-400' : 'bg-blue-500/20 text-blue-400'}">
+                          ${purchase.condition || '-'}
+                        </span>
+                      </td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+            </div>
+          ` : `
+            <p class="text-gray-400 text-sm">No purchase history recorded</p>
+          `}
+        </div>
+
         ${s.purchaseDate ? `<div class="bg-gray-800 rounded-lg p-4 mb-4"><span class="text-gray-400">📅 Purchase Date:</span> <span class="text-white">${s.purchaseDate}</span></div>` : ''}
         ${s.notes ? `<div class="bg-gray-800 rounded-lg p-4"><h3 class="font-semibold mb-2">📝 Notes</h3><p class="text-gray-300">${s.notes}</p></div>` : ''}
       `;
