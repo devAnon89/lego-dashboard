@@ -22,5 +22,29 @@
       "success": false,
       "skipped": true
     }
+  },
+  {
+    "runId": "dry-run-1769993865799",
+    "mode": "dry-run",
+    "startTime": "2026-02-02T00:57:45.799Z",
+    "endTime": "2026-02-02T00:57:45.799Z",
+    "durationMs": 0,
+    "status": "success",
+    "portfolio": {
+      "loaded": false,
+      "setsCount": 0
+    },
+    "brickeconomy": {
+      "success": false,
+      "skipped": true
+    },
+    "ebay": {
+      "success": false,
+      "skipped": true
+    },
+    "snapshot": {
+      "success": false,
+      "skipped": true
+    }
   }
 ]
