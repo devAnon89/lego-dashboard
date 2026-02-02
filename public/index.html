@@ -39,7 +39,7 @@
   </header>
 
   <!-- Summary Cards -->
-  <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8" id="summaryCards">
+  <div class="grid grid-cols-2 md:grid-cols-6 gap-4 mb-8" id="summaryCards">
     <div class="card rounded-xl p-4">
       <div class="text-gray-400 text-sm">Total Value</div>
       <div class="text-2xl font-bold text-white" id="totalValue">-</div>
@@ -68,6 +68,11 @@
       <div class="text-2xl font-bold text-purple-400" id="forecast1yr">-</div>
       <div class="text-sm text-purple-300" id="forecast1yrGrowth"></div>
     </div>
+    <div class="card rounded-xl p-4" id="alphaCard">
+      <div class="text-gray-400 text-sm">Alpha</div>
+      <div class="text-2xl font-bold" id="alphaValue">-</div>
+      <div class="text-sm text-gray-500" id="alphaLabel">vs Market</div>
+    </div>
   </div>
 
   <!-- Portfolio History Chart -->
@@ -81,6 +86,15 @@
           <option value="12" selected>1 Year</option>
           <option value="24">2 Years</option>
           <option value="all">All Time</option>
+        </select>
+        <span class="text-xs text-gray-400 ml-2">Benchmark:</span>
+        <select id="benchmarkSelector" class="bg-gray-800 border border-gray-700 rounded px-2 py-1 text-sm" onchange="updateBenchmark()">
+          <option value="none" selected>None</option>
+          <option value="overall">Overall Market</option>
+          <option value="theme">Theme-Specific</option>
+        </select>
+        <select id="themeBenchmarkSelector" class="bg-gray-800 border border-gray-700 rounded px-2 py-1 text-sm" onchange="updateBenchmark()" style="display: none;">
+          <option value="">Select Theme...</option>
         </select>
       </div>
     </div>
@@ -226,6 +240,7 @@
     let currentTab = 'all';
     let currentFilter = '';
     let historyChart = null;
+    let selectedBenchmarkTheme = null;
 
     // Transform new data format to expected format
     function transformPortfolio(data) {
@@ -272,6 +287,13 @@
         analysis = await fetch('data/deep-analysis.json').then(r => r.json());
         try {
           priceHistory = await fetch('data/price-history.json').then(r => r.json());
+          // Load and attach market benchmarks
+          try {
+            const benchmarkData = await fetch('data/market-benchmarks.json').then(r => r.json());
+            priceHistory.benchmarks = transformBenchmarks(benchmarkData);
+          } catch (e) {
+            priceHistory.benchmarks = null;
+          }
         } catch (e) {
           priceHistory = null;
         }
@@ -280,6 +302,36 @@
         console.error('Failed to load data:', e);
         document.getElementById('setsGrid').innerHTML = '<div class="text-red-400">Failed to load portfolio data</div>';
       }
+    }
+
+    // Transform benchmark data to indexed format
+    function transformBenchmarks(benchmarkData) {
+      const result = {
+        overall: {},
+        themes: {}
+      };
+
+      // Transform overall market benchmark
+      if (benchmarkData.benchmarks && benchmarkData.benchmarks.overall_market) {
+        benchmarkData.benchmarks.overall_market.indexHistory.forEach(entry => {
+          const month = entry.date.substring(0, 7);
+          result.overall[month] = entry.value;
+        });
+      }
+
+      // Store each theme benchmark separately
+      const availableThemes = ['technic', 'icons', 'star_wars', 'speed_champions', 'super_mario'];
+      availableThemes.forEach(theme => {
+        if (benchmarkData.benchmarks && benchmarkData.benchmarks[theme]) {
+          result.themes[theme] = {};
+          benchmarkData.benchmarks[theme].indexHistory.forEach(entry => {
+            const month = entry.date.substring(0, 7);
+            result.themes[theme][month] = entry.value;
+          });
+        }
+      });
+
+      return result;
     }
 
     function renderDashboard() {
@@ -376,8 +428,25 @@
       // Theme filter
       const themes = [...new Set(sets.map(s => s.theme.split(' / ')[0]))].sort();
       const themeSelect = document.getElementById('themeFilter');
-      themeSelect.innerHTML = '<option value="">All Themes</option>' + 
+      themeSelect.innerHTML = '<option value="">All Themes</option>' +
         themes.map(t => `<option value="${t}">${t}</option>`).join('');
+
+      // Populate theme benchmark selector
+      if (priceHistory && priceHistory.benchmarks && priceHistory.benchmarks.themes) {
+        const availableThemes = Object.keys(priceHistory.benchmarks.themes).sort();
+        const themeBenchmarkSelect = document.getElementById('themeBenchmarkSelector');
+        themeBenchmarkSelect.innerHTML = '<option value="">Select Theme...</option>' +
+          availableThemes.map(t => {
+            const displayName = t.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+            return `<option value="${t}">${displayName}</option>`;
+          }).join('');
+
+        // Set default to first available theme
+        if (availableThemes.length > 0 && !selectedBenchmarkTheme) {
+          selectedBenchmarkTheme = availableThemes[0];
+          themeBenchmarkSelect.value = selectedBenchmarkTheme;
+        }
+      }
 
       // Last updated
       document.getElementById('lastUpdated').textContent = 'Updated: ' + new Date(portfolio.summary.last_updated).toLocaleString();
@@ -397,10 +466,11 @@
 
       const range = document.getElementById('historyRange').value;
       const months = range === 'all' ? 999 : parseInt(range);
-      
+      const benchmarkType = document.getElementById('benchmarkSelector').value;
+
       // Aggregate portfolio value by month
       const monthlyData = {};
-      
+
       // Get all unique dates across all sets
       const allDates = new Set();
       Object.values(priceHistory.sets).forEach(set => {
@@ -408,10 +478,10 @@
           set.priceHistory.forEach(p => allDates.add(p.date.substring(0, 7)));
         }
       });
-      
+
       const sortedDates = Array.from(allDates).sort();
       const recentDates = sortedDates.slice(-months);
-      
+
       recentDates.forEach(month => {
         let totalValue = 0;
         Object.entries(portfolio.sets).forEach(([setId, setData]) => {
@@ -430,14 +500,45 @@
         });
         monthlyData[month] = totalValue;
       });
-      
+
       const labels = Object.keys(monthlyData);
       const values = Object.values(monthlyData);
-      
+
+      // Prepare datasets
+      const datasets = [{
+        label: 'Portfolio',
+        data: values,
+        borderColor: '#8b5cf6',
+        backgroundColor: 'rgba(139, 92, 246, 0.1)',
+        fill: benchmarkType === 'none',
+        tension: 0.4,
+        pointRadius: 2,
+        pointHoverRadius: 6
+      }];
+
+      // Add benchmark data if selected
+      if (benchmarkType !== 'none' && priceHistory.benchmarks) {
+        const benchmarkData = calculateBenchmarkData(benchmarkType, recentDates, monthlyData);
+        if (benchmarkData) {
+          const benchmarkColor = benchmarkType === 'overall' ? '#f97316' : '#3b82f6';
+          datasets.push({
+            label: benchmarkType === 'overall' ? 'Overall Market' : 'Theme Average',
+            data: benchmarkData,
+            borderColor: benchmarkColor,
+            backgroundColor: 'rgba(0, 0, 0, 0)',
+            fill: false,
+            tension: 0.4,
+            pointRadius: 2,
+            pointHoverRadius: 6,
+            borderDash: [5, 5]
+          });
+        }
+      }
+
       const ctx = document.getElementById('historyChart').getContext('2d');
-      
+
       if (historyChart) historyChart.destroy();
-      
+
       historyChart = new Chart(ctx, {
         type: 'line',
         data: {
@@ -445,25 +546,22 @@
             const [y, m] = d.split('-');
             return new Date(y, m-1).toLocaleDateString('en-US', { month: 'short', year: '2-digit' });
           }),
-          datasets: [{
-            label: 'Portfolio Value (€)',
-            data: values,
-            borderColor: '#8b5cf6',
-            backgroundColor: 'rgba(139, 92, 246, 0.1)',
-            fill: true,
-            tension: 0.4,
-            pointRadius: 2,
-            pointHoverRadius: 6
-          }]
+          datasets: datasets
         },
         options: {
           responsive: true,
           maintainAspectRatio: false,
           plugins: {
-            legend: { display: false },
+            legend: {
+              display: benchmarkType !== 'none',
+              labels: {
+                color: '#9ca3af',
+                font: { size: 12 }
+              }
+            },
             tooltip: {
               callbacks: {
-                label: (ctx) => '€' + ctx.raw.toLocaleString('de-DE', {minimumFractionDigits: 2})
+                label: (ctx) => ctx.dataset.label + ': €' + ctx.raw.toLocaleString('de-DE', {minimumFractionDigits: 2})
               }
             }
           },
@@ -482,10 +580,198 @@
           }
         }
       });
+
+      calculateAndDisplayAlpha();
+    }
+
+    function calculateBenchmarkData(benchmarkType, dates, portfolioData) {
+      if (!priceHistory.benchmarks) return null;
+
+      if (benchmarkType === 'overall') {
+        // Use overall market benchmark
+        const overallBenchmark = priceHistory.benchmarks.overall;
+        if (!overallBenchmark) return null;
+
+        // Normalize to portfolio's starting value
+        const portfolioValues = Object.values(portfolioData);
+        const startValue = portfolioValues[0];
+        const benchmarkStart = overallBenchmark[dates[0]];
+        if (!benchmarkStart) return null;
+
+        return dates.map(date => {
+          const benchmarkValue = overallBenchmark[date];
+          if (!benchmarkValue) return null;
+          return startValue * (benchmarkValue / benchmarkStart);
+        });
+      } else if (benchmarkType === 'theme') {
+        // Use selected theme-specific benchmark
+        if (!selectedBenchmarkTheme || !priceHistory.benchmarks.themes[selectedBenchmarkTheme]) {
+          return null;
+        }
+
+        const themeBenchmark = priceHistory.benchmarks.themes[selectedBenchmarkTheme];
+        if (!themeBenchmark) return null;
+
+        // Normalize to portfolio's starting value
+        const portfolioValues = Object.values(portfolioData);
+        const startValue = portfolioValues[0];
+        const benchmarkStart = themeBenchmark[dates[0]];
+        if (!benchmarkStart) return null;
+
+        return dates.map(date => {
+          const benchmarkValue = themeBenchmark[date];
+          if (!benchmarkValue) return null;
+          return startValue * (benchmarkValue / benchmarkStart);
+        });
+      }
+
+      return null;
     }
 
     function updateHistoryChart() {
       renderHistoryChart();
+    }
+
+    function updateBenchmark() {
+      const benchmarkType = document.getElementById('benchmarkSelector').value;
+      const themeBenchmarkSelector = document.getElementById('themeBenchmarkSelector');
+
+      // Show/hide theme selector based on benchmark type
+      if (benchmarkType === 'theme') {
+        themeBenchmarkSelector.style.display = 'inline-block';
+        // Update selected theme
+        if (themeBenchmarkSelector.value) {
+          selectedBenchmarkTheme = themeBenchmarkSelector.value;
+        }
+      } else {
+        themeBenchmarkSelector.style.display = 'none';
+      }
+
+      renderHistoryChart();
+    }
+
+    function calculateAndDisplayAlpha() {
+      const benchmarkType = document.getElementById('benchmarkSelector').value;
+      const alphaCard = document.getElementById('alphaCard');
+      const alphaValue = document.getElementById('alphaValue');
+      const alphaLabel = document.getElementById('alphaLabel');
+
+      if (benchmarkType === 'none' || !priceHistory || !priceHistory.benchmarks) {
+        alphaValue.textContent = '-';
+        alphaLabel.textContent = 'vs Market';
+        alphaCard.classList.remove('glow-green', 'glow-red');
+        alphaValue.className = 'text-2xl font-bold text-gray-400';
+        return;
+      }
+
+      const range = document.getElementById('historyRange').value;
+      const months = range === 'all' ? 999 : parseInt(range);
+
+      // Get portfolio monthly data
+      const monthlyData = {};
+      const allDates = new Set();
+      Object.values(priceHistory.sets).forEach(set => {
+        if (set.priceHistory) {
+          set.priceHistory.forEach(p => allDates.add(p.date.substring(0, 7)));
+        }
+      });
+
+      const sortedDates = Array.from(allDates).sort();
+      const recentDates = sortedDates.slice(-months);
+
+      if (recentDates.length < 2) {
+        alphaValue.textContent = '-';
+        alphaLabel.textContent = 'Insufficient data';
+        alphaCard.classList.remove('glow-green', 'glow-red');
+        alphaValue.className = 'text-2xl font-bold text-gray-400';
+        return;
+      }
+
+      // Calculate portfolio values for the period
+      recentDates.forEach(month => {
+        let totalValue = 0;
+        Object.entries(portfolio.sets).forEach(([setId, setData]) => {
+          const qty = (setData.qty_new || 0) + (setData.qty_used || 0);
+          const historySet = priceHistory.sets[setId];
+          if (historySet && historySet.priceHistory) {
+            const monthData = historySet.priceHistory.find(p => p.date.startsWith(month));
+            if (monthData) {
+              totalValue += monthData.newValue * qty;
+            } else {
+              totalValue += setData.value;
+            }
+          } else {
+            totalValue += setData.value;
+          }
+        });
+        monthlyData[month] = totalValue;
+      });
+
+      const portfolioValues = Object.values(monthlyData);
+      const portfolioStart = portfolioValues[0];
+      const portfolioEnd = portfolioValues[portfolioValues.length - 1];
+      const portfolioReturn = ((portfolioEnd - portfolioStart) / portfolioStart) * 100;
+
+      // Get benchmark return
+      let benchmark;
+      if (benchmarkType === 'overall') {
+        benchmark = priceHistory.benchmarks.overall;
+      } else if (benchmarkType === 'theme') {
+        if (!selectedBenchmarkTheme || !priceHistory.benchmarks.themes[selectedBenchmarkTheme]) {
+          alphaValue.textContent = '-';
+          alphaLabel.textContent = 'Select theme';
+          alphaCard.classList.remove('glow-green', 'glow-red');
+          alphaValue.className = 'text-2xl font-bold text-gray-400';
+          return;
+        }
+        benchmark = priceHistory.benchmarks.themes[selectedBenchmarkTheme];
+      }
+
+      if (!benchmark) {
+        alphaValue.textContent = '-';
+        alphaLabel.textContent = 'Benchmark unavailable';
+        alphaCard.classList.remove('glow-green', 'glow-red');
+        alphaValue.className = 'text-2xl font-bold text-gray-400';
+        return;
+      }
+
+      const benchmarkStart = benchmark[recentDates[0]];
+      const benchmarkEnd = benchmark[recentDates[recentDates.length - 1]];
+
+      if (!benchmarkStart || !benchmarkEnd) {
+        alphaValue.textContent = '-';
+        alphaLabel.textContent = 'Benchmark unavailable';
+        alphaCard.classList.remove('glow-green', 'glow-red');
+        alphaValue.className = 'text-2xl font-bold text-gray-400';
+        return;
+      }
+
+      const benchmarkReturn = ((benchmarkEnd - benchmarkStart) / benchmarkStart) * 100;
+
+      // Calculate alpha
+      const alpha = portfolioReturn - benchmarkReturn;
+
+      // Update UI
+      alphaValue.textContent = (alpha >= 0 ? '+' : '') + alpha.toFixed(2) + '%';
+      alphaValue.className = 'text-2xl font-bold ' + (alpha >= 0 ? 'text-green-400' : 'text-red-400');
+
+      // Format alpha label with theme name if applicable
+      if (benchmarkType === 'overall') {
+        alphaLabel.textContent = 'vs Market';
+      } else if (benchmarkType === 'theme' && selectedBenchmarkTheme) {
+        const themeName = selectedBenchmarkTheme.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+        alphaLabel.textContent = `vs Theme (${themeName})`;
+      } else {
+        alphaLabel.textContent = 'vs Theme';
+      }
+
+      // Apply glow effect
+      alphaCard.classList.remove('glow-green', 'glow-red');
+      if (alpha >= 0) {
+        alphaCard.classList.add('glow-green');
+      } else {
+        alphaCard.classList.add('glow-red');
+      }
     }
 
     function renderProjectedPerformers(containerId, sets, isTop) {
