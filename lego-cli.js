@@ -94,28 +94,42 @@ const commands = {
     const portfolio = loadPortfolio();
     const analysis = loadAnalysis();
     const sets = Object.entries(portfolio.sets);
-    
-    let totalValue = 0, totalPaid = 0, totalUnits = 0;
+
+    let totalValue = 0, totalPaid = 0, totalUnits = 0, totalCostBasis = 0;
     sets.forEach(([id, s]) => {
       const qty = (s.qty_new || 0) + (s.qty_used || 0);
       totalValue += (s.value || 0) * qty;
       totalPaid += (s.paid || 0) * qty;
       totalUnits += qty;
+
+      // Calculate cost basis for this set
+      const costBasis = calculateCostBasis(id);
+      if (costBasis !== null) {
+        totalCostBasis += costBasis * qty;
+      } else {
+        // Fall back to paid price if no purchase history
+        totalCostBasis += (s.paid || 0) * qty;
+      }
     });
-    
+
     const gain = totalValue - totalPaid;
     const gainPct = totalPaid > 0 ? (gain / totalPaid * 100).toFixed(1) : 0;
-    
+
+    const gainFromCostBasis = totalValue - totalCostBasis;
+    const gainFromCostBasisPct = totalCostBasis > 0 ? (gainFromCostBasis / totalCostBasis * 100).toFixed(1) : 0;
+
     const buys = Object.values(analysis).filter(a => a.action === 'BUY').length;
     const holds = Object.values(analysis).filter(a => a.action === 'HOLD').length;
     const sells = Object.values(analysis).filter(a => a.action === 'SELL').length;
-    
+
     console.log('\n🧱 LEGO INVESTMENT PORTFOLIO');
     console.log('═'.repeat(50));
     console.log(`📦 Sets: ${sets.length} unique (${totalUnits} units)`);
     console.log(`💰 Value: €${totalValue.toFixed(2)}`);
     console.log(`💵 Invested: €${totalPaid.toFixed(2)}`);
+    console.log(`💶 Cost Basis: €${totalCostBasis.toFixed(2)}`);
     console.log(`📈 Gain: €${gain.toFixed(2)} (${gain >= 0 ? '+' : ''}${gainPct}%)`);
+    console.log(`📊 Gain (Cost Basis): €${gainFromCostBasis.toFixed(2)} (${gainFromCostBasis >= 0 ? '+' : ''}${gainFromCostBasisPct}%)`);
     console.log('─'.repeat(50));
     console.log(`🟢 BUY: ${buys}  |  ⏳ HOLD: ${holds}  |  🔴 SELL: ${sells}`);
     console.log('═'.repeat(50));
