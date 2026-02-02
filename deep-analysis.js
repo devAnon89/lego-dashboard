@@ -21,7 +21,8 @@ For EACH set, provide:
 5. PRICE_ENTRY: excellent/good/fair/poor based on paid vs retail
 6. ACTION: BUY/HOLD/SELL with confidence (high/medium/low)
 7. RETIREMENT_WINDOW: Estimated quarter when set will retire (Q1 2026, Q2 2026, etc.) based on retirement_risk - higher risk = sooner window
-8. ONE_LINER: Brief investment thesis
+8. RETIREMENT_CONFIDENCE: Confidence in retirement prediction (high/medium/low) - based on data quality and market signals
+9. ONE_LINER: Brief investment thesis
 
 Return JSON object with set IDs as keys:
 {
@@ -34,6 +35,7 @@ Return JSON object with set IDs as keys:
     "action": "HOLD",
     "confidence": "high",
     "retirement_window": "Q3 2026",
+    "retirement_confidence": "medium",
     "thesis": "..."
   }
 }`;
@@ -74,7 +76,10 @@ async function main() {
         "action": "HOLD",
         "confidence": "high",
         "retirement_window": "Q2 2026",
-        "thesis": "Strong Star Wars UCS set with high collector appeal"
+        "retirement_confidence": "medium",
+        "thesis": "Strong Star Wars UCS set with high collector appeal",
+        "last_updated": new Date().toISOString(),
+        "confidence_level": "medium"
       }
     };
     console.log(JSON.stringify(sampleResult, null, 2));
@@ -92,6 +97,12 @@ async function main() {
     
     try {
       const batchResults = await analyzeBatch(batch);
+      // Add timestamp and map retirement_confidence to confidence_level
+      const timestamp = new Date().toISOString();
+      Object.keys(batchResults).forEach(setId => {
+        batchResults[setId].last_updated = timestamp;
+        batchResults[setId].confidence_level = batchResults[setId].retirement_confidence;
+      });
       Object.assign(results, batchResults);
       console.log('✓');
     } catch (err) {
