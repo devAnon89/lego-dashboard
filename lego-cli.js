@@ -11,6 +11,7 @@ const DATA_DIR = path.join(__dirname, 'data');
 const PORTFOLIO_FILE = path.join(DATA_DIR, 'portfolio.json');
 const ANALYSIS_FILE = path.join(DATA_DIR, 'deep-analysis.json');
 const PURCHASES_FILE = path.join(DATA_DIR, 'purchases.json');
+const SALES_FILE = path.join(DATA_DIR, 'sales.json');
 
 // Load data
 function loadPortfolio() {
@@ -55,6 +56,18 @@ function loadPurchases() {
 
 function savePurchases(data) {
   fs.writeFileSync(PURCHASES_FILE, JSON.stringify(data, null, 2));
+}
+
+function loadSales() {
+  try {
+    return JSON.parse(fs.readFileSync(SALES_FILE, 'utf8'));
+  } catch {
+    return { sales: [] };
+  }
+}
+
+function saveSales(data) {
+  fs.writeFileSync(SALES_FILE, JSON.stringify(data, null, 2));
 }
 
 function parseFlags(args) {
@@ -335,6 +348,86 @@ const commands = {
     console.log('═'.repeat(50));
   },
 
+  sell: (setId, ...flagArgs) => {
+    if (!setId) {
+      console.log('Usage: lego sell <set_id> --date YYYY-MM-DD --price <price> --qty <qty> --buyer <buyer>');
+      return;
+    }
+
+    const flags = parseFlags(flagArgs);
+
+    // Validate required fields
+    if (!flags.date || !flags.price || !flags.qty || !flags.buyer) {
+      console.log('❌ Missing required fields. All of --date, --price, --qty, --buyer are required.');
+      return;
+    }
+
+    const portfolio = loadPortfolio();
+    const salesData = loadSales();
+
+    // Get set name for display
+    const set = portfolio.sets[setId] || portfolio.sets[setId + '-1'];
+    const setName = set ? set.name : setId;
+
+    // Calculate cost basis
+    const actualSetId = portfolio.sets[setId] ? setId : setId + '-1';
+    const costBasis = calculateCostBasis(actualSetId);
+
+    if (costBasis === null) {
+      console.log('⚠️  Warning: No purchase history found. Cannot calculate realized gain.');
+    }
+
+    const salePrice = parseFloat(flags.price);
+    const saleQty = parseInt(flags.qty);
+    const totalSaleAmount = salePrice * saleQty;
+
+    // Calculate realized gain
+    let realizedGain = null;
+    let realizedGainPct = null;
+    if (costBasis !== null) {
+      const totalCostBasis = costBasis * saleQty;
+      realizedGain = totalSaleAmount - totalCostBasis;
+      realizedGainPct = (realizedGain / totalCostBasis) * 100;
+    }
+
+    // Create sale record
+    const sale = {
+      id: Date.now().toString(),
+      setId: actualSetId,
+      date: flags.date,
+      price: salePrice,
+      qty: saleQty,
+      buyer: flags.buyer,
+      costBasis: costBasis,
+      realizedGain: realizedGain,
+      notes: flags.notes || ''
+    };
+
+    // Add to sales array
+    salesData.sales.push(sale);
+
+    // Save
+    saveSales(salesData);
+
+    // Display result
+    console.log(`\n💰 SALE RECORDED`);
+    console.log('═'.repeat(50));
+    console.log(`Set: ${setName}`);
+    console.log(`Date: ${flags.date}`);
+    console.log(`Sale Price: €${salePrice.toFixed(2)} × ${saleQty} = €${totalSaleAmount.toFixed(2)}`);
+    console.log(`Buyer: ${flags.buyer}`);
+
+    if (costBasis !== null) {
+      console.log('─'.repeat(50));
+      console.log(`Cost Basis: €${costBasis.toFixed(2)} per unit`);
+      console.log(`Total Cost: €${(costBasis * saleQty).toFixed(2)}`);
+      console.log(`Realized Gain: €${realizedGain.toFixed(2)} (${realizedGainPct >= 0 ? '+' : ''}${realizedGainPct.toFixed(1)}%)`);
+    }
+
+    console.log('═'.repeat(50));
+    console.log('✅ Sale recorded successfully');
+  },
+
   refresh: async () => {
     console.log('🔄 Running AI analysis...');
     const { execSync } = require('child_process');
@@ -397,6 +490,7 @@ Commands:
   themes            Portfolio breakdown by theme
   add-purchase      Record a new purchase
   purchases         View purchase history for a set
+  sell              Record a sale/disposal
   refresh           Re-run AI analysis on all sets
   serve             Start dashboard web server
   help              Show this help
@@ -407,6 +501,7 @@ Examples:
   node lego-cli.js recommendations
   node lego-cli.js add-purchase 10316-1 --date 2024-01-15 --price 414 --qty 1 --seller 'BrickLink' --condition 'New'
   node lego-cli.js purchases 10316-1
+  node lego-cli.js sell 10316-1 --date 2025-01-15 --price 450 --qty 1 --buyer 'eBay'
     `);
   }
 };
