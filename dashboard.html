@@ -20,19 +20,94 @@
     ::-webkit-scrollbar { width: 8px; }
     ::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); }
     ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 4px; }
+
+    /* Mobile Navigation Styles */
+    .mobile-menu-btn { display: none; }
+    .mobile-nav {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 280px;
+      height: 100vh;
+      background: rgba(26, 26, 46, 0.98);
+      backdrop-filter: blur(20px);
+      border-left: 1px solid rgba(255,255,255,0.1);
+      transition: right 0.3s ease-in-out;
+      z-index: 1000;
+      padding: 20px;
+      overflow-y: auto;
+    }
+    .mobile-nav.active { right: 0; }
+    .mobile-nav-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: rgba(0,0,0,0.5);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+      z-index: 999;
+    }
+    .mobile-nav-backdrop.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    @media (max-width: 768px) {
+      .mobile-menu-btn { display: flex; }
+      .desktop-nav { display: none; }
+    }
   </style>
 </head>
 <body class="min-h-screen text-white p-4 md:p-8">
+  <!-- Mobile Navigation Backdrop -->
+  <div class="mobile-nav-backdrop" id="mobileNavBackdrop" onclick="toggleMobileNav()"></div>
+
+  <!-- Mobile Navigation Drawer -->
+  <nav class="mobile-nav" id="mobileNav">
+    <div class="flex items-center justify-between mb-6">
+      <h2 class="text-xl font-bold">Menu</h2>
+      <button onclick="toggleMobileNav()" class="text-gray-400 hover:text-white p-2">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+    <div class="space-y-4">
+      <button onclick="refreshData(); toggleMobileNav();" class="w-full px-4 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg text-sm font-medium transition flex items-center gap-2">
+        <span>🔄</span>
+        <span>Refresh Data</span>
+      </button>
+      <div class="border-t border-gray-700 pt-4">
+        <p class="text-xs text-gray-400 mb-2">Quick Actions</p>
+        <button onclick="switchTab('buy'); toggleMobileNav();" class="w-full px-4 py-2 text-left text-sm hover:bg-white/5 rounded transition">🟢 View Buy Recommendations</button>
+        <button onclick="switchTab('hold'); toggleMobileNav();" class="w-full px-4 py-2 text-left text-sm hover:bg-white/5 rounded transition">⏳ View Hold Positions</button>
+        <button onclick="switchTab('sell'); toggleMobileNav();" class="w-full px-4 py-2 text-left text-sm hover:bg-white/5 rounded transition">🔴 View Sell Candidates</button>
+      </div>
+    </div>
+  </nav>
+
   <!-- Header -->
   <header class="mb-8">
     <div class="flex items-center justify-between flex-wrap gap-4">
-      <div>
+      <div class="flex-1">
         <h1 class="text-3xl md:text-4xl font-bold">🧱 LEGO Investment Dashboard</h1>
         <p class="text-gray-400 mt-1">AI-Powered Portfolio Analysis with BrickEconomy ML Predictions</p>
       </div>
       <div class="flex items-center gap-4">
-        <span class="text-sm text-gray-400" id="lastUpdated"></span>
-        <button onclick="refreshData()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg text-sm font-medium transition">🔄 Refresh</button>
+        <!-- Desktop Navigation -->
+        <div class="desktop-nav flex items-center gap-4">
+          <span class="text-sm text-gray-400" id="lastUpdated"></span>
+          <button onclick="refreshData()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg text-sm font-medium transition">🔄 Refresh</button>
+        </div>
+        <!-- Mobile Menu Button -->
+        <button onclick="toggleMobileNav()" class="mobile-menu-btn items-center justify-center p-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
       </div>
     </div>
   </header>
@@ -225,6 +300,14 @@
     let currentTab = 'all';
     let currentFilter = '';
     let historyChart = null;
+
+    // Mobile navigation toggle
+    function toggleMobileNav() {
+      const nav = document.getElementById('mobileNav');
+      const backdrop = document.getElementById('mobileNavBackdrop');
+      nav.classList.toggle('active');
+      backdrop.classList.toggle('active');
+    }
 
     // Transform new data format to expected format
     function transformPortfolio(data) {
