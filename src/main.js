@@ -252,6 +252,9 @@ function renderDashboard() {
   // Render history chart
   renderHistoryChart();
 
+  // Render AI prediction summary
+  renderAIPredictionSummary(sets);
+
   // Render sets
   filterSets();
 }
@@ -363,6 +366,111 @@ function renderHistoryChart() {
 
 function updateHistoryChart() {
   renderHistoryChart();
+}
+
+function renderAIPredictionSummary(sets) {
+  // Get AI prediction data
+  const setsWithAI = sets.filter(
+    (s) => s.predictions?.aiConfidence || s.predictions?.aiReasoning
+  );
+
+  const aiSection = document.getElementById('aiPredictionSection');
+  if (!aiSection) return;
+
+  if (setsWithAI.length === 0) {
+    // No AI predictions available
+    document.getElementById('aiSetsAnalyzed').textContent = '0';
+    document.getElementById('aiAvgConfidence').textContent = 'N/A';
+    document.getElementById('aiDataSource').textContent = 'No data';
+    document.getElementById('aiLastUpdated').textContent = 'Never';
+    document.getElementById('aiConfidenceBadge').className =
+      'px-3 py-1 rounded-full text-xs font-medium bg-gray-700/50 text-gray-400';
+    document.getElementById('aiConfidenceBadge').textContent = 'No AI Data';
+    return;
+  }
+
+  // Count confidence levels
+  let highCount = 0;
+  let mediumCount = 0;
+  let lowCount = 0;
+
+  setsWithAI.forEach((s) => {
+    const confidence = (s.predictions?.aiConfidence || '').toLowerCase();
+    if (confidence === 'high') highCount++;
+    else if (confidence === 'medium') mediumCount++;
+    else lowCount++;
+  });
+
+  const total = setsWithAI.length;
+
+  // Update counts and progress bars
+  document.getElementById('aiHighCount').textContent = highCount;
+  document.getElementById('aiMediumCount').textContent = mediumCount;
+  document.getElementById('aiLowCount').textContent = lowCount;
+
+  document.getElementById('aiHighBar').style.width =
+    ((highCount / total) * 100).toFixed(1) + '%';
+  document.getElementById('aiMediumBar').style.width =
+    ((mediumCount / total) * 100).toFixed(1) + '%';
+  document.getElementById('aiLowBar').style.width =
+    ((lowCount / total) * 100).toFixed(1) + '%';
+
+  // Determine overall confidence
+  let overallConfidence = 'medium';
+  if (highCount > mediumCount && highCount > lowCount) {
+    overallConfidence = 'high';
+  } else if (lowCount > mediumCount && lowCount > highCount) {
+    overallConfidence = 'low';
+  }
+
+  // Update confidence badge
+  const confidenceBadge = document.getElementById('aiConfidenceBadge');
+  const badgeColors = {
+    high: 'bg-green-500/20 text-green-400 border border-green-500/30',
+    medium: 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30',
+    low: 'bg-red-500/20 text-red-400 border border-red-500/30',
+  };
+  confidenceBadge.className =
+    'px-3 py-1 rounded-full text-xs font-medium ' + badgeColors[overallConfidence];
+  confidenceBadge.textContent =
+    overallConfidence.charAt(0).toUpperCase() + overallConfidence.slice(1) + ' Confidence';
+
+  // Update stats
+  document.getElementById('aiSetsAnalyzed').textContent = setsWithAI.length;
+  document.getElementById('aiAvgConfidence').textContent =
+    overallConfidence.charAt(0).toUpperCase() + overallConfidence.slice(1);
+
+  // Get source and timestamp from cache
+  if (aiPredictions && aiPredictions.metadata) {
+    document.getElementById('aiDataSource').textContent =
+      aiPredictions.metadata.source || 'OpenAI';
+    if (aiPredictions.metadata.lastUpdated) {
+      document.getElementById('aiLastUpdated').textContent = new Date(
+        aiPredictions.metadata.lastUpdated
+      ).toLocaleString();
+    }
+  } else if (setsWithAI[0]?.predictions?.aiSource) {
+    document.getElementById('aiDataSource').textContent =
+      setsWithAI[0].predictions.aiSource;
+    if (setsWithAI[0].predictions.aiCachedAt) {
+      document.getElementById('aiLastUpdated').textContent = new Date(
+        setsWithAI[0].predictions.aiCachedAt
+      ).toLocaleString();
+    }
+  }
+
+  // Create reasoning summary from top predictions
+  const reasoningSamples = setsWithAI
+    .filter((s) => s.predictions?.aiReasoning)
+    .slice(0, 3)
+    .map((s) => `• ${s.name}: ${(s.predictions.aiReasoning || '').slice(0, 100)}...`);
+
+  if (reasoningSamples.length > 0) {
+    document.getElementById('aiReasoningSummary').innerHTML =
+      '<strong>Recent AI insights:</strong><br>' +
+      reasoningSamples.join('<br>') +
+      '<br><span class="text-gray-400 text-xs mt-1 block">Click on any set for detailed AI reasoning.</span>';
+  }
 }
 
 function renderProjectedPerformers(containerId, sets, isTop) {
