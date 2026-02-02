@@ -1,0 +1,40 @@
+{
+  "metadata": {
+    "lastUpdated": "2026-02-02T00:50:16.479Z",
+    "source": "Marketplace Deal Finder",
+    "currency": "EUR",
+    "note": "Tracks discovered deals from various marketplaces (eBay, Amazon, BrickLink) for watchlist sets."
+  },
+  "deals": [
+    {
+      "setId": "10316-1",
+      "name": "The Lord of the Rings Rivendell",
+      "source": "BrickLink",
+      "price": 360,
+      "targetPrice": 400,
+      "discount": 10,
+      "condition": "new",
+      "seller": "MockSeller",
+      "sellerRating": 95,
+      "location": "US",
+      "listingUrl": "https://www.bricklink.com/v2/catalog/catalogitem.page?S=10316#T=S&O=%7B%22iconly%22%3A0%2C%22condition%22%3A%22N%22%2C%22loc%22%3A%22US%22%2C%22minrating%22%3A95%7D",
+      "foundAt": "2026-02-02T00:50:16.476Z",
+      "status": "active"
+    },
+    {
+      "setId": "10323-1",
+      "name": "PAC-MAN Arcade",
+      "source": "BrickLink",
+      "price": 180,
+      "targetPrice": 200,
+      "discount": 10,
+      "condition": "new",
+      "seller": "MockSeller",
+      "sellerRating": 98,
+      "location": "US",
+      "listingUrl": "https://www.bricklink.com/v2/catalog/catalogitem.page?S=10323#T=S&O=%7B%22iconly%22%3A0%2C%22condition%22%3A%22N%22%2C%22loc%22%3A%22US%22%2C%22minrating%22%3A98%7D",
+      "foundAt": "2026-02-02T00:50:16.479Z",
+      "status": "active"
+    }
+  ]
+}

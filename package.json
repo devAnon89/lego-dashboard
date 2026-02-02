@@ -1,0 +1,40 @@
+{
+  "name": "lego-portfolio-dashboard",
+  "version": "1.0.0",
+  "description": "Investment-grade LEGO set portfolio tracker with multi-source pricing, historical analysis, and market insights",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "keywords": [
+    "lego",
+    "portfolio",
+    "investment",
+    "tracking",
+    "dashboard"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "chart.js": "^4.4.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.16.0",
+    "autoprefixer": "^10.4.17",
+    "eslint": "^9.16.0",
+    "globals": "^15.13.0",
+    "postcss": "^8.4.35",
+    "prettier": "^3.2.5",
+    "tailwindcss": "^3.4.1",
+    "vite": "^5.1.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

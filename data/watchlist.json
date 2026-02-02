@@ -1,0 +1,29 @@
+{
+  "metadata": {
+    "lastUpdated": "2025-01-27T15:10:00Z",
+    "totalSets": 2,
+    "currency": "EUR"
+  },
+  "sets": [
+    {
+      "setNumber": "10316-1",
+      "name": "The Lord of the Rings Rivendell",
+      "theme": "Icons / Licensed",
+      "target_price": 400,
+      "max_price": 450,
+      "preferred_condition": "new",
+      "location_filters": ["US", "DE", "UK"],
+      "min_seller_rating": 95
+    },
+    {
+      "setNumber": "10323-1",
+      "name": "PAC-MAN Arcade",
+      "theme": "Icons / Licensed",
+      "target_price": 200,
+      "max_price": 230,
+      "preferred_condition": "new",
+      "location_filters": ["US", "DE"],
+      "min_seller_rating": 98
+    }
+  ]
+}
