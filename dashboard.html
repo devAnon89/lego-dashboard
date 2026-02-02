@@ -276,6 +276,104 @@
         font-size: 1.125rem;
       }
     }
+
+    /* Touch-Friendly Tap Targets - Minimum 44px */
+    @media (max-width: 768px) {
+      /* All buttons minimum 44px */
+      button {
+        min-height: 44px;
+        min-width: 44px;
+      }
+
+      /* Input fields and dropdowns - comfortable tap targets */
+      input[type="text"],
+      select {
+        min-height: 44px;
+        padding: 0.625rem 1rem; /* 10px 16px */
+        font-size: 1rem; /* 16px to prevent zoom on iOS */
+      }
+
+      /* Mobile menu buttons */
+      .mobile-menu-btn {
+        min-width: 44px;
+        min-height: 44px;
+        padding: 0.625rem; /* 10px */
+      }
+
+      .mobile-nav button {
+        min-height: 44px;
+        padding: 0.75rem 1rem;
+      }
+
+      /* Desktop nav buttons on mobile */
+      .desktop-nav button {
+        min-height: 44px;
+        padding: 0.625rem 1rem;
+      }
+
+      /* Tab buttons - already handled but ensuring consistency */
+      .tabs-wrapper button {
+        min-height: 44px;
+        padding: 0.75rem 1.25rem;
+      }
+
+      /* Action summary cards - clickable with good touch target */
+      .card.cursor-pointer {
+        min-height: 100px; /* Ensure adequate tap area */
+        padding: 1rem;
+      }
+
+      /* Set cards in grid - adequate tap targets */
+      #setsGrid .card {
+        min-height: 180px; /* Ensure card is large enough */
+        padding: 1rem;
+      }
+
+      /* Performer cards - rendered dynamically but styled here */
+      .bg-gray-800\/50.cursor-pointer {
+        min-height: 60px; /* Comfortable tap target */
+        padding: 0.75rem;
+      }
+
+      /* Search input specific */
+      #searchInput {
+        min-height: 44px;
+      }
+
+      /* Select dropdowns */
+      #themeFilter,
+      #sortBy,
+      #historyRange {
+        min-height: 44px;
+      }
+
+      /* Summary cards - ensure they're tappable if needed */
+      #summaryCards .card {
+        min-height: 90px;
+        padding: 0.75rem;
+      }
+    }
+
+    /* Extra touch-friendly adjustments for very small screens */
+    @media (max-width: 425px) {
+      /* Maintain 44px even on smallest screens */
+      button {
+        min-height: 44px;
+        padding: 0.625rem 1rem;
+      }
+
+      input[type="text"],
+      select {
+        min-height: 44px;
+        font-size: 1rem; /* Prevent zoom */
+      }
+
+      /* Slightly reduce card padding but keep tap target size */
+      #setsGrid .card {
+        padding: 0.875rem;
+        min-height: 180px;
+      }
+    }
   </style>
 </head>
 <body class="min-h-screen text-white p-4 md:p-8">
