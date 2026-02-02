@@ -1,4 +1,14 @@
 {
+  "accuracy_metrics": {
+    "last_updated": "2026-02-02",
+    "total_predictions": 5,
+    "correct_predictions": 0,
+    "false_positives": 0,
+    "still_monitoring": 5,
+    "retired_sets": 0,
+    "prediction_hit_rate": 0,
+    "details": []
+  },
   "10316-1": {
     "name": "10316-1",
     "history": [
