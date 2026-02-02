@@ -92,6 +92,9 @@
           <option value="overall">Overall Market</option>
           <option value="theme">Theme-Specific</option>
         </select>
+        <select id="themeBenchmarkSelector" class="bg-gray-800 border border-gray-700 rounded px-2 py-1 text-sm" onchange="updateBenchmark()" style="display: none;">
+          <option value="">Select Theme...</option>
+        </select>
       </div>
     </div>
     <div class="h-64">
@@ -236,6 +239,7 @@
     let currentTab = 'all';
     let currentFilter = '';
     let historyChart = null;
+    let selectedBenchmarkTheme = null;
 
     // Transform new data format to expected format
     function transformPortfolio(data) {
@@ -303,7 +307,7 @@
     function transformBenchmarks(benchmarkData) {
       const result = {
         overall: {},
-        theme: {}
+        themes: {}
       };
 
       // Transform overall market benchmark
@@ -314,19 +318,14 @@
         });
       }
 
-      // For theme benchmark, combine all theme-specific benchmarks
-      // Use the first available theme that matches portfolio themes
+      // Store each theme benchmark separately
       const availableThemes = ['technic', 'icons', 'star_wars', 'speed_champions', 'super_mario'];
       availableThemes.forEach(theme => {
         if (benchmarkData.benchmarks && benchmarkData.benchmarks[theme]) {
+          result.themes[theme] = {};
           benchmarkData.benchmarks[theme].indexHistory.forEach(entry => {
             const month = entry.date.substring(0, 7);
-            // Average values if multiple themes exist for same month
-            if (result.theme[month]) {
-              result.theme[month] = (result.theme[month] + entry.value) / 2;
-            } else {
-              result.theme[month] = entry.value;
-            }
+            result.themes[theme][month] = entry.value;
           });
         }
       });
@@ -428,8 +427,25 @@
       // Theme filter
       const themes = [...new Set(sets.map(s => s.theme.split(' / ')[0]))].sort();
       const themeSelect = document.getElementById('themeFilter');
-      themeSelect.innerHTML = '<option value="">All Themes</option>' + 
+      themeSelect.innerHTML = '<option value="">All Themes</option>' +
         themes.map(t => `<option value="${t}">${t}</option>`).join('');
+
+      // Populate theme benchmark selector
+      if (priceHistory && priceHistory.benchmarks && priceHistory.benchmarks.themes) {
+        const availableThemes = Object.keys(priceHistory.benchmarks.themes).sort();
+        const themeBenchmarkSelect = document.getElementById('themeBenchmarkSelector');
+        themeBenchmarkSelect.innerHTML = '<option value="">Select Theme...</option>' +
+          availableThemes.map(t => {
+            const displayName = t.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+            return `<option value="${t}">${displayName}</option>`;
+          }).join('');
+
+        // Set default to first available theme
+        if (availableThemes.length > 0 && !selectedBenchmarkTheme) {
+          selectedBenchmarkTheme = availableThemes[0];
+          themeBenchmarkSelect.value = selectedBenchmarkTheme;
+        }
+      }
 
       // Last updated
       document.getElementById('lastUpdated').textContent = 'Updated: ' + new Date(portfolio.summary.last_updated).toLocaleString();
@@ -587,8 +603,12 @@
           return startValue * (benchmarkValue / benchmarkStart);
         });
       } else if (benchmarkType === 'theme') {
-        // Use theme-specific benchmark
-        const themeBenchmark = priceHistory.benchmarks.theme;
+        // Use selected theme-specific benchmark
+        if (!selectedBenchmarkTheme || !priceHistory.benchmarks.themes[selectedBenchmarkTheme]) {
+          return null;
+        }
+
+        const themeBenchmark = priceHistory.benchmarks.themes[selectedBenchmarkTheme];
         if (!themeBenchmark) return null;
 
         // Normalize to portfolio's starting value
@@ -612,6 +632,20 @@
     }
 
     function updateBenchmark() {
+      const benchmarkType = document.getElementById('benchmarkSelector').value;
+      const themeBenchmarkSelector = document.getElementById('themeBenchmarkSelector');
+
+      // Show/hide theme selector based on benchmark type
+      if (benchmarkType === 'theme') {
+        themeBenchmarkSelector.style.display = 'inline-block';
+        // Update selected theme
+        if (themeBenchmarkSelector.value) {
+          selectedBenchmarkTheme = themeBenchmarkSelector.value;
+        }
+      } else {
+        themeBenchmarkSelector.style.display = 'none';
+      }
+
       renderHistoryChart();
     }
 
@@ -678,9 +712,19 @@
       const portfolioReturn = ((portfolioEnd - portfolioStart) / portfolioStart) * 100;
 
       // Get benchmark return
-      const benchmark = benchmarkType === 'overall'
-        ? priceHistory.benchmarks.overall
-        : priceHistory.benchmarks.theme;
+      let benchmark;
+      if (benchmarkType === 'overall') {
+        benchmark = priceHistory.benchmarks.overall;
+      } else if (benchmarkType === 'theme') {
+        if (!selectedBenchmarkTheme || !priceHistory.benchmarks.themes[selectedBenchmarkTheme]) {
+          alphaValue.textContent = '-';
+          alphaLabel.textContent = 'Select theme';
+          alphaCard.classList.remove('glow-green', 'glow-red');
+          alphaValue.className = 'text-2xl font-bold text-gray-400';
+          return;
+        }
+        benchmark = priceHistory.benchmarks.themes[selectedBenchmarkTheme];
+      }
 
       if (!benchmark) {
         alphaValue.textContent = '-';
@@ -709,7 +753,16 @@
       // Update UI
       alphaValue.textContent = (alpha >= 0 ? '+' : '') + alpha.toFixed(2) + '%';
       alphaValue.className = 'text-2xl font-bold ' + (alpha >= 0 ? 'text-green-400' : 'text-red-400');
-      alphaLabel.textContent = 'vs ' + (benchmarkType === 'overall' ? 'Market' : 'Theme');
+
+      // Format alpha label with theme name if applicable
+      if (benchmarkType === 'overall') {
+        alphaLabel.textContent = 'vs Market';
+      } else if (benchmarkType === 'theme' && selectedBenchmarkTheme) {
+        const themeName = selectedBenchmarkTheme.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+        alphaLabel.textContent = `vs Theme (${themeName})`;
+      } else {
+        alphaLabel.textContent = 'vs Theme';
+      }
 
       // Apply glow effect
       alphaCard.classList.remove('glow-green', 'glow-red');
