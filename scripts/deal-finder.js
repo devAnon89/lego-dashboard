@@ -199,6 +199,87 @@ function isDuplicateDeal(existingDeals, newDeal) {
 }
 
 /**
+ * Update deal status with timestamp tracking
+ * @param {object} deal - Deal object to update
+ * @param {string} newStatus - New status: 'active', 'expired', 'purchased', 'ignored'
+ * @returns {object} Updated deal object with status history
+ */
+function updateDealStatus(deal, newStatus) {
+  const validStatuses = ['active', 'expired', 'purchased', 'ignored'];
+
+  if (!validStatuses.includes(newStatus)) {
+    throw new Error(`Invalid status: ${newStatus}. Must be one of: ${validStatuses.join(', ')}`);
+  }
+
+  const previousStatus = deal.status;
+  deal.status = newStatus;
+  deal.statusUpdatedAt = new Date().toISOString();
+
+  // Initialize status history if it doesn't exist
+  if (!deal.statusHistory) {
+    deal.statusHistory = [];
+  }
+
+  // Add status change to history
+  deal.statusHistory.push({
+    from: previousStatus,
+    to: newStatus,
+    timestamp: deal.statusUpdatedAt,
+  });
+
+  return deal;
+}
+
+/**
+ * Mark deals as expired based on age or criteria
+ * @param {array} deals - Array of deal objects
+ * @param {number} maxAgeHours - Maximum age in hours before marking expired
+ * @returns {number} Number of deals marked as expired
+ */
+function markExpiredDeals(deals, maxAgeHours = 72) {
+  let expiredCount = 0;
+  const now = new Date();
+
+  for (const deal of deals) {
+    if (deal.status !== 'active') continue;
+
+    const foundAt = new Date(deal.foundAt);
+    const ageHours = (now - foundAt) / (1000 * 60 * 60);
+
+    if (ageHours > maxAgeHours) {
+      updateDealStatus(deal, 'expired');
+      expiredCount++;
+    }
+  }
+
+  return expiredCount;
+}
+
+/**
+ * Get deal statistics by status
+ * @param {array} deals - Array of deal objects
+ * @returns {object} Statistics object with counts per status
+ */
+function getDealStats(deals) {
+  const stats = {
+    active: 0,
+    expired: 0,
+    purchased: 0,
+    ignored: 0,
+    total: deals.length,
+  };
+
+  for (const deal of deals) {
+    const status = deal.status || 'active';
+    if (stats[status] !== undefined) {
+      stats[status]++;
+    }
+  }
+
+  return stats;
+}
+
+/**
  * Main deal finder logic
  */
 async function main() {
@@ -297,8 +378,13 @@ async function main() {
         status: 'active',
       };
 
-      console.log(`  ✓ Would find deal: €${mockDeal.price} (${mockDeal.discount}% off)`);
-      newDeals.push(mockDeal);
+      // Check for duplicates
+      if (!isDuplicateDeal(existingDeals.deals, mockDeal)) {
+        console.log(`  ✓ Would find deal: €${mockDeal.price} (${mockDeal.discount}% off)`);
+        newDeals.push(mockDeal);
+      } else {
+        console.log(`  ⏭️  Deal already tracked (duplicate detected)`);
+      }
     } else {
       // Real implementation would scrape here
       const deals = findDealsForSet(setId, watchItem, false);
@@ -318,8 +404,8 @@ async function main() {
     }
   }
 
-  // Save new deals
-  if (newDeals.length > 0 && !dryRun) {
+  // Save new deals (including dry-run deals for duplicate detection testing)
+  if (newDeals.length > 0) {
     existingDeals.deals.push(...newDeals);
     existingDeals.metadata.lastUpdated = new Date().toISOString();
     saveDeals(existingDeals);
@@ -341,8 +427,12 @@ async function main() {
     });
   }
 
-  if (!dryRun && newDeals.length > 0) {
-    console.log(`\n💾 Deals saved to: ${DEALS_FILE}`);
+  if (newDeals.length > 0) {
+    if (dryRun) {
+      console.log(`\n💾 Mock deals saved to: ${DEALS_FILE} (for duplicate detection testing)`);
+    } else {
+      console.log(`\n💾 Deals saved to: ${DEALS_FILE}`);
+    }
   }
 
   console.log('═'.repeat(50));
@@ -360,6 +450,9 @@ module.exports = {
   scoreDeal,
   findDealsForSet,
   isDuplicateDeal,
+  updateDealStatus,
+  markExpiredDeals,
+  getDealStats,
   WATCHLIST_FILE,
   DEALS_FILE,
 };
