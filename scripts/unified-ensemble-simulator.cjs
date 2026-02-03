@@ -25,14 +25,15 @@ const CONFIG = {
   stepsPerYear: 52, // Weekly
 
   // Model weights for ensemble (must sum to 1.0)
-  // Weighted towards more stable models
+  // BrickEconomy ML gets significant weight as it's trained on actual LEGO market data
   modelWeights: {
-    monteCarlo: 0.35,      // Core simulation - primary model
-    scenario: 0.15,        // Scenario analysis
-    stress: 0.10,          // Stress testing (conservative)
-    bootstrap: 0.15,       // Historical resampling
-    garch: 0.15,           // Volatility clustering
-    bayesian: 0.10         // Bayesian updating
+    brickEconomyML: 0.25,  // BrickEconomy ML predictions - trained on real market data
+    monteCarlo: 0.25,      // Core simulation - primary stochastic model
+    scenario: 0.12,        // Scenario analysis
+    stress: 0.08,          // Stress testing (conservative)
+    bootstrap: 0.12,       // Historical resampling
+    garch: 0.10,           // Volatility clustering
+    bayesian: 0.08         // Bayesian updating
   },
 
   // Monte Carlo params
@@ -135,6 +136,79 @@ function checkStressEvent() {
 // ============================================================================
 // SIMULATION MODELS
 // ============================================================================
+
+/**
+ * Model 0: BrickEconomy ML Predictions
+ * Uses actual ML predictions from BrickEconomy trained on historical LEGO market data
+ * Adds uncertainty distribution around point estimates
+ */
+function simulateBrickEconomyML(currentValue, years, portfolioSets, deepAnalysis) {
+  const results = [];
+
+  // Calculate aggregate predicted growth from BrickEconomy ML
+  let totalPredicted1yr = 0;
+  let totalPredicted5yr = 0;
+  let setsWithPredictions = 0;
+
+  for (const set of portfolioSets) {
+    const setId = set.setNumber || set.id;
+    const analysis = deepAnalysis[setId];
+
+    if (analysis && analysis.predictions) {
+      const pred = analysis.predictions;
+      const setValue = set.value || 100;
+
+      // Get predicted values or estimate from growth rates
+      const pred1yr = pred['1yr']?.value || setValue * (1 + (pred.growth1yr || 15) / 100);
+      const pred5yr = pred['5yr']?.value || setValue * (1 + (pred.growth5yr || 70) / 100);
+
+      totalPredicted1yr += pred1yr;
+      totalPredicted5yr += pred5yr;
+      setsWithPredictions++;
+    } else {
+      // Fallback: assume 15% 1yr, 70% 5yr growth
+      const setValue = set.value || 100;
+      totalPredicted1yr += setValue * 1.15;
+      totalPredicted5yr += setValue * 1.70;
+    }
+  }
+
+  // Calculate implied annual growth rate from 5yr prediction
+  const impliedAnnualGrowth = Math.pow(totalPredicted5yr / currentValue, 1/5) - 1;
+
+  // For intermediate years, interpolate
+  const targetValue = years <= 1 ? totalPredicted1yr :
+                      years >= 5 ? totalPredicted5yr :
+                      currentValue * Math.pow(1 + impliedAnnualGrowth, years);
+
+  // BrickEconomy confidence level affects uncertainty
+  // Add stochastic uncertainty around the ML prediction
+  const uncertainty = 0.15; // 15% uncertainty around ML prediction
+
+  for (let sim = 0; sim < CONFIG.simulations; sim++) {
+    // Sample around the ML prediction with some noise
+    const noise = randomNormal() * uncertainty;
+    const multiplier = 1 + noise;
+
+    // Add path-dependent variation
+    let price = currentValue;
+    const annualGrowth = (targetValue / currentValue) ** (1 / years) - 1;
+
+    for (let y = 0; y < years; y++) {
+      const yearNoise = randomNormal() * 0.08; // 8% annual volatility
+      price = price * (1 + annualGrowth + yearNoise);
+    }
+
+    // Blend path result with direct ML prediction
+    const directPrediction = targetValue * multiplier;
+    const blendedResult = 0.6 * directPrediction + 0.4 * price;
+
+    // Bound to reasonable range
+    results.push(Math.max(currentValue * 0.5, Math.min(currentValue * 4, blendedResult)));
+  }
+
+  return results;
+}
 
 /**
  * Model 1: Enhanced Monte Carlo (from our previous implementation)
@@ -486,14 +560,25 @@ async function runUnifiedSimulation() {
   const portfolioPath = path.join(__dirname, '..', 'data', 'portfolio.json');
   const portfolio = JSON.parse(fs.readFileSync(portfolioPath, 'utf8'));
 
+  // Load BrickEconomy ML predictions
+  const deepAnalysisPath = path.join(__dirname, '..', 'data', 'deep-analysis.json');
+  let deepAnalysis = {};
+  try {
+    deepAnalysis = JSON.parse(fs.readFileSync(deepAnalysisPath, 'utf8'));
+    console.log('Loaded BrickEconomy ML predictions\n');
+  } catch (e) {
+    console.log('Warning: Could not load BrickEconomy ML predictions\n');
+  }
+
   console.log(`Loaded ${portfolio.sets.length} sets from portfolio\n`);
-  console.log('Running 6 simulation models:');
-  console.log('  1. Monte Carlo (Student-t + Jump Diffusion)');
-  console.log('  2. Scenario Analysis (Bull/Bear/Base)');
-  console.log('  3. Stress Testing (Crash scenarios)');
-  console.log('  4. Bootstrap (Historical resampling)');
-  console.log('  5. GARCH (Volatility clustering)');
-  console.log('  6. Bayesian (Prior updating)\n');
+  console.log('Running 7 simulation models:');
+  console.log('  1. BrickEconomy ML (Trained on LEGO market data)');
+  console.log('  2. Monte Carlo (Student-t + Jump Diffusion)');
+  console.log('  3. Scenario Analysis (Bull/Bear/Base)');
+  console.log('  4. Stress Testing (Crash scenarios)');
+  console.log('  5. Bootstrap (Historical resampling)');
+  console.log('  6. GARCH (Volatility clustering)');
+  console.log('  7. Bayesian (Prior updating)\n');
 
   const results = {
     timestamp: new Date().toISOString(),
@@ -547,6 +632,7 @@ async function runUnifiedSimulation() {
 
   // Run all models for entire portfolio
   const portfolioModelResults = {
+    brickEconomyML: [],
     monteCarlo: [],
     scenario: [],
     stress: [],
@@ -563,22 +649,25 @@ async function runUnifiedSimulation() {
   };
 
   // Run each model
-  console.log('  [1/6] Monte Carlo...');
+  console.log('  [1/7] BrickEconomy ML...');
+  portfolioModelResults.brickEconomyML = simulateBrickEconomyML(totalCurrentValue, CONFIG.years, portfolio.sets, deepAnalysis);
+
+  console.log('  [2/7] Monte Carlo...');
   portfolioModelResults.monteCarlo = simulateMonteCarlo(totalCurrentValue, CONFIG.years, portfolioData);
 
-  console.log('  [2/6] Scenario Analysis...');
+  console.log('  [3/7] Scenario Analysis...');
   portfolioModelResults.scenario = simulateScenario(totalCurrentValue, CONFIG.years, portfolioData);
 
-  console.log('  [3/6] Stress Testing...');
+  console.log('  [4/7] Stress Testing...');
   portfolioModelResults.stress = simulateStress(totalCurrentValue, CONFIG.years, portfolioData);
 
-  console.log('  [4/6] Bootstrap...');
+  console.log('  [5/7] Bootstrap...');
   portfolioModelResults.bootstrap = simulateBootstrap(totalCurrentValue, CONFIG.years, portfolioData, []);
 
-  console.log('  [5/6] GARCH...');
+  console.log('  [6/7] GARCH...');
   portfolioModelResults.garch = simulateGARCH(totalCurrentValue, CONFIG.years, portfolioData);
 
-  console.log('  [6/6] Bayesian...');
+  console.log('  [7/7] Bayesian...');
   portfolioModelResults.bayesian = simulateBayesian(totalCurrentValue, CONFIG.years, portfolioData);
 
   // Calculate individual model statistics
@@ -672,6 +761,7 @@ async function runUnifiedSimulation() {
   for (let year = 1; year <= 5; year++) {
     // Run quick ensemble for each year
     const yearModels = {
+      brickEconomyML: simulateBrickEconomyML(totalCurrentValue, year, portfolio.sets, deepAnalysis),
       monteCarlo: simulateMonteCarlo(totalCurrentValue, year, portfolioData),
       scenario: simulateScenario(totalCurrentValue, year, portfolioData),
       bootstrap: simulateBootstrap(totalCurrentValue, year, portfolioData, []),
