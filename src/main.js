@@ -17,6 +17,7 @@ let monteCarloResults = null;
 let retirementPredictions = null;
 let buyTiming = null;
 let ensembleResults = null;
+let setAnalysisCache = null;
 let currentTab = 'all';
 let currentFilter = '';
 let historyChart = null;
@@ -114,6 +115,11 @@ async function loadData() {
       ensembleResults = await fetch('data/ensemble-simulation-results.json').then((r) => r.json());
     } catch (e) {
       ensembleResults = null;
+    }
+    try {
+      setAnalysisCache = await fetch('data/set-analysis-cache.json').then((r) => r.json());
+    } catch (e) {
+      setAnalysisCache = null;
     }
     renderDashboard();
   } catch (e) {
@@ -1317,6 +1323,187 @@ function refreshData() {
   loadData();
 }
 
+// Deep Set Analyzer function
+function analyzeSet() {
+  const input = document.getElementById('analyzeSetInput').value.trim();
+  if (!input) {
+    alert('Please enter a LEGO set number');
+    return;
+  }
+
+  // Normalize set number
+  let setNumber = input;
+  if (!setNumber.includes('-')) {
+    setNumber = setNumber + '-1';
+  }
+
+  const resultContainer = document.getElementById('setAnalysisResult');
+  const placeholder = document.getElementById('setAnalysisPlaceholder');
+
+  // Check cache first
+  const cached = setAnalysisCache?.sets?.[setNumber];
+
+  if (cached) {
+    placeholder.classList.add('hidden');
+    resultContainer.classList.remove('hidden');
+    renderSetAnalysis(cached);
+  } else {
+    // Check if set exists in portfolio
+    const portfolioSet = Object.entries(portfolio.sets).find(([id]) =>
+      id === setNumber || id === setNumber.replace('-1', '')
+    );
+
+    placeholder.classList.add('hidden');
+    resultContainer.classList.remove('hidden');
+
+    if (portfolioSet) {
+      resultContainer.innerHTML = `
+        <div class="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-4">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="text-yellow-400">⏳</span>
+            <span class="font-medium text-yellow-300">Analysis Not Cached</span>
+          </div>
+          <p class="text-sm text-gray-300 mb-3">
+            Set <strong>${setNumber}</strong> (${portfolioSet[1].name}) is in your portfolio but hasn't been deeply analyzed yet.
+          </p>
+          <div class="bg-gray-800 rounded p-3 font-mono text-sm text-cyan-400">
+            node scripts/analyze-set.cjs ${setNumber.replace('-1', '')}
+          </div>
+          <p class="text-xs text-gray-400 mt-2">
+            Run this command in your terminal to generate deep analysis. Results will be cached and appear here.
+          </p>
+        </div>
+      `;
+    } else {
+      resultContainer.innerHTML = `
+        <div class="bg-red-500/10 border border-red-500/30 rounded-lg p-4">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="text-red-400">❌</span>
+            <span class="font-medium text-red-300">Set Not Found</span>
+          </div>
+          <p class="text-sm text-gray-300">
+            Set <strong>${setNumber}</strong> is not in your portfolio. Add it to your portfolio first, then run the analyzer.
+          </p>
+        </div>
+      `;
+    }
+  }
+}
+
+function renderSetAnalysis(analysis) {
+  const container = document.getElementById('setAnalysisResult');
+  const { setData, currentValue, modelStats, risk, retirement, buyTiming, investmentScore, predictions, yearlyProjections, scores } = analysis;
+
+  const ens = modelStats?.ensemble || {};
+  const growth = ens.growth?.medianPct || 0;
+  const growthColor = growth >= 0 ? 'text-green-400' : 'text-red-400';
+
+  const retirementColors = {
+    'retired': 'bg-gray-500/20 text-gray-400',
+    'retiring': 'bg-red-500/20 text-red-400',
+    'retiring-soon': 'bg-orange-500/20 text-orange-400',
+    'watch': 'bg-yellow-500/20 text-yellow-400',
+    'active': 'bg-green-500/20 text-green-400'
+  };
+
+  const buyTimingColors = {
+    'BUY': 'text-green-400',
+    'WAIT': 'text-red-400',
+    'NEUTRAL': 'text-yellow-400',
+    'HOLD': 'text-yellow-400'
+  };
+
+  container.innerHTML = `
+    <div class="border-b border-gray-700 pb-4 mb-4">
+      <div class="flex justify-between items-start">
+        <div>
+          <h4 class="text-xl font-bold">${setData?.name || 'Unknown Set'}</h4>
+          <p class="text-sm text-gray-400">${setData?.setNumber} • ${setData?.theme || 'Unknown'}</p>
+        </div>
+        <div class="text-right">
+          <div class="text-3xl font-bold text-cyan-400">${investmentScore?.toFixed(1) || '-'}/10</div>
+          <div class="text-xs text-gray-400">Investment Score</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+      <div class="bg-gray-800/50 rounded-lg p-3">
+        <div class="text-xs text-gray-400">Current Value</div>
+        <div class="text-lg font-bold">€${currentValue?.toFixed(2) || '-'}</div>
+      </div>
+      <div class="bg-gray-800/50 rounded-lg p-3">
+        <div class="text-xs text-cyan-400">5yr Prediction</div>
+        <div class="text-lg font-bold ${growthColor}">€${ens.median?.toFixed(0) || '-'}</div>
+        <div class="text-xs ${growthColor}">${growth >= 0 ? '+' : ''}${growth.toFixed(1)}%</div>
+      </div>
+      <div class="bg-gray-800/50 rounded-lg p-3">
+        <div class="text-xs text-gray-400">Loss Probability</div>
+        <div class="text-lg font-bold ${risk?.probLoss < 5 ? 'text-green-400' : risk?.probLoss < 20 ? 'text-yellow-400' : 'text-red-400'}">
+          ${risk?.probLoss?.toFixed(2) || '-'}%
+        </div>
+      </div>
+      <div class="bg-gray-800/50 rounded-lg p-3">
+        <div class="text-xs text-gray-400">Prob of 2x</div>
+        <div class="text-lg font-bold text-purple-400">${risk?.probDouble?.toFixed(1) || '-'}%</div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+      <!-- Yearly Projections -->
+      <div class="bg-gray-800/30 rounded-lg p-3">
+        <div class="text-xs text-gray-400 mb-2">Yearly Projections</div>
+        <div class="space-y-1">
+          ${(yearlyProjections || []).map(y => `
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-400">Year ${y.year}</span>
+              <span class="font-medium">€${y.median?.toFixed(0)} <span class="${y.growth >= 0 ? 'text-green-400' : 'text-red-400'}">(${y.growth >= 0 ? '+' : ''}${y.growth?.toFixed(1)}%)</span></span>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+
+      <!-- Model Results -->
+      <div class="bg-gray-800/30 rounded-lg p-3">
+        <div class="text-xs text-gray-400 mb-2">Individual Models</div>
+        <div class="grid grid-cols-2 gap-1 text-xs">
+          ${Object.entries(modelStats || {}).filter(([k]) => k !== 'ensemble').map(([model, stats]) => `
+            <div class="flex justify-between">
+              <span class="text-gray-500">${model}</span>
+              <span class="${stats.growth?.medianPct >= 0 ? 'text-green-400' : 'text-red-400'}">${stats.growth?.medianPct >= 0 ? '+' : ''}${stats.growth?.medianPct?.toFixed(0)}%</span>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    </div>
+
+    <div class="flex flex-wrap gap-3">
+      <div class="px-3 py-1 rounded-full text-xs font-medium ${retirementColors[retirement?.status] || 'bg-gray-500/20'}">
+        ${retirement?.status?.toUpperCase() || 'UNKNOWN'} • ${retirement?.urgency?.toUpperCase() || '-'} urgency
+      </div>
+      <div class="px-3 py-1 rounded-full text-xs font-medium bg-gray-700/50 ${buyTimingColors[buyTiming?.action] || ''}">
+        ${buyTiming?.currentMonth}: ${buyTiming?.action || '-'}
+      </div>
+      ${scores?.action ? `
+        <div class="px-3 py-1 rounded-full text-xs font-medium ${scores.action === 'BUY' ? 'bg-green-500/20 text-green-400' : scores.action === 'SELL' ? 'bg-red-500/20 text-red-400' : 'bg-yellow-500/20 text-yellow-400'}">
+          BrickEconomy: ${scores.action}
+        </div>
+      ` : ''}
+    </div>
+
+    ${predictions?.ai?.reasoning ? `
+      <div class="mt-4 p-3 bg-cyan-500/10 border border-cyan-500/20 rounded-lg">
+        <div class="text-xs text-cyan-400 mb-1">AI Reasoning</div>
+        <p class="text-sm text-gray-300">${predictions.ai.reasoning}</p>
+      </div>
+    ` : ''}
+
+    <div class="mt-4 text-xs text-gray-500">
+      Analyzed: ${new Date(analysis.analyzedAt).toLocaleString()} • ${analysis.simulationsRun?.toLocaleString() || '10,000'} simulations
+    </div>
+  `;
+}
+
 // Make functions available globally for onclick handlers in HTML
 window.showDetail = showDetail;
 window.closeModal = closeModal;
@@ -1325,6 +1512,7 @@ window.switchTab = switchTab;
 window.filterByAction = filterByAction;
 window.filterSets = filterSets;
 window.updateHistoryChart = updateHistoryChart;
+window.analyzeSet = analyzeSet;
 
 // Close modal on background click
 document.getElementById('modal').addEventListener('click', (e) => {
