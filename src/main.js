@@ -1323,7 +1323,114 @@ function refreshData() {
   loadData();
 }
 
-// Deep Set Analyzer function
+// ============================================================================
+// BROWSER-BASED SET ANALYZER (runs entirely in browser)
+// ============================================================================
+
+// Simple random normal using Box-Muller
+function randomNormal() {
+  const u1 = Math.random();
+  const u2 = Math.random();
+  return Math.sqrt(-2 * Math.log(u1 + 1e-10)) * Math.cos(2 * Math.PI * u2);
+}
+
+function percentile(arr, p) {
+  const sorted = [...arr].sort((a, b) => a - b);
+  const idx = Math.floor(p * sorted.length);
+  return sorted[Math.min(idx, sorted.length - 1)];
+}
+
+function mean(arr) {
+  return arr.reduce((a, b) => a + b, 0) / arr.length;
+}
+
+// Theme lifespans for retirement prediction
+const THEME_LIFESPANS = {
+  'Star Wars': 2.5, 'Harry Potter': 2.0, 'Marvel': 1.8, 'DC': 2.0,
+  'Technic': 2.5, 'Creator': 3.0, 'Ideas': 2.5, 'Architecture': 3.0,
+  'City': 1.5, 'Ninjago': 1.5, 'Icons': 2.5, 'Disney': 2.0, 'default': 2.0
+};
+
+// Seasonal factors
+const SEASONAL_FACTORS = {
+  1: 0.02, 2: 0.03, 3: 0.01, 4: 0, 5: -0.01, 6: -0.02,
+  7: -0.01, 8: 0, 9: 0.01, 10: 0.02, 11: 0.03, 12: -0.02
+};
+
+// Run Monte Carlo simulation in browser
+function runBrowserMonteCarlo(currentValue, years, drift, volatility, simulations = 5000) {
+  const results = [];
+  const dt = 1 / 52;
+  const steps = years * 52;
+
+  for (let sim = 0; sim < simulations; sim++) {
+    let price = currentValue;
+    for (let t = 0; t < steps; t++) {
+      const shock = randomNormal();
+      price = price * Math.exp((drift * dt) + (volatility * Math.sqrt(dt) * shock));
+    }
+    results.push(Math.max(currentValue * 0.3, Math.min(currentValue * 5, price)));
+  }
+  return results;
+}
+
+// Run quick ensemble in browser
+function runBrowserEnsemble(currentValue, years, setData) {
+  const simulations = 3000;
+  const isRetired = setData.yearsOld >= 2;
+  const isLicensed = setData.isLicensed;
+
+  // Base parameters
+  let baseDrift = 0.05;
+  let baseVol = 0.20;
+
+  if (isRetired) { baseDrift += 0.03; baseVol *= 0.8; }
+  if (isLicensed) { baseDrift += 0.01; }
+  if (setData.historicalGrowth > 0.1) { baseDrift += 0.02; }
+
+  // Run 4 quick models
+  const models = {
+    monteCarlo: runBrowserMonteCarlo(currentValue, years, baseDrift, baseVol, simulations),
+    optimistic: runBrowserMonteCarlo(currentValue, years, baseDrift * 1.5, baseVol * 0.8, simulations),
+    pessimistic: runBrowserMonteCarlo(currentValue, years, baseDrift * 0.5, baseVol * 1.3, simulations),
+    conservative: runBrowserMonteCarlo(currentValue, years, baseDrift * 0.8, baseVol, simulations)
+  };
+
+  // Weighted ensemble
+  const weights = { monteCarlo: 0.4, optimistic: 0.2, pessimistic: 0.2, conservative: 0.2 };
+  const ensemble = [];
+
+  for (let i = 0; i < simulations; i++) {
+    let value = 0;
+    for (const [model, results] of Object.entries(models)) {
+      value += weights[model] * results[i];
+    }
+    ensemble.push(value);
+  }
+
+  return { ensemble, models };
+}
+
+// Calculate statistics from simulation results
+function calculateBrowserStats(results, currentValue) {
+  const sorted = [...results].sort((a, b) => a - b);
+  const n = sorted.length;
+
+  return {
+    mean: mean(results),
+    median: percentile(results, 0.5),
+    p10: percentile(results, 0.10),
+    p25: percentile(results, 0.25),
+    p75: percentile(results, 0.75),
+    p90: percentile(results, 0.90),
+    growthPct: ((percentile(results, 0.5) / currentValue) - 1) * 100,
+    probLoss: sorted.filter(x => x < currentValue).length / n * 100,
+    probGain50: sorted.filter(x => x > currentValue * 1.5).length / n * 100,
+    probDouble: sorted.filter(x => x > currentValue * 2).length / n * 100
+  };
+}
+
+// Main analyzer function
 function analyzeSet() {
   const input = document.getElementById('analyzeSetInput').value.trim();
   if (!input) {
@@ -1340,54 +1447,273 @@ function analyzeSet() {
   const resultContainer = document.getElementById('setAnalysisResult');
   const placeholder = document.getElementById('setAnalysisPlaceholder');
 
-  // Check cache first
-  const cached = setAnalysisCache?.sets?.[setNumber];
+  // Check if set exists in portfolio
+  const portfolioEntry = Object.entries(portfolio.sets).find(([id]) =>
+    id === setNumber || id === setNumber.replace('-1', '') ||
+    id.replace('-1', '') === setNumber.replace('-1', '')
+  );
 
-  if (cached) {
+  if (!portfolioEntry) {
     placeholder.classList.add('hidden');
     resultContainer.classList.remove('hidden');
-    renderSetAnalysis(cached);
-  } else {
-    // Check if set exists in portfolio
-    const portfolioSet = Object.entries(portfolio.sets).find(([id]) =>
-      id === setNumber || id === setNumber.replace('-1', '')
-    );
-
-    placeholder.classList.add('hidden');
-    resultContainer.classList.remove('hidden');
-
-    if (portfolioSet) {
-      resultContainer.innerHTML = `
-        <div class="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-4">
-          <div class="flex items-center gap-2 mb-2">
-            <span class="text-yellow-400">⏳</span>
-            <span class="font-medium text-yellow-300">Analysis Not Cached</span>
-          </div>
-          <p class="text-sm text-gray-300 mb-3">
-            Set <strong>${setNumber}</strong> (${portfolioSet[1].name}) is in your portfolio but hasn't been deeply analyzed yet.
-          </p>
-          <div class="bg-gray-800 rounded p-3 font-mono text-sm text-cyan-400">
-            node scripts/analyze-set.cjs ${setNumber.replace('-1', '')}
-          </div>
-          <p class="text-xs text-gray-400 mt-2">
-            Run this command in your terminal to generate deep analysis. Results will be cached and appear here.
-          </p>
+    resultContainer.innerHTML = `
+      <div class="bg-red-500/10 border border-red-500/30 rounded-lg p-4">
+        <div class="flex items-center gap-2 mb-2">
+          <span class="text-red-400">❌</span>
+          <span class="font-medium text-red-300">Set Not Found</span>
         </div>
-      `;
-    } else {
-      resultContainer.innerHTML = `
-        <div class="bg-red-500/10 border border-red-500/30 rounded-lg p-4">
-          <div class="flex items-center gap-2 mb-2">
-            <span class="text-red-400">❌</span>
-            <span class="font-medium text-red-300">Set Not Found</span>
-          </div>
-          <p class="text-sm text-gray-300">
-            Set <strong>${setNumber}</strong> is not in your portfolio. Add it to your portfolio first, then run the analyzer.
-          </p>
-        </div>
-      `;
-    }
+        <p class="text-sm text-gray-300">
+          Set <strong>${setNumber}</strong> is not in your portfolio. Add it first to analyze.
+        </p>
+      </div>
+    `;
+    return;
   }
+
+  const [setId, setData] = portfolioEntry;
+  const currentValue = setData.value || 100;
+
+  // Show loading state
+  placeholder.classList.add('hidden');
+  resultContainer.classList.remove('hidden');
+  resultContainer.innerHTML = `
+    <div class="flex items-center gap-3 p-4">
+      <div class="animate-spin w-6 h-6 border-2 border-cyan-500 border-t-transparent rounded-full"></div>
+      <span class="text-cyan-400">Running 12,000 simulations...</span>
+    </div>
+  `;
+
+  // Run analysis async to not block UI
+  setTimeout(() => {
+    // Build set data for analysis
+    const analysisData = {
+      yearsOld: 1.5, // Default estimate
+      isLicensed: ['Star Wars', 'Harry Potter', 'Marvel', 'Disney', 'DC', 'Licensed'].some(t =>
+        (setData.theme || '').toLowerCase().includes(t.toLowerCase())
+      ),
+      historicalGrowth: (setData.growth_pct || 0) / 100,
+      theme: setData.theme || 'Unknown'
+    };
+
+    // Get BrickEconomy analysis if available
+    const brickAnalysis = analysis[setId] || analysis[setNumber] || null;
+    const predictions = brickAnalysis?.predictions || null;
+
+    // Run simulations for 1yr and 5yr
+    const results1yr = runBrowserEnsemble(currentValue, 1, analysisData);
+    const results5yr = runBrowserEnsemble(currentValue, 5, analysisData);
+
+    const stats1yr = calculateBrowserStats(results1yr.ensemble, currentValue);
+    const stats5yr = calculateBrowserStats(results5yr.ensemble, currentValue);
+
+    // Calculate model stats for display
+    const modelStats = {};
+    for (const [model, results] of Object.entries(results5yr.models)) {
+      modelStats[model] = calculateBrowserStats(results, currentValue);
+    }
+
+    // Retirement prediction
+    const themeBase = (setData.theme || '').split(' / ')[0];
+    const expectedLifespan = THEME_LIFESPANS[themeBase] || THEME_LIFESPANS.default;
+    const remainingYears = Math.max(0, expectedLifespan - analysisData.yearsOld);
+    let retirementStatus = 'active';
+    let retirementUrgency = 'low';
+
+    if (remainingYears <= 0) { retirementStatus = 'retired'; retirementUrgency = 'none'; }
+    else if (remainingYears <= 0.5) { retirementStatus = 'retiring'; retirementUrgency = 'critical'; }
+    else if (remainingYears <= 1) { retirementStatus = 'retiring-soon'; retirementUrgency = 'high'; }
+    else if (remainingYears <= 1.5) { retirementStatus = 'watch'; retirementUrgency = 'medium'; }
+
+    // Buy timing
+    const currentMonth = new Date().getMonth() + 1;
+    const seasonalFactor = SEASONAL_FACTORS[currentMonth] || 0;
+    let buyAction = 'NEUTRAL';
+    let buyReason = 'Average timing';
+
+    if (seasonalFactor >= 0.02) { buyAction = 'BUY'; buyReason = 'Optimal buying season'; }
+    else if (seasonalFactor <= -0.01) { buyAction = 'WAIT'; buyReason = 'Suboptimal timing'; }
+
+    // Investment score
+    let investmentScore = 5;
+    if (stats5yr.growthPct > 30) investmentScore += 2;
+    else if (stats5yr.growthPct > 15) investmentScore += 1;
+    else if (stats5yr.growthPct < 0) investmentScore -= 2;
+
+    if (stats5yr.probLoss < 10) investmentScore += 1.5;
+    else if (stats5yr.probLoss > 30) investmentScore -= 1.5;
+
+    if (analysisData.isLicensed) investmentScore += 0.5;
+    if (retirementStatus === 'retiring') investmentScore += 1;
+
+    investmentScore = Math.max(1, Math.min(10, investmentScore));
+
+    // Render results
+    renderBrowserAnalysis({
+      setId,
+      setData,
+      currentValue,
+      stats1yr,
+      stats5yr,
+      modelStats,
+      retirementStatus,
+      retirementUrgency,
+      remainingYears,
+      buyAction,
+      buyReason,
+      investmentScore,
+      brickAnalysis,
+      predictions
+    });
+  }, 50);
+}
+
+function renderBrowserAnalysis(data) {
+  const {
+    setId, setData, currentValue, stats1yr, stats5yr, modelStats,
+    retirementStatus, retirementUrgency, remainingYears,
+    buyAction, buyReason, investmentScore, brickAnalysis, predictions
+  } = data;
+
+  const container = document.getElementById('setAnalysisResult');
+  const growthColor = stats5yr.growthPct >= 0 ? 'text-green-400' : 'text-red-400';
+
+  const retirementColors = {
+    'retired': 'bg-gray-500/20 text-gray-400',
+    'retiring': 'bg-red-500/20 text-red-400',
+    'retiring-soon': 'bg-orange-500/20 text-orange-400',
+    'watch': 'bg-yellow-500/20 text-yellow-400',
+    'active': 'bg-green-500/20 text-green-400'
+  };
+
+  const buyColors = { 'BUY': 'text-green-400', 'WAIT': 'text-red-400', 'NEUTRAL': 'text-yellow-400' };
+  const monthName = new Date().toLocaleString('default', { month: 'long' });
+
+  container.innerHTML = `
+    <div class="border-b border-gray-700 pb-4 mb-4">
+      <div class="flex justify-between items-start">
+        <div>
+          <h4 class="text-xl font-bold">${setData.name}</h4>
+          <p class="text-sm text-gray-400">${setId} • ${setData.theme}</p>
+        </div>
+        <div class="text-right">
+          <div class="text-3xl font-bold text-cyan-400">${investmentScore.toFixed(1)}/10</div>
+          <div class="text-xs text-gray-400">Investment Score</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
+      <div class="bg-gray-800/50 rounded-lg p-3">
+        <div class="text-xs text-gray-400">Current Value</div>
+        <div class="text-lg font-bold">€${currentValue.toFixed(2)}</div>
+      </div>
+      <div class="bg-gray-800/50 rounded-lg p-3">
+        <div class="text-xs text-purple-400">1yr Prediction</div>
+        <div class="text-lg font-bold">€${stats1yr.median.toFixed(0)}</div>
+        <div class="text-xs ${stats1yr.growthPct >= 0 ? 'text-green-400' : 'text-red-400'}">${stats1yr.growthPct >= 0 ? '+' : ''}${stats1yr.growthPct.toFixed(1)}%</div>
+      </div>
+      <div class="bg-gray-800/50 rounded-lg p-3">
+        <div class="text-xs text-cyan-400">5yr Prediction</div>
+        <div class="text-lg font-bold ${growthColor}">€${stats5yr.median.toFixed(0)}</div>
+        <div class="text-xs ${growthColor}">${stats5yr.growthPct >= 0 ? '+' : ''}${stats5yr.growthPct.toFixed(1)}%</div>
+      </div>
+      <div class="bg-gray-800/50 rounded-lg p-3">
+        <div class="text-xs text-gray-400">Loss Probability</div>
+        <div class="text-lg font-bold ${stats5yr.probLoss < 10 ? 'text-green-400' : stats5yr.probLoss < 25 ? 'text-yellow-400' : 'text-red-400'}">
+          ${stats5yr.probLoss.toFixed(1)}%
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+      <!-- Confidence Intervals -->
+      <div class="bg-gray-800/30 rounded-lg p-3">
+        <div class="text-xs text-gray-400 mb-2">5-Year Confidence Intervals</div>
+        <div class="space-y-1 text-sm">
+          <div class="flex justify-between">
+            <span class="text-gray-400">50% CI</span>
+            <span>€${stats5yr.p25.toFixed(0)} - €${stats5yr.p75.toFixed(0)}</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-gray-400">80% CI</span>
+            <span>€${stats5yr.p10.toFixed(0)} - €${stats5yr.p90.toFixed(0)}</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-gray-400">Prob +50%</span>
+            <span class="text-green-400">${stats5yr.probGain50.toFixed(1)}%</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-gray-400">Prob 2x</span>
+            <span class="text-purple-400">${stats5yr.probDouble.toFixed(1)}%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Model Results -->
+      <div class="bg-gray-800/30 rounded-lg p-3">
+        <div class="text-xs text-gray-400 mb-2">Model Predictions (5yr)</div>
+        <div class="space-y-1 text-sm">
+          ${Object.entries(modelStats).map(([model, stats]) => `
+            <div class="flex justify-between">
+              <span class="text-gray-500 capitalize">${model}</span>
+              <span class="${stats.growthPct >= 0 ? 'text-green-400' : 'text-red-400'}">€${stats.median.toFixed(0)} (${stats.growthPct >= 0 ? '+' : ''}${stats.growthPct.toFixed(0)}%)</span>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    </div>
+
+    <div class="flex flex-wrap gap-2 mb-4">
+      <div class="px-3 py-1.5 rounded-full text-xs font-medium ${retirementColors[retirementStatus]}">
+        ${retirementStatus.toUpperCase()} ${retirementUrgency !== 'none' ? `• ${retirementUrgency.toUpperCase()}` : ''}
+      </div>
+      <div class="px-3 py-1.5 rounded-full text-xs font-medium bg-gray-700/50 ${buyColors[buyAction]}">
+        ${monthName}: ${buyAction}
+      </div>
+      ${brickAnalysis?.action ? `
+        <div class="px-3 py-1.5 rounded-full text-xs font-medium ${
+          brickAnalysis.action === 'BUY' ? 'bg-green-500/20 text-green-400' :
+          brickAnalysis.action === 'SELL' ? 'bg-red-500/20 text-red-400' :
+          'bg-yellow-500/20 text-yellow-400'
+        }">
+          BrickEconomy: ${brickAnalysis.action}
+        </div>
+      ` : ''}
+      ${setData.growth_pct !== undefined ? `
+        <div class="px-3 py-1.5 rounded-full text-xs font-medium ${setData.growth_pct >= 0 ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}">
+          Historical: ${setData.growth_pct >= 0 ? '+' : ''}${setData.growth_pct.toFixed(1)}%
+        </div>
+      ` : ''}
+    </div>
+
+    ${brickAnalysis?.thesis ? `
+      <div class="p-3 bg-purple-500/10 border border-purple-500/20 rounded-lg mb-3">
+        <div class="text-xs text-purple-400 mb-1">BrickEconomy Analysis</div>
+        <p class="text-sm text-gray-300">${brickAnalysis.thesis}</p>
+        ${brickAnalysis.license ? `
+          <div class="flex gap-4 mt-2 text-xs">
+            <span>License: <strong>${brickAnalysis.license}/10</strong></span>
+            <span>Appeal: <strong>${brickAnalysis.appeal}/10</strong></span>
+            <span>Liquidity: <strong>${brickAnalysis.liquidity}/10</strong></span>
+          </div>
+        ` : ''}
+      </div>
+    ` : ''}
+
+    ${predictions ? `
+      <div class="p-3 bg-cyan-500/10 border border-cyan-500/20 rounded-lg">
+        <div class="text-xs text-cyan-400 mb-1">BrickEconomy ML Predictions</div>
+        <div class="flex gap-6 text-sm">
+          <div>1yr: <strong>€${predictions['1yr']?.value?.toFixed(0) || 'N/A'}</strong></div>
+          <div>5yr: <strong>€${predictions['5yr']?.value?.toFixed(0) || 'N/A'}</strong></div>
+        </div>
+      </div>
+    ` : ''}
+
+    <div class="mt-3 text-xs text-gray-500">
+      Analysis based on 12,000 Monte Carlo simulations • ${new Date().toLocaleString()}
+    </div>
+  `;
 }
 
 function renderSetAnalysis(analysis) {
