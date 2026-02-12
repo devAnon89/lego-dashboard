@@ -1,6 +1,7 @@
 // Import dependencies
 import Chart from 'chart.js/auto';
 import './styles.css';
+import { inject } from '@vercel/analytics';
 
 // Make Chart available globally for the dashboard code
 window.Chart = Chart;
@@ -1851,4 +1852,5 @@ document.addEventListener('keydown', (e) => {
 });
 
 // Initialize
+inject();
 loadData();
